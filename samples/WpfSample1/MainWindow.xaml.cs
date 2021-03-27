@@ -22,6 +22,8 @@ namespace WpfSample1
     {
         public string CommandText { get; set; }
 
+        public ConsoleContent Output { get; set; }
+
         public string OutputText { get; set; }
 
         private const string FirstCommandTextContent = "// Type your command here. Try with typing 'ellipses'\n";
@@ -31,7 +33,7 @@ namespace WpfSample1
             InitializeComponent();
             DataContext = this;
             CommandText = FirstCommandTextContent;
-            OutputText = "Output of your program: ";
+            Output = new ConsoleContent() { Text = "Output of your program: " };
         }
 
         /// <summary>
@@ -92,7 +94,7 @@ namespace WpfSample1
             var anImage = Image1;
             anImage.Source = geometryImage;
 
-            OutputText += " Ellipse printed.";
+            Output.Text += " Ellipse printed.";
 
         }
     }

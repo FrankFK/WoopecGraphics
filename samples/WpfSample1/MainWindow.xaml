@@ -7,9 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Image x:Name="Image1" HorizontalAlignment="Left" Height="261" Margin="10,10,0,0" VerticalAlignment="Top" Width="382"/>
-        <TextBox TextChanged="CommandTextChanged" HorizontalAlignment="Left" Height="42" Margin="0,329,0,0" Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="400" Cursor="Wait" AcceptsReturn="True"/>
-        <TextBox HorizontalAlignment="Left" Height="424" Margin="466,10,0,0" Text="{Binding OutputText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Top" Width="324"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Image x:Name="Image1" />
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+        <TextBox Grid.Column="2" Text="{Binding Output.Text, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+        <GridSplitter Grid.Row="1" Grid.ColumnSpan="3" Height="5" HorizontalAlignment="Stretch" />
+        <TextBox Grid.Row="2" Grid.ColumnSpan="3"  TextChanged="CommandTextChanged" Text="{Binding CommandText, UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" Cursor="Wait" AcceptsReturn="True"/>
 
     </Grid>
 </Window>
