@@ -33,7 +33,7 @@ namespace WpfSample1
             InitializeComponent();
             DataContext = this;
             CommandText = FirstCommandTextContent;
-            Output = new ConsoleContent() { Text = "Output of your program: " };
+            Output = new ConsoleContent() { Text = "Output of your program: \n" };
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace WpfSample1
             var anImage = Image1;
             anImage.Source = geometryImage;
 
-            Output.Text += " Ellipse printed.";
+            Output.Text += " Ellipse printed.\n";
 
         }
     }
