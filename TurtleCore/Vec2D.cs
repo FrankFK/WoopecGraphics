@@ -33,6 +33,17 @@ namespace TurtleCore
             return new(XCor * cosine - YCor * sine, XCor * sine + YCor * cosine);
         }
 
+        /// <summary>
+        /// Return true if this is approximately equal to <paramref name="vector"/>
+        /// </summary>
+        /// <param name="vector"></param>
+        /// <param name="precision">Absolute difference of the x- and y-coordinates is less than this value</param>
+        /// <returns></returns>
+        public bool IsApproximatelyEqualTo(Vec2D vector, double precision)
+        {
+            return (Math.Abs(XCor - vector.XCor) <= precision && Math.Abs(YCor - vector.YCor) <= precision);
+        }
+
 
     }
 }

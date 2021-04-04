@@ -123,5 +123,23 @@ namespace TurtleCore.UnitTests
             result.YCor.Should().BeApproximately(expected.YCor, 0.001);
         }
 
+
+        [TestMethod]
+        public void ApproximatelyEqualVectors_AreRecognized()
+        {
+            var vector = new Vec2D(3.000, 4.000);
+            var compare = new Vec2D(3.00099, 3.9990);
+
+            vector.IsApproximatelyEqualTo(compare, 0.001).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void ApproximatelyNonEqualVectors_AreRecognized()
+        {
+            var vector = new Vec2D(3.000, 4.000);
+            var compare = new Vec2D(3.00101, 3.9980);
+
+            vector.IsApproximatelyEqualTo(compare, 0.001).Should().BeFalse();
+        }
     }
 }

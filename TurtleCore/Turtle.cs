@@ -11,19 +11,55 @@ namespace TurtleCore
     /// </summary>
     public class Turtle
     {
-        public Vec2D Position { get; set; }
+        private readonly TurtleState _turtleState;
 
-        private Vec2D _orientation;
+        public Vec2D Position { get { return _turtleState.Position; } set { _turtleState.Position = value; } }
+
+        /// <summary>
+        /// Orientation of the turtle.
+        /// Here are some common directions in degrees:
+        ///  standard - mode:          logo-mode:
+        /// -------------------|--------------------
+        ///    0 - east                0 - north
+        ///   90 - north              90 - east
+        ///  180 - west              180 - south
+        ///  270 - south             270 - west
+        /// </summary>
+        public double Heading
+        {
+            get { return _turtleState.Heading; }
+            set
+            {
+                _turtleState.Rotate(value - Heading);
+            }
+        }
+
 
         public Turtle()
         {
-            Position = new Vec2D(0, 0);
-            _orientation = new Vec2D(1, 0);
+            _turtleState = new TurtleState();
         }
 
         public void Forward(double distance)
         {
-            Position += distance * _orientation;
+            _turtleState.Move(distance);
         }
+
+        public void Backward(double distance)
+        {
+            _turtleState.Move(-distance);
+        }
+
+        public void Left(double angle)
+        {
+            _turtleState.Rotate(angle);
+        }
+
+        public void Right(double angle)
+        {
+            _turtleState.Rotate(-angle);
+        }
+
+
     }
 }
