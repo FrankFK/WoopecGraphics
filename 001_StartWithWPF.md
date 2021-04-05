@@ -21,4 +21,11 @@ I start with WPF. Reasons:
 ## Consequences
 <!-- What becomes easier or more difficult to do because of this change? -->
 At the moment [WinUi](https://docs.microsoft.com/de-de/windows/apps/winui/winui3/) is in Preview-State.
-I hope I can use WinUi later.
+Perhaps I can switch to WinUi later.
+
+Another alternative may be using Xamarin. If I understand it right, this will be named MAUI in the near future.
+For 2D graphics one could use SkiaSharp, which seems to be deeply integrated in Xamarin. It seems also possible
+to use SkiaSharp together with WPF. But as I understand it is only possible to fill bitmaps with SkiaSharp 
+(see this [example](https://docs.microsoft.com/en-us/answers/questions/87925/using-skiasharp-for-making-graphs-in-wpf.html))
+and I can not use SkiaSharp-Controls as it is possible in Xamarin (see [here](https://docs.microsoft.com/de-de/xamarin/xamarin-forms/user-interface/graphics/skiasharp/basics/animation))
+

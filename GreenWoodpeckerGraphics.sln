@@ -19,9 +19,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArchitectureDecisions", "Ar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfSample1", "samples\WpfSample1\WpfSample1.csproj", "{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurtleCore", "TurtleCore\TurtleCore.csproj", "{32BF1D15-063F-4961-B085-232EB52C7DBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleCore", "TurtleCore\TurtleCore.csproj", "{32BF1D15-063F-4961-B085-232EB52C7DBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurtleCore.UnitTests", "TurtleCore.UnitTests\TurtleCore.UnitTests.csproj", "{F175C79A-9CD3-4C40-9134-AEAF7231A25C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleCore.UnitTests", "TurtleCore.UnitTests\TurtleCore.UnitTests.csproj", "{F175C79A-9CD3-4C40-9134-AEAF7231A25C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppWithSkiaSharp", "WpfAppWithSkiaSharp\WpfAppWithSkiaSharp.csproj", "{E30E28B9-13C8-46B5-83CF-2448525C73E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppWithAnimations", "WpfAppWithAnimations\WpfAppWithAnimations.csproj", "{CE338155-97D2-49AF-8889-44DC717E5F42}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +45,14 @@ Global
 		{F175C79A-9CD3-4C40-9134-AEAF7231A25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F175C79A-9CD3-4C40-9134-AEAF7231A25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F175C79A-9CD3-4C40-9134-AEAF7231A25C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE338155-97D2-49AF-8889-44DC717E5F42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE338155-97D2-49AF-8889-44DC717E5F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE338155-97D2-49AF-8889-44DC717E5F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE338155-97D2-49AF-8889-44DC717E5F42}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
