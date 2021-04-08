@@ -1,18 +1,34 @@
-﻿using FluentAssertions;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
 {
+    public class TurtleOutputMock : ITurtleOutput
+    {
+        public void Move(Vec2D from, Vec2D to)
+        {
+            // Not needed for test
+        }
+    }
+
     [TestClass]
     public class TurtleTest
     {
+        private static Turtle CreateSut()
+        {
+            return new Turtle(new TurtleOutputMock());
+        }
         [TestMethod]
         public void Turtle_StartPosition_Is_Null()
         {
             // Arrange
 
             // Act
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Assert
             var expected = new Vec2D(0, 0);
@@ -25,7 +41,7 @@ namespace TurtleCore.UnitTests
             // Arrange
 
             // Act
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Assert
             turtle.Heading.Should().Be(0);
@@ -35,7 +51,7 @@ namespace TurtleCore.UnitTests
         public void Turtle_Forward_Works()
         {
             // Arrange
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Act
             turtle.Forward(25);
@@ -56,7 +72,7 @@ namespace TurtleCore.UnitTests
         public void Turtle_Backward_Works()
         {
             // Arrange
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Act
             turtle.Backward(25);
@@ -77,7 +93,7 @@ namespace TurtleCore.UnitTests
         public void Turtle_Left_Works()
         {
             // Arrange
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Act
             turtle.Left(90);
@@ -94,7 +110,7 @@ namespace TurtleCore.UnitTests
         public void Turtle_LeftWithMoreThan360Degrees_Works()
         {
             // Arrange
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Act
             turtle.Left(450);
@@ -107,7 +123,7 @@ namespace TurtleCore.UnitTests
         public void Turtle_Right_Works()
         {
             // Arrange
-            var turtle = new Turtle();
+            var turtle = CreateSut();
 
             // Act
             turtle.Right(90);

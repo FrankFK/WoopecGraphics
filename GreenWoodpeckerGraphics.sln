@@ -23,9 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleCore", "TurtleCore\Tu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleCore.UnitTests", "TurtleCore.UnitTests\TurtleCore.UnitTests.csproj", "{F175C79A-9CD3-4C40-9134-AEAF7231A25C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppWithSkiaSharp", "WpfAppWithSkiaSharp\WpfAppWithSkiaSharp.csproj", "{E30E28B9-13C8-46B5-83CF-2448525C73E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppWithSkiaSharp", "WpfAppWithSkiaSharp\WpfAppWithSkiaSharp.csproj", "{E30E28B9-13C8-46B5-83CF-2448525C73E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppWithAnimations", "WpfAppWithAnimations\WpfAppWithAnimations.csproj", "{CE338155-97D2-49AF-8889-44DC717E5F42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppWithAnimations", "WpfAppWithAnimations\WpfAppWithAnimations.csproj", "{CE338155-97D2-49AF-8889-44DC717E5F42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurtleWpf", "TurtleWpf\TurtleWpf.csproj", "{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingTurtleCanvas", "UsingTurtleCanvas\UsingTurtleCanvas.csproj", "{0774A6F2-D96F-46EB-A095-52E85DB01960}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +57,14 @@ Global
 		{CE338155-97D2-49AF-8889-44DC717E5F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE338155-97D2-49AF-8889-44DC717E5F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE338155-97D2-49AF-8889-44DC717E5F42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0774A6F2-D96F-46EB-A095-52E85DB01960}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0774A6F2-D96F-46EB-A095-52E85DB01960}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0774A6F2-D96F-46EB-A095-52E85DB01960}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0774A6F2-D96F-46EB-A095-52E85DB01960}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D77248D0-0434-4F9A-BCDA-C5F7263EBDEB} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
 		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
+		{0774A6F2-D96F-46EB-A095-52E85DB01960} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}

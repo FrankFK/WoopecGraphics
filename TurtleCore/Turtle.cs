@@ -8,9 +8,22 @@ namespace TurtleCore
     /// An instance of this class represents a turtle.
     /// Documentation: see https://docs.python.org/3/library/turtle.html#module-turtle
     /// python Implementation: see https://github.com/python/cpython/blob/master/Lib/turtle.py
+    /// Sample turtle programs: see https://github.com/python/cpython/tree/master/Lib/turtledemo
     /// </summary>
     public class Turtle
     {
+        private static Turtle s_turtleOne;
+
+        public static Turtle One()
+        {
+            return s_turtleOne;
+        }
+
+        public static void SetOne(Turtle turtle)
+        {
+            s_turtleOne = turtle;
+        }
+
         private readonly TurtleState _turtleState;
 
         public Vec2D Position { get { return _turtleState.Position; } set { _turtleState.Position = value; } }
@@ -35,9 +48,9 @@ namespace TurtleCore
         }
 
 
-        public Turtle()
+        internal Turtle(ITurtleOutput turtleOutput)
         {
-            _turtleState = new TurtleState();
+            _turtleState = new TurtleState(turtleOutput);
         }
 
         public void Forward(double distance)

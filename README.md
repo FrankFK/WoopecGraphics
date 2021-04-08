@@ -3,5 +3,12 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
-* Context of OutputText is not updated
-* Use [WinUi](https://docs.microsoft.com/de-de/windows/apps/winui/winui3/)
+* TurtleMain in separatem Thread, Outputs über Puffer mit WPF austauschen
+* Animation in WPF einbauen
+* TurtleMain über Reflection finden und automatisch aufrufen
+
+## Done
+
+* 04.04.2021: Basic turtle movements
+* 06.04.2021: Learned: Line-Drawing and Animations in WPF
+* 08.04.2021: First turtle-moves visible in WPF
