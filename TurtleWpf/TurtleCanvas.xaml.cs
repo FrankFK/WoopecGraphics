@@ -26,17 +26,16 @@ namespace TurtleWpf
     public partial class TurtleCanvas : UserControl
     {
         private readonly Canvas _canvas;
-        private readonly TurtleOutput _turtleOutput;
+        private readonly ScreenOutput _turtleScreenOutput;
 
         public TurtleCanvas()
         {
             InitializeComponent();
-            _canvas = new Canvas() { Width = 400, Height = 400,};
+            _canvas = new Canvas() { Width = 400, Height = 400 };
             this.Content = _canvas;
 
-            _turtleOutput = new TurtleOutput(_canvas);
-            var turtleOne = new Turtle(_turtleOutput);
-            Turtle.SetOne(turtleOne);
+            _turtleScreenOutput = new ScreenOutput(_canvas);
+            TurtleOutputs.InitializeDefaultScreen(_turtleScreenOutput);
         }
     }
 }

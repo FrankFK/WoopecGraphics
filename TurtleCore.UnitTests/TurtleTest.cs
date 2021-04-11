@@ -7,9 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
 {
-    public class TurtleOutputMock : ITurtleOutput
+    public class TurtleScreenOutputMock : IScreenOutput
     {
-        public void Move(Vec2D from, Vec2D to)
+        public void DrawLine(LineOnScreen line)
         {
             // Not needed for test
         }
@@ -18,10 +18,12 @@ namespace TurtleCore.UnitTests
     [TestClass]
     public class TurtleTest
     {
-        private static Turtle CreateSut()
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
         {
-            return new Turtle(new TurtleOutputMock());
+            TurtleOutputs.InitializeDefaultScreen(new TurtleScreenOutputMock());
         }
+
         [TestMethod]
         public void Turtle_StartPosition_Is_Null()
         {
@@ -134,6 +136,12 @@ namespace TurtleCore.UnitTests
             turtle.Forward(100);
             var expextedPostion = new Vec2D(0, -100);
             turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+        }
+
+
+        private static Turtle CreateSut()
+        {
+            return new Turtle();
         }
     }
 }

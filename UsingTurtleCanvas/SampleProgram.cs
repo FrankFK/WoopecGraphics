@@ -15,7 +15,7 @@ namespace UsingTurtleCanvas
     {
         public static void TurtleMain()
         {
-            var turtle = Turtle.One();
+            var turtle = new Turtle();
 
             turtle.Right(45);
             turtle.Forward(50);

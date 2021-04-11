@@ -12,18 +12,6 @@ namespace TurtleCore
     /// </summary>
     public class Turtle
     {
-        private static Turtle s_turtleOne;
-
-        public static Turtle One()
-        {
-            return s_turtleOne;
-        }
-
-        public static void SetOne(Turtle turtle)
-        {
-            s_turtleOne = turtle;
-        }
-
         private readonly TurtleState _turtleState;
 
         public Vec2D Position { get { return _turtleState.Position; } set { _turtleState.Position = value; } }
@@ -48,9 +36,9 @@ namespace TurtleCore
         }
 
 
-        internal Turtle(ITurtleOutput turtleOutput)
+        public Turtle()
         {
-            _turtleState = new TurtleState(turtleOutput);
+            _turtleState = new TurtleState();
         }
 
         public void Forward(double distance)

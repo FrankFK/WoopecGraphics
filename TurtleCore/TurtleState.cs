@@ -17,11 +17,11 @@ namespace TurtleCore
     /// </summary>
     internal class TurtleState
     {
-        private readonly ITurtleOutput _turtleOutput;
+        private readonly Screen _screen;
 
-        public TurtleState(ITurtleOutput turtleOutput)
+        public TurtleState()
         {
-            _turtleOutput = turtleOutput;
+            _screen = Screen.GetDefaultScreen();
             Position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;
@@ -50,7 +50,16 @@ namespace TurtleCore
             var newPosition = Position + distance * Orientation;
 
             // TODO: Turtle bewegen
-            _turtleOutput.Move(Position, newPosition);
+            var lineOnScreen = new LineOnScreen()
+            {
+                From = Position,
+                To = newPosition,
+                Color = "red",
+                Width = 2,
+                AnimationTime = 2,
+            };
+
+            _screen.DrawLine(lineOnScreen);
 
             Position = newPosition;
 

@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		LICENSE = LICENSE
 		README.md = README.md
+		State.md = State.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B04C91C6-31FF-41CC-9A29-D15C6C6038D5}"
@@ -27,9 +28,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppWithSkiaSharp", "WpfA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppWithAnimations", "WpfAppWithAnimations\WpfAppWithAnimations.csproj", "{CE338155-97D2-49AF-8889-44DC717E5F42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurtleWpf", "TurtleWpf\TurtleWpf.csproj", "{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleWpf", "TurtleWpf\TurtleWpf.csproj", "{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingTurtleCanvas", "UsingTurtleCanvas\UsingTurtleCanvas.csproj", "{0774A6F2-D96F-46EB-A095-52E85DB01960}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingTurtleCanvas", "UsingTurtleCanvas\UsingTurtleCanvas.csproj", "{0774A6F2-D96F-46EB-A095-52E85DB01960}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

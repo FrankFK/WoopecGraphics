@@ -10,8 +10,11 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
-    internal interface ITurtleOutput
+    /// <summary>
+    /// Interface for output of turtle-graphics to a real "screen" (canvas in WPF).
+    /// </summary>
+    internal interface IScreenOutput
     {
-        public void Move(Vec2D from, Vec2D to);
+        public void DrawLine(LineOnScreen line);
     }
 }
