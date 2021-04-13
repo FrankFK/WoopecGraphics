@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
+    /// <summary>
+    /// An instance of this class is a two-dimensional vector
+    /// </summary>
+    /// <remarks>
+    /// The values of a Vec2D can not be changed. If you want to change a value, You can copy the vector.
+    /// <code>
+    ///    var vector = new Vec2D(1, 2);
+    ///    var vector2 = vector with { YCor = 0 );
+    /// </code>
+    /// </remarks>
     public record Vec2D(double XCor, double YCor)
     {
         public double AbsoluteValue => Math.Sqrt(XCor * XCor + YCor * YCor);

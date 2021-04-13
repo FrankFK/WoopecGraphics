@@ -1,8 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-namespace TurtleCore
+﻿namespace TurtleCore
 {
     /// <summary>
     /// An instance of this class represents a turtle.
@@ -12,9 +8,10 @@ namespace TurtleCore
     /// </summary>
     public class Turtle
     {
-        private readonly TurtleState _turtleState;
+        private readonly Pen _pen;
+        private readonly Form _form;
 
-        public Vec2D Position { get { return _turtleState.Position; } set { _turtleState.Position = value; } }
+        public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; } }
 
         /// <summary>
         /// Orientation of the turtle.
@@ -28,37 +25,43 @@ namespace TurtleCore
         /// </summary>
         public double Heading
         {
-            get { return _turtleState.Heading; }
+            get { return _pen.Heading; }
             set
             {
-                _turtleState.Rotate(value - Heading);
+                _pen.Rotate(value - Heading);
+                _form.Rotate(value - Heading);
             }
         }
 
 
         public Turtle()
         {
-            _turtleState = new TurtleState();
+            _pen = new Pen();
+            _form = new Form();
         }
 
         public void Forward(double distance)
         {
-            _turtleState.Move(distance);
+            _pen.Move(distance);
+            _form.Move(distance);
         }
 
         public void Backward(double distance)
         {
-            _turtleState.Move(-distance);
+            _pen.Move(-distance);
+            _form.Move(-distance);
         }
 
         public void Left(double angle)
         {
-            _turtleState.Rotate(angle);
+            _pen.Rotate(angle);
+            _form.Rotate(angle);
         }
 
         public void Right(double angle)
         {
-            _turtleState.Rotate(-angle);
+            _pen.Rotate(-angle);
+            _form.Rotate(-angle);
         }
 
 

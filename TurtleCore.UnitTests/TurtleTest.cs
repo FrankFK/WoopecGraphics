@@ -1,15 +1,16 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
 {
     public class TurtleScreenOutputMock : IScreenOutput
     {
-        public void DrawLine(LineOnScreen line)
+        public int CreateLine()
+        {
+            return 1;
+        }
+
+        public void DrawLine(ScreenLine line)
         {
             // Not needed for test
         }

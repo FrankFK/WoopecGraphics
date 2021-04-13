@@ -1,9 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Diagnostics;
+using System.Linq;
 
 namespace TurtleCore.UnitTests
 {
@@ -123,8 +121,9 @@ namespace TurtleCore.UnitTests
 
             // Assert
             var expected = new Vec2D(-4, 3);
-            result.XCor.Should().BeApproximately(expected.XCor, 0.001);
-            result.YCor.Should().BeApproximately(expected.YCor, 0.001);
+            // There may be rounding differences between vector and expected. Therefore we check if the differences are nearly 0:
+            (expected.XCor - result.XCor).Should().BeApproximately(0, 0.001);
+            (expected.YCor - result.YCor).Should().BeApproximately(0, 0.001);
         }
 
 
@@ -144,6 +143,42 @@ namespace TurtleCore.UnitTests
             var compare = new Vec2D(3.00101, 3.9980);
 
             vector.IsApproximatelyEqualTo(compare, 0.001).Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Vector_IsACSharpRecord()
+        {
+            var vector = new Vec2D(3.000, 4.000);
+
+            // Vector is immutable, value of property can not be changed:
+            // vector.YCor = 0;
+
+            // If I need a vector with a different value of a property, I can use a with statement:
+            var vectorCopy = vector with { YCor = 0 };
+            double xCorOfCopy = vectorCopy.XCor;
+            xCorOfCopy.Should().Be(3.000);
+
+            // The original vector is not changed:
+            double originalYCor = vector.YCor;
+            originalYCor.Should().Be(4.000);
+        }
+
+        [TestMethod]
+        public void Vector_RecordPerformanceIsFine()
+        {
+            const int Count = 100000;
+            var result = 0;
+            var timer = Stopwatch.StartNew();
+            foreach (var i in Enumerable.Range(1, Count))
+            {
+                var vector1 = new Vec2D(i, 2.000);
+                var vector2 = new Vec2D(i, 2.000);
+                result += (vector1 == vector2) ? 1 : 0;
+            }
+            timer.Stop();
+            double ticksPerCall = timer.ElapsedTicks / (double)Count;
+            ticksPerCall.Should().BeLessThan(5);
+
         }
     }
 }
