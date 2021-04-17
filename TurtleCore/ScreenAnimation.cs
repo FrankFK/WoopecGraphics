@@ -11,5 +11,9 @@ namespace TurtleCore
     /// </summary>
     public class ScreenAnimation
     {
+        /// <summary>
+        /// Duration of the Animation
+        /// </summary>
+        public int Milliseconds { get; set; }
     }
 }

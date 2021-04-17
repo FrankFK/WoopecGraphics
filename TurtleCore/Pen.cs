@@ -48,10 +48,12 @@ namespace TurtleCore
             var line = new ScreenLine()
             {
                 ID = _screen.CreateLine(),
-                StartPoint = Position,
-                EndPoint = newPosition
-
+                Point1 = Position,
+                Point2 = newPosition
             };
+
+            // Animation dazu:
+            line.AddAnimation(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 2000 });
 
             _screen.DrawLine(line);
 

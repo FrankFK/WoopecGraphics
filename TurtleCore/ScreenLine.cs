@@ -12,9 +12,9 @@ namespace TurtleCore
     /// </summary>
     public class ScreenLine : ScreenObject
     {
-        public Vec2D StartPoint { get; set; }
+        public Vec2D Point1 { get; set; }
 
-        public Vec2D EndPoint { get; set; }
+        public Vec2D Point2 { get; set; }
 
 
         // TO-DO: Color-Handling

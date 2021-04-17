@@ -3,9 +3,13 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
-* TurtleMain in separatem Thread, Outputs über Puffer mit WPF austauschen
-  Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
-  Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
+* ScreenOutput aufteilen in den Teil, der von TurtleThread aufgerufen wird und den Teil, der vom WpfThread aufgerufen wird.
+  Die Lösung dokumentieren.
+  Channels sind hier dokumentiert:
+     Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
+     Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
+  Der Ansatz mit dem WPF-Dispose kommt von hier:
+       https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
 * Animation in WPF einbauen
 * Mapping der Koordinaten von (Turtle) Screen-Koordinaten auf (Wpf) Screen-Output-Koordinaten
 * Die Screen* Klassen prüfen, ob das nicht besser Records wären
@@ -21,7 +25,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-21h 
+24h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -33,4 +37,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
               try to use the same class- and method-names. But if I think to have good reasons to
               make things different, I will make things different.
 * 13.04.2021: Started with class-design for Pens, Forms, ScreenObjects and ScreenAnimations
+* 17.04.2021: Principally working: TurtleThread writes ScreenObjects into channel, WPF-thread reads ScreenObjects from the channel and drwas them animated
+ 
 
