@@ -14,7 +14,7 @@ using TurtleCore;
 
 namespace TurtleWpf
 {
-    internal class ScreenOutput : IScreenOutput
+    internal class ScreenOutput : IScreenObjectProducer
     {
         private readonly Canvas _canvas;
         private readonly Channel<ScreenObject> _objectChannel;

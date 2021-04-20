@@ -8,7 +8,7 @@ namespace TurtleCore
 {
     public class Screen
     {
-        private readonly IScreenOutput _screenOutput;
+        private readonly IScreenObjectProducer _screenOutput;
 
 
         public Screen()

@@ -13,10 +13,15 @@ namespace TurtleCore
     {
         public int ID { get; set; }
 
-        private readonly List<ScreenAnimation> _animations = new();
+        public List<ScreenAnimation> Animations { get; init; }
+
+        public ScreenObject()
+        {
+            Animations = new List<ScreenAnimation>();
+        }
         public void AddAnimation(ScreenAnimation animation)
         {
-            _animations.Add(animation);
+            Animations.Add(animation);
         }
 
     }

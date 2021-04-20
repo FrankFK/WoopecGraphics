@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace TurtleCore
 {
     /// <summary>
-    /// Interface for output of turtle-graphics to a real "screen" (canvas in WPF).
+    /// Generate screen objects and hand them over to a consumer
     /// </summary>
-    internal interface IScreenOutput
+    internal interface IScreenObjectProducer
     {
         public int CreateLine();
 

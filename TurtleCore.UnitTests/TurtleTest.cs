@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
 {
-    public class TurtleScreenOutputMock : IScreenOutput
+    public class TurtleScreenOutputMock : IScreenObjectProducer
     {
         public int CreateLine()
         {

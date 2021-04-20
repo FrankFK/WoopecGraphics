@@ -3,8 +3,9 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
-* ScreenOutput aufteilen in den Teil, der von TurtleThread aufgerufen wird und den Teil, der vom WpfThread aufgerufen wird.
-  Die Lösung dokumentieren.
+* ScreenOutput umstellen auf: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter
+  Kompliziertere Fälle behandeln.
+  Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:
      Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
      Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
@@ -25,7 +26,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-24h 
+27h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -38,5 +39,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
               make things different, I will make things different.
 * 13.04.2021: Started with class-design for Pens, Forms, ScreenObjects and ScreenAnimations
 * 17.04.2021: Principally working: TurtleThread writes ScreenObjects into channel, WPF-thread reads ScreenObjects from the channel and drwas them animated
+* 20.04.2021: Channel-communication classes: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter. And the first unit test for this is green.
  
 
