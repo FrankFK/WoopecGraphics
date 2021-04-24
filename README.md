@@ -3,7 +3,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
-* ScreenOutput umstellen auf: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter
+* Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
+  ScreenOutput umstellen auf: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter
   Kompliziertere Fälle behandeln.
   Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:
@@ -26,7 +27,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-29h 
+33h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -40,5 +41,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 13.04.2021: Started with class-design for Pens, Forms, ScreenObjects and ScreenAnimations
 * 17.04.2021: Principally working: TurtleThread writes ScreenObjects into channel, WPF-thread reads ScreenObjects from the channel and drwas them animated
 * 20.04.2021: Channel-communication classes: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter. And the first unit test for this is green.
+* 24.04.2021: First version of animation-handling-basics is working (3 unit-tests are green)
  
 

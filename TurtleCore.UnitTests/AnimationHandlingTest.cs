@@ -10,69 +10,6 @@ using System;
 
 namespace TurtleCore.UnitTests
 {
-    internal record AnimationProtocolEntry(int ID, bool Finished);
-
-    /// <summary>
-    /// Mockup for the test
-    /// </summary>
-    internal class ScreenWriterMockup : IScreenObjectWriter
-    {
-        private readonly List<AnimationProtocolEntry> _animationProtocol = new();
-
-        public int CreateLine()
-        {
-            return 1;
-        }
-
-        public void DrawLine(ScreenLine line)
-        {
-        }
-
-        public string GetAnimationSequence()
-        {
-            var sb = new StringBuilder();
-            foreach (var entry in _animationProtocol)
-            {
-                if (entry.Finished)
-                {
-                    sb.Append('<');
-                    sb.Append(entry.ID);
-                    sb.Append(']');
-                }
-                else
-                {
-                    sb.Append('[');
-                    sb.Append(entry.ID);
-                    sb.Append('>');
-                }
-            }
-            return sb.ToString();
-        }
-
-        public void StartAnimaton(ScreenObject screenObject, System.Action<int> whenFinished)
-        {
-            // protocol the start of the animation
-            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
-
-            foreach (var animation in screenObject.Animations)
-            {
-                var thread = new Thread(
-                    new ThreadStart(() =>
-                        {
-                            // simulate the animation
-                            Thread.Sleep(animation.Milliseconds);
-
-                            // animation is finished. protocol it
-                            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
-                            whenFinished(screenObject.ID);
-                        }
-                    )
-                );
-                thread.Start();
-            }
-        }
-    }
-
     /// <summary>
     /// Test the handling of animations.
     /// These tests are more like integration tests than unit tests
@@ -89,8 +26,9 @@ namespace TurtleCore.UnitTests
         [TestMethod]
         public void Case01_TwoConsecutiveAnimations()
         {
-            // second animation should start if the first animation is finishedn
-            var result = TestSequence(brokerCapacity: 10, animationSequence: "1:1>1000 1:2|1000", stopWhenObjectIsFinished: 2);
+            // second animation should start if the first animation is finished
+            // example: a turtle (1) makes move (1) 1000 milliseconds (1000). When turtle the move of this turtle is finished (?1) the same turtle makes a second move (2) 1000 milliseconds
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 ?1,2:1000", stopWhenObjectIsFinished: 2);
             result.Should().Be("[1><1][2><2]");
         }
 
@@ -98,7 +36,8 @@ namespace TurtleCore.UnitTests
         public void Case02_TwoParallelAnimations()
         {
             // second animation should start immediately after the first animation is started
-            var result = TestSequence(brokerCapacity: 10, animationSequence: "1:1>1000 1:2>1500", stopWhenObjectIsFinished: 2);
+            // example: a turtle (1) makes move (1) 1000 milliseconds (1000). The same turtle at the same time (1) starts a second move (2) 1500 milliseconds
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 1,2:1500", stopWhenObjectIsFinished: 2);
             result.Should().Be("[1>[2><1]<2]");
         }
 
@@ -107,8 +46,22 @@ namespace TurtleCore.UnitTests
         {
             // second animation should start immediately after the first animation is started
             // The second animation has a shorter duration than the first animation. Therefore the second should finish before the first is finished
-            var result = TestSequence(brokerCapacity: 10, animationSequence: "1:1>1000 1:2>500", stopWhenObjectIsFinished: 1);
-            result.Should().Be("[1>[2><2]<1]");
+            // Example:
+            //     We have two turtles (1 and 2).
+            //     Turtle 1 makes two animations, where the second should start when the first is finisehd (1,1:1000 ?1,2:500).
+            //     Turtle 2 starts its animation, that should be parallel to the animations of turtel 1 (2,3:1200)
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 ?1,2:500 2,3:1200", stopWhenObjectIsFinished: 2);
+            result.Should().Be("[1>[3><1][2><3]<2]");
+
+        }
+
+        [TestMethod]
+        public void NoEndlessLoopIfProducerThreadHasAnException()
+        {
+            Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2); 
+
+            act.Should().Throw<Exception>()
+                .WithMessage("Timed out");
         }
 
         /// <summary>
@@ -145,17 +98,28 @@ namespace TurtleCore.UnitTests
 
             // The consumer runs in this thread. It waits asynchronically for the next object in the channel
             // and sends it to the writer
+            NextTask();
+            /*
             var task = _actualConsumer.GetNextObjectForWriterAsync();
             task.ContinueWith((t) =>
             {
                 // When the animation of the object is finshed, the method 'WhenWriterIsFinished' is called.
                 _actualConsumer.SendNextObjectToWriter(t.Result, WhenWriterIsFinished);
+                NextTask();
             });
+            */
 
             // The consumer waits until the last object is finished by the writer.
-            while (!_finished)
+            int maxRounds = 100;
+            while (!_finished  && maxRounds > 0)
             {
+                maxRounds--;
                 Thread.Sleep(100);
+            }
+
+            if (!_finished)
+            {
+                throw new Exception("Timed out");
             }
 
             // The writer gives us a string that describes the order in which he animated the objects.
@@ -165,25 +129,29 @@ namespace TurtleCore.UnitTests
 
         }
 
-        private void WhenWriterIsFinished(int id)
+        private void NextTask()
         {
-            Console.WriteLine($"{id} is finished");
-            if (id == _stopWhenObjectIsFinished || _finished)
+            if (!_finished)
             {
-                _finished = true;
-            }
-            else
-            {
-                // The consumer runs in this thread. It waits asynchronically for the next object in the channel
-                // and sends it to the writer
                 var task = _actualConsumer.GetNextObjectForWriterAsync();
                 task.ContinueWith((t) =>
                 {
                     // When the animation of the object is finshed, the method 'WhenWriterIsFinished' is called.
                     _actualConsumer.SendNextObjectToWriter(t.Result, WhenWriterIsFinished);
+                    NextTask();
                 });
             }
+        }
 
+        private void WhenWriterIsFinished(int chainId, int objectId)
+        {
+            _actualConsumer.AnimationIsFinished(chainId, WhenWriterIsFinished);
+
+            Console.WriteLine($"{objectId} is finished");
+            if (objectId == _stopWhenObjectIsFinished || _finished)
+            {
+                _finished = true;
+            }
         }
 
 
@@ -194,31 +162,45 @@ namespace TurtleCore.UnitTests
         /// <example>
         ///    Syntax
         ///         animationAsString    ::= animation animation ...
-        ///         animation            ::= chainId:objectId>duration       An animation that should start immediately and sould run for duration milliseconds
-        ///         animation            ::= chainId:objectId|duration       An animation that should wait for finishing of the previous animation in the same chain 
+        ///         animation            ::=  chainId,objectId:duration       An animation that should start immediately and sould run for duration milliseconds
+        ///         animation            ::= ?chainId,objectId:duration       An animation that should wait for finishing of the previous animation in the same chain 
         ///    Examples
-        ///         "1:1>1000 1:2|1000"
+        ///         "1,1:1000 ?1,2:500 2,3:1200"
         /// </example>
         private void AddAnimatedSequence(string animationAsString)
         {
-            var animations = animationAsString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            foreach (var animation in animations)
+            try
             {
-                var trimmed = animation.Trim();
-                var indexOfChainSep = trimmed.IndexOf(':');
-                var chainId = int.Parse(trimmed[..indexOfChainSep]);
+                var animations = animationAsString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+                foreach (var animation in animations)
+                {
+                    var toParse = animation.Trim();
 
-                var part2 = trimmed[(indexOfChainSep + 1)..];
-                var indexOfGreaterSep = part2.IndexOf('>');
-                var indexOfLineSep = part2.IndexOf('|');
-                var indexOfSecondSep = (indexOfLineSep >= 0) ? indexOfLineSep : indexOfGreaterSep;
+                    var startWhenPredecessorHasFinished = false;
+                    if (toParse.StartsWith('?'))
+                    {
+                        startWhenPredecessorHasFinished = true;
+                        toParse = toParse[1..];
+                    }
+                    var indexOfComma = toParse.IndexOf(',');
+                    var chainId = int.Parse(toParse[..indexOfComma]);
 
-                var objectId = int.Parse(part2[..indexOfSecondSep]);
-                var duration = int.Parse(part2[(indexOfSecondSep + 1)..]);
+                    toParse = toParse[(indexOfComma + 1)..];
+                    var indexOfDoubleColon = toParse.IndexOf(':');
+                    var objectId = int.Parse(toParse[..indexOfDoubleColon]);
+                    var duration = int.Parse(toParse[(indexOfDoubleColon + 1)..]);
 
-                var startWhenPredecessorHasFinished = (indexOfLineSep >= 0);
-
-                AddAnimatedObject(chainId, objectId, duration, startWhenPredecessorHasFinished);
+                    AddAnimatedObject(chainId, objectId, duration, startWhenPredecessorHasFinished);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in AddAnimatedSequence");
+                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
+                Console.WriteLine("\nHelpLink ---\n{0}", ex.HelpLink);
+                Console.WriteLine("\nSource ---\n{0}", ex.Source);
+                Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
+                Console.WriteLine("\nTargetSite ---\n{0}", ex.TargetSite);
             }
         }
 
@@ -230,17 +212,86 @@ namespace TurtleCore.UnitTests
                 ID = objectId,
             };
 
-            line.AddAnimation(
-                new ScreenAnimationMovement()
-                {
-                    ChainID = chainId,
-                    Milliseconds = duration,
-                    StartWhenPredecessorHasFinished = startWhenPredecessorHasFinished, 
-                }
-            );
+            line.Animation = new ScreenAnimationMovement()
+            {
+                ChainID = chainId,
+                Milliseconds = duration,
+                StartWhenPredecessorHasFinished = startWhenPredecessorHasFinished,
+            };
 
             _actualProducer.DrawLine(line);
         }
 
     }
+
+
+    internal record AnimationProtocolEntry(int ID, bool Finished);
+
+    /// <summary>
+    /// Mockup for the test
+    /// </summary>
+    internal class ScreenWriterMockup : IScreenObjectWriter
+    {
+        private readonly List<AnimationProtocolEntry> _animationProtocol = new();
+
+        public int CreateLine()
+        {
+            return 1;
+        }
+
+        public void DrawLine(ScreenLine line)
+        {
+            // Nothing to do in this test
+        }
+
+        public void StartAnimaton(ScreenObject screenObject, System.Action<int, int> whenFinished)
+        {
+            // protocol the start of the animation
+            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
+
+            var animation = screenObject.Animation;
+            var thread = new Thread(
+                new ThreadStart(() =>
+                {
+                    // simulate the animation
+                    Thread.Sleep(animation.Milliseconds);
+
+                    // animation is finished. protocol it
+                    _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
+                    whenFinished(animation.ChainID, screenObject.ID);
+                }
+                )
+            );
+            thread.Start();
+        }
+
+        public void Draw(ScreenObject screenObject)
+        {
+            // Nothing to do in this test
+        }
+
+
+        public string GetAnimationSequence()
+        {
+            var sb = new StringBuilder();
+            foreach (var entry in _animationProtocol)
+            {
+                if (entry.Finished)
+                {
+                    sb.Append('<');
+                    sb.Append(entry.ID);
+                    sb.Append(']');
+                }
+                else
+                {
+                    sb.Append('[');
+                    sb.Append(entry.ID);
+                    sb.Append('>');
+                }
+            }
+            return sb.ToString();
+        }
+
+    }
+
 }

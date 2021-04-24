@@ -20,7 +20,18 @@ namespace TurtleCore
         /// <param name="line"></param>
         public void DrawLine(ScreenLine line);
 
-        public void StartAnimaton(ScreenObject screenObject, Action<int> whenFinished);
+        /// <summary>
+        /// Draws the object with an animation
+        /// </summary>
+        /// <param name="screenObject"></param>
+        /// <param name="whenFinished">This action must be called, when the animation is finished</param>
+        public void StartAnimaton(ScreenObject screenObject, Action<int, int> whenFinished);
+
+        /// <summary>
+        /// Draw the object directly, no animation
+        /// </summary>
+        /// <param name="screenObject"></param>
+        public void Draw(ScreenObject screenObject);
 
     }
 }

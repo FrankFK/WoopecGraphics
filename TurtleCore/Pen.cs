@@ -53,7 +53,7 @@ namespace TurtleCore
             };
 
             // Animation dazu:
-            line.AddAnimation(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 2000 });
+            line.Animation = new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 2000 };
 
             _screen.DrawLine(line);
 

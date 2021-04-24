@@ -13,7 +13,9 @@ namespace TurtleCore
     {
         public Task<ScreenObject> GetNextObjectForWriterAsync();
 
-        public void SendNextObjectToWriter(ScreenObject screenObject, Action<int> whenFinished);
+        public void SendNextObjectToWriter(ScreenObject screenObject, Action<int /*chainId*/, int /*objectId*/ > whenFinished);
+
+        public void AnimationIsFinished(int chainId, Action<int /*chainId*/, int /*objectId*/ > whenFinished);
 
     }
 }
