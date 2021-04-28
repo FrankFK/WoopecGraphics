@@ -86,7 +86,7 @@ namespace TurtleCore
             return writableObject;
         }
 
-        public void AnimationIsFinished(int chainId, Action<int /*chainId*/, int /*objectId*/ > whenFinished)
+        public void AnimationOnChainIsFinished(int chainId, int _)
         {
             if (_chainsWithActiveAnimations.ContainsKey(chainId))
             {
@@ -97,7 +97,7 @@ namespace TurtleCore
                     // We can not trust, that GetNextObjectForWriterAsync() because GetNextObjectForWriterAsync() may get no further objects.
                     var screenObject = chainData.WaitingObjects[0];
                     chainData.WaitingObjects.RemoveAt(0);
-                    StartAnimation(screenObject, whenFinished);
+                    StartAnimation(screenObject);
                 }
                 else
                 {
@@ -106,12 +106,13 @@ namespace TurtleCore
             }
         }
 
-        public void SendNextObjectToWriter(ScreenObject screenObject, Action<int, int> whenFinished)
+
+        public void SendNextObjectToWriter(ScreenObject screenObject)
         {
             if (screenObject.HasAnimation)
             {
                 Console.WriteLine($"Consumer: Animated object {screenObject.ID} send to writer");
-                StartAnimation(screenObject, whenFinished);
+                StartAnimation(screenObject);
             }
             else
             {
@@ -128,16 +129,16 @@ namespace TurtleCore
         }
 
 
-        private void StartAnimation(ScreenObject screenObject, Action<int, int> whenFinished)
+        private void StartAnimation(ScreenObject screenObject)
         {
             var animation = screenObject.Animation;
 
             if (!_chainsWithActiveAnimations.ContainsKey(animation.ChainID))
                 _chainsWithActiveAnimations.Add(animation.ChainID, new ChainData());
 
-           _chainsWithActiveAnimations[animation.ChainID].AnimationIsRunning = true;
+            _chainsWithActiveAnimations[animation.ChainID].AnimationIsRunning = true;
 
-            _writer.StartAnimaton(screenObject, whenFinished);
+            _writer.StartAnimaton(screenObject);
 
         }
 

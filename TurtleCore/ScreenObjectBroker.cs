@@ -21,7 +21,9 @@ namespace TurtleCore
         {
             var channelOptions = new BoundedChannelOptions(capacity) { SingleReader = true, SingleWriter = false };
             ObjectChannel = Channel.CreateBounded<ScreenObject>(channelOptions);
-            Consumer = new ScreenObjectConsumer(writer, ObjectChannel);
+            var screenObjectConsumer = new ScreenObjectConsumer(writer, ObjectChannel);
+            Consumer = screenObjectConsumer;
+            writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOnChainIsFinished;
         }
 
     }

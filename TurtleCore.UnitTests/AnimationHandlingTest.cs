@@ -78,6 +78,7 @@ namespace TurtleCore.UnitTests
 
             // generate a mockup-object, that simulation the draw-operations on the screen (in reality this would be a wpf-canvas)
             _actualWriter = new ScreenWriterMockup();
+            _actualWriter.OnAnimationIsFinished += WhenWriterIsFinished;
 
             // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
             var objectBroker = new ScreenObjectBroker(_actualWriter, brokerCapacity);
@@ -111,7 +112,7 @@ namespace TurtleCore.UnitTests
 
             // The consumer waits until the last object is finished by the writer.
             int maxRounds = 100;
-            while (!_finished  && maxRounds > 0)
+            while (!_finished && maxRounds > 0)
             {
                 maxRounds--;
                 Thread.Sleep(100);
@@ -137,7 +138,7 @@ namespace TurtleCore.UnitTests
                 task.ContinueWith((t) =>
                 {
                     // When the animation of the object is finshed, the method 'WhenWriterIsFinished' is called.
-                    _actualConsumer.SendNextObjectToWriter(t.Result, WhenWriterIsFinished);
+                    _actualConsumer.SendNextObjectToWriter(t.Result);
                     NextTask();
                 });
             }
@@ -145,8 +146,6 @@ namespace TurtleCore.UnitTests
 
         private void WhenWriterIsFinished(int chainId, int objectId)
         {
-            _actualConsumer.AnimationIsFinished(chainId, WhenWriterIsFinished);
-
             Console.WriteLine($"{objectId} is finished");
             if (objectId == _stopWhenObjectIsFinished || _finished)
             {
@@ -244,7 +243,7 @@ namespace TurtleCore.UnitTests
             // Nothing to do in this test
         }
 
-        public void StartAnimaton(ScreenObject screenObject, System.Action<int, int> whenFinished)
+        public void StartAnimaton(ScreenObject screenObject)
         {
             // protocol the start of the animation
             _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
@@ -258,12 +257,19 @@ namespace TurtleCore.UnitTests
 
                     // animation is finished. protocol it
                     _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
-                    whenFinished(animation.ChainID, screenObject.ID);
+
+                    // Inform everyone who wants to know that the animation is finished
+                    OnAnimationIsFinished(animation.ChainID, screenObject.ID);
                 }
                 )
             );
             thread.Start();
         }
+
+        /// <summary>
+        /// The Writer calls these events for every animation which is finished
+        /// </summary>
+        public event AnimationIsFinished OnAnimationIsFinished;
 
         public void Draw(ScreenObject screenObject)
         {

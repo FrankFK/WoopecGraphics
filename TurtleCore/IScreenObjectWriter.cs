@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
+    internal delegate void AnimationIsFinished(int chainId, int objectId);
+
     /// <summary>
     /// Interface
     /// Write turtle-graphics objects to a real "screen" (for instance a canvas in WPF).
@@ -24,8 +26,12 @@ namespace TurtleCore
         /// Draws the object with an animation
         /// </summary>
         /// <param name="screenObject"></param>
-        /// <param name="whenFinished">This action must be called, when the animation is finished</param>
-        public void StartAnimaton(ScreenObject screenObject, Action<int, int> whenFinished);
+        public void StartAnimaton(ScreenObject screenObject);
+
+        /// <summary>
+        /// The Writer calls these events for every animation which is finished
+        /// </summary>
+        public event AnimationIsFinished OnAnimationIsFinished;
 
         /// <summary>
         /// Draw the object directly, no animation

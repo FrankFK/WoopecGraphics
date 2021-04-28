@@ -11,11 +11,17 @@ namespace TurtleCore
     /// </summary>
     internal interface IScreenObjectConsumer
     {
+        /// <summary>
+        /// A Task that waits for the next object which can be given to the writer
+        /// </summary>
+        /// <returns></returns>
         public Task<ScreenObject> GetNextObjectForWriterAsync();
 
-        public void SendNextObjectToWriter(ScreenObject screenObject, Action<int /*chainId*/, int /*objectId*/ > whenFinished);
-
-        public void AnimationIsFinished(int chainId, Action<int /*chainId*/, int /*objectId*/ > whenFinished);
-
+        /// <summary>
+        /// Give the next object to the writer
+        /// </summary>
+        /// <param name="screenObject"></param>
+        /// <param name="whenFinished"></param>
+        public void SendNextObjectToWriter(ScreenObject screenObject);
     }
 }
