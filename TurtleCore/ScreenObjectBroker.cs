@@ -23,7 +23,7 @@ namespace TurtleCore
             ObjectChannel = Channel.CreateBounded<ScreenObject>(channelOptions);
             var screenObjectConsumer = new ScreenObjectConsumer(writer, ObjectChannel);
             Consumer = screenObjectConsumer;
-            writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOnChainIsFinished;
+            writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOfGroupIsFinished;
         }
 
     }

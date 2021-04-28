@@ -144,7 +144,7 @@ namespace TurtleCore.UnitTests
             }
         }
 
-        private void WhenWriterIsFinished(int chainId, int objectId)
+        private void WhenWriterIsFinished(int groupId, int objectId)
         {
             Console.WriteLine($"{objectId} is finished");
             if (objectId == _stopWhenObjectIsFinished || _finished)
@@ -161,8 +161,8 @@ namespace TurtleCore.UnitTests
         /// <example>
         ///    Syntax
         ///         animationAsString    ::= animation animation ...
-        ///         animation            ::=  chainId,objectId:duration       An animation that should start immediately and sould run for duration milliseconds
-        ///         animation            ::= ?chainId,objectId:duration       An animation that should wait for finishing of the previous animation in the same chain 
+        ///         animation            ::=  groupId,objectId:duration       An animation that should start immediately and sould run for duration milliseconds
+        ///         animation            ::= ?groupId,objectId:duration       An animation that should wait for finishing of the previous animation in the same animation group
         ///    Examples
         ///         "1,1:1000 ?1,2:500 2,3:1200"
         /// </example>
@@ -182,14 +182,14 @@ namespace TurtleCore.UnitTests
                         toParse = toParse[1..];
                     }
                     var indexOfComma = toParse.IndexOf(',');
-                    var chainId = int.Parse(toParse[..indexOfComma]);
+                    var groupId = int.Parse(toParse[..indexOfComma]);
 
                     toParse = toParse[(indexOfComma + 1)..];
                     var indexOfDoubleColon = toParse.IndexOf(':');
                     var objectId = int.Parse(toParse[..indexOfDoubleColon]);
                     var duration = int.Parse(toParse[(indexOfDoubleColon + 1)..]);
 
-                    AddAnimatedObject(chainId, objectId, duration, startWhenPredecessorHasFinished);
+                    AddAnimatedObject(groupId, objectId, duration, startWhenPredecessorHasFinished);
                 }
             }
             catch (Exception ex)
@@ -204,19 +204,19 @@ namespace TurtleCore.UnitTests
         }
 
 
-        private void AddAnimatedObject(int chainId, int objectId, int duration, bool startWhenPredecessorHasFinished)
+        private void AddAnimatedObject(int groupId, int objectId, int duration, bool startWhenPredecessorHasFinished)
         {
             var line = new ScreenLine()
             {
                 ID = objectId,
             };
 
-            line.Animation = new ScreenAnimationMovement()
+            line.Animation = new ScreenAnimation()
             {
-                ChainID = chainId,
-                Milliseconds = duration,
+                GroupID = groupId,
                 StartWhenPredecessorHasFinished = startWhenPredecessorHasFinished,
             };
+            line.Animation.Effects.Add(new ScreenAnimationEffect() { Milliseconds = duration });
 
             _actualProducer.DrawLine(line);
         }
@@ -259,7 +259,7 @@ namespace TurtleCore.UnitTests
                     _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
 
                     // Inform everyone who wants to know that the animation is finished
-                    OnAnimationIsFinished(animation.ChainID, screenObject.ID);
+                    OnAnimationIsFinished(animation.GroupID, screenObject.ID);
                 }
                 )
             );

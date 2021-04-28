@@ -14,9 +14,13 @@ namespace TurtleCore
     {
         private readonly Screen _screen;
 
+        private readonly int _id;
+
         public Pen()
         {
             _screen = Screen.GetDefaultScreen();
+            // To-do: ID eindeutig setzen
+            _id = 0;
             Position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;
@@ -53,7 +57,8 @@ namespace TurtleCore
             };
 
             // Animation dazu:
-            line.Animation = new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 2000 };
+            line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
+            line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 2000 });
 
             _screen.DrawLine(line);
 

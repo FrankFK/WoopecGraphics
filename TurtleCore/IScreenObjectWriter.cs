@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
-    internal delegate void AnimationIsFinished(int chainId, int objectId);
+    internal delegate void AnimationIsFinished(int groupId, int objectId);
 
     /// <summary>
     /// Interface

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
-    internal class ChainData
+    internal class AnimationGroupData
     {
         public bool AnimationIsRunning { get; set; }
 
         public List<ScreenObject> WaitingObjects { get; set; }
 
-        public ChainData()
+        public AnimationGroupData()
         {
             AnimationIsRunning = false;
             WaitingObjects = new();
@@ -24,13 +24,13 @@ namespace TurtleCore
         private readonly IScreenObjectWriter _writer;
         private readonly Channel<ScreenObject> _objectChannel;
 
-        private readonly Dictionary<int, ChainData> _chainsWithActiveAnimations;
+        private readonly Dictionary<int, AnimationGroupData> _groupsWithActiveAnimations;
 
         public ScreenObjectConsumer(IScreenObjectWriter writer, Channel<ScreenObject> channel)
         {
             _writer = writer;
             _objectChannel = channel;
-            _chainsWithActiveAnimations = new();
+            _groupsWithActiveAnimations = new();
         }
 
         public async Task<ScreenObject> GetNextObjectForWriterAsync()
@@ -52,26 +52,26 @@ namespace TurtleCore
                 else
                 {
                     var animation = screenObject.Animation;
-                    if (!_chainsWithActiveAnimations.ContainsKey(animation.ChainID))
+                    if (!_groupsWithActiveAnimations.ContainsKey(animation.GroupID))
                     {
-                        // there is no active animation of the same chain.
+                        // there is no active animation of the same group.
                         // go for it
                         writableObject = screenObject;
                     }
                     else
                     {
-                        var chainData = _chainsWithActiveAnimations[animation.ChainID];
-                        if (chainData.WaitingObjects.Count > 0)
+                        var groupData = _groupsWithActiveAnimations[animation.GroupID];
+                        if (groupData.WaitingObjects.Count > 0)
                         {
                             // we have to wait until all other waiting objects are finished
-                            chainData.WaitingObjects.Add(screenObject);
+                            groupData.WaitingObjects.Add(screenObject);
                         }
                         else
                         {
-                            if (chainData.AnimationIsRunning && animation.StartWhenPredecessorHasFinished)
+                            if (groupData.AnimationIsRunning && animation.StartWhenPredecessorHasFinished)
                             {
                                 // we have to wait
-                                chainData.WaitingObjects.Add(screenObject);
+                                groupData.WaitingObjects.Add(screenObject);
                             }
                             else
                             {
@@ -86,22 +86,22 @@ namespace TurtleCore
             return writableObject;
         }
 
-        public void AnimationOnChainIsFinished(int chainId, int _)
+        public void AnimationOfGroupIsFinished(int groupId, int _)
         {
-            if (_chainsWithActiveAnimations.ContainsKey(chainId))
+            if (_groupsWithActiveAnimations.ContainsKey(groupId))
             {
-                var chainData = _chainsWithActiveAnimations[chainId];
-                if (chainData.WaitingObjects.Count > 0)
+                var groupData = _groupsWithActiveAnimations[groupId];
+                if (groupData.WaitingObjects.Count > 0)
                 {
                     // if an object is waiting for the finished animation, we have to handle it immediately here.
                     // We can not trust, that GetNextObjectForWriterAsync() because GetNextObjectForWriterAsync() may get no further objects.
-                    var screenObject = chainData.WaitingObjects[0];
-                    chainData.WaitingObjects.RemoveAt(0);
+                    var screenObject = groupData.WaitingObjects[0];
+                    groupData.WaitingObjects.RemoveAt(0);
                     StartAnimation(screenObject);
                 }
                 else
                 {
-                    _chainsWithActiveAnimations.Remove(chainId);
+                    _groupsWithActiveAnimations.Remove(groupId);
                 }
             }
         }
@@ -123,8 +123,8 @@ namespace TurtleCore
 
         private ScreenObject GetNextNonWaitingBufferedObject()
         {
-            var screenObject = _chainsWithActiveAnimations.Values.Where(chain => (!chain.AnimationIsRunning && chain.WaitingObjects.Count > 0))
-                .Select(chainWithObjects => chainWithObjects.WaitingObjects.First()).FirstOrDefault();
+            var screenObject = _groupsWithActiveAnimations.Values.Where(group => (!group.AnimationIsRunning && group.WaitingObjects.Count > 0))
+                .Select(groupWithObjects => groupWithObjects.WaitingObjects.First()).FirstOrDefault();
             return screenObject;
         }
 
@@ -133,10 +133,10 @@ namespace TurtleCore
         {
             var animation = screenObject.Animation;
 
-            if (!_chainsWithActiveAnimations.ContainsKey(animation.ChainID))
-                _chainsWithActiveAnimations.Add(animation.ChainID, new ChainData());
+            if (!_groupsWithActiveAnimations.ContainsKey(animation.GroupID))
+                _groupsWithActiveAnimations.Add(animation.GroupID, new AnimationGroupData());
 
-            _chainsWithActiveAnimations[animation.ChainID].AnimationIsRunning = true;
+            _groupsWithActiveAnimations[animation.GroupID].AnimationIsRunning = true;
 
             _writer.StartAnimaton(screenObject);
 

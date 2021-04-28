@@ -9,12 +9,17 @@ namespace TurtleCore
     public enum ScreenAnimationMovementProperty
     {
         /// <summary>
+        /// The value of Point1 of a line is changed during the animation
+        /// </summary>
+        Point1,
+
+        /// <summary>
         /// The value of Point2 of a line is changed during the animation
         /// </summary>
-        Point2
+        Point2,
     }
 
-    public class ScreenAnimationMovement : ScreenAnimation
+    public class ScreenAnimationMovement : ScreenAnimationEffect
     {
         public ScreenAnimationMovementProperty AnimatedProperty { get; set; }
 
