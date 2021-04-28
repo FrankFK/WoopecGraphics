@@ -155,11 +155,11 @@ namespace TurtleCore.UnitTests
 
             // If I need a vector with a different value of a property, I can use a with statement:
             var vectorCopy = vector with { YCor = 0 };
-            double xCorOfCopy = vectorCopy.XCor;
+            var xCorOfCopy = vectorCopy.XCor;
             xCorOfCopy.Should().Be(3.000);
 
             // The original vector is not changed:
-            double originalYCor = vector.YCor;
+            var originalYCor = vector.YCor;
             originalYCor.Should().Be(4.000);
         }
 
@@ -176,7 +176,7 @@ namespace TurtleCore.UnitTests
                 result += (vector1 == vector2) ? 1 : 0;
             }
             timer.Stop();
-            double ticksPerCall = timer.ElapsedTicks / (double)Count;
+            var ticksPerCall = timer.ElapsedTicks / (double)Count;
             ticksPerCall.Should().BeLessThan(5);
 
         }

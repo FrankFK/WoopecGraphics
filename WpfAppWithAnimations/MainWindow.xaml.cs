@@ -25,7 +25,7 @@ namespace WpfAppWithAnimations
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Storyboard myStoryboard;
+        // private readonly Storyboard _myStoryboard;
 
         private int _counter;
         private Canvas _canvas;
@@ -53,9 +53,11 @@ namespace WpfAppWithAnimations
             _canvas = new Canvas() { Width = 500, Height = 1000 };
             this.Content = _canvas;
 
-            _image = new Image();
-            _image.Source = new BitmapImage(new Uri("C:/Users/Silver/Source/repos/simple-graphics-for-csharp-beginners/WpfAppWithAnimations/Bitmap1.bmp"));
-            _image.Name = "TurtleImage";
+            _image = new Image
+            {
+                Source = new BitmapImage(new Uri("C:/Users/Silver/Source/repos/simple-graphics-for-csharp-beginners/WpfAppWithAnimations/Bitmap1.bmp")),
+                Name = "TurtleImage"
+            };
             _canvas.Children.Add(_image);
 
             PrintNextLine();
@@ -64,20 +66,20 @@ namespace WpfAppWithAnimations
 
         private void PrintNextLine()
         {
-            const int imageSize = 48; // Das Image ist 48 x 48;
-            const double animationDuration = 0.9;
+            const int ImageSize = 48; // Das Image ist 48 x 48;
+            const double AnimationDuration = 0.9;
 
             double y = 50 + _counter * 10;
-            bool leftToRight = (_counter % 2 == 0);
+            var leftToRight = (_counter % 2 == 0);
             double x1 = leftToRight ? 100 : 400;
             double x2 = leftToRight ? 400 : 100;
-            int angle = leftToRight ? 90 : 270;
+            var angle = leftToRight ? 90 : 270;
 
             // Turtle auf die richtige y-Position
-            double turtleX1 = x1 - imageSize / 2;
-            _turtleX2 = x2 - imageSize / 2;
+            var turtleX1 = x1 - ImageSize / 2;
+            _turtleX2 = x2 - ImageSize / 2;
 
-            Canvas.SetTop(_image, y - imageSize / 2);
+            Canvas.SetTop(_image, y - ImageSize / 2);
             Canvas.SetLeft(_image, turtleX1);
 
             // Drehung und Bewegung sind zwei Transformationen. Daher mache ich eine Gruppe:
@@ -90,7 +92,7 @@ namespace WpfAppWithAnimations
             // Drehung der Turtle (ohne Animation):
             if (_rotateTransform == null)
             {
-                _rotateTransform = new RotateTransform(angle, imageSize / 2, imageSize / 2);
+                _rotateTransform = new RotateTransform(angle, ImageSize / 2, ImageSize / 2);
                 _turtleTransforms.Children.Add(_rotateTransform);
             }
             else
@@ -106,8 +108,10 @@ namespace WpfAppWithAnimations
             }
 
             // Neue Animation
-            var turtleAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(animationDuration));
-            turtleAnimation.AutoReverse = false;
+            var turtleAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(AnimationDuration))
+            {
+                AutoReverse = false
+            };
             turtleAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, true);
             _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, turtleAnimation);
 
@@ -127,10 +131,12 @@ namespace WpfAppWithAnimations
             };
 
             // Linie animiert bis zu x2 ziehen
-            var lineAnimation = new DoubleAnimation();
-            lineAnimation.From = x1;
-            lineAnimation.To = x2;
-            lineAnimation.Duration = new Duration(TimeSpan.FromSeconds(animationDuration * 1.1));
+            var lineAnimation = new DoubleAnimation
+            {
+                From = x1,
+                To = x2,
+                Duration = new Duration(TimeSpan.FromSeconds(AnimationDuration * 1.1))
+            };
             lineAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, false);
             _currentLine.BeginAnimation(Line.X2Property, lineAnimation);
             _lineAnimationIsFinished = false;
@@ -144,7 +150,7 @@ namespace WpfAppWithAnimations
 
         }
 
-        private void AnimationIsFinished(object sender, EventArgs args, bool isTurtleAnimation)
+        private void AnimationIsFinished(object _, EventArgs _2, bool isTurtleAnimation)
         {
             if (isTurtleAnimation)
             {
@@ -177,16 +183,19 @@ namespace WpfAppWithAnimations
         }
 
 
+        /*
         private void PrintingLinesOldVersion()
         {
             _counter = 0;
             var _canvas = new Canvas() { Width = 300, Height = 1000 };
             this.Content = _canvas;
 
-            var _image = new Image();
-            _image.Source = new BitmapImage(new Uri("C:/Users/Silver/Source/repos/simple-graphics-for-csharp-beginners/WpfAppWithAnimations/Bitmap1.bmp"));
-            _image.Name = "TurtleImage";
-            _image.RenderTransform = new RotateTransform(90);
+            var _image = new Image
+            {
+                Source = new BitmapImage(new Uri("C:/Users/Silver/Source/repos/simple-graphics-for-csharp-beginners/WpfAppWithAnimations/Bitmap1.bmp")),
+                Name = "TurtleImage",
+                RenderTransform = new RotateTransform(90)
+            };
             _canvas.Children.Add(_image);
             Canvas.SetLeft(_image, 70);
             Canvas.SetTop(_image, 10);
@@ -198,12 +207,16 @@ namespace WpfAppWithAnimations
             var left = Canvas.GetLeft(_image);
             var trans = new TranslateTransform();
             _image.RenderTransform = trans;
-            DoubleAnimation anim1 = new DoubleAnimation(top, newY - top, TimeSpan.FromSeconds(5));
-            anim1.AutoReverse = true;
-            anim1.RepeatBehavior = RepeatBehavior.Forever;
-            var anim2 = new DoubleAnimation(left, newX - left, TimeSpan.FromSeconds(5));
-            anim2.AutoReverse = true;
-            anim2.RepeatBehavior = RepeatBehavior.Forever;
+            DoubleAnimation anim1 = new DoubleAnimation(top, newY - top, TimeSpan.FromSeconds(5))
+            {
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
+            var anim2 = new DoubleAnimation(left, newX - left, TimeSpan.FromSeconds(5))
+            {
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
             trans.BeginAnimation(TranslateTransform.XProperty, anim1);
             trans.BeginAnimation(TranslateTransform.YProperty, anim2);
 
@@ -222,12 +235,14 @@ namespace WpfAppWithAnimations
                 };
 
                 // Animate the Line length (vergleiche https://docs.microsoft.com/de-de/dotnet/desktop/wpf/graphics-multimedia/how-to-animate-a-property-without-using-a-storyboard?view=netframeworkdesktop-4.8)
-                var myDoubleAnimation = new DoubleAnimation();
-                myDoubleAnimation.From = 10;
-                myDoubleAnimation.To = 250;
-                myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
-                myDoubleAnimation.AutoReverse = true;
-                myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+                var myDoubleAnimation = new DoubleAnimation
+                {
+                    From = 10,
+                    To = 250,
+                    Duration = new Duration(TimeSpan.FromSeconds(5)),
+                    AutoReverse = true,
+                    RepeatBehavior = RepeatBehavior.Forever
+                };
 
                 line.BeginAnimation(Line.X2Property, myDoubleAnimation);
 
@@ -240,44 +255,58 @@ namespace WpfAppWithAnimations
             // Siehe Using the Compose HandoffBehavior Consumes System Resources
             // in https://docs.microsoft.com/de-de/dotnet/desktop/wpf/graphics-multimedia/animation-tips-and-tricks?view=netframeworkdesktop-4.8
         }
+        */
 
-
+        /*
+         * 
         /// <summary>
         /// Siehe https://docs.microsoft.com/de-de/dotnet/desktop/wpf/graphics-multimedia/animation-overview?view=netframeworkdesktop-4.8
         /// </summary>
         private void Animation1Initialize()
         {
-            StackPanel myPanel = new StackPanel();
-            myPanel.Margin = new Thickness(10);
+            var myPanel = new StackPanel
+            {
+                Margin = new Thickness(10)
+            };
 
-            Rectangle myRectangle = new Rectangle();
-            myRectangle.Name = "myRectangle";
+            var myRectangle = new Rectangle
+            {
+                Name = "myRectangle"
+            };
             this.RegisterName(myRectangle.Name, myRectangle);
             myRectangle.Width = 100;
             myRectangle.Height = 100;
             myRectangle.Fill = Brushes.Blue;
 
-            DoubleAnimation myDoubleAnimation = new DoubleAnimation();
-            myDoubleAnimation.From = 1.0;
-            myDoubleAnimation.To = 0.0;
-            myDoubleAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
-            myDoubleAnimation.AutoReverse = true;
-            myDoubleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            var myDoubleAnimation = new DoubleAnimation
+            {
+                From = 1.0,
+                To = 0.0,
+                Duration = new Duration(TimeSpan.FromSeconds(5)),
+                AutoReverse = true,
+                RepeatBehavior = RepeatBehavior.Forever
+            };
 
-            myStoryboard = new Storyboard();
-            myStoryboard.Children.Add(myDoubleAnimation);
+            _myStoryboard = new Storyboard();
+            _myStoryboard.Children.Add(myDoubleAnimation);
             Storyboard.SetTargetName(myDoubleAnimation, myRectangle.Name);
             Storyboard.SetTargetProperty(myDoubleAnimation, new PropertyPath(Rectangle.OpacityProperty));
 
             // Use the Loaded event to start the Storyboard.
-            myRectangle.Loaded += new RoutedEventHandler(myAnimation1EventHandler);
+            myRectangle.Loaded += new RoutedEventHandler(MyAnimation1EventHandler);
             myPanel.Children.Add(myRectangle);
             this.Content = myPanel;
         }
+        *
+        */
 
-        private void myAnimation1EventHandler(object sender, RoutedEventArgs e)
+        /*
+         * 
+        private void MyAnimation1EventHandler(object sender, RoutedEventArgs e)
         {
-            myStoryboard.Begin(this);
+            _myStoryboard.Begin(this);
         }
+        *
+        */
     }
 }

@@ -18,7 +18,7 @@ namespace WpfSample1
     // has been changed dynamically)
     public class ConsoleContent : INotifyPropertyChanged
     {
-        private string text;
+        private string _text;
 
         // Declare the event
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,10 +29,10 @@ namespace WpfSample1
 
         public string Text
         {
-            get { return text; }
+            get { return _text; }
             set
             {
-                text = value;
+                _text = value;
                 // Call OnPropertyChanged whenever the property is updated
                 OnPropertyChanged();
             }

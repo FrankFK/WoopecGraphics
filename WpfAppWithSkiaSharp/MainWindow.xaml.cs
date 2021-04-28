@@ -34,12 +34,12 @@ namespace WpfAppWithSkiaSharp
             Image.Source = writeableBitmap;
         }
 
-        private WriteableBitmap CreateImage(int width, int height)
+        private static WriteableBitmap CreateImage(int width, int height)
         {
             var writeableBitmap = new WriteableBitmap(width, height, 96, 96, PixelFormats.Bgra32, BitmapPalettes.Halftone256Transparent);
             return writeableBitmap;
         }
-        private void UpdateImage(WriteableBitmap writeableBitmap)
+        private static void UpdateImage(WriteableBitmap writeableBitmap)
         {
             int width = (int)writeableBitmap.Width,
                 height = (int)writeableBitmap.Height;
@@ -55,7 +55,7 @@ namespace WpfAppWithSkiaSharp
 
             using (var surface = SKSurface.Create(skImageInfo, writeableBitmap.BackBuffer))
             {
-                SKCanvas canvas = surface.Canvas;
+                var canvas = surface.Canvas;
                 canvas.Clear(new SKColor(245, 245, 245));
                 canvas.DrawText("SkiaSharp in Wpf!", 50, 200, new SKPaint() { Color = new SKColor(0, 0, 0), TextSize = 100 });
                 canvas.DrawText("Using SkiaSharp for making graphs in WPF", new SKPoint(50, 500), new SKPaint(new SKFont(SKTypeface.FromFamilyName("Microsoft YaHei UI")))

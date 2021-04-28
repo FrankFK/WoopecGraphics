@@ -26,12 +26,12 @@ namespace TurtleCore
             _screenOutput.DrawLine(line);
         }
 
-        private static Screen _defaultScreen;
+        private static Screen s_defaultScreen;
         internal static Screen GetDefaultScreen()
         {
-            if (_defaultScreen == null)
-                _defaultScreen = new Screen();
-            return _defaultScreen;
+            if (s_defaultScreen == null)
+                s_defaultScreen = new Screen();
+            return s_defaultScreen;
         }
     }
 }

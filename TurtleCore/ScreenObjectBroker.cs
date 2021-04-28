@@ -12,7 +12,7 @@ namespace TurtleCore
     /// </summary>
     internal class ScreenObjectBroker
     {
-        public Channel<ScreenObject> ObjectChannel {get; init; }
+        public Channel<ScreenObject> ObjectChannel { get; init; }
 
         public IScreenObjectConsumer Consumer { get; init; }
 

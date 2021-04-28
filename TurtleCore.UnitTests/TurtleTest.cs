@@ -20,7 +20,7 @@ namespace TurtleCore.UnitTests
     public class TurtleTest
     {
         [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        public static void ClassInitialize(TestContext _)
         {
             TurtleOutputs.InitializeDefaultScreen(new TurtleScreenOutputMock());
         }

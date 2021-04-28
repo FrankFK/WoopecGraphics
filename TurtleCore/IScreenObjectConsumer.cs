@@ -21,7 +21,6 @@ namespace TurtleCore
         /// Give the next object to the writer
         /// </summary>
         /// <param name="screenObject"></param>
-        /// <param name="whenFinished"></param>
         public void SendNextObjectToWriter(ScreenObject screenObject);
     }
 }

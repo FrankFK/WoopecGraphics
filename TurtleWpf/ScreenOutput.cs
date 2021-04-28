@@ -20,7 +20,7 @@ namespace TurtleWpf
         private readonly Channel<ScreenObject> _objectChannel;
 
         private int _lineCounter;
-        private List<Line> _lines;
+        private readonly List<Line> _lines;
 
         public ScreenOutput(Canvas canvas, Channel<ScreenObject> objectChannel)
         {
@@ -51,7 +51,7 @@ namespace TurtleWpf
 
         public void DrawScreenObject(ScreenObject screenObject)
         {
-            ScreenLine screenLine = screenObject as ScreenLine;
+            var screenLine = screenObject as ScreenLine;
 
             while (_lines.Count <= screenLine.ID)
             {
@@ -66,24 +66,28 @@ namespace TurtleWpf
             line.Y2 = _canvas.Height / 2 - screenLine.Point2.YCor;
             line.StrokeThickness = 2;
 
-            var lineXAnimation = new DoubleAnimation();
-            lineXAnimation.From = line.X1;
-            lineXAnimation.To = line.X2;
-            lineXAnimation.Duration = new Duration(TimeSpan.FromSeconds(2));
+            var lineXAnimation = new DoubleAnimation
+            {
+                From = line.X1,
+                To = line.X2,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
             lineXAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, false);
             line.BeginAnimation(Line.X2Property, lineXAnimation);
 
-            var lineYAnimation = new DoubleAnimation();
-            lineYAnimation.From = line.Y1;
-            lineYAnimation.To = line.Y2;
-            lineYAnimation.Duration = new Duration(TimeSpan.FromSeconds(2));
+            var lineYAnimation = new DoubleAnimation
+            {
+                From = line.Y1,
+                To = line.Y2,
+                Duration = new Duration(TimeSpan.FromSeconds(2))
+            };
             line.BeginAnimation(Line.Y2Property, lineYAnimation);
 
             _canvas.Children.Add(line);
         }
 
 
-        private void AnimationIsFinished(object sender, EventArgs args, bool isTurtleAnimation)
+        private void AnimationIsFinished(object _, EventArgs _2, bool isTurtleAnimation)
         {
             var task = ReadScreenObjectAsync();
 

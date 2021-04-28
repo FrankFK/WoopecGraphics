@@ -14,6 +14,7 @@ namespace TurtleCore.UnitTests
         {
             // Usually you would have to create the Coordinate with a constructor:
             var coordinate1 = new Coordinate(1.0);
+            coordinate1.Value.Should().Be(1.0);
 
             // Act: Coordinate has an implicit conversion from double to Coordinate. So you can do it that way:
             Coordinate coordinate2 = 1.0;
@@ -46,7 +47,7 @@ namespace TurtleCore.UnitTests
 
             // Act: The ">" operator could not be used if no conversion was defined.
             // Because a conversion to double is defined, the operator does the right thing.
-            bool comparison = (coor1 > coor2);
+            var comparison = (coor1 > coor2);
 
             // Assert
             comparison.Should().BeTrue();

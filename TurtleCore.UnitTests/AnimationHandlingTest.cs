@@ -58,7 +58,7 @@ namespace TurtleCore.UnitTests
         [TestMethod]
         public void NoEndlessLoopIfProducerThreadHasAnException()
         {
-            Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2); 
+            Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2);
 
             act.Should().Throw<Exception>()
                 .WithMessage("Timed out");
@@ -111,7 +111,7 @@ namespace TurtleCore.UnitTests
             */
 
             // The consumer waits until the last object is finished by the writer.
-            int maxRounds = 100;
+            var maxRounds = 100;
             while (!_finished && maxRounds > 0)
             {
                 maxRounds--;
