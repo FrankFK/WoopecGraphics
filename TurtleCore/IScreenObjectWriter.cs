@@ -14,14 +14,6 @@ namespace TurtleCore
     /// </summary>
     internal interface IScreenObjectWriter
     {
-        public int CreateLine();
-
-        /// <summary>
-        /// Später wegschmeißen
-        /// </summary>
-        /// <param name="line"></param>
-        public void DrawLine(ScreenLine line);
-
         /// <summary>
         /// Draws the object with an animation
         /// </summary>

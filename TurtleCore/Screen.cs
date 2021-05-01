@@ -8,22 +8,22 @@ namespace TurtleCore
 {
     public class Screen
     {
-        private readonly IScreenObjectProducer _screenOutput;
+        private readonly IScreenObjectProducer _screenObjectProducer;
 
 
         public Screen()
         {
-            _screenOutput = TurtleOutputs.GetDefaultScreenOutput();
+            _screenObjectProducer = TurtleOutputs.GetDefaultScreenObjectProducer();
         }
 
         public int CreateLine()
         {
-            return _screenOutput.CreateLine();
+            return _screenObjectProducer.CreateLine();
         }
 
         public void DrawLine(ScreenLine line)
         {
-            _screenOutput.DrawLine(line);
+            _screenObjectProducer.DrawLine(line);
         }
 
         private static Screen s_defaultScreen;

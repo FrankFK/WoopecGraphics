@@ -233,16 +233,6 @@ namespace TurtleCore.UnitTests
     {
         private readonly List<AnimationProtocolEntry> _animationProtocol = new();
 
-        public int CreateLine()
-        {
-            return 1;
-        }
-
-        public void DrawLine(ScreenLine line)
-        {
-            // Nothing to do in this test
-        }
-
         public void StartAnimaton(ScreenObject screenObject)
         {
             // protocol the start of the animation

@@ -24,10 +24,9 @@ namespace TurtleWpf
     public partial class TurtleCanvas : UserControl
     {
         private readonly Canvas _canvas;
-        private readonly ScreenOutput _turtleScreenOutput;
-        private readonly Channel<ScreenObject> _objectChannel;
-        private readonly Thread _turtleThread;
-
+        private readonly IScreenObjectProducer _actualProducer;
+        private readonly IScreenObjectConsumer _actualConsumer;
+        private readonly WpfScreenObjectWriter _screenObjectWriter;
 
         public TurtleCanvas()
         {
@@ -35,37 +34,100 @@ namespace TurtleWpf
             _canvas = new Canvas() { Width = 400, Height = 400 };
             this.Content = _canvas;
 
-            var channelOptions = new BoundedChannelOptions(1000) { SingleReader = true, SingleWriter = true };
-            _objectChannel = Channel.CreateBounded<ScreenObject>(channelOptions);
-            _turtleScreenOutput = new ScreenOutput(_canvas, _objectChannel);
-            TurtleOutputs.InitializeDefaultScreen(_turtleScreenOutput);
+            // generate a mockup-object, that simulation the draw-operations on the screen (in reality this would be a wpf-canvas)
+            _screenObjectWriter = new WpfScreenObjectWriter(_canvas);
+            _screenObjectWriter.OnAnimationIsFinished += WhenWriterIsFinished;
 
-            _turtleThread = new Thread(new ThreadStart(TestProgram));
-            _turtleThread.Start();
+            // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
+            // to-do: check, if an unbound broker is better
+            var objectBroker = new ScreenObjectBroker(_screenObjectWriter, 10000);
+            // the one and only consumer
+            _actualConsumer = objectBroker.Consumer;
 
-            var task = _turtleScreenOutput.ReadScreenObjectAsync();
+            // It is possible to have multiple producers. In this test we only have one
+            // This producer runs in a another thread.
+            _actualProducer = new ScreenObjectProducer(objectBroker.ObjectChannel);
+            TurtleOutputs.InitializeDefaultScreenObjectProducer(_actualProducer);
+            var producerThread = new Thread(
+                        new ThreadStart(() =>
+                        {
+                            TestProgram();
+                        }
+                    )
+                );
+            producerThread.Start();
 
-            task.ContinueWith((t) =>
-               {
-                   // Aus https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
-                   Dispatcher.Invoke(() =>
-                   {
-                       _turtleScreenOutput.DrawScreenObject(t.Result);
-                   });
-               });
+            // The consumer runs in this thread. It waits asynchronically for the next object in the channel
+            // and sends it to the writer
+            NextTask();
         }
 
-        private void TestProgram()
+
+        private static void TestProgram()
         {
-            var turtle = new Turtle();
+            /////////////////////////////////////////////////////////////
+            // 08.03.2021: First turtle with WPF
+            var firstTurtle = new Turtle();
 
-            turtle.Right(45);
-            turtle.Forward(50);
-            turtle.Left(90);
-            turtle.Forward(100);
-            turtle.Right(45);
-            turtle.Forward(20);
+            firstTurtle.Right(45);
+            firstTurtle.Forward(50);
+            firstTurtle.Left(90);
+            firstTurtle.Forward(100);
+            firstTurtle.Right(45);
+            firstTurtle.Forward(20);
+
+            /////////////////////////////////////////////////////////////
+            // 1.5.2021: First version of animation handling
+            // - Animations of the same turtle follows one after the other
+            // - Animations of different turtles are printed in parallel
+            var turtles = new List<Turtle>();
+            for (var counter = 0; counter < 10; counter++)
+            {
+                turtles.Add(new Turtle());
+            }
+
+            // Move all turtles to the same position as firstTurtle
+            foreach (var turtle in turtles)
+            {
+                turtle.Right(45);
+                turtle.Forward(50);
+                turtle.Left(90);
+                turtle.Forward(100);
+                turtle.Right(45);
+                turtle.Forward(20);
+            }
+            // The turtles are moving in parallel
+            for (var j = 0; j < 40; j++)
+            {
+                for (var index = 0; index < turtles.Count; index++)
+                {
+                    var turtle2 = turtles[index];
+                    turtle2.Left(1 + index * 0.2);
+                    turtle2.Forward(5);
+                }
+            }
+
 
         }
+
+        private void NextTask()
+        {
+            var task = _actualConsumer.GetNextObjectForWriterAsync();
+            task.ContinueWith((t) =>
+            {
+                // Aus https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
+                Dispatcher.Invoke(() =>
+                {
+                    _actualConsumer.SendNextObjectToWriter(t.Result);
+                    NextTask();
+                });
+            });
+        }
+
+        private void WhenWriterIsFinished(int groupId, int objectId)
+        {
+            Console.WriteLine($"{objectId} is finished");
+        }
+
     }
 }

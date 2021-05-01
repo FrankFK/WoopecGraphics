@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TurtleCore
@@ -14,13 +15,14 @@ namespace TurtleCore
     {
         private readonly Screen _screen;
 
+        private static int s_totalCounter;
+
         private readonly int _id;
 
         public Pen()
         {
             _screen = Screen.GetDefaultScreen();
-            // To-do: ID eindeutig setzen
-            _id = 0;
+            _id = Interlocked.Increment(ref s_totalCounter);
             Position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;
@@ -58,7 +60,7 @@ namespace TurtleCore
 
             // Animation dazu:
             line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
-            line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 2000 });
+            line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 1 });
 
             _screen.DrawLine(line);
 

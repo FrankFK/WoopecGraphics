@@ -1,12 +1,13 @@
-# simple-graphics-for-csharp-beginners
+﻿# simple-graphics-for-csharp-beginners
 Simple Graphics for C# Beginners (starting with Turtle-Graphics)
+
 
 ## Planned
 
-* Mehr F�lle als Unit-Tests codieren. Z.B. auch dass der Channel voll l�uft. Lasttests.
+* Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
   ScreenOutput umstellen auf: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter
-  Kompliziertere F�lle behandeln.
-  Die L�sung dokumentieren. 
+  Kompliziertere Fälle behandeln.
+  Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:
      Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
      Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
@@ -14,20 +15,20 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
        https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
 * Animation in WPF einbauen
 * Mapping der Koordinaten von (Turtle) Screen-Koordinaten auf (Wpf) Screen-Output-Koordinaten
-* Die Screen* Klassen pr�fen, ob das nicht besser Records w�ren
-* Color <- Ich m�chte keine Abh�ngigkeit zu WPF haben. Daher kann ich System.Windows.Media.Color nicht direkt nutzen
+* Die Screen* Klassen prüfen, ob das nicht besser Records wären
+* Color <- Ich möchte keine Abhängigkeit zu WPF haben. Daher kann ich System.Windows.Media.Color nicht direkt nutzen
 * ScreenLine.Width
-* TurtleMain �ber Reflection finden und automatisch aufrufen
+* TurtleMain über Reflection finden und automatisch aufrufen
   https://stackoverflow.com/questions/42524704/asp-net-core-find-all-class-types-in-all-assemblies/44444309
   https://stackoverflow.com/questions/1315665/c-list-all-classes-in-assembly
   `Assembly myAssembly = Assembly.GetExecutingAssembly();`
 
 ## To decide
-* Vielleicht kann man eine gemeinsame Basisklasse f�r Pen und Form machen?
+* Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
 
 ## Done
 
-33h 
+36h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -42,5 +43,93 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 17.04.2021: Principally working: TurtleThread writes ScreenObjects into channel, WPF-thread reads ScreenObjects from the channel and drwas them animated
 * 20.04.2021: Channel-communication classes: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter. And the first unit test for this is green.
 * 24.04.2021: First version of animation-handling-basics is working (3 unit-tests are green)
+* 01.05.2021: Animation-Handling works together with WPF
  
+
+
+
+## Contribution
+
+### Commits
+
+The same as [Angular Commit Message Conventions](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format)
+without `<scope>`:
+
+Each commit message consists of a **header**, a **body**, and a **footer**.
+
+
+```
+<header>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+The `header` is mandatory and must conform to the [Commit Message Header](#commit-header) format.
+
+The `body` is mandatory for all commits except for those of type "docs".
+When the body is present it must be at least 20 characters long and must conform to the [Commit Message Body](#commit-body) format.
+
+The `footer` is optional. The [Commit Message Footer](#commit-footer) format describes what the footer is used for and the structure it must have.
+
+Any line of the commit message cannot be longer than 100 characters.
+
+
+#### <a name="commit-header"></a>Commit Message Header
+
+```
+<type>: <short summary>
+  │              │
+  │              └─⫸ Summary in present tense. Not capitalized. No period at the end.
+  │
+  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
+```
+
+The `<type>` and `<summary>` fields are mandatory.
+
+##### Type
+
+Must be one of the following:
+
+* **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+* **ci**: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)
+* **docs**: Documentation only changes
+* **feat**: A new feature
+* **fix**: A bug fix
+* **perf**: A code change that improves performance
+* **refactor**: A code change that neither fixes a bug nor adds a feature
+* **test**: Adding missing tests or correcting existing tests
+
+##### Summary
+
+Use the summary field to provide a succinct description of the change:
+
+* use the imperative, present tense: "change" not "changed" nor "changes"
+* don't capitalize the first letter
+* no dot (.) at the end
+
+
+#### <a name="commit-body"></a>Commit Message Body
+
+Just as in the summary, use the imperative, present tense: "fix" not "fixed" nor "fixes".
+
+Explain the motivation for the change in the commit message body. This commit message should explain _why_ you are making the change.
+You can include a comparison of the previous behavior with the new behavior in order to illustrate the impact of the change.
+
+
+#### <a name="commit-footer"></a>Commit Message Footer
+
+The footer can contain information about breaking changes and is also the place to reference GitHub issues, Jira tickets, and other PRs that this commit closes or is related to.
+
+```
+BREAKING CHANGE: <breaking change summary>
+<BLANK LINE>
+<breaking change description + migration instructions>
+<BLANK LINE>
+<BLANK LINE>
+Fixes #<issue number>
+```
+
+Breaking Change section should start with the phrase "BREAKING CHANGE: " followed by a summary of the breaking change, a blank line, and a detailed description of the breaking change that also includes migration instructions.
 

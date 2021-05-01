@@ -22,7 +22,7 @@ namespace TurtleCore.UnitTests
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
         {
-            TurtleOutputs.InitializeDefaultScreen(new TurtleScreenOutputMock());
+            TurtleOutputs.InitializeDefaultScreenObjectProducer(new TurtleScreenOutputMock());
         }
 
         [TestMethod]

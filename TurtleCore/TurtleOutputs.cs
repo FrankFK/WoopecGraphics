@@ -12,16 +12,16 @@ namespace TurtleCore
     /// </summary>
     internal class TurtleOutputs
     {
-        private static IScreenObjectProducer s_defaultScreenOutput;
+        private static IScreenObjectProducer s_defaultScreenObjectProducer;
 
-        public static void InitializeDefaultScreen(IScreenObjectProducer screenOutput)
+        public static void InitializeDefaultScreenObjectProducer(IScreenObjectProducer screenObjectProducer)
         {
-            s_defaultScreenOutput = screenOutput;
+            s_defaultScreenObjectProducer = screenObjectProducer;
         }
 
-        public static IScreenObjectProducer GetDefaultScreenOutput()
+        public static IScreenObjectProducer GetDefaultScreenObjectProducer()
         {
-            return s_defaultScreenOutput;
+            return s_defaultScreenObjectProducer;
         }
 
     }
