@@ -25,14 +25,18 @@ namespace TurtleCore
             _id = Interlocked.Increment(ref s_totalCounter);
             Position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
+            Color = Colors.Black;
             Heading = 0;
         }
 
         public Vec2D Position { get; set; }
 
+        public Color Color { get; set; }
+
         public Vec2D Orientation { get; private set; }
 
         public double Heading { get; private set; }
+
 
         public void Rotate(double angle)
         {
@@ -54,13 +58,14 @@ namespace TurtleCore
             var line = new ScreenLine()
             {
                 ID = _screen.CreateLine(),
+                Color = Color,
                 Point1 = Position,
                 Point2 = newPosition
             };
 
             // Animation dazu:
             line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
-            line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 1 });
+            line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 100 });
 
             _screen.DrawLine(line);
 

@@ -35,7 +35,8 @@ namespace TurtleWpf
             }
 
             var line = _lines[screenLine.ID];
-            line.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString("green");
+            line.Stroke = new SolidColorBrush(ColorConverter.Convert(screenLine.Color));
+
             var canvasPoint1 = ConvertToCanvasVector(screenLine.Point1);
             var canvasPoint2 = ConvertToCanvasVector(screenLine.Point2);
             line.X1 = canvasPoint1.XCor;

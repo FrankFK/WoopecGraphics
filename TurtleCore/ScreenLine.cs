@@ -16,6 +16,8 @@ namespace TurtleCore
 
         public Vec2D Point2 { get; set; }
 
+        public Color Color { get; set; }
+
         public void AnimatePoint2(int milliseconds)
         {
             Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, Milliseconds = milliseconds, StartValue = Point1 });

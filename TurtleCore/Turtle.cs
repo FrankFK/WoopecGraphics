@@ -13,6 +13,8 @@
 
         public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; } }
 
+        public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; } }
+
         /// <summary>
         /// Orientation of the turtle.
         /// Here are some common directions in degrees:

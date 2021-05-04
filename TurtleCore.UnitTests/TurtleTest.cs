@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
@@ -22,7 +23,10 @@ namespace TurtleCore.UnitTests
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
         {
+            Console.WriteLine("Init start");
             TurtleOutputs.InitializeDefaultScreenObjectProducer(new TurtleScreenOutputMock());
+            Console.WriteLine("Init end");
+
         }
 
         [TestMethod]

@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TurtleCore;
+using Colors = TurtleCore.Colors;
 
 namespace TurtleWpf
 {
@@ -104,6 +105,8 @@ namespace TurtleWpf
                     var turtle2 = turtles[index];
                     turtle2.Left(1 + index * 0.2);
                     turtle2.Forward(5);
+
+                    if (j == 5) turtle2.PenColor = Colors.Green;    // 04.05.2021: Predefined Colors
                 }
             }
 

@@ -18,6 +18,10 @@ namespace TurtleCore
 
         public int CreateLine()
         {
+            if (_screenObjectProducer == null)
+            {
+                Console.WriteLine("Producer is null!!!!!");
+            }
             return _screenObjectProducer.CreateLine();
         }
 
