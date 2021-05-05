@@ -6,16 +6,11 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
+    /// <summary>
+    /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
+    /// </summary>
     public class Screen
     {
-        private readonly IScreenObjectProducer _screenObjectProducer;
-
-
-        public Screen()
-        {
-            _screenObjectProducer = TurtleOutputs.GetDefaultScreenObjectProducer();
-        }
-
         public int CreateLine()
         {
             if (_screenObjectProducer == null)
@@ -30,12 +25,25 @@ namespace TurtleCore
             _screenObjectProducer.DrawLine(line);
         }
 
-        private static Screen s_defaultScreen;
+        /// <summary>
+        /// Create a Screen-Instance which draws to a default-Screen
+        /// </summary>
+        /// <returns></returns>
         internal static Screen GetDefaultScreen()
         {
-            if (s_defaultScreen == null)
-                s_defaultScreen = new Screen();
-            return s_defaultScreen;
+            return new Screen(TurtleOutputs.GetDefaultScreenObjectProducer());
         }
+
+        private readonly IScreenObjectProducer _screenObjectProducer;
+
+        private Screen(IScreenObjectProducer producer)
+        {
+            if (producer == null)
+                throw new ArgumentNullException("producer");
+
+            _screenObjectProducer = producer;
+        }
+
+
     }
 }

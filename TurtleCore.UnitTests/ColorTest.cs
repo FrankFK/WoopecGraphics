@@ -24,23 +24,21 @@ namespace TurtleCore.UnitTests
         [TestMethod]
         public void Color_CreateByExistingName()
         {
-            var pen = new Pen();
-            pen.Color = "green";
+            Color color = "green";
 
             // Assert
-            pen.Color.R.Should().Be(0);
-            pen.Color.G.Should().Be(128);
-            pen.Color.B.Should().Be(0);
+            color.R.Should().Be(0);
+            color.G.Should().Be(128);
+            color.B.Should().Be(0);
         }
 
         [TestMethod]
         public void Color_CreateByNotExistingNameYieldsBlack()
         {
-            var pen = new Pen();
-            pen.Color = "unknownColor";
+            Color color = "unknownColor";
 
             // Assert
-            pen.Color.Should().Be(Colors.Black);
+            color.Should().Be(Colors.Black);
         }
 
     }
