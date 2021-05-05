@@ -26,12 +26,15 @@ namespace TurtleCore
             Position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Color = Colors.Black;
+            Speed = SpeedLevel.Normal;
             Heading = 0;
         }
 
         public Vec2D Position { get; set; }
 
         public Color Color { get; set; }
+
+        public Speed Speed { get; set; }
 
         public Vec2D Orientation { get; private set; }
 
@@ -54,7 +57,6 @@ namespace TurtleCore
         {
             var newPosition = Position + distance * Orientation;
 
-            // TODO: Turtle bewegen
             var line = new ScreenLine()
             {
                 ID = _screen.CreateLine(),
@@ -63,16 +65,21 @@ namespace TurtleCore
                 Point2 = newPosition
             };
 
-            // Animation dazu:
-            line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
-            line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = 100 });
+            if (!Speed.NoAnimation)
+            {
+                int speedDuration = Speed.MillisecondsForMovement(Position, newPosition);
+
+                // Animation dazu:
+                line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
+                line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = speedDuration });
+
+            }
 
             _screen.DrawLine(line);
 
             Position = newPosition;
 
         }
-
 
     }
 }

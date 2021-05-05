@@ -15,6 +15,8 @@
 
         public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; } }
 
+        public Speed Speed { get { return _pen.Speed; } set { _pen.Speed = value; } }
+
         /// <summary>
         /// Orientation of the turtle.
         /// Here are some common directions in degrees:

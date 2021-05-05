@@ -13,10 +13,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
      Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
   Der Ansatz mit dem WPF-Dispose kommt von hier:
        https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
-* Animation in WPF einbauen
 * Mapping der Koordinaten von (Turtle) Screen-Koordinaten auf (Wpf) Screen-Output-Koordinaten
 * Die Screen* Klassen prüfen, ob das nicht besser Records wären
-* Color <- Ich möchte keine Abhängigkeit zu WPF haben. Daher kann ich System.Windows.Media.Color nicht direkt nutzen
 * ScreenLine.Width
 * TurtleMain über Reflection finden und automatisch aufrufen
   https://stackoverflow.com/questions/42524704/asp-net-core-find-all-class-types-in-all-assemblies/44444309
@@ -28,7 +26,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-36h 
+42h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -44,6 +42,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 20.04.2021: Channel-communication classes: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter. And the first unit test for this is green.
 * 24.04.2021: First version of animation-handling-basics is working (3 unit-tests are green)
 * 01.05.2021: Animation-Handling works together with WPF
+* 04.05.2021: Colors for Pens
+* 05.05.2021: Speed for Pens
  
 
 

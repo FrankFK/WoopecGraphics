@@ -68,7 +68,7 @@ namespace TurtleWpf
         {
             /////////////////////////////////////////////////////////////
             // 08.03.2021: First turtle with WPF
-            var firstTurtle = new Turtle();
+            var firstTurtle = new Turtle() { Speed = SpeedLevel.Slowest };
 
             firstTurtle.Right(45);
             firstTurtle.Forward(50);
@@ -110,6 +110,20 @@ namespace TurtleWpf
                 }
             }
 
+            //////////////////////////////////////////////////////////////
+            // 5.5.2021: Different Speeds
+            turtles[0].Speed = SpeedLevel.Slowest; turtles[0].PenColor = Colors.DarkGreen;
+            turtles[1].Speed = SpeedLevel.Slow; turtles[1].PenColor = Colors.DarkRed;
+            turtles[2].Speed = SpeedLevel.Normal; turtles[2].PenColor = Colors.DarkOrange;
+            turtles[3].Speed = SpeedLevel.Fast; turtles[3].PenColor = Colors.DarkBlue;
+            for (var speedIndex = 0; speedIndex <= 3; speedIndex++)
+            {
+                var speedTurtle = turtles[speedIndex];
+                speedTurtle.Right(135 + speedIndex * 5);
+                speedTurtle.Forward(200);
+                speedTurtle.Right(90);
+                speedTurtle.Forward(200);
+            }
 
         }
 
