@@ -87,7 +87,8 @@ namespace TurtleCore
                 int speedDuration = Speed.MillisecondsForMovement(oldPosition, newPosition);
 
                 // Animation dazu:
-                line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
+                line.Animation = new ScreenAnimation(_id);
+                line.Animation.WaitForAnimationsOfGroupID = _id; // Wait for previous animations of this pen
                 line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = oldPosition, Milliseconds = speedDuration });
             }
 

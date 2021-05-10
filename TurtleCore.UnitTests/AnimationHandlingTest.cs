@@ -53,6 +53,39 @@ namespace TurtleCore.UnitTests
             var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 ?1,2:500 2,3:1200", stopWhenObjectIsFinished: 2);
             result.Should().Be("[1>[3><1][2><3]<2]");
 
+            // Remark: 
+            //    The programmer would except the above behaviour if she programs this example:
+            //          var turtles = new List<Turtle>;
+            //          turtles.Add(new Turtle()); 
+            //          turtles.Add(new Turtle()); 
+            //          for (int i = 0; i <= 1; i++) {
+            //              turtles[i].Left(i*90);
+            //              turtles[i].Forward(100);
+            //          }
+            //
+            //    But in many cases this is not the expected behaviour!
+            //    Look at this example
+            //          var turtle1 = new Turtle()
+            //          turtle1.Forward(100);
+            //          var turtle2 = new Turtle();
+            //          turtle2.Left(90);
+            //          turtle2.Forward)50);
+            //    In this example the programmer excpects that turtle2 starts moving whne turtle1 has finished its move.
+            //    See Case04_SequentialAnimations for this case.
+        }
+
+        [TestMethod]
+        public void Case04_SequentialAnimations()
+        {
+            // second animation should start after the first animation is finished
+            // The second animation has a shorter duration than the first animation. Therefore the second should finish before the first is finished
+            // Example:
+            //     We have two turtles (1 and 2).
+            //     Turtle 1 makes two animations, where the second should start when the first is finisehd (1,1:1000 ?1,2:500).
+            //     Turtle 2 waits for all previous animations of turtle 1 (?(1)) and then the aninmation of turtle 2 is drawn (2,3:1200)
+            //             It is important that the next animation of turtle 2 (2:4:500) is not drawn before the first animation of turtle2
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 ?1,2:500 ?(1)2,3:1200 ?2,4:500", stopWhenObjectIsFinished: 4);
+            result.Should().Be("[1><1][2><2][3><3][4><4]");
         }
 
         [TestMethod]
@@ -161,8 +194,9 @@ namespace TurtleCore.UnitTests
         /// <example>
         ///    Syntax
         ///         animationAsString    ::= animation animation ...
-        ///         animation            ::=  groupId,objectId:duration       An animation that should start immediately and sould run for duration milliseconds
-        ///         animation            ::= ?groupId,objectId:duration       An animation that should wait for finishing of the previous animation in the same animation group
+        ///         animation            ::=  groupId,objectId:duration                     An animation that should start immediately and sould run for duration milliseconds
+        ///         animation            ::= ?groupId,objectId:duration                     An animation that should wait for finishing of the previous animation in the same animation group
+        ///         animation            ::= ?(othergroupid)groupId,objectId:duration       An animation that should wait for finishing of all previous animation in the animation group with othergroupid
         ///    Examples
         ///         "1,1:1000 ?1,2:500 2,3:1200"
         /// </example>
@@ -176,10 +210,17 @@ namespace TurtleCore.UnitTests
                     var toParse = animation.Trim();
 
                     var startWhenPredecessorHasFinished = false;
+                    var otherGroupId = 0;
                     if (toParse.StartsWith('?'))
                     {
                         startWhenPredecessorHasFinished = true;
                         toParse = toParse[1..];
+                        if (toParse.StartsWith('('))
+                        {
+                            var indexOfClosingPara = toParse.IndexOf(')');
+                            otherGroupId = int.Parse(toParse[1..indexOfClosingPara]);
+                            toParse = toParse[(indexOfClosingPara + 1)..];
+                        }
                     }
                     var indexOfComma = toParse.IndexOf(',');
                     var groupId = int.Parse(toParse[..indexOfComma]);
@@ -189,7 +230,7 @@ namespace TurtleCore.UnitTests
                     var objectId = int.Parse(toParse[..indexOfDoubleColon]);
                     var duration = int.Parse(toParse[(indexOfDoubleColon + 1)..]);
 
-                    AddAnimatedObject(groupId, objectId, duration, startWhenPredecessorHasFinished);
+                    AddAnimatedObject(groupId, objectId, duration, startWhenPredecessorHasFinished, otherGroupId);
                 }
             }
             catch (Exception ex)
@@ -204,18 +245,23 @@ namespace TurtleCore.UnitTests
         }
 
 
-        private void AddAnimatedObject(int groupId, int objectId, int duration, bool startWhenPredecessorHasFinished)
+        private void AddAnimatedObject(int groupId, int objectId, int duration, bool startWhenPredecessorHasFinished, int otherGroupId)
         {
             var line = new ScreenLine()
             {
                 ID = objectId,
             };
 
-            line.Animation = new ScreenAnimation()
+            line.Animation = new ScreenAnimation(groupId);
+
+            if (startWhenPredecessorHasFinished)
             {
-                GroupID = groupId,
-                StartWhenPredecessorHasFinished = startWhenPredecessorHasFinished,
-            };
+                if (otherGroupId != 0)
+                    line.Animation.WaitForAnimationsOfGroupID = otherGroupId;
+                else
+                    line.Animation.WaitForAnimationsOfGroupID = groupId;
+            }
+
             line.Animation.Effects.Add(new ScreenAnimationEffect() { Milliseconds = duration });
 
             _actualProducer.DrawLine(line);
