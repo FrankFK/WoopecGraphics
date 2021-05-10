@@ -84,7 +84,7 @@ namespace TurtleWpf
             var turtles = new List<Turtle>();
             for (var counter = 0; counter < 10; counter++)
             {
-                turtles.Add(new Turtle());
+                turtles.Add(new Turtle() { IsDown = false, });
             }
 
             // Move all turtles to the same position as firstTurtle
@@ -97,6 +97,9 @@ namespace TurtleWpf
                 turtle.Right(45);
                 turtle.Forward(20);
             }
+
+            foreach (var t in turtles)
+                t.PenDown();
             // The turtles are moving in parallel
             for (var j = 0; j < 40; j++)
             {

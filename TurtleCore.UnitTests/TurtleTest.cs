@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
 {
-    public class TurtleScreenOutputMock : IScreenObjectProducer
+    public class TurtleScreenProducerMockup : IScreenObjectProducer
     {
+        public List<ScreenLine> DrawnLines = new();
+
         public int CreateLine()
         {
             return 1;
@@ -13,18 +16,21 @@ namespace TurtleCore.UnitTests
 
         public void DrawLine(ScreenLine line)
         {
-            // Not needed for test
+            DrawnLines.Add(line);
         }
     }
 
     [TestClass]
     public class TurtleTest
     {
+        private static TurtleScreenProducerMockup _producerMockup;
+
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
         {
             Console.WriteLine("Init start");
-            TurtleOutputs.InitializeDefaultScreenObjectProducer(new TurtleScreenOutputMock());
+            _producerMockup = new TurtleScreenProducerMockup();
+            TurtleOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
             Console.WriteLine("Init end");
 
         }
@@ -142,6 +148,60 @@ namespace TurtleCore.UnitTests
             var expextedPostion = new Vec2D(0, -100);
             turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
         }
+
+        [TestMethod]
+        public void Turtle_InitialliyPenIsDown()
+        {
+            _producerMockup.DrawnLines.Clear();
+
+            // Arrange
+            var turtle = CreateSut();
+
+            // Act
+            turtle.Forward(100);
+
+            // Assert
+            _producerMockup.DrawnLines.Count.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void Turtle_WhenPenIsUpNoLineIsDrawn()
+        {
+            _producerMockup.DrawnLines.Clear();
+
+            // Arrange
+            var turtle = CreateSut();
+
+            // Act
+            turtle.PenUp();
+            turtle.Forward(100);
+
+            // Assert
+            _producerMockup.DrawnLines.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Turtle_MoveAfterPenDownIsDrawn()
+        {
+            _producerMockup.DrawnLines.Clear();
+
+            // Arrange
+            var turtle = CreateSut();
+
+            // Act
+            turtle.PenUp();
+            turtle.Forward(100);
+            turtle.Left(90);
+            turtle.PenDown();
+            turtle.Forward(50);
+
+            // Assert
+            _producerMockup.DrawnLines.Count.Should().Be(1);
+            var line = _producerMockup.DrawnLines[0];
+            line.Point1.IsApproximatelyEqualTo(new Vec2D(100, 0), 0).Should().BeTrue();
+            line.Point2.IsApproximatelyEqualTo(new Vec2D(100, 50), 0).Should().BeTrue();
+        }
+
 
 
         private static Turtle CreateSut()

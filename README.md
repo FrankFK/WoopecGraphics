@@ -5,8 +5,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 ## Planned
 
 * Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
-  ScreenOutput umstellen auf: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter
-  Kompliziertere Fälle behandeln.
   Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:
      Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/

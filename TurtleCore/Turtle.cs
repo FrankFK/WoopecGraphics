@@ -18,6 +18,21 @@
         public Speed Speed { get { return _pen.Speed; } set { _pen.Speed = value; } }
 
         /// <summary>
+        /// True if pen is down, False if it’s up.
+        /// </summary>
+        public bool IsDown { get { return _pen.IsDown; } set { _pen.IsDown = value; } }
+
+        /// <summary>
+        /// Pull the pen down – drawing when moving.
+        /// </summary>
+        public void PenDown() { IsDown = true; }
+
+        /// <summary>
+        /// Pull the pen up – no drawing when moving.
+        /// </summary>
+        public void PenUp() { IsDown = false; }
+
+        /// <summary>
         /// Orientation of the turtle.
         /// Here are some common directions in degrees:
         ///  standard - mode:          logo-mode:

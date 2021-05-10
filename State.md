@@ -10,10 +10,10 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | function                            | priority | state                                                |
 |-------------------------------------|----------|------------------------------------------------------|
 | **Move & Draw**
-| forward()                           | 1
-| backward()                          | 1
-| right()                             | 1
-| left()                              | 1
+| forward()                           | 1       | first version |
+| backward()                          | 1       | first version |
+| right()                             | 1       | first version |
+| left()                              | 1       | first version |
 | goto()
 | setx()
 | sety()
@@ -25,9 +25,9 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | clearstamp()
 | clearstamps()
 | undo()
-| speed()                             | 1
+| speed()                             | 1       | first version |
 | **Tell Turtle’s state**
-| position() 
+| position()                          |         | first version |
 | towards()
 | xcor()
 | ycor()
@@ -37,14 +37,14 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | degrees()
 | radians()
 | **Drawing state**
-| pendown()                            | 1
-| penup()                              | 1
+| pendown()                            | 1      | first version |
+| penup()                              | 1      | first version |
 | pensize() 
 | pen()
-| isdown()
+| isdown()                             |        | first version |
 | **Color Control**
 | color()                              | 1
-| pencolor()                           | 1
+| pencolor()                           | 1       | first version |
 | fillcolor()
 | **Filling**
 | filling()

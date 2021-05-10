@@ -28,6 +28,7 @@ namespace TurtleCore
             Color = Colors.Black;
             Speed = SpeedLevel.Normal;
             Heading = 0;
+            IsDown = true;
         }
 
         public Vec2D Position { get; set; }
@@ -39,6 +40,11 @@ namespace TurtleCore
         public Vec2D Orientation { get; private set; }
 
         public double Heading { get; private set; }
+
+        /// <summary>
+        /// True if pen is down, False if it’s up.
+        /// </summary>
+        public bool IsDown { get; set; }
 
 
         public void Rotate(double angle)
@@ -57,27 +63,35 @@ namespace TurtleCore
         {
             var newPosition = Position + distance * Orientation;
 
+            if (IsDown)
+            {
+                DrawMove(Position, newPosition);
+            }
+
+            Position = newPosition;
+        }
+
+
+        private void DrawMove(Vec2D oldPosition, Vec2D newPosition)
+        {
             var line = new ScreenLine()
             {
                 ID = _screen.CreateLine(),
                 Color = Color,
-                Point1 = Position,
+                Point1 = oldPosition,
                 Point2 = newPosition
             };
 
             if (!Speed.NoAnimation)
             {
-                int speedDuration = Speed.MillisecondsForMovement(Position, newPosition);
+                int speedDuration = Speed.MillisecondsForMovement(oldPosition, newPosition);
 
                 // Animation dazu:
                 line.Animation = new ScreenAnimation() { GroupID = _id, StartWhenPredecessorHasFinished = true };
-                line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = Position, Milliseconds = speedDuration });
-
+                line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = oldPosition, Milliseconds = speedDuration });
             }
 
             _screen.DrawLine(line);
-
-            Position = newPosition;
 
         }
 
