@@ -129,6 +129,13 @@ namespace TurtleWpf
                 speedTurtle.Forward(200);
             }
 
+            /////////////////////////////////////////////////////////////
+            // 10.05.2021 Penup and Pendown
+            turtles[0].PenUp();
+            turtles[0].Forward(50);
+            turtles[0].PenDown();
+            turtles[0].Forward(50);
+
         }
 
         private void NextTask()
