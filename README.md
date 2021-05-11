@@ -4,6 +4,9 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
+* Turtle-shapes: Die Defaults stehen hier PythonCode\TurtleScreenClass.py. Das sind alles Shapes -- auch die Schildkröte.
+  PenColor und FillColor gelten auch für diese Shapes und ändern damit die Farbe.
+  In WPF kann man Pathes auch animieren https://stackoverflow.com/questions/51338163/wpf-polygon-storyboard-animation
 * Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
   Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:

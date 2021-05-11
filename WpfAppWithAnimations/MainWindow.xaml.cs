@@ -30,6 +30,7 @@ namespace WpfAppWithAnimations
         private int _counter;
         private Canvas _canvas;
         private Image _image;
+        private Path _sampleShape;
         private bool _turtleAnimationIsFinished;
         private bool _lineAnimationIsFinished;
 
@@ -60,11 +61,121 @@ namespace WpfAppWithAnimations
             };
             _canvas.Children.Add(_image);
 
-            PrintNextLine();
+            // Compare: https://social.msdn.microsoft.com/Forums/vstudio/en-US/9af33f36-b34e-44f8-874a-73984fba0405/how-to-draw-this-path-in-c-code?forum=wpf
+            _sampleShape = new Path();
+            _sampleShape.Fill = new SolidColorBrush(Colors.Yellow);
+            _sampleShape.Stroke = new SolidColorBrush(Colors.Red);
+            _sampleShape.Name = "Classic";
+            var polygon = new PathFigure();
+
+            // Turtle-Koordinaten: ((0,0),(-5,-9),(0,-7),(5,-9)), Spitze zeigt nach oben
+            // WPF-Koordinaten (y-Achse geht in die entgegengesetzte Richtung): ((0,0),(-5,9),(0,7),(5,9)), Spitze zeigt nach oben
+            polygon.StartPoint = new Point(0, 0);   // ((0,0),(-5,-9),(0,-7),(5,-9))
+            int vergroeesern = 3;
+            polygon.IsClosed = true;
+            polygon.Segments.Add(new LineSegment() { Point = new Point(-5 * vergroeesern, 9 * vergroeesern) });
+            polygon.Segments.Add(new LineSegment() { Point = new Point(0, 7 * vergroeesern) });
+            polygon.Segments.Add(new LineSegment() { Point = new Point(5 * vergroeesern,  9 * vergroeesern) });
+            var pathGeometry = new PathGeometry();
+            pathGeometry.FillRule = FillRule.Nonzero;
+            pathGeometry.Figures.Add(polygon);
+            _sampleShape.Data = pathGeometry;
+            _canvas.Children.Add(_sampleShape);
+
+
+            PrintNextLineWithShape();
         }
 
 
-        private void PrintNextLine()
+        private void PrintNextLineWithShape()
+        {
+            var shapeWidth = _sampleShape.Data.Bounds.Width;
+            var shapeHeight = _sampleShape.Data.Bounds.Height;
+
+            const double AnimationDuration = 0.9;
+
+            double y = 50 + _counter * 10;
+            var leftToRight = (_counter % 2 == 0);
+            double x1 = leftToRight ? 100 : 400;
+            double x2 = leftToRight ? 400 : 100;
+            var angle = leftToRight ? 90 : 270;
+
+            // Turtle-Spitze (Koordinaten 0,0) muss auf x1 starten und nach x2 wandern:
+            var turtleX1 = x1; // - shapeWidth / 2;
+            _turtleX2 = x2; // - shapeWidth / 2;
+
+            Canvas.SetTop(_sampleShape, y - shapeHeight / 2);
+            Canvas.SetLeft(_sampleShape, turtleX1);
+
+            // Drehung und Bewegung sind zwei Transformationen. Daher mache ich eine Gruppe:
+            if (_turtleTransforms == null)
+            {
+                _turtleTransforms = new TransformGroup();
+                _sampleShape.RenderTransform = _turtleTransforms;
+            }
+
+            // Drehung der Turtle (ohne Animation):
+            if (_rotateTransform == null)
+            {
+                _rotateTransform = new RotateTransform(angle, shapeWidth / 2, shapeHeight/ 2);
+                _turtleTransforms.Children.Add(_rotateTransform);
+            }
+            else
+            {
+                _rotateTransform.Angle = angle;
+            }
+
+            // Verschiebung der Turtle (mit Animation)
+            if (_turtleTranslate == null)
+            {
+                _turtleTranslate = new TranslateTransform();
+                _turtleTransforms.Children.Add(_turtleTranslate);
+            }
+
+            // Neue Animation
+            var turtleAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(AnimationDuration))
+            {
+                AutoReverse = false
+            };
+            turtleAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, true);
+            _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, turtleAnimation);
+
+            // Gesamt-Transormation der Turtle
+            _turtleAnimationIsFinished = false;
+
+
+            // Die Linie (erst mal noch nicht animiert)
+            _currentLine = new Line()
+            {
+                Stroke = System.Windows.Media.Brushes.LightSteelBlue,
+                X1 = x1,
+                Y1 = y,
+                X2 = x2,
+                Y2 = y,
+                StrokeThickness = 1
+            };
+
+            // Linie animiert bis zu x2 ziehen
+            var lineAnimation = new DoubleAnimation
+            {
+                From = x1,
+                To = x2,
+                Duration = new Duration(TimeSpan.FromSeconds(AnimationDuration * 1.1))
+            };
+            lineAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, false);
+            _currentLine.BeginAnimation(Line.X2Property, lineAnimation);
+            _lineAnimationIsFinished = false;
+
+
+            _canvas.Children.Add(_currentLine);
+
+
+            // Für den nächsten Durchlauf
+            _counter++;
+
+        }
+
+        private void PrintNextLineWithImage()
         {
             const int ImageSize = 48; // Das Image ist 48 x 48;
             const double AnimationDuration = 0.9;
@@ -79,14 +190,14 @@ namespace WpfAppWithAnimations
             var turtleX1 = x1 - ImageSize / 2;
             _turtleX2 = x2 - ImageSize / 2;
 
-            Canvas.SetTop(_image, y - ImageSize / 2);
-            Canvas.SetLeft(_image, turtleX1);
+            Canvas.SetTop(_sampleShape, y - ImageSize / 2);
+            Canvas.SetLeft(_sampleShape, turtleX1);
 
             // Drehung und Bewegung sind zwei Transformationen. Daher mache ich eine Gruppe:
             if (_turtleTransforms == null)
             {
                 _turtleTransforms = new TransformGroup();
-                _image.RenderTransform = _turtleTransforms;
+                _sampleShape.RenderTransform = _turtleTransforms;
             }
 
             // Drehung der Turtle (ohne Animation):
@@ -167,7 +278,7 @@ namespace WpfAppWithAnimations
             {
                 if (_counter < 20)
                 {
-                    PrintNextLine();
+                    PrintNextLineWithShape();
                 }
                 else
                 {
@@ -178,6 +289,7 @@ namespace WpfAppWithAnimations
 
                     // Durch das null-Setzen der Animation, hat das Image wieder den anfänglichen x-Wert. Wir müssen den Ziel-x-Wert explizit setzen.
                     Canvas.SetLeft(_image, _turtleX2);
+                    Canvas.SetLeft(_sampleShape, _turtleX2);
                 }
             }
         }
