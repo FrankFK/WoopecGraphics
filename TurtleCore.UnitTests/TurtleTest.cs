@@ -150,7 +150,7 @@ namespace TurtleCore.UnitTests
         }
 
         [TestMethod]
-        public void Turtle_InitialliyPenIsDown()
+        public void Turtle_InitiallyPenIsDown()
         {
             _producerMockup.DrawnLines.Clear();
 
@@ -200,6 +200,22 @@ namespace TurtleCore.UnitTests
             var line = _producerMockup.DrawnLines[0];
             line.Point1.IsApproximatelyEqualTo(new Vec2D(100, 0), 0).Should().BeTrue();
             line.Point2.IsApproximatelyEqualTo(new Vec2D(100, 50), 0).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void Turtle_PositionChangeWithPendownIsDrawn()
+        {
+            _producerMockup.DrawnLines.Clear();
+
+            // Arrange
+            var turtle = CreateSut();
+
+            // Act
+            turtle.PenDown();
+            turtle.Position = new Vec2D(0, 100);
+
+            // Assert
+            _producerMockup.DrawnLines.Count.Should().Be(1);
         }
 
 

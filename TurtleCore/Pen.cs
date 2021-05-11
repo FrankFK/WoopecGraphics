@@ -25,7 +25,7 @@ namespace TurtleCore
         {
             _screen = Screen.GetDefaultScreen();
             _id = Interlocked.Increment(ref s_totalCounter);
-            Position = new Vec2D(0, 0);
+            _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Color = Colors.Black;
             Speed = SpeedLevel.Normal;
@@ -33,7 +33,22 @@ namespace TurtleCore
             IsDown = true;
         }
 
-        public Vec2D Position { get; set; }
+        public Vec2D Position
+        {
+            get
+            {
+                return _position;
+            }
+            set
+            {
+                if (IsDown && !value.IsApproximatelyEqualTo(_position, 0.001))
+                {
+                    DrawMove(_position, value);
+                }
+                _position = value;
+            }
+        }
+        private Vec2D _position;
 
         public Color Color { get; set; }
 
@@ -70,7 +85,7 @@ namespace TurtleCore
                 DrawMove(Position, newPosition);
             }
 
-            Position = newPosition;
+            _position = newPosition;
         }
 
 

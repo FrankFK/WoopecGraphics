@@ -136,6 +136,11 @@ namespace TurtleWpf
             turtles[0].PenDown();
             turtles[0].Forward(50);
 
+            /////////////////////////////////////////////////////////////
+            // 10.05.2021 Position
+            var newPosition = turtles[0].Position + new Vec2D(-20, 0);
+            turtles[0].Position = newPosition;
+
         }
 
         private void NextTask()
