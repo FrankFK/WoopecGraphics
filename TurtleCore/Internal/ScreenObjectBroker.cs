@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace TurtleCore.Internal
 {
     /// <summary>
     /// An instance of this class transports ScreenObjects from (one or many) producers to (one) consumer

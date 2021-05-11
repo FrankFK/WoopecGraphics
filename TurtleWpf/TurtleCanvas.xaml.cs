@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TurtleCore;
+using TurtleCore.Internal;
 using Colors = TurtleCore.Colors;
 
 namespace TurtleWpf

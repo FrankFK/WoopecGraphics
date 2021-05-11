@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace TurtleCore.Internal
 {
     internal class ScreenObjectProducer : IScreenObjectProducer
     {

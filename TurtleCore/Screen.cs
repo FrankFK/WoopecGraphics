@@ -11,6 +11,11 @@ namespace TurtleCore
     /// </summary>
     public class Screen
     {
+        /// <summary>
+        /// Return the GroupId of the last animation that is drawn at the screen
+        /// </summary>
+        public int LastIssuedAnimatonGroupID { get; set; }
+
         public int CreateLine()
         {
             if (_screenObjectProducer == null)
@@ -22,6 +27,7 @@ namespace TurtleCore
 
         public void DrawLine(ScreenLine line)
         {
+            UpdateLastIssuedAnimationGroupID(line);
             _screenObjectProducer.DrawLine(line);
         }
 
@@ -31,8 +37,14 @@ namespace TurtleCore
         /// <returns></returns>
         internal static Screen GetDefaultScreen()
         {
-            return new Screen(TurtleOutputs.GetDefaultScreenObjectProducer());
+            if (_defaultScreen == null)
+            {
+                _defaultScreen = new Screen(TurtleOutputs.GetDefaultScreenObjectProducer());
+            }
+            return _defaultScreen;
         }
+
+        private static Screen _defaultScreen;
 
         private readonly IScreenObjectProducer _screenObjectProducer;
 
@@ -42,8 +54,16 @@ namespace TurtleCore
                 throw new ArgumentNullException("producer");
 
             _screenObjectProducer = producer;
+            LastIssuedAnimatonGroupID = ScreenAnimation.NoGroupId;
         }
 
 
+        private void UpdateLastIssuedAnimationGroupID(ScreenObject screenObject)
+        {
+            if (screenObject.HasAnimation)
+            {
+                LastIssuedAnimatonGroupID = screenObject.Animation.GroupID;
+            }
+        }
     }
 }

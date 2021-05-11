@@ -19,6 +19,8 @@ namespace TurtleCore
 
         private readonly int _id;
 
+        private bool _firstAnimationIsAdded; // true, if an animation of this pen added
+
         public Pen()
         {
             _screen = Screen.GetDefaultScreen();
@@ -88,12 +90,26 @@ namespace TurtleCore
 
                 // Animation dazu:
                 line.Animation = new ScreenAnimation(_id);
-                line.Animation.WaitForAnimationsOfGroupID = _id; // Wait for previous animations of this pen
+                if (_firstAnimationIsAdded)
+                {
+                    // Wait for previous animations of this pen
+                    line.Animation.WaitForAnimationsOfGroupID = _id;
+                }
+                else
+                {
+                    if (_screen.LastIssuedAnimatonGroupID != ScreenAnimation.NoGroupId)
+                    {
+                        // If we do not wait for another animation this pen is drawn immediately. In most cases the programmer expects
+                        // that all previously created animation are drawn before this pen is drawn.
+                        // Therefor:
+                        line.Animation.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                    }
+                }
                 line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = oldPosition, Milliseconds = speedDuration });
+                _firstAnimationIsAdded = true;
             }
 
             _screen.DrawLine(line);
-
         }
 
     }

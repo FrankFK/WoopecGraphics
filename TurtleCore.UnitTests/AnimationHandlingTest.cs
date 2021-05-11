@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+using TurtleCore.Internal;
 
 namespace TurtleCore.UnitTests
 {
@@ -86,6 +87,14 @@ namespace TurtleCore.UnitTests
             //             It is important that the next animation of turtle 2 (2:4:500) is not drawn before the first animation of turtle2
             var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 ?1,2:500 ?(1)2,3:1200 ?2,4:500", stopWhenObjectIsFinished: 4);
             result.Should().Be("[1><1][2><2][3><3][4><4]");
+        }
+
+        [TestMethod]
+        public void Case05_TwoAnimationsRunInParallelIfFirstAnimationIsFinished()
+        {
+            // We have two animation (groupId 2 and 3) that should wait until the first animation is finished
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:1000 ?1,2:500 ?(1)2,3:1200 ?2,4:500 ?(1)3,5:1000 ?3,6:1000", stopWhenObjectIsFinished: 6);
+            result.Should().Be("[1><1][2><2][3>[5><5][6><3][4><4]<6]");
         }
 
         [TestMethod]

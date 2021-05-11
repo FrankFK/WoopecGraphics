@@ -11,7 +11,7 @@ namespace TurtleCore
     /// </summary>
     public class ScreenAnimation
     {
-        private const int NoGroupId = 0;
+        internal const int NoGroupId = 0;
 
         /// <summary>
         /// Duration of the Animation
