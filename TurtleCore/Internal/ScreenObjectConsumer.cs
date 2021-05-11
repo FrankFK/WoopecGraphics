@@ -21,7 +21,7 @@ namespace TurtleCore.Internal
             _animationGroupsState = new();
         }
 
-        public async Task<ScreenObject> GetNextObjectForWriterAsync()
+        public async Task HandleNextScreenObjectAsync()
         {
             // Before reading new objects from the channel, take buffered objects which are not waiting anymore.
             var writableObject = _animationGroupsState.ExtractOneNonWaitingScreenObject();
@@ -40,7 +40,7 @@ namespace TurtleCore.Internal
                     AddObjectToWaitingState(screenObject);
                 }
             }
-            return writableObject;
+            SendNextObjectToWriter(writableObject);
         }
 
         public void AnimationOfGroupIsFinished(int groupId, int _)
@@ -70,7 +70,7 @@ namespace TurtleCore.Internal
                         foreach (var screenObject in noLongerWaitingScreenObjects)
                         {
                             Console.WriteLine($"    Group has waiting ScreenObject {screenObject.ID}. Starting animation of it.");
-                            StartAnimation(screenObject);
+                            SendNextObjectToWriter(screenObject);
                         }
                     }
                 }
@@ -82,16 +82,20 @@ namespace TurtleCore.Internal
         }
 
 
-        public void SendNextObjectToWriter(ScreenObject screenObject)
+        private void SendNextObjectToWriter(ScreenObject screenObject)
         {
             if (screenObject.HasAnimation)
             {
-                Console.WriteLine($"Consumer: Animated object {screenObject.ID} send to writer");
-                StartAnimation(screenObject);
+                var animation = screenObject.Animation;
+
+                _animationGroupsState.AddRunningAnimation(animation.GroupID);
+
+                Console.WriteLine($"Consumer: Animated object {screenObject.ID} sent to writer");
+                _writer.StartAnimaton(screenObject);
             }
             else
             {
-                Console.WriteLine($"Consumer: Unanimated object {screenObject.ID} send to writer");
+                Console.WriteLine($"Consumer: Unanimated object {screenObject.ID} sent to writer");
                 _writer.Draw(screenObject);
             }
         }
@@ -169,15 +173,6 @@ namespace TurtleCore.Internal
             }
         }
 
-        private void StartAnimation(ScreenObject screenObject)
-        {
-            var animation = screenObject.Animation;
-
-            _animationGroupsState.AddRunningAnimation(animation.GroupID);
-
-            Console.WriteLine($"Consumer: Animation of {screenObject.ID} is started.");
-            _writer.StartAnimaton(screenObject);
-        }
 
     }
 }

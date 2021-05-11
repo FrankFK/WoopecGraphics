@@ -133,13 +133,12 @@ namespace TurtleWpf
 
         private void NextTask()
         {
-            var task = _actualConsumer.GetNextObjectForWriterAsync();
+            var task = _actualConsumer.HandleNextScreenObjectAsync();
             task.ContinueWith((t) =>
             {
                 // Aus https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
                 Dispatcher.Invoke(() =>
                 {
-                    _actualConsumer.SendNextObjectToWriter(t.Result);
                     NextTask();
                 });
             });

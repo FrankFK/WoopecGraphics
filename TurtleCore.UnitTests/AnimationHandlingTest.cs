@@ -176,11 +176,10 @@ namespace TurtleCore.UnitTests
         {
             if (!_finished)
             {
-                var task = _actualConsumer.GetNextObjectForWriterAsync();
+                var task = _actualConsumer.HandleNextScreenObjectAsync();
                 task.ContinueWith((t) =>
                 {
                     // When the animation of the object is finshed, the method 'WhenWriterIsFinished' is called.
-                    _actualConsumer.SendNextObjectToWriter(t.Result);
                     NextTask();
                 });
             }
