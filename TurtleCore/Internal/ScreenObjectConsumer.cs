@@ -12,6 +12,7 @@ namespace TurtleCore.Internal
         private readonly IScreenObjectWriter _writer;
         private readonly Channel<ScreenObject> _objectChannel;
         private readonly AnimationGroupsState _animationGroupsState;
+        private static readonly object s_lockObj = new();
 
 
         public ScreenObjectConsumer(IScreenObjectWriter writer, Channel<ScreenObject> channel)
@@ -23,61 +24,75 @@ namespace TurtleCore.Internal
 
         public async Task HandleNextScreenObjectAsync()
         {
-            // Before reading new objects from the channel, take buffered objects which are not waiting anymore.
-            var writableObject = _animationGroupsState.ExtractOneNonWaitingScreenObject();
+            lock (s_lockObj)
+            {
+                // Before reading new objects from the channel, take buffered objects which are not waiting anymore.
+                var writableObject = _animationGroupsState.ExtractOneNonWaitingScreenObject();
+                if (writableObject != null)
+                {
+                    SendNextObjectToWriter(writableObject);
+                    return;
+                }
+            }
 
             // Otherwise search for a directly writeable object in the channel
-            while (writableObject == null)
+            while (true)
             {
                 var screenObject = await _objectChannel.Reader.ReadAsync();
 
-                if (ObjectIsWritable(screenObject))
+                lock (s_lockObj)
                 {
-                    writableObject = screenObject;
-                }
-                else
-                {
-                    AddObjectToWaitingState(screenObject);
+                    if (ObjectIsWritable(screenObject))
+                    {
+                        SendNextObjectToWriter(screenObject);
+                        return;
+                    }
+                    else
+                    {
+                        AddObjectToWaitingState(screenObject);
+                    }
                 }
             }
-            SendNextObjectToWriter(writableObject);
         }
 
         public void AnimationOfGroupIsFinished(int groupId, int _)
         {
-            Console.WriteLine($"Animation of group {groupId} is finished.");
-            if (_animationGroupsState.TryGetGroupState(groupId, out var groupState))
+            lock (s_lockObj)
             {
-                groupState.AnimationIsRunning = false;
-                if (groupState.HasWaitingObjects())
+                Console.WriteLine($"Animation of group {groupId} is finished.");
+                if (_animationGroupsState.TryGetGroupState(groupId, out var groupState))
                 {
-                    // if an object is waiting for the finished animation, we have to handle it immediately here.
-                    // We can not trust that GetNextObjectForWriterAsync() handles it, because GetNextObjectForWriterAsync() may get no further objects.
-                    Console.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
-
-                    // At first: Inform other groups that are waiting for this group to be finished
-                    var otherGroups = groupState.ExtractLeadingOtherGroups();
-                    _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
-
-                    // Then: Collect all non longer waiting Screen objects and start them
-                    var noLongerWaitingScreenObjects = _animationGroupsState.ExtractAllNonWaitingScreenObjects();
-                    if (noLongerWaitingScreenObjects.Count == 0)
+                    groupState.AnimationIsRunning = false;
+                    if (groupState.HasWaitingObjects())
                     {
-                        Console.WriteLine($"    Group has no waiting ScreenObjects, and no other ScreenObject is waiting.");
-                    }
-                    else
-                    {
-                        foreach (var screenObject in noLongerWaitingScreenObjects)
+                        // if an object is waiting for the finished animation, we have to handle it immediately here.
+                        // We can not trust that GetNextObjectForWriterAsync() handles it, because GetNextObjectForWriterAsync() may get no further objects.
+                        Console.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
+
+                        // At first: Inform other groups that are waiting for this group to be finished
+                        var otherGroups = groupState.ExtractLeadingOtherGroups();
+                        _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
+
+                        // Then: Collect all non longer waiting Screen objects and start them
+                        var noLongerWaitingScreenObjects = _animationGroupsState.ExtractAllNonWaitingScreenObjects();
+                        if (noLongerWaitingScreenObjects.Count == 0)
                         {
-                            Console.WriteLine($"    Group has waiting ScreenObject {screenObject.ID}. Starting animation of it.");
-                            SendNextObjectToWriter(screenObject);
+                            Console.WriteLine($"    Group has no waiting ScreenObjects, and no other ScreenObject is waiting.");
+                        }
+                        else
+                        {
+                            foreach (var screenObject in noLongerWaitingScreenObjects)
+                            {
+                                Console.WriteLine($"    Group has waiting ScreenObject {screenObject.ID}. Starting animation of it.");
+                                SendNextObjectToWriter(screenObject);
+                            }
                         }
                     }
                 }
-            }
-            else
-            {
-                Console.WriteLine($"Animation of group {groupId} is finished. But no active animations for this group!");
+                else
+                {
+                    Console.WriteLine($"Animation of group {groupId} is finished. But no active animations for this group!");
+                }
             }
         }
 

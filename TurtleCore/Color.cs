@@ -11,7 +11,7 @@ namespace TurtleCore
         public static implicit operator Color(string colorName) => ConvertName(colorName);
 
         private static Dictionary<string, Color> s_colorsByName = null;
-        private static readonly Object s_lockObj = new Object();
+        private static readonly object s_lockObj = new();
 
         private static Color ConvertName(string colorName)
         {
