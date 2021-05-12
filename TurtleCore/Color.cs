@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace TurtleCore
 {
+    /// <summary>
+    /// A color specified by the values for Red, Green and Blue.
+    /// The range for all of these values is 0-255.
+    /// </summary>
+    /// <remarks>
+    /// Often color-systems also support a fourth value: the alpha-channel.
+    /// This value indicates the transperency of the color. This is not implemented here.
+    /// </remarks>
     public record Color(byte R, byte G, byte B)
     {
         public static implicit operator Color(string colorName) => ConvertName(colorName);

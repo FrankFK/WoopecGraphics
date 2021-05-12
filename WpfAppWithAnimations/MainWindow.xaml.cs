@@ -66,22 +66,46 @@ namespace WpfAppWithAnimations
             _sampleShape.Fill = new SolidColorBrush(Colors.Yellow);
             _sampleShape.Stroke = new SolidColorBrush(Colors.Red);
             _sampleShape.Name = "Classic";
-            var polygon = new PathFigure();
+
+            int vergroeesern = 5;
 
             // Turtle-Koordinaten: ((0,0),(-5,-9),(0,-7),(5,-9)), Spitze zeigt nach oben
             // WPF-Koordinaten (y-Achse geht in die entgegengesetzte Richtung): ((0,0),(-5,9),(0,7),(5,9)), Spitze zeigt nach oben
-            polygon.StartPoint = new Point(0, 0);   // ((0,0),(-5,-9),(0,-7),(5,-9))
-            int vergroeesern = 3;
-            polygon.IsClosed = true;
-            polygon.Segments.Add(new LineSegment() { Point = new Point(-5 * vergroeesern, 9 * vergroeesern) });
-            polygon.Segments.Add(new LineSegment() { Point = new Point(0, 7 * vergroeesern) });
-            polygon.Segments.Add(new LineSegment() { Point = new Point(5 * vergroeesern,  9 * vergroeesern) });
+            var polygonOne = new PathFigure();
+            polygonOne.StartPoint = new Point(0, 0);   // ((0,0),(-5,-9),(0,-7),(5,-9))
+            polygonOne.IsClosed = true;
+            polygonOne.Segments.Add(new LineSegment() { Point = new Point(-5 * vergroeesern, 9 * vergroeesern) });
+            polygonOne.Segments.Add(new LineSegment() { Point = new Point(0, 7 * vergroeesern) });
+            polygonOne.Segments.Add(new LineSegment() { Point = new Point(5 * vergroeesern, 9 * vergroeesern) });
+
+            var polygonTwo = new PathFigure();
+            var point2_1 = new Point(0, 7 * vergroeesern);
+            var point2_2 = new Point(-5 * vergroeesern, 16 * vergroeesern);
+            var point2_3 = new Point(0, 14 * vergroeesern);
+            var point2_4 = new Point(5 * vergroeesern, 16 * vergroeesern);
+            polygonTwo.StartPoint = point2_1;
+            polygonTwo.IsClosed = true;
+            polygonTwo.Segments.Add(new LineSegment() { Point = point2_2 });
+            polygonTwo.Segments.Add(new LineSegment() { Point = point2_3 });
+            polygonTwo.Segments.Add(new LineSegment() { Point = point2_4 });
+            // Wenn ich abgerundete Ecken machen möchte, muss ich das relative kompliziert mit quadratischen Bezier Kurven machen
+            // Siehe zum Beispiel hier: https://www.codeproject.com/Articles/128705/WPF-rounded-corners-polygon
+
             var pathGeometry = new PathGeometry();
             pathGeometry.FillRule = FillRule.Nonzero;
-            pathGeometry.Figures.Add(polygon);
+            pathGeometry.Figures.Add(polygonOne);
+            pathGeometry.Figures.Add(polygonTwo);
             _sampleShape.Data = pathGeometry;
             _canvas.Children.Add(_sampleShape);
 
+            // Microsoft Documentation:
+            //      The greater the value of a given element, the more likely the element is to appear in the foreground
+            //      Members of a Children collection that have equal ZIndex values are rendered in the order in which they appear in the visual tree.
+            //      You can determine the index position of a child by iterating the members of the Children collection.
+            //
+            // With SetZIndex we can set the ZIndex value explicitely. All other elements have ZIndex == 0
+            // Alle lines have ZIndex == 0. If we set the ZIndex of the shape to 1 it appears in the foreground.
+            Canvas.SetZIndex(_sampleShape, 1);
 
             PrintNextLineWithShape();
         }
@@ -92,7 +116,7 @@ namespace WpfAppWithAnimations
             var shapeWidth = _sampleShape.Data.Bounds.Width;
             var shapeHeight = _sampleShape.Data.Bounds.Height;
 
-            const double AnimationDuration = 0.9;
+            const double AnimationDuration = 1.5; // 0.9;
 
             double y = 50 + _counter * 10;
             var leftToRight = (_counter % 2 == 0);
@@ -104,7 +128,8 @@ namespace WpfAppWithAnimations
             var turtleX1 = x1; // - shapeWidth / 2;
             _turtleX2 = x2; // - shapeWidth / 2;
 
-            Canvas.SetTop(_sampleShape, y - shapeHeight / 2);
+            // (0,0) dahin setzen, wo auch die Linie begingt
+            Canvas.SetTop(_sampleShape, y - 0); // shapeHeight / 2);
             Canvas.SetLeft(_sampleShape, turtleX1);
 
             // Drehung und Bewegung sind zwei Transformationen. Daher mache ich eine Gruppe:
@@ -117,13 +142,20 @@ namespace WpfAppWithAnimations
             // Drehung der Turtle (ohne Animation):
             if (_rotateTransform == null)
             {
-                _rotateTransform = new RotateTransform(angle, shapeWidth / 2, shapeHeight/ 2);
+                // Drehen um den (0, 0) des Polygons (dieser Punkt liegt auf der Pen-Linie)
+                _rotateTransform = new RotateTransform(angle, 0, 0); // shapeWidth / 2, shapeHeight/ 2);
                 _turtleTransforms.Children.Add(_rotateTransform);
             }
             else
             {
                 _rotateTransform.Angle = angle;
             }
+
+
+            // Testweise rotieren lassen, hier aber parallel zum Movement
+            var turtleRotateAnimation = new DoubleAnimation(angle, TimeSpan.FromSeconds(AnimationDuration));
+            turtleRotateAnimation.AutoReverse = false;
+            _rotateTransform.BeginAnimation(RotateTransform.AngleProperty, turtleRotateAnimation);
 
             // Verschiebung der Turtle (mit Animation)
             if (_turtleTranslate == null)
@@ -133,12 +165,12 @@ namespace WpfAppWithAnimations
             }
 
             // Neue Animation
-            var turtleAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(AnimationDuration))
+            var turtleMoveAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(AnimationDuration))
             {
                 AutoReverse = false
             };
-            turtleAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, true);
-            _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, turtleAnimation);
+            turtleMoveAnimation.Completed += (sender, args) => MoveAnimationIsFinished(sender, args, true);
+            _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, turtleMoveAnimation);
 
             // Gesamt-Transormation der Turtle
             _turtleAnimationIsFinished = false;
@@ -160,9 +192,9 @@ namespace WpfAppWithAnimations
             {
                 From = x1,
                 To = x2,
-                Duration = new Duration(TimeSpan.FromSeconds(AnimationDuration * 1.1))
+                Duration = new Duration(TimeSpan.FromSeconds(AnimationDuration))
             };
-            lineAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, false);
+            lineAnimation.Completed += (sender, args) => MoveAnimationIsFinished(sender, args, false);
             _currentLine.BeginAnimation(Line.X2Property, lineAnimation);
             _lineAnimationIsFinished = false;
 
@@ -174,6 +206,40 @@ namespace WpfAppWithAnimations
             _counter++;
 
         }
+        private void MoveAnimationIsFinished(object _, EventArgs _2, bool isTurtleAnimation)
+        {
+            if (isTurtleAnimation)
+            {
+                _turtleAnimationIsFinished = true;
+            }
+            else
+            {
+                _lineAnimationIsFinished = true;
+                // Animation beenden, so dass sie keine Ressourcen mehr verbraucht:
+                _currentLine.BeginAnimation(Line.X2Property, null);
+            }
+
+            if (_turtleAnimationIsFinished && _lineAnimationIsFinished)
+            {
+                if (_counter < 10)
+                {
+                    PrintNextLineWithShape();
+                }
+                else
+                {
+                    // Animation beenden, so dass sie keine Ressourcen mehr verbraucht:
+                    // Siehe Using the Compose HandoffBehavior Consumes System Resources
+                    // in https://docs.microsoft.com/de-de/dotnet/desktop/wpf/graphics-multimedia/animation-tips-and-tricks?view=netframeworkdesktop-4.8
+                    _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, null);
+
+                    // Durch das null-Setzen der Animation, hat das Image wieder den anfänglichen x-Wert. Wir müssen den Ziel-x-Wert explizit setzen.
+                    Canvas.SetLeft(_image, _turtleX2);
+                    Canvas.SetLeft(_sampleShape, _turtleX2);
+                }
+            }
+        }
+
+
 
         private void PrintNextLineWithImage()
         {
@@ -219,12 +285,12 @@ namespace WpfAppWithAnimations
             }
 
             // Neue Animation
-            var turtleAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(AnimationDuration))
+            var turtleMoveAnimation = new DoubleAnimation(0, _turtleX2 - turtleX1, TimeSpan.FromSeconds(AnimationDuration))
             {
                 AutoReverse = false
             };
-            turtleAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, true);
-            _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, turtleAnimation);
+            turtleMoveAnimation.Completed += (sender, args) => MoveAnimationIsFinished(sender, args, true);
+            _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, turtleMoveAnimation);
 
             // Gesamt-Transormation der Turtle
             _turtleAnimationIsFinished = false;
@@ -248,7 +314,7 @@ namespace WpfAppWithAnimations
                 To = x2,
                 Duration = new Duration(TimeSpan.FromSeconds(AnimationDuration * 1.1))
             };
-            lineAnimation.Completed += (sender, args) => AnimationIsFinished(sender, args, false);
+            lineAnimation.Completed += (sender, args) => MoveAnimationIsFinished(sender, args, false);
             _currentLine.BeginAnimation(Line.X2Property, lineAnimation);
             _lineAnimationIsFinished = false;
 
@@ -260,40 +326,6 @@ namespace WpfAppWithAnimations
             _counter++;
 
         }
-
-        private void AnimationIsFinished(object _, EventArgs _2, bool isTurtleAnimation)
-        {
-            if (isTurtleAnimation)
-            {
-                _turtleAnimationIsFinished = true;
-            }
-            else
-            {
-                _lineAnimationIsFinished = true;
-                // Animation beenden, so dass sie keine Ressourcen mehr verbraucht:
-                _currentLine.BeginAnimation(Line.X2Property, null);
-            }
-
-            if (_turtleAnimationIsFinished && _lineAnimationIsFinished)
-            {
-                if (_counter < 20)
-                {
-                    PrintNextLineWithShape();
-                }
-                else
-                {
-                    // Animation beenden, so dass sie keine Ressourcen mehr verbraucht:
-                    // Siehe Using the Compose HandoffBehavior Consumes System Resources
-                    // in https://docs.microsoft.com/de-de/dotnet/desktop/wpf/graphics-multimedia/animation-tips-and-tricks?view=netframeworkdesktop-4.8
-                    _turtleTranslate.BeginAnimation(TranslateTransform.XProperty, null);
-
-                    // Durch das null-Setzen der Animation, hat das Image wieder den anfänglichen x-Wert. Wir müssen den Ziel-x-Wert explizit setzen.
-                    Canvas.SetLeft(_image, _turtleX2);
-                    Canvas.SetLeft(_sampleShape, _turtleX2);
-                }
-            }
-        }
-
 
         /*
         private void PrintingLinesOldVersion()
