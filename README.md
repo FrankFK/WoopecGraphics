@@ -21,6 +21,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   https://stackoverflow.com/questions/42524704/asp-net-core-find-all-class-types-in-all-assemblies/44444309
   https://stackoverflow.com/questions/1315665/c-list-all-classes-in-assembly
   `Assembly myAssembly = Assembly.GetExecutingAssembly();`
+* Code im WPF-Text-Feld editierbar anzeigen.
+  * Syntax-Coloring evtl. mit AvalonEdit (https://www.nuget.org/packages/AvalonEdit) oder RoslynPad https://github.com/aelij/RoslynPad
 
 ## To decide
 * Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?

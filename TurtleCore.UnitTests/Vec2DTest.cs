@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -178,7 +179,48 @@ namespace TurtleCore.UnitTests
             timer.Stop();
             var ticksPerCall = timer.ElapsedTicks / (double)Count;
             ticksPerCall.Should().BeLessThan(5);
-
         }
+
+
+        [TestMethod]
+        public void Vector_ConstructedByTuple()
+        {
+            Vec2D test = (1, 4);
+
+            test.XCor.Should().Be(1);
+            test.YCor.Should().Be(4);
+        }
+
+        [TestMethod]
+        public void VectorList_ConstructedByTuples()
+        {
+            List<Vec2D> list = new() { (1, 2), (3, 5) };
+
+            list[0].XCor.Should().Be(1);
+            list[1].XCor.Should().Be(3);
+        }
+
+        /// <summary>
+        /// In python the programmer can add a polygon to a turtle shape with this code
+        ///     shape.addcomponent( ((0,0),(10,-5),(0,10),(-10,-5)), "red", "blue"
+        /// I tried to make it as simple as possible in C#. 
+        /// I found no way to get rid of the "new()".
+        /// </summary>
+        [TestMethod]
+        public void VectorList_ConstructedByTuplesAsMethodParam()
+        {
+            var result = AddComponent(new() { (1, 2), (3, 5) }, "red", "blue");
+
+            result.Should().Be(1);
+        }
+
+        private static double AddComponent(List<Vec2D> list, string color1, string color2)
+        {
+            if (color1 != color2 && list.Count > 0)
+                return list[0].XCor;
+            else
+                return 42;
+        }
+
     }
 }

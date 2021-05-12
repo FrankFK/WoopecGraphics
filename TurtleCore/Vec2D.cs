@@ -50,6 +50,11 @@ namespace TurtleCore
             return (Math.Abs(XCor - vector.XCor) <= precision && Math.Abs(YCor - vector.YCor) <= precision);
         }
 
+        /// <summary>
+        /// Instead of <code>Vec2D x = new Vec2D(1, 4)</code> you can write <code>Vec2D x = (1, 4)</code>
+        /// </summary>
+        /// <param name="tuple"></param>
+        public static implicit operator Vec2D((double x, double y) tuple) => new Vec2D(tuple.x, tuple.y);
 
     }
 }
