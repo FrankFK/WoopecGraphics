@@ -49,6 +49,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 05.05.2021: Speed for Pens
 * 10.05.2021: Penup, Pendown
 * 11.05.2021: Animation of a new Pen waits until previous animations are finished
+* 12.05.2021: Classes for Shapes
  
 
 

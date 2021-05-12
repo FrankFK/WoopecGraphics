@@ -133,7 +133,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | TurtleScreen(cv)                  | Screen           | konstruiert über Screen(IScreenOutput). Es könnte mehrere geben. 
 | Screen                            | Screen           | konstruiert über Screen(). Es kann nur eins geben. Hat auch Methoden für das gesamte Window <- Dafür vielleich separate Klasse
 | ScrolledCanvas(master)
-| Shape(type_, data)
+| Shape(type_, data)                | Shape, ImageShape | Methods of ImageShape are there, but not implemented yet|
 | Vec2D                             | Vec2D           | 100%                                                  |
 
 ## Overview of internally used python turtle classes
