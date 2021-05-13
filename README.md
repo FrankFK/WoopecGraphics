@@ -29,7 +29,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-48h 
+52h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -50,6 +50,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 10.05.2021: Penup, Pendown
 * 11.05.2021: Animation of a new Pen waits until previous animations are finished
 * 12.05.2021: Classes for Shapes
+* 13.05.2021: Screen has a dictionary of shapes
  
 
 

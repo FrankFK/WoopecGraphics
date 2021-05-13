@@ -5,24 +5,25 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TurtleCore.UnitTests
 {
-    public class TurtleScreenProducerMockup : IScreenObjectProducer
-    {
-        public List<ScreenLine> DrawnLines = new();
-
-        public int CreateLine()
-        {
-            return 1;
-        }
-
-        public void DrawLine(ScreenLine line)
-        {
-            DrawnLines.Add(line);
-        }
-    }
 
     [TestClass]
     public class TurtleTest
     {
+        private class TurtleScreenProducerMockup : IScreenObjectProducer
+        {
+            public List<ScreenLine> DrawnLines = new();
+
+            public int CreateLine()
+            {
+                return 1;
+            }
+
+            public void DrawLine(ScreenLine line)
+            {
+                DrawnLines.Add(line);
+            }
+        }
+
         private static TurtleScreenProducerMockup _producerMockup;
 
         [ClassInitialize]
@@ -32,8 +33,14 @@ namespace TurtleCore.UnitTests
             _producerMockup = new TurtleScreenProducerMockup();
             TurtleOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
             Console.WriteLine("Init end");
-
         }
+
+        [TestCleanup]
+        public void TestsCleanup()
+        {
+            Screen.ResetDefaultScreen();
+        }
+
 
         [TestMethod]
         public void Turtle_StartPosition_Is_Null()

@@ -109,8 +109,8 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | mode()
 | colormode()
 | getcanvas()
-| getshapes()
-| register_shape() 
+| getshapes()                       |           | 100% |
+| register_shape()                  |           | Screen.RegisterShape(string name, ShapeBase shape), images not possible yet |
 | turtles()
 | window_height()
 | window_width()
@@ -124,6 +124,9 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | title()
 
 ## Overview of python turtle classes
+
+**Die Screen-Klasse ist noch nicht gut. Sie enthält Methoden für Programmierer (z.B. RegisterShape)
+und Methoden, die eher intern sind (DrawLine, CreateLine)**
 
 | python class                      | C# class         | state                                                |
 |-----------------------------------|------------------|------------------------------------------------------|

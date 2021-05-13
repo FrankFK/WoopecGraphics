@@ -11,6 +11,21 @@ namespace TurtleCore
     /// </summary>
     public class Screen
     {
+        private static Screen _defaultScreen;
+
+        private readonly IScreenObjectProducer _screenObjectProducer;
+
+        private readonly Dictionary<string, ShapeBase> _shapes;
+
+        private Screen(IScreenObjectProducer producer)
+        {
+            _screenObjectProducer = producer ?? throw new ArgumentNullException("producer");
+            _shapes = new();
+            AddPredefinedShapes(_shapes);
+            LastIssuedAnimatonGroupID = ScreenAnimation.NoGroupId;
+        }
+
+
         /// <summary>
         /// Return the GroupId of the last animation that is drawn at the screen
         /// </summary>
@@ -18,10 +33,6 @@ namespace TurtleCore
 
         public int CreateLine()
         {
-            if (_screenObjectProducer == null)
-            {
-                Console.WriteLine("Producer is null!!!!!");
-            }
             return _screenObjectProducer.CreateLine();
         }
 
@@ -29,6 +40,26 @@ namespace TurtleCore
         {
             UpdateLastIssuedAnimationGroupID(line);
             _screenObjectProducer.DrawLine(line);
+        }
+
+        /// <summary>
+        /// Add a shape to the screen's shapelist. Only these shapes can be used by Turtle.Shape = name
+        /// </summary>
+        /// <param name="name">name of the shape</param>
+        /// <param name="shape">A Shape class or an ImageShape class</param>
+        public void RegisterShape(string name, ShapeBase shape)
+        {
+            _shapes.Add(name, shape);
+        }
+        public void AddShape(string name, ShapeBase shape) => RegisterShape(name, shape);
+
+        /// <summary>
+        /// Return a list of all currently available turtle shapes
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetShapes()
+        {
+            return _shapes.Select(s => s.Key).ToList();
         }
 
         /// <summary>
@@ -44,19 +75,24 @@ namespace TurtleCore
             return _defaultScreen;
         }
 
-        private static Screen _defaultScreen;
-
-        private readonly IScreenObjectProducer _screenObjectProducer;
-
-        private Screen(IScreenObjectProducer producer)
+        /// <summary>
+        /// Needed for tests
+        /// </summary>
+        internal static void ResetDefaultScreen()
         {
-            if (producer == null)
-                throw new ArgumentNullException("producer");
-
-            _screenObjectProducer = producer;
-            LastIssuedAnimatonGroupID = ScreenAnimation.NoGroupId;
+            _defaultScreen = null;
         }
 
+        private static void AddPredefinedShapes(Dictionary<string, ShapeBase> shapes)
+        {
+            // The names and geometries of these shapes are copied from python-turtle (turtle.py by Gregor Lingl)
+            shapes.Add("arrow", new Shape(new() { (-10, 0), (10, 0), (0, 10) }));
+            shapes.Add("turtle", new Shape(new() { (0, 16), (-2, 14), (-1, 10), (-4, 7), (-7, 9), (-9, 8), (-6, 5), (-7, 1), (-5, -3), (-8, -6), (-6, -8), (-4, -5), (0, -7), (4, -5), (6, -8), (8, -6), (5, -3), (7, 1), (6, 5), (9, 8), (7, 9), (4, 7), (1, 10), (2, 14) }));
+            shapes.Add("circle", new Shape(new() { (10, 0), (9.51, 3.09), (8.09, 5.88), (5.88, 8.09), (3.09, 9.51), (0, 10), (-3.09, 9.51), (-5.88, 8.09), (-8.09, 5.88), (-9.51, 3.09), (-10, 0), (-9.51, -3.09), (-8.09, -5.88), (-5.88, -8.09), (-3.09, -9.51), (-0.00, -10.00), (3.09, -9.51), (5.88, -8.09), (8.09, -5.88), (9.51, -3.09) }));
+            shapes.Add("square", new Shape(new() { (10, -10), (10, 10), (-10, 10), (-10, -10) }));
+            shapes.Add("triangle", new Shape(new() { (10, -5.77), (0, 11.55), (-10, -5.77) }));
+            shapes.Add("classic", new Shape(new() { (0, 0), (-5, -9), (0, -7), (5, -9) }));
+        }
 
         private void UpdateLastIssuedAnimationGroupID(ScreenObject screenObject)
         {
