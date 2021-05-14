@@ -98,6 +98,14 @@ namespace TurtleCore.UnitTests
         }
 
         [TestMethod]
+        public void Case06_AnimationIsFinishedAndAWaitingObjectIsTaken()
+        {
+            // object 2 waits for object 1, therefore object 3 has to wait also. When object 1 is finished, object 2 and 3 can start. 3 doest not have to wait for 2.
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:500 ?1,2:1000 1,3:500", stopWhenObjectIsFinished: 2);
+            result.Should().Be("[1><1][2>[3><3]<2]");
+        }
+
+        [TestMethod]
         public void NoEndlessLoopIfProducerThreadHasAnException()
         {
             Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2);
@@ -142,15 +150,6 @@ namespace TurtleCore.UnitTests
             // The consumer runs in this thread. It waits asynchronically for the next object in the channel
             // and sends it to the writer
             NextTask();
-            /*
-            var task = _actualConsumer.GetNextObjectForWriterAsync();
-            task.ContinueWith((t) =>
-            {
-                // When the animation of the object is finshed, the method 'WhenWriterIsFinished' is called.
-                _actualConsumer.SendNextObjectToWriter(t.Result, WhenWriterIsFinished);
-                NextTask();
-            });
-            */
 
             // The consumer waits until the last object is finished by the writer.
             var maxRounds = 100;

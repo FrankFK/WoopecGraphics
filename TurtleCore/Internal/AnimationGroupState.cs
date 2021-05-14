@@ -20,6 +20,19 @@ namespace TurtleCore.Internal
         internal class WaitingScreenObject : WaitingObject
         {
             public ScreenObject ScreenObject;
+
+            public bool WaitsForAnAnimation()
+            {
+                bool waits = false;
+                if (ScreenObject.HasAnimation)
+                {
+                    var animation = ScreenObject.Animation;
+                    if (animation.WaitForAnimations)
+                        waits = true;
+                }
+                return waits;
+            }
+
         }
 
         internal class WaitingOtherGroup : WaitingObject
@@ -62,6 +75,7 @@ namespace TurtleCore.Internal
             return (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject);
         }
 
+
         public List<int> ExtractLeadingOtherGroups()
         {
             var otherGroups = new List<int>();
@@ -73,15 +87,58 @@ namespace TurtleCore.Internal
             return otherGroups;
         }
 
+        public bool FirstLeadingScreenObjectIsReadyToRun()
+        {
+            if (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
+            {
+                if (!AnimationIsRunning)
+                {
+                    // Because animation is not running we can take the first screen object, even it is waiting for an animation
+                    return true;
+                }
+                else
+                {
+                    return !(_waitingObjects[0] as WaitingScreenObject).WaitsForAnAnimation();
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public ScreenObject ExtractLeadingScreenObject()
         {
-            ScreenObject screenObject = null;
-            if (_waitingObjects.Count > 0 && (_waitingObjects[0] is WaitingScreenObject))
+            ScreenObject result = null;
+
+            if (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
             {
-                screenObject = (_waitingObjects[0] as WaitingScreenObject).ScreenObject;
+                result = (_waitingObjects[0] as WaitingScreenObject).ScreenObject;
                 _waitingObjects.RemoveAt(0);
             }
-            return screenObject;
+            return result;
+        }
+
+        public List<ScreenObject> ExtractLeadingScreenObjectsReadyToRun()
+        {
+            List<ScreenObject> list = new();
+
+            if (!AnimationIsRunning && _waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
+            {
+                // Because animation is not running we can take the first screen object, even it is waiting for an animation
+                var screenObject = (_waitingObjects[0] as WaitingScreenObject).ScreenObject;
+                _waitingObjects.RemoveAt(0);
+                list.Add(screenObject);
+            }
+
+            // Additionally we can take all consecutively screen objects that are not waiting for an animation
+            while (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject && !(_waitingObjects[0] as WaitingScreenObject).WaitsForAnAnimation())
+            {
+                var screenObject = (_waitingObjects[0] as WaitingScreenObject).ScreenObject;
+                _waitingObjects.RemoveAt(0);
+                list.Add(screenObject);
+            }
+            return list;
         }
 
         public AnimationGroupState(int groupId)

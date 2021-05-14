@@ -27,6 +27,7 @@ namespace TurtleCore.Internal
             lock (s_lockObj)
             {
                 // Before reading new objects from the channel, take buffered objects which are not waiting anymore.
+                // (But i assume that this situation will never arise because AnimationOfGroupIsFinished has called ExtractAllNonWaitingScreenObjects() before)
                 var writableObject = _animationGroupsState.ExtractOneNonWaitingScreenObject();
                 if (writableObject != null)
                 {

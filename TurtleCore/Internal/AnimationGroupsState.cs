@@ -106,14 +106,10 @@ namespace TurtleCore.Internal
         {
             var list = new List<ScreenObject>();
 
-            var groups = _groupsWithActiveAnimations.Values.Where(group => (!group.AnimationIsRunning && group.HasWaitingScreenObject()));
+            var groups = _groupsWithActiveAnimations.Values.Where(group => (group.HasWaitingScreenObject()));
             foreach (var group in groups)
             {
-                var screenObject = group.ExtractLeadingScreenObject();
-                if (screenObject != null)
-                {
-                    list.Add(screenObject);
-                }
+                list.AddRange(group.ExtractLeadingScreenObjectsReadyToRun());
             }
 
             return list;
@@ -123,7 +119,7 @@ namespace TurtleCore.Internal
         {
             ScreenObject found = null;
 
-            var group = _groupsWithActiveAnimations.Values.Where(group => (!group.AnimationIsRunning && group.HasWaitingScreenObject())).FirstOrDefault();
+            var group = _groupsWithActiveAnimations.Values.Where(group => (group.FirstLeadingScreenObjectIsReadyToRun())).FirstOrDefault();
             if (group != null)
             {
                 found = group.ExtractLeadingScreenObject();
