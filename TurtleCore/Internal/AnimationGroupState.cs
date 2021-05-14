@@ -23,14 +23,7 @@ namespace TurtleCore.Internal
 
             public bool WaitsForAnAnimation()
             {
-                bool waits = false;
-                if (ScreenObject.HasAnimation)
-                {
-                    var animation = ScreenObject.Animation;
-                    if (animation.WaitForAnimations)
-                        waits = true;
-                }
-                return waits;
+                return ScreenObject.WaitsForAnimations;
             }
 
         }
@@ -76,13 +69,16 @@ namespace TurtleCore.Internal
         }
 
 
-        public List<int> ExtractLeadingOtherGroups()
+        public List<int> ExtractLeadingOtherGroupsReadyToRun()
         {
             var otherGroups = new List<int>();
-            while (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingOtherGroup)
+            if (!AnimationIsRunning)
             {
-                otherGroups.Add((_waitingObjects[0] as WaitingOtherGroup).OtherGroupId);
-                _waitingObjects.RemoveAt(0);
+                while (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingOtherGroup)
+                {
+                    otherGroups.Add((_waitingObjects[0] as WaitingOtherGroup).OtherGroupId);
+                    _waitingObjects.RemoveAt(0);
+                }
             }
             return otherGroups;
         }
@@ -140,6 +136,8 @@ namespace TurtleCore.Internal
             }
             return list;
         }
+
+
 
         public AnimationGroupState(int groupId)
         {

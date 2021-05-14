@@ -19,12 +19,24 @@ namespace TurtleCore
 
         private readonly int _id;
 
-        private bool _firstAnimationIsAdded; // true, if an animation of this pen added
+        private bool _firstAnimationIsAdded; // true, if an animation of this pen (or the turtle it belongs to) is added
 
+        /// <summary>
+        /// Constructor for a Pen that is not used as part of a Turtle class
+        /// </summary>
         public Pen()
+            : this(Interlocked.Increment(ref s_totalCounter))
+        {
+        }
+
+        /// <summary>
+        /// Constructor for a Pen that is used as a part of a Turtle class
+        /// </summary>
+        /// <param name="id">The Id of the turtle</param>
+        internal Pen(int id)
         {
             _screen = Screen.GetDefaultScreen();
-            _id = Interlocked.Increment(ref s_totalCounter);
+            _id = id;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Color = Colors.Black;
@@ -96,30 +108,32 @@ namespace TurtleCore
                 ID = _screen.CreateLine(),
                 Color = Color,
                 Point1 = oldPosition,
-                Point2 = newPosition
+                Point2 = newPosition,
+                GroupID = _id,
             };
+
+            if (_firstAnimationIsAdded)
+            {
+                // Wait for previous animations of this pen
+                line.WaitForAnimationsOfGroupID = _id;
+            }
+            else
+            {
+                if (_screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+                {
+                    // If we do not wait for another animation this pen is drawn immediately. In most cases the programmer expects
+                    // that all previously created animation are drawn before this pen is drawn.
+                    // Therefore:
+                    line.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                }
+            }
 
             if (!Speed.NoAnimation)
             {
                 int speedDuration = Speed.MillisecondsForMovement(oldPosition, newPosition);
 
                 // Animation dazu:
-                line.Animation = new ScreenAnimation(_id);
-                if (_firstAnimationIsAdded)
-                {
-                    // Wait for previous animations of this pen
-                    line.Animation.WaitForAnimationsOfGroupID = _id;
-                }
-                else
-                {
-                    if (_screen.LastIssuedAnimatonGroupID != ScreenAnimation.NoGroupId)
-                    {
-                        // If we do not wait for another animation this pen is drawn immediately. In most cases the programmer expects
-                        // that all previously created animation are drawn before this pen is drawn.
-                        // Therefor:
-                        line.Animation.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
-                    }
-                }
+                line.Animation = new ScreenAnimation();
                 line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = oldPosition, Milliseconds = speedDuration });
                 _firstAnimationIsAdded = true;
             }
@@ -127,5 +141,12 @@ namespace TurtleCore
             _screen.DrawLine(line);
         }
 
+        /// <summary>
+        /// This method is called if the first turtle object is sent to screen
+        /// </summary>
+        internal void TurtleObjectSentToScreen()
+        {
+            _firstAnimationIsAdded = true;
+        }
     }
 }

@@ -100,7 +100,8 @@ namespace TurtleCore.UnitTests
         [TestMethod]
         public void Case06_AnimationIsFinishedAndAWaitingObjectIsTaken()
         {
-            // object 2 waits for object 1, therefore object 3 has to wait also. When object 1 is finished, object 2 and 3 can start. 3 doest not have to wait for 2.
+            // object 2 waits for object 1, therefore object 3 has to wait also (because the order of the objects of the same group should not change).
+            // When object 1 is finished, object 2 and 3 can start. 3 doest not have to wait for 2.
             var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:500 ?1,2:1000 1,3:500", stopWhenObjectIsFinished: 2);
             result.Should().Be("[1><1][2>[3><3]<2]");
         }
@@ -257,16 +258,17 @@ namespace TurtleCore.UnitTests
             var line = new ScreenLine()
             {
                 ID = objectId,
+                GroupID = groupId,
             };
 
-            line.Animation = new ScreenAnimation(groupId);
+            line.Animation = new ScreenAnimation();
 
             if (startWhenPredecessorHasFinished)
             {
                 if (otherGroupId != 0)
-                    line.Animation.WaitForAnimationsOfGroupID = otherGroupId;
+                    line.WaitForAnimationsOfGroupID = otherGroupId;
                 else
-                    line.Animation.WaitForAnimationsOfGroupID = groupId;
+                    line.WaitForAnimationsOfGroupID = groupId;
             }
 
             line.Animation.Effects.Add(new ScreenAnimationEffect() { Milliseconds = duration });
@@ -286,7 +288,7 @@ namespace TurtleCore.UnitTests
     {
         private readonly List<AnimationProtocolEntry> _animationProtocol = new();
 
-        public void StartAnimaton(ScreenObject screenObject)
+        public void UpdateWithAnimation(ScreenObject screenObject)
         {
             // protocol the start of the animation
             _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
@@ -302,7 +304,7 @@ namespace TurtleCore.UnitTests
                     _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
 
                     // Inform everyone who wants to know that the animation is finished
-                    OnAnimationIsFinished(animation.GroupID, screenObject.ID);
+                    OnAnimationIsFinished(screenObject.GroupID, screenObject.ID);
                 }
                 )
             );
@@ -314,7 +316,7 @@ namespace TurtleCore.UnitTests
         /// </summary>
         public event AnimationIsFinished OnAnimationIsFinished;
 
-        public void Draw(ScreenObject screenObject)
+        public void Update(ScreenObject screenObject)
         {
             // Nothing to do in this test
         }

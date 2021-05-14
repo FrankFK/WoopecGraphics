@@ -12,6 +12,9 @@ namespace TurtleCore.UnitTests
         private class TurtleScreenProducerMockup : IScreenObjectProducer
         {
             public List<ScreenLine> DrawnLines = new();
+            public List<ScreenFigure> FigureUpdates = new();
+
+            private int _figureCounter = 0;
 
             public int CreateLine()
             {
@@ -22,6 +25,18 @@ namespace TurtleCore.UnitTests
             {
                 DrawnLines.Add(line);
             }
+            public int CreateFigure(ShapeBase shape)
+            {
+                _figureCounter++;
+                return _figureCounter - 1;
+            }
+
+            public void UpdateFigure(ScreenFigure figure)
+            {
+                FigureUpdates.Add(figure);
+            }
+
+
         }
 
         private static TurtleScreenProducerMockup _producerMockup;
@@ -225,6 +240,18 @@ namespace TurtleCore.UnitTests
             _producerMockup.DrawnLines.Count.Should().Be(1);
         }
 
+        [TestMethod]
+        public void Turtle_InitiallyATurtleIsShown()
+        {
+            _producerMockup.FigureUpdates.Clear();
+
+            // Act
+            var turtle = CreateSut();
+
+            // Assert
+            _producerMockup.FigureUpdates.Count.Should().Be(1);
+            _producerMockup.FigureUpdates[0].IsVisible.Should().BeTrue();
+        }
 
 
         private static Turtle CreateSut()

@@ -22,7 +22,7 @@ namespace TurtleCore
             _screenObjectProducer = producer ?? throw new ArgumentNullException("producer");
             _shapes = new();
             AddPredefinedShapes(_shapes);
-            LastIssuedAnimatonGroupID = ScreenAnimation.NoGroupId;
+            LastIssuedAnimatonGroupID = ScreenObject.NoGroupId;
         }
 
 
@@ -40,6 +40,26 @@ namespace TurtleCore
         {
             UpdateLastIssuedAnimationGroupID(line);
             _screenObjectProducer.DrawLine(line);
+        }
+
+        public int CreateFigure(string shapeName)
+        {
+            int figureId = 0;
+            if (_shapes.TryGetValue(shapeName, out var shape))
+            {
+                figureId = _screenObjectProducer.CreateFigure(shape);
+            }
+            else
+            {
+                throw new KeyNotFoundException($"A shape with name '{shapeName} does not exist. At first call RegisterShape(...) to register the shape");
+            }
+            return figureId;
+        }
+
+        public void UpdateFigure(ScreenFigure figure)
+        {
+            UpdateLastIssuedAnimationGroupID(figure);
+            _screenObjectProducer.UpdateFigure(figure);
         }
 
         /// <summary>
@@ -96,9 +116,9 @@ namespace TurtleCore
 
         private void UpdateLastIssuedAnimationGroupID(ScreenObject screenObject)
         {
-            if (screenObject.HasAnimation)
+            if (screenObject.HasAnimations)
             {
-                LastIssuedAnimatonGroupID = screenObject.Animation.GroupID;
+                LastIssuedAnimatonGroupID = screenObject.GroupID;
             }
         }
     }

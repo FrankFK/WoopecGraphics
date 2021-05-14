@@ -15,6 +15,8 @@ namespace TurtleCore
 
         public void DrawLine(ScreenLine line);
 
+        public int CreateFigure(ShapeBase shape);
 
+        public void UpdateFigure(ScreenFigure figure);
     }
 }

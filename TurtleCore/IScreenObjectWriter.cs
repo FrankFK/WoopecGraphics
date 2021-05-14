@@ -15,10 +15,10 @@ namespace TurtleCore
     internal interface IScreenObjectWriter
     {
         /// <summary>
-        /// Draws the object with an animation
+        /// Handles the object with an animation
         /// </summary>
         /// <param name="screenObject"></param>
-        public void StartAnimaton(ScreenObject screenObject);
+        public void UpdateWithAnimation(ScreenObject screenObject);
 
         /// <summary>
         /// The Writer calls these events for every animation which is finished
@@ -26,10 +26,10 @@ namespace TurtleCore
         public event AnimationIsFinished OnAnimationIsFinished;
 
         /// <summary>
-        /// Draw the object directly, no animation
+        /// Handles the object directly, no animation
         /// </summary>
         /// <param name="screenObject"></param>
-        public void Draw(ScreenObject screenObject);
+        public void Update(ScreenObject screenObject);
 
     }
 }

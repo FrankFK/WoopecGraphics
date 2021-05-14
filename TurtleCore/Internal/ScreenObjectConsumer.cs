@@ -26,6 +26,10 @@ namespace TurtleCore.Internal
         {
             lock (s_lockObj)
             {
+                // At first: Inform other groups that are ready to run
+                var otherGroups = _animationGroupsState.ExtractLeadingOtherGroupsReadyToRun();
+                _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
+
                 // Before reading new objects from the channel, take buffered objects which are not waiting anymore.
                 // (But i assume that this situation will never arise because AnimationOfGroupIsFinished has called ExtractAllNonWaitingScreenObjects() before)
                 var writableObject = _animationGroupsState.ExtractOneNonWaitingScreenObject();
@@ -56,7 +60,7 @@ namespace TurtleCore.Internal
             }
         }
 
-        public void AnimationOfGroupIsFinished(int groupId, int _)
+        public void AnimationOfGroupIsFinished(int groupId, int screenObjectId)
         {
             lock (s_lockObj)
             {
@@ -70,23 +74,31 @@ namespace TurtleCore.Internal
                         // We can not trust that GetNextObjectForWriterAsync() handles it, because GetNextObjectForWriterAsync() may get no further objects.
                         Console.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
 
-                        // At first: Inform other groups that are waiting for this group to be finished
-                        var otherGroups = groupState.ExtractLeadingOtherGroups();
-                        _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
+                        // With one run through this loop many states are changed. It is possible that further objects are not waiting after the first
+                        // run through the loop. Therefore we loop until no changes were found.
+                        var changesFound = true;
+                        while (changesFound)
+                        {
+                            // At first: Inform other groups that are waiting for this group to be finished
+                            var otherGroups = groupState.ExtractLeadingOtherGroupsReadyToRun();
+                            _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
 
-                        // Then: Collect all non longer waiting Screen objects and start them
-                        var noLongerWaitingScreenObjects = _animationGroupsState.ExtractAllNonWaitingScreenObjects();
-                        if (noLongerWaitingScreenObjects.Count == 0)
-                        {
-                            Console.WriteLine($"    Group has no waiting ScreenObjects, and no other ScreenObject is waiting.");
-                        }
-                        else
-                        {
-                            foreach (var screenObject in noLongerWaitingScreenObjects)
+                            // Then: Collect all non longer waiting Screen objects and start them
+                            var noLongerWaitingScreenObjects = _animationGroupsState.ExtractAllNonWaitingScreenObjects();
+                            if (noLongerWaitingScreenObjects.Count == 0)
                             {
-                                Console.WriteLine($"    Group has waiting ScreenObject {screenObject.ID}. Starting animation of it.");
-                                SendNextObjectToWriter(screenObject);
+                                Console.WriteLine($"    Group has no waiting ScreenObjects, and no other ScreenObject is waiting.");
                             }
+                            else
+                            {
+                                foreach (var screenObject in noLongerWaitingScreenObjects)
+                                {
+                                    Console.WriteLine($"    Group has waiting ScreenObject {screenObject.ID}. Starting animation of it.");
+                                    SendNextObjectToWriter(screenObject);
+                                }
+                            }
+
+                            changesFound = (otherGroups.Count != 0 || noLongerWaitingScreenObjects.Count != 0);
                         }
                     }
                 }
@@ -100,19 +112,17 @@ namespace TurtleCore.Internal
 
         private void SendNextObjectToWriter(ScreenObject screenObject)
         {
-            if (screenObject.HasAnimation)
+            if (screenObject.HasAnimations)
             {
-                var animation = screenObject.Animation;
-
-                _animationGroupsState.AddRunningAnimation(animation.GroupID);
+                _animationGroupsState.AddRunningAnimation(screenObject.GroupID);
 
                 Console.WriteLine($"Consumer: Animated object {screenObject.ID} sent to writer");
-                _writer.StartAnimaton(screenObject);
+                _writer.UpdateWithAnimation(screenObject);
             }
             else
             {
                 Console.WriteLine($"Consumer: Unanimated object {screenObject.ID} sent to writer");
-                _writer.Draw(screenObject);
+                _writer.Update(screenObject);
             }
         }
 
@@ -123,40 +133,30 @@ namespace TurtleCore.Internal
         /// <returns></returns>
         private bool ObjectIsWritable(ScreenObject screenObject)
         {
-            if (!screenObject.HasAnimation)
+            if (_animationGroupsState.AnimationsOfGroupAreWaiting(screenObject.GroupID))
             {
-                // we do not care if there are any screen objects waiting for finished animations.
-                // screenObject waits for nothing, it can be written immediately
+                // There are other objects of this group waiting. We can not write the screenObject because we would change the order of the screenObjects
+                // of this group
+                return false;
+            }
+            if (!screenObject.WaitsForAnimations)
+            {
+                // Animation does not wait for other animations. Go for it.
                 return true;
             }
             else
             {
-                var animation = screenObject.Animation;
-                if (_animationGroupsState.AnimationsOfGroupAreWaiting(animation.GroupID))
+                // We have to wait for another animation. Check that group
+                var groupToWaitFor = screenObject.WaitForAnimationsOfGroupID;
+                if (_animationGroupsState.AnimationsOfGroupAreWaiting(groupToWaitFor) || _animationGroupsState.AnAnimationOfGroupIsRunning(groupToWaitFor))
                 {
-                    // There are other objects of this group waiting. We can not write the screenObject because we would change the order of the screenObjects
-                    // of this group
                     return false;
-                }
-                if (!animation.WaitForAnimations)
-                {
-                    // Animation does not wait for other animations. Go for it.
-                    return true;
                 }
                 else
                 {
-                    // We have to wait for another animation. Check that group
-                    var groupToWaitFor = animation.WaitForAnimationsOfGroupID;
-                    if (_animationGroupsState.AnimationsOfGroupAreWaiting(groupToWaitFor) || _animationGroupsState.AnAnimationOfGroupIsRunning(groupToWaitFor))
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        // there is no active animation of the this group.
-                        // go for it
-                        return true;
-                    }
+                    // there is no active animation of the this group.
+                    // go for it
+                    return true;
                 }
             }
         }
@@ -164,15 +164,11 @@ namespace TurtleCore.Internal
 
         private void AddObjectToWaitingState(ScreenObject screenObject)
         {
-            if (!screenObject.HasAnimation)
-                throw new ArgumentException("screenObjects with no animations do not have to wait.");
-
             _animationGroupsState.AddWaitingScreenObject(screenObject);
 
-            var animation = screenObject.Animation;
-            if (animation.WaitForAnimations)
+            if (screenObject.WaitsForAnimations)
             {
-                if (animation.WaitForAnimationsOfGroupID == animation.GroupID)
+                if (screenObject.WaitForAnimationsOfGroupID == screenObject.GroupID)
                 {
                     // Easy case: When all previous animations of this group are finished this animation will be written
                     Console.WriteLine($"Consumer: {screenObject.ID} is waiting for animation of the same groupID");
@@ -180,7 +176,7 @@ namespace TurtleCore.Internal
                 else
                 {
                     // Tricky case: This animation waits for a different group to finish all of its current animations
-                    _animationGroupsState.AddWaitingStateBetweenTwoGroups(animation.GroupID, animation.WaitForAnimationsOfGroupID);
+                    _animationGroupsState.AddWaitingStateBetweenTwoGroups(screenObject.GroupID, screenObject.WaitForAnimationsOfGroupID);
                 }
             }
             else

@@ -28,13 +28,11 @@ namespace TurtleCore.Internal
 
         public void AddWaitingScreenObject(ScreenObject screenObject)
         {
-            var animation = screenObject.Animation;
-
-            if (!_groupsWithActiveAnimations.ContainsKey(animation.GroupID))
+            if (!_groupsWithActiveAnimations.ContainsKey(screenObject.GroupID))
             {
-                _groupsWithActiveAnimations.Add(animation.GroupID, new AnimationGroupState(animation.GroupID));
+                _groupsWithActiveAnimations.Add(screenObject.GroupID, new AnimationGroupState(screenObject.GroupID));
             }
-            var activeAnimations = _groupsWithActiveAnimations[animation.GroupID];
+            var activeAnimations = _groupsWithActiveAnimations[screenObject.GroupID];
             activeAnimations.AddScreenObject(screenObject);
         }
 
@@ -127,6 +125,18 @@ namespace TurtleCore.Internal
 
             return found;
         }
+
+        public List<int> ExtractLeadingOtherGroupsReadyToRun()
+        {
+            var otherGroups = new List<int>();
+            foreach (var group in _groupsWithActiveAnimations)
+            {
+                otherGroups.AddRange(group.Value.ExtractLeadingOtherGroupsReadyToRun());
+
+            }
+            return otherGroups;
+        }
+
 
     }
 }

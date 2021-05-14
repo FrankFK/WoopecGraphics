@@ -19,11 +19,22 @@ namespace TurtleCore.UnitTests
             {
                 return 1;
             }
-
             public void DrawLine(ScreenLine line)
             {
                 DrawnLines.Add(line);
             }
+
+            public int CreateFigure(ShapeBase shape)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void UpdateFigure(ScreenFigure figure)
+            {
+                throw new NotImplementedException();
+            }
+
+
         }
 
         private static TurtleScreenProducerMockup _producerMockup;
@@ -36,7 +47,7 @@ namespace TurtleCore.UnitTests
         }
 
         [TestCleanup]
-        public void TestsCleanup()
+        public void TestCleanup()
         {
             Screen.ResetDefaultScreen();
         }

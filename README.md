@@ -52,6 +52,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 11.05.2021: Animation of a new Pen waits until previous animations are finished
 * 12.05.2021: Classes for Shapes
 * 13.05.2021: Screen has a dictionary of shapes
+* 15.05.2021: First turtle shape shown on screen
  
 
 

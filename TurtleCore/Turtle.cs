@@ -1,4 +1,6 @@
-﻿namespace TurtleCore
+﻿using System.Threading;
+
+namespace TurtleCore
 {
     /// <summary>
     /// An instance of this class represents a turtle.
@@ -8,8 +10,11 @@
     /// </summary>
     public class Turtle
     {
+        private static int s_totalCounter;
+
+        private readonly int _id;
         private readonly Pen _pen;
-        private readonly Form _form;
+        private readonly Figure _figure;
 
         public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; } }
 
@@ -48,39 +53,43 @@
             set
             {
                 _pen.Rotate(value - Heading);
-                _form.Rotate(value - Heading);
+                _figure.Rotate(value - Heading);
             }
         }
 
 
         public Turtle()
         {
-            _pen = new Pen();
-            _form = new Form();
+            _id = Interlocked.Increment(ref s_totalCounter);
+            _figure = new Figure(_id);
+            _pen = new Pen(_id);
+            // The creation of the figure sends the shape of the figure to the screen.
+            // The pen must know that it is not the first screen-operation of the turtle:
+            _pen.TurtleObjectSentToScreen();
         }
 
         public void Forward(double distance)
         {
             _pen.Move(distance);
-            _form.Move(distance);
+            _figure.Move(distance);
         }
 
         public void Backward(double distance)
         {
             _pen.Move(-distance);
-            _form.Move(-distance);
+            _figure.Move(-distance);
         }
 
         public void Left(double angle)
         {
             _pen.Rotate(angle);
-            _form.Rotate(angle);
+            _figure.Rotate(angle);
         }
 
         public void Right(double angle)
         {
             _pen.Rotate(-angle);
-            _form.Rotate(-angle);
+            _figure.Rotate(-angle);
         }
 
 
