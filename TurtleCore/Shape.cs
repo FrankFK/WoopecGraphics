@@ -115,4 +115,14 @@ namespace TurtleCore
         // null if Shape is not an Image
         private readonly string _imagePath;
     }
+
+    public class ShapeNames
+    {
+        public const string Arrow = "arrow";
+        public const string Turtle = "turtle";
+        public const string Circle = "circle";
+        public const string Square = "square";
+        public const string Triangle = "triangle";
+        public const string Classic = "classic";
+    }
 }

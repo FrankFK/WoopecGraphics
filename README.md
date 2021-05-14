@@ -25,6 +25,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Syntax-Coloring evtl. mit AvalonEdit (https://www.nuget.org/packages/AvalonEdit) oder RoslynPad https://github.com/aelij/RoslynPad
 
 ## To decide
+* Screen-Klasse sauberer machen. Vermischt aktuell Methoden für Programmierer und interne Methoden
 * Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
 
 ## Done

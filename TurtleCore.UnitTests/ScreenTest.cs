@@ -47,12 +47,12 @@ namespace TurtleCore.UnitTests
             var screen = Screen.GetDefaultScreen();
             var predefinedShapes = screen.GetShapes();
             predefinedShapes.Count.Should().BeGreaterThan(5);
-            predefinedShapes.Should().Contain("turtle");
-            predefinedShapes.Should().Contain("arrow");
-            predefinedShapes.Should().Contain("circle");
-            predefinedShapes.Should().Contain("square");
-            predefinedShapes.Should().Contain("classic");
-            predefinedShapes.Should().Contain("triangle");
+            predefinedShapes.Should().Contain(ShapeNames.Turtle);
+            predefinedShapes.Should().Contain(ShapeNames.Arrow);
+            predefinedShapes.Should().Contain(ShapeNames.Circle);
+            predefinedShapes.Should().Contain(ShapeNames.Square);
+            predefinedShapes.Should().Contain(ShapeNames.Classic);
+            predefinedShapes.Should().Contain(ShapeNames.Triangle);
         }
 
         [TestMethod]
