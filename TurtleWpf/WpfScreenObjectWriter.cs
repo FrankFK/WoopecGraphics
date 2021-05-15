@@ -61,12 +61,12 @@ namespace TurtleWpf
             var line = _lines[screenLine.ID];
             line.Stroke = new SolidColorBrush(ColorConverter.Convert(screenLine.Color));
 
-            var canvasPoint1 = ConvertToCanvasVector(screenLine.Point1);
-            var canvasPoint2 = ConvertToCanvasVector(screenLine.Point2);
-            line.X1 = canvasPoint1.XCor;
-            line.Y1 = canvasPoint1.YCor;
-            line.X2 = canvasPoint2.XCor;
-            line.Y2 = canvasPoint2.YCor;
+            var canvasPoint1 = ConvertToCanvasPoint(screenLine.Point1);
+            var canvasPoint2 = ConvertToCanvasPoint(screenLine.Point2);
+            line.X1 = canvasPoint1.X;
+            line.Y1 = canvasPoint1.Y;
+            line.X2 = canvasPoint2.X;
+            line.Y2 = canvasPoint2.Y;
             line.StrokeThickness = 2;
 
             var animation = screenLine.Animation;
@@ -74,18 +74,18 @@ namespace TurtleWpf
             if (effect.AnimatedProperty != ScreenAnimationMovementProperty.Point2)
                 throw new NotImplementedException();
 
-            var canvasStartVector = ConvertToCanvasVector(effect.StartValue);
+            var canvasStartPoint = ConvertToCanvasPoint(effect.StartValue);
             var lineXAnimation = new DoubleAnimation
             {
-                From = canvasStartVector.XCor,
-                To = canvasPoint2.XCor,
+                From = canvasStartPoint.X,
+                To = canvasPoint2.X,
                 Duration = new Duration(TimeSpan.FromMilliseconds(effect.Milliseconds))
             };
             line.BeginAnimation(Line.X2Property, lineXAnimation);
             var lineYAnimation = new DoubleAnimation
             {
-                From = canvasStartVector.YCor,
-                To = canvasPoint2.YCor,
+                From = canvasStartPoint.Y,
+                To = canvasPoint2.Y,
                 Duration = new Duration(TimeSpan.FromMilliseconds(effect.Milliseconds))
             };
             lineYAnimation.Completed += (sender, args) => OnAnimationIsFinished(screenLine.GroupID, screenLine.ID);
@@ -110,10 +110,10 @@ namespace TurtleWpf
                 if (component.Polygon.Count > 0)
                 {
                     var pathFigure = new PathFigure();
-                    pathFigure.StartPoint = ConvertToCanvasPoint(component.Polygon[0]);
+                    pathFigure.StartPoint = ConvertToCanvasOrientation(component.Polygon[0]);
                     for (int i = 1; i < component.Polygon.Count; i++)
                     {
-                        pathFigure.Segments.Add(new LineSegment() { Point = ConvertToCanvasPoint(component.Polygon[i]) });
+                        pathFigure.Segments.Add(new LineSegment() { Point = ConvertToCanvasOrientation(component.Polygon[i]) });
                     }
                     pathGeometry.Figures.Add(pathFigure);
                 }
@@ -128,6 +128,17 @@ namespace TurtleWpf
             {
                 path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
                 path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
+
+                var positionOnCanvas = ConvertToCanvasPoint(screenFigure.Position);
+                Canvas.SetLeft(path, positionOnCanvas.X);
+                Canvas.SetTop(path, positionOnCanvas.Y);
+                var transforms = new TransformGroup();
+                var rotateTransform = new RotateTransform(screenFigure.Heading + 90);
+                transforms.Children.Add(rotateTransform);
+                var translateTransform = new TranslateTransform(50, 50);
+                transforms.Children.Add(translateTransform);
+                path.RenderTransform = transforms;
+
                 if (!_canvas.Children.Contains(path))
                 {
                     _canvas.Children.Add(path);
@@ -140,17 +151,29 @@ namespace TurtleWpf
 
         }
 
+        /// <summary>
+        /// Convert a vector (in turtle-coordinate-system) to a point on the canvas. 
+        /// Canvas point (0, 0) is in the middle of the canvas
+        /// </summary>
+        /// <param name="turtleVector"></param>
+        /// <returns></returns>
         private Point ConvertToCanvasPoint(Vec2D turtleVector)
         {
-            var canvasVector = ConvertToCanvasVector(turtleVector);
-            return new Point(canvasVector.XCor, canvasVector.YCor);
+            return new Point(_canvas.Width / 2 + turtleVector.XCor, _canvas.Height / 2 - turtleVector.YCor);
         }
 
-
-        private Vec2D ConvertToCanvasVector(Vec2D turtleVector)
+        /// <summary>
+        /// Convert a vector (in turtle-coordinate-system) to a point on the canvas. 
+        /// Point (0, 0) is not changed
+        /// </summary>
+        /// <param name="turtleVector"></param>
+        /// <returns></returns>
+        private static Point ConvertToCanvasOrientation(Vec2D turtleVector)
         {
-            return new Vec2D(_canvas.Width / 2 + turtleVector.XCor, _canvas.Height / 2 - turtleVector.YCor);
+            return new Point(turtleVector.XCor, -turtleVector.YCor);
         }
+
+
 
     }
 }

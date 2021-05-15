@@ -16,6 +16,18 @@ namespace TurtleCore
         private readonly Pen _pen;
         private readonly Figure _figure;
 
+        public Turtle()
+        {
+            _id = Interlocked.Increment(ref s_totalCounter);
+            _figure = new Figure(_id);
+            _pen = new Pen(_id);
+
+            // The Turtle should be visible immediately:
+            _figure.IsVisible = true;
+            // The pen must know that it is not the first screen-operation of the turtle:
+            _pen.TurtleObjectSentToScreen();
+        }
+
         public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; } }
 
         public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; } }
@@ -31,6 +43,15 @@ namespace TurtleCore
         /// Pull the pen down – drawing when moving.
         /// </summary>
         public void PenDown() { IsDown = true; }
+
+        /// <summary>
+        /// True if figure is visible, false if is not visible
+        /// </summary>
+        public bool IsVisible { get { return _figure.IsVisible; } set { _figure.IsVisible = value; } }
+
+        public void Hide() { IsVisible = false; }
+        public void Show() { IsVisible = true; }
+
 
         /// <summary>
         /// Pull the pen up – no drawing when moving.
@@ -57,16 +78,6 @@ namespace TurtleCore
             }
         }
 
-
-        public Turtle()
-        {
-            _id = Interlocked.Increment(ref s_totalCounter);
-            _figure = new Figure(_id);
-            _pen = new Pen(_id);
-            // The creation of the figure sends the shape of the figure to the screen.
-            // The pen must know that it is not the first screen-operation of the turtle:
-            _pen.TurtleObjectSentToScreen();
-        }
 
         public void Forward(double distance)
         {

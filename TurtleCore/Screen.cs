@@ -44,7 +44,7 @@ namespace TurtleCore
 
         public int CreateFigure(string shapeName)
         {
-            int figureId = 0;
+            int figureId;
             if (_shapes.TryGetValue(shapeName, out var shape))
             {
                 figureId = _screenObjectProducer.CreateFigure(shape);

@@ -18,7 +18,8 @@ namespace TurtleCore
 
         private readonly Screen _screen;
         private string _shapeName;
-        private int _IdOnScreen;
+        private int _idOnScreen;
+        private bool _isVisible;
 
         public Vec2D Position { get; set; }
 
@@ -26,7 +27,21 @@ namespace TurtleCore
 
         public double Heading { get; private set; }
 
-        public bool IsVisible { get; private set; }
+        public bool IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+            set
+            {
+                if (!_isVisible && value)
+                    ShowOnScreen();
+                else
+                    HideOnScreen();
+                _isVisible = value;
+            }
+        }
 
         public Color FillColor { get; set; }
 
@@ -53,31 +68,13 @@ namespace TurtleCore
             Position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;
-            IsVisible = true;
+            _isVisible = false;
             Speed = SpeedLevel.Normal;
             FillColor = Colors.Black;
             OutlineColor = Colors.Black;
             _shapeName = ShapeNames.Classic;
 
-            _IdOnScreen = _screen.CreateFigure(_shapeName);
-
-            // The figure is immediately shown on the screen
-            var figure = new ScreenFigure(_IdOnScreen)
-            {
-                IsVisible = true,
-                Position = Position,
-                FillColor = FillColor,
-                OutlineColor = OutlineColor,
-                GroupID = _id,
-            };
-            if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
-            {
-                // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
-                // that all previously created animation are drawn before this pen is drawn.
-                // Therefore:
-                figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
-            }
-            _screen.UpdateFigure(figure);
+            _idOnScreen = _screen.CreateFigure(_shapeName);
         }
 
         public void Rotate(double angle)
@@ -102,5 +99,32 @@ namespace TurtleCore
 
         }
 
+
+        private void ShowOnScreen()
+        {
+            var figure = new ScreenFigure(_idOnScreen)
+            {
+                IsVisible = true,
+                Position = Position,
+                FillColor = FillColor,
+                OutlineColor = OutlineColor,
+                Heading = Heading,
+                GroupID = _id,
+            };
+            if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+            {
+                // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
+                // that all previously created animation are drawn before this pen is drawn.
+                // Therefore:
+                figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+            }
+            _screen.UpdateFigure(figure);
+
+        }
+
+        private void HideOnScreen()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

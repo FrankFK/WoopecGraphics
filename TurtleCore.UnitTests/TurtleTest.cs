@@ -58,7 +58,7 @@ namespace TurtleCore.UnitTests
 
 
         [TestMethod]
-        public void Turtle_StartPosition_Is_Null()
+        public void Turtle_InitialValues()
         {
             // Arrange
 
@@ -68,19 +68,12 @@ namespace TurtleCore.UnitTests
             // Assert
             var expected = new Vec2D(0, 0);
             turtle.Position.Should().Be(expected);
-        }
-
-        [TestMethod]
-        public void Turtle_StartHeading_Is_Null()
-        {
-            // Arrange
-
-            // Act
-            var turtle = CreateSut();
-
-            // Assert
             turtle.Heading.Should().Be(0);
+
+            // The turtle is immediately visible after creation!
+            turtle.IsVisible.Should().BeTrue();
         }
+
 
         [TestMethod]
         public void Turtle_Forward_Works()

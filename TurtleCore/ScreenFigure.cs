@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 namespace TurtleCore
 {
     /// <summary>
-    /// An instance of this class draws a figure on screen
-    /// on the screen
+    /// An instance of this class draws a figure on the screen
     /// </summary>
     public class ScreenFigure : ScreenObject
     {
         public Vec2D Position { get; set; }
+
+        public double Heading { get; set; }
 
         public Color FillColor { get; set; }
 
