@@ -119,6 +119,15 @@ namespace TurtleWpf
                 }
             }
 
+            // Microsoft Documentation:
+            //      The greater the value of a given element, the more likely the element is to appear in the foreground
+            //      Members of a Children collection that have equal ZIndex values are rendered in the order in which they appear in the visual tree.
+            //      You can determine the index position of a child by iterating the members of the Children collection.
+            //
+            // With SetZIndex we can set the ZIndex value explicitely. All other elements have ZIndex == 0
+            // Alle lines have ZIndex == 0. If we set the ZIndex of the shape to 1 it appears in the foreground.
+            Canvas.SetZIndex(path, 1);
+
             _pathes.Add(figureCreate.ID, path);
         }
 
@@ -130,12 +139,11 @@ namespace TurtleWpf
                 path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
                 var positionOnCanvas = ConvertToCanvasPoint(screenFigure.Position);
-                Canvas.SetLeft(path, positionOnCanvas.X);
-                Canvas.SetTop(path, positionOnCanvas.Y);
+
                 var transforms = new TransformGroup();
-                var rotateTransform = new RotateTransform(screenFigure.Heading + 90);
+                var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
                 transforms.Children.Add(rotateTransform);
-                var translateTransform = new TranslateTransform(50, 50);
+                var translateTransform = new TranslateTransform(positionOnCanvas.X, positionOnCanvas.Y);
                 transforms.Children.Add(translateTransform);
                 path.RenderTransform = transforms;
 
@@ -173,6 +181,11 @@ namespace TurtleWpf
             return new Point(turtleVector.XCor, -turtleVector.YCor);
         }
 
+
+        private static double ConvertToCanvasAngle(double turtleHeading)
+        {
+            return 90 - turtleHeading;
+        }
 
 
     }

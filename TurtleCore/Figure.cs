@@ -87,6 +87,9 @@ namespace TurtleCore
             // TODO: Turtle neu anzeigen
             Orientation = newOrientation;
             Heading = newHeading;
+
+            if (IsVisible)
+                ShowOnScreen();
         }
 
         public void Move(double distance)
@@ -96,6 +99,9 @@ namespace TurtleCore
             // TODO: Turtle bewegen
 
             Position = newPosition;
+
+            if (IsVisible)
+                ShowOnScreen();
 
         }
 
