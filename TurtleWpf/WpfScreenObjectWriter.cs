@@ -135,21 +135,28 @@ namespace TurtleWpf
         {
             if (_pathes.TryGetValue(screenFigure.ID, out var path))
             {
-                path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
-                path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
-
-                var positionOnCanvas = ConvertToCanvasPoint(screenFigure.Position);
-
-                var transforms = new TransformGroup();
-                var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
-                transforms.Children.Add(rotateTransform);
-                var translateTransform = new TranslateTransform(positionOnCanvas.X, positionOnCanvas.Y);
-                transforms.Children.Add(translateTransform);
-                path.RenderTransform = transforms;
-
-                if (!_canvas.Children.Contains(path))
+                if (screenFigure.IsVisible)
                 {
-                    _canvas.Children.Add(path);
+                    path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
+                    path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
+
+                    var positionOnCanvas = ConvertToCanvasPoint(screenFigure.Position);
+
+                    var transforms = new TransformGroup();
+                    var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
+                    transforms.Children.Add(rotateTransform);
+                    var translateTransform = new TranslateTransform(positionOnCanvas.X, positionOnCanvas.Y);
+                    transforms.Children.Add(translateTransform);
+                    path.RenderTransform = transforms;
+
+                    if (!_canvas.Children.Contains(path))
+                    {
+                        _canvas.Children.Add(path);
+                    }
+                }
+                else
+                {
+                    _canvas.Children.Remove(path);
                 }
             }
             else

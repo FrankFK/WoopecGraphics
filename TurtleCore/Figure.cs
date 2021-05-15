@@ -22,7 +22,20 @@ namespace TurtleCore
         private int _idOnScreen;
         private bool _isVisible;
 
-        public Vec2D Position { get; set; }
+        public Vec2D Position
+        {
+            get
+            {
+                return _position;
+            }
+            set
+            {
+                _position = value;
+                UpdateScreen();
+            }
+        }
+        private Vec2D _position;
+
 
         public Vec2D Orientation { get; private set; }
 
@@ -36,11 +49,10 @@ namespace TurtleCore
             }
             set
             {
-                if (!_isVisible && value)
-                    ShowOnScreen();
-                else
-                    HideOnScreen();
+                bool updateScreen = (_isVisible != value);
                 _isVisible = value;
+                if (updateScreen)
+                    UpdateScreen();
             }
         }
 
@@ -66,7 +78,7 @@ namespace TurtleCore
         {
             _id = id;
             _screen = Screen.GetDefaultScreen();
-            Position = new Vec2D(0, 0);
+            _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;
             _isVisible = false;
@@ -90,7 +102,7 @@ namespace TurtleCore
             Heading = newHeading;
 
             if (IsVisible)
-                ShowOnScreen();
+                UpdateScreen();
         }
 
         public void Move(double distance)
@@ -102,16 +114,16 @@ namespace TurtleCore
             Position = newPosition;
 
             if (IsVisible)
-                ShowOnScreen();
+                UpdateScreen();
 
         }
 
 
-        private void ShowOnScreen()
+        private void UpdateScreen()
         {
             var figure = new ScreenFigure(_idOnScreen)
             {
-                IsVisible = true,
+                IsVisible = IsVisible,
                 Position = Position,
                 FillColor = FillColor,
                 OutlineColor = OutlineColor,
@@ -144,9 +156,5 @@ namespace TurtleCore
 
         }
 
-        private void HideOnScreen()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

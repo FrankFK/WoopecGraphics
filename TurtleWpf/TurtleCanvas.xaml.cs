@@ -69,7 +69,7 @@ namespace TurtleWpf
         {
             /////////////////////////////////////////////////////////////
             // 08.03.2021: First turtle with WPF
-            var firstTurtle = new Turtle() { Speed = SpeedLevel.Fast };
+            var firstTurtle = new Turtle() { Speed = SpeedLevel.Slow, IsVisible = false, };
 
             firstTurtle.Right(45);
             firstTurtle.Forward(50);
@@ -85,7 +85,7 @@ namespace TurtleWpf
             var turtles = new List<Turtle>();
             for (var counter = 0; counter < 10; counter++)
             {
-                turtles.Add(new Turtle() { IsDown = false, Speed = SpeedLevel.Fast});
+                turtles.Add(new Turtle() { IsDown = false, Speed = SpeedLevel.Fast, IsVisible = false, });
             }
 
             // Move all turtles to the same position as firstTurtle
@@ -131,15 +131,25 @@ namespace TurtleWpf
 
             /////////////////////////////////////////////////////////////
             // 10.05.2021 Penup and Pendown
-            turtles[0].PenUp();
-            turtles[0].Forward(50);
-            turtles[0].PenDown();
-            turtles[0].Forward(50);
+            var activeTurtle = turtles[0];
+            activeTurtle.PenUp();
+            activeTurtle.Forward(50);
+            activeTurtle.PenDown();
+            activeTurtle.Forward(50);
 
             /////////////////////////////////////////////////////////////
             // 10.05.2021 Position
-            var newPosition = turtles[0].Position + new Vec2D(-20, 0);
-            turtles[0].Position = newPosition;
+            var newPosition = activeTurtle.Position + new Vec2D(-20, 0);
+            activeTurtle.Position = newPosition;
+
+            /////////////////////////////////////////////////////////////
+            // 15.05.2021
+            activeTurtle.Heading = 180;
+            activeTurtle.ShowTurtle();
+            activeTurtle.Forward(50);
+            activeTurtle.HideTurtle();
+            activeTurtle.Forward(50);
+            activeTurtle.ShowTurtle();
 
         }
 

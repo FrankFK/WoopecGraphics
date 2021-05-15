@@ -28,7 +28,8 @@ namespace TurtleCore
             _pen.TurtleObjectSentToScreen();
         }
 
-        public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; } }
+        public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; _figure.Position = value; } }
+
 
         public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; } }
 
@@ -49,8 +50,8 @@ namespace TurtleCore
         /// </summary>
         public bool IsVisible { get { return _figure.IsVisible; } set { _figure.IsVisible = value; } }
 
-        public void Hide() { IsVisible = false; }
-        public void Show() { IsVisible = true; }
+        public void HideTurtle() { IsVisible = false; }
+        public void ShowTurtle() { IsVisible = true; }
 
 
         /// <summary>
@@ -73,8 +74,9 @@ namespace TurtleCore
             get { return _pen.Heading; }
             set
             {
-                _pen.Rotate(value - Heading);
-                _figure.Rotate(value - Heading);
+                double rotation = value - _pen.Heading;
+                _pen.Rotate(rotation);
+                _figure.Rotate(rotation);
             }
         }
 
