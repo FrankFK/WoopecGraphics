@@ -17,6 +17,7 @@ namespace TurtleCore
         private readonly int _id;
 
         private readonly Screen _screen;
+        private bool _firstAnimationIsAdded;
         private string _shapeName;
         private int _idOnScreen;
         private bool _isVisible;
@@ -117,13 +118,28 @@ namespace TurtleCore
                 Heading = Heading,
                 GroupID = _id,
             };
-            if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+            if (_firstAnimationIsAdded)
             {
-                // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
-                // that all previously created animation are drawn before this pen is drawn.
-                // Therefore:
-                figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                // Wait for previous animations of this pen
+                figure.WaitForAnimationsOfGroupID = _id;
             }
+            else
+            {
+                if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+                {
+                    // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
+                    // that all previously created animation are drawn before this pen is drawn.
+                    // Therefore:
+                    figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                }
+            }
+
+            if (!Speed.NoAnimation)
+            {
+                // To do: animation dazu
+                _firstAnimationIsAdded = true;
+            }
+
             _screen.UpdateFigure(figure);
 
         }

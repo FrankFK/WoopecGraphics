@@ -69,7 +69,7 @@ namespace TurtleWpf
         {
             /////////////////////////////////////////////////////////////
             // 08.03.2021: First turtle with WPF
-            var firstTurtle = new Turtle() { Speed = SpeedLevel.Slowest };
+            var firstTurtle = new Turtle() { Speed = SpeedLevel.Fast };
 
             firstTurtle.Right(45);
             firstTurtle.Forward(50);
@@ -85,7 +85,7 @@ namespace TurtleWpf
             var turtles = new List<Turtle>();
             for (var counter = 0; counter < 10; counter++)
             {
-                turtles.Add(new Turtle() { IsDown = false, Speed = SpeedLevel.Slowest});
+                turtles.Add(new Turtle() { IsDown = false, Speed = SpeedLevel.Fast});
             }
 
             // Move all turtles to the same position as firstTurtle
