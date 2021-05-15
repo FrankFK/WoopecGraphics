@@ -28,12 +28,12 @@ namespace TurtleCore
             _pen.TurtleObjectSentToScreen();
         }
 
-        public Vec2D Position { get { return _pen.Position; } set { _pen.Position = value; _figure.Position = value; } }
+        public Vec2D Position { get { return _pen.Position; } }
 
 
         public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; } }
 
-        public Speed Speed { get { return _pen.Speed; } set { _pen.Speed = value; } }
+        public Speed Speed { get { return _pen.Speed; } set { _pen.Speed = value; _figure.Speed = value; } }
 
         /// <summary>
         /// True if pen is down, False if it’s up.
@@ -84,13 +84,23 @@ namespace TurtleCore
         public void Forward(double distance)
         {
             _pen.Move(distance);
-            _figure.Move(distance);
+            bool togetherWithPreviousAnimation = _pen.IsDown; // if pen was down, the figure should not wait untel the pen-line is finished
+            _figure.Move(distance, togetherWithPreviousAnimation);
         }
 
         public void Backward(double distance)
         {
             _pen.Move(-distance);
-            _figure.Move(-distance);
+            bool togetherWithPreviousAnimation = _pen.IsDown; // if pen was down, the figure should not wait untel the pen-line is finished
+            _figure.Move(distance, togetherWithPreviousAnimation);
+        }
+
+
+        public void SetPosition(Vec2D position)
+        {
+            _pen.SetPosition(position);
+            bool togetherWithPreviousAnimation = _pen.IsDown; // if pen was down, the figure should not wait untel the pen-line is finished
+            _figure.SetPosition(position, togetherWithPreviousAnimation);
         }
 
         public void Left(double angle)

@@ -35,7 +35,9 @@ namespace TurtleWpf
                 Update(screenObject);
             else if (screenObject is ScreenLine)
                 UpdateWithAnimationInternally(screenObject as ScreenLine);
-            else
+            else if (screenObject is ScreenFigure)
+                UpdateWithAnimationInternally(screenObject as ScreenFigure);
+            else 
                 throw new ArgumentOutOfRangeException(nameof(screenObject), "Paramter has wrong type");
         }
 
@@ -94,6 +96,56 @@ namespace TurtleWpf
             _canvas.Children.Add(line);
         }
 
+        private void UpdateWithAnimationInternally(ScreenFigure screenFigure)
+        {
+            if (_pathes.TryGetValue(screenFigure.ID, out var path))
+            {
+                path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
+                path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
+
+                var positionOnCanvas = ConvertToCanvasPoint(screenFigure.Position);
+
+                var transforms = new TransformGroup();
+                path.RenderTransform = transforms;
+
+                var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
+                transforms.Children.Add(rotateTransform);
+
+                var move = screenFigure.Animation.Effects[0] as ScreenAnimationMovement;
+
+                var translateTransform = new TranslateTransform();
+                transforms.Children.Add(translateTransform);
+
+                var oldPositionOnCanvas = ConvertToCanvasPoint(move.StartValue);
+
+                var positionXAnimation = new DoubleAnimation
+                {
+                    From = oldPositionOnCanvas.X,
+                    To = positionOnCanvas.X,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(move.Milliseconds))
+                };
+                translateTransform.BeginAnimation(TranslateTransform.XProperty, positionXAnimation);
+                var positionYAnimation = new DoubleAnimation
+                {
+                    From = oldPositionOnCanvas.Y,
+                    To = positionOnCanvas.Y,
+                    Duration = new Duration(TimeSpan.FromMilliseconds(move.Milliseconds))
+                };
+                positionYAnimation.Completed += (sender, args) => OnAnimationIsFinished(screenFigure.GroupID, screenFigure.ID);
+                translateTransform.BeginAnimation(TranslateTransform.YProperty, positionYAnimation);
+
+                if (!_canvas.Children.Contains(path))
+                {
+                    _canvas.Children.Add(path);
+                }
+            }
+            else
+            {
+                throw new KeyNotFoundException($"No WPF path object found for figure id {screenFigure.ID}.");
+            }
+        }
+
+
         private void CreateInternally(ScreenFigureCreate figureCreate)
         {
             if (!(figureCreate.Shape is TurtleCore.Shape))
@@ -143,11 +195,13 @@ namespace TurtleWpf
                     var positionOnCanvas = ConvertToCanvasPoint(screenFigure.Position);
 
                     var transforms = new TransformGroup();
+                    path.RenderTransform = transforms;
+
                     var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
                     transforms.Children.Add(rotateTransform);
+
                     var translateTransform = new TranslateTransform(positionOnCanvas.X, positionOnCanvas.Y);
                     transforms.Children.Add(translateTransform);
-                    path.RenderTransform = transforms;
 
                     if (!_canvas.Children.Contains(path))
                     {
@@ -163,7 +217,6 @@ namespace TurtleWpf
             {
                 throw new KeyNotFoundException($"No WPF path object found for figure id {screenFigure.ID}.");
             }
-
         }
 
         /// <summary>

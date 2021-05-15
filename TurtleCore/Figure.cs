@@ -28,11 +28,6 @@ namespace TurtleCore
             {
                 return _position;
             }
-            set
-            {
-                _position = value;
-                UpdateScreen();
-            }
         }
         private Vec2D _position;
 
@@ -97,7 +92,6 @@ namespace TurtleCore
 
             var newOrientation = Orientation.Rotate(angle);
 
-            // TODO: Turtle neu anzeigen
             Orientation = newOrientation;
             Heading = newHeading;
 
@@ -107,44 +101,34 @@ namespace TurtleCore
 
         public void Move(double distance)
         {
-            var newPosition = Position + distance * Orientation;
-
-            // TODO: Turtle bewegen
-
-            Position = newPosition;
-
-            if (IsVisible)
-                UpdateScreen();
-
+            Move(distance, false);
         }
 
+        internal void Move(double distance, bool togetherWithPreviousAnimation)
+        {
+            var oldPosition = _position;
+            _position = _position + distance * Orientation;
+
+            if (IsVisible)
+                MoveOnScreen(oldPosition, togetherWithPreviousAnimation);
+        }
+
+        public void SetPosition(Vec2D value)
+        {
+            SetPosition(value, false);
+        }
+
+        internal void SetPosition(Vec2D value, bool togetherWithPreviousAnimation)
+        {
+            var oldPosition = _position;
+            _position = value;
+            if (IsVisible)
+                MoveOnScreen(oldPosition, togetherWithPreviousAnimation);
+        }
 
         private void UpdateScreen()
         {
-            var figure = new ScreenFigure(_idOnScreen)
-            {
-                IsVisible = IsVisible,
-                Position = Position,
-                FillColor = FillColor,
-                OutlineColor = OutlineColor,
-                Heading = Heading,
-                GroupID = _id,
-            };
-            if (_firstAnimationIsAdded)
-            {
-                // Wait for previous animations of this pen
-                figure.WaitForAnimationsOfGroupID = _id;
-            }
-            else
-            {
-                if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
-                {
-                    // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
-                    // that all previously created animation are drawn before this pen is drawn.
-                    // Therefore:
-                    figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
-                }
-            }
+            var figure = CreateScreenFigure(false);
 
             if (!Speed.NoAnimation)
             {
@@ -156,5 +140,57 @@ namespace TurtleCore
 
         }
 
+        private void MoveOnScreen(Vec2D oldPosition, bool togetherWithPreviousAnimation)
+        {
+            var figure = CreateScreenFigure(togetherWithPreviousAnimation);
+
+            if (!Speed.NoAnimation)
+            {
+                int speedDuration = Speed.MillisecondsForMovement(oldPosition, Position);
+
+                // Animation dazu:
+                figure.Animation = new ScreenAnimation();
+                figure.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Position, StartValue = oldPosition, Milliseconds = speedDuration });
+                _firstAnimationIsAdded = true;
+            }
+
+            _screen.UpdateFigure(figure);
+        }
+
+        /// <summary>
+        /// Create a ScreenFigure object according to the actual values of this.
+        /// </summary>
+        /// <returns></returns>
+        private ScreenFigure CreateScreenFigure(bool togetherWithPreviousAnimation)
+        {
+            var figure = new ScreenFigure(_idOnScreen)
+            {
+                IsVisible = IsVisible,
+                Position = Position,
+                FillColor = FillColor,
+                OutlineColor = OutlineColor,
+                Heading = Heading,
+                GroupID = _id,
+            };
+            if (!togetherWithPreviousAnimation)
+            {
+                if (_firstAnimationIsAdded)
+                {
+                    // Wait for previous animations of this pen
+                    figure.WaitForAnimationsOfGroupID = _id;
+                }
+                else
+                {
+                    if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+                    {
+                        // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
+                        // that all previously created animation are drawn before this pen is drawn.
+                        // Therefore:
+                        figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                    }
+                }
+            }
+            return figure;
+        }
     }
 }

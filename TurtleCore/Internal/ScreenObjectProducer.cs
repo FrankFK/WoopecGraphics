@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Channels;
@@ -25,7 +26,7 @@ namespace TurtleCore.Internal
         }
         public void DrawLine(ScreenLine line)
         {
-            Console.WriteLine($"Producer: Line {line.ID} send to channel");
+            Debug.WriteLine($"Producer: Line {line.ID} send to channel");
             _objectChannel.Writer.TryWrite(line);
         }
 
@@ -45,7 +46,7 @@ namespace TurtleCore.Internal
         public void UpdateFigure(ScreenFigure figure)
         {
             _objectChannel.Writer.TryWrite(figure);
-            Console.WriteLine($"Producer: Update of figure {figure.ID} send to channel");
+            Debug.WriteLine($"Producer: Update of figure {figure.ID} send to channel");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Channels;
@@ -58,22 +59,22 @@ namespace TurtleCore.Internal
         {
             lock (s_lockObj)
             {
-                Console.WriteLine($"Animation of group {groupId} is finished.");
+                Debug.WriteLine($"Animation of group {groupId} is finished.");
                 if (_animationGroupsState.TryGetGroupState(groupId, out var groupState))
                 {
-                    groupState.AnimationIsRunning = false;
+                    groupState.AnimationsRunning--;
                     if (groupState.HasWaitingObjects())
                     {
                         // if an object is waiting for the finished animation, we have to handle it immediately here.
                         // We can not trust that GetNextObjectForWriterAsync() handles it, because GetNextObjectForWriterAsync() may get no further objects.
-                        Console.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
+                        Debug.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
 
                         SendAllObjectsThatAreReadyToRunToWriter(groupState);
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"Animation of group {groupId} is finished. But no active animations for this group!");
+                    Debug.WriteLine($"Animation of group {groupId} is finished. But no active animations for this group!");
                 }
             }
         }
@@ -93,15 +94,15 @@ namespace TurtleCore.Internal
                 var otherGroups = groupState.ExtractLeadingOtherGroupsReadyToRun();
                 if (otherGroups.Count > 0)
                 {
-                    Console.WriteLine($"    Group {groupState.GroupID}: Following waiting groups can start: {string.Join(", ", otherGroups)}.");
+                    Debug.WriteLine($"    Group {groupState.GroupID}: Following waiting groups can start: {string.Join(", ", otherGroups)}.");
                 }
-                _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
+                _animationGroupsState.DecrementAnimationsRunning(otherGroups);
 
                 // Then: Collect all non longer waiting Screen objects and start them
                 var noLongerWaitingScreenObjects = _animationGroupsState.ExtractLeadingScreenObjectsReadyToRun();
                 if (noLongerWaitingScreenObjects.Count == 0)
                 {
-                    Console.WriteLine($"    Group {groupState.GroupID} has no waiting ScreenObjects, and no other ScreenObject is waiting.");
+                    Debug.WriteLine($"    Group {groupState.GroupID} has no waiting ScreenObjects, and no other ScreenObject is waiting.");
                 }
                 else
                 {
@@ -121,12 +122,12 @@ namespace TurtleCore.Internal
             {
                 _animationGroupsState.AddRunningAnimation(screenObject.GroupID);
 
-                Console.WriteLine($"Consumer: Group {screenObject.GroupID},   animated object {screenObject.ID} sent to writer");
+                Debug.WriteLine($"Consumer: Group {screenObject.GroupID},   animated object {screenObject.ID} sent to writer");
                 _writer.UpdateWithAnimation(screenObject);
             }
             else
             {
-                Console.WriteLine($"Consumer: Group {screenObject.GroupID}, unanimated object {screenObject.ID} sent to writer");
+                Debug.WriteLine($"Consumer: Group {screenObject.GroupID}, unanimated object {screenObject.ID} sent to writer");
                 _writer.Update(screenObject);
             }
         }
@@ -176,7 +177,7 @@ namespace TurtleCore.Internal
                 if (screenObject.WaitForAnimationsOfGroupID == screenObject.GroupID)
                 {
                     // Easy case: When all previous animations of this group are finished this animation will be written
-                    Console.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting for an animation its group");
+                    Debug.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting for an animation its group");
                 }
                 else
                 {
@@ -186,7 +187,7 @@ namespace TurtleCore.Internal
             }
             else
             {
-                Console.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting (but not for an animation)");
+                Debug.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting (but not for an animation)");
             }
         }
 

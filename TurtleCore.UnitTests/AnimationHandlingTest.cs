@@ -118,6 +118,13 @@ namespace TurtleCore.UnitTests
         }
 
         [TestMethod]
+        public void Case08_ParallelAnimationsOfSameGroupDoNotStartTooMuch()
+        {
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,0:0 ?1,1:100 1,2:50 ?1,3:100 1,4:50 ?1,5:100 1,6:50", stopWhenObjectIsFinished: 5);
+            result.Should().Be("[0><0][1>[2><2]<1][3>[4><4]<3][5>[6><6]<5]");
+        }
+
+        [TestMethod]
         public void NoEndlessLoopIfProducerThreadHasAnException()
         {
             Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2);
@@ -198,7 +205,7 @@ namespace TurtleCore.UnitTests
 
         private void WhenWriterIsFinished(int groupId, int objectId)
         {
-            Console.WriteLine($"{objectId} is finished");
+            Debug.WriteLine($"{objectId} is finished");
             if (objectId == _stopWhenObjectIsFinished || _finished)
             {
                 _finished = true;
@@ -254,12 +261,12 @@ namespace TurtleCore.UnitTests
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception in AddAnimatedSequence");
-                Console.WriteLine("\nMessage ---\n{0}", ex.Message);
-                Console.WriteLine("\nHelpLink ---\n{0}", ex.HelpLink);
-                Console.WriteLine("\nSource ---\n{0}", ex.Source);
-                Console.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
-                Console.WriteLine("\nTargetSite ---\n{0}", ex.TargetSite);
+                Debug.WriteLine($"Exception in AddAnimatedSequence");
+                Debug.WriteLine("\nMessage ---\n{0}", ex.Message);
+                Debug.WriteLine("\nHelpLink ---\n{0}", ex.HelpLink);
+                Debug.WriteLine("\nSource ---\n{0}", ex.Source);
+                Debug.WriteLine("\nStackTrace ---\n{0}", ex.StackTrace);
+                Debug.WriteLine("\nTargetSite ---\n{0}", ex.TargetSite);
             }
         }
 

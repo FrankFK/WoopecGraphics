@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -44,10 +45,10 @@ namespace TurtleCore.UnitTests
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
         {
-            Console.WriteLine("Init start");
+            Debug.WriteLine("Init start");
             _producerMockup = new TurtleScreenProducerMockup();
             TurtleOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
-            Console.WriteLine("Init end");
+            Debug.WriteLine("Init end");
         }
 
         [TestCleanup]
@@ -227,7 +228,7 @@ namespace TurtleCore.UnitTests
 
             // Act
             turtle.PenDown();
-            turtle.Position = new Vec2D(0, 100);
+            turtle.SetPosition(new Vec2D(0, 100));
 
             // Assert
             _producerMockup.DrawnLines.Count.Should().Be(1);

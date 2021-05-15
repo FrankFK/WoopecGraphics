@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -133,24 +134,26 @@ namespace TurtleWpf
             // 10.05.2021 Penup and Pendown
             var activeTurtle = turtles[0];
             activeTurtle.PenUp();
-            activeTurtle.Forward(50);
+            activeTurtle.Forward(5);
             activeTurtle.PenDown();
-            activeTurtle.Forward(50);
+            activeTurtle.Forward(10);
 
             /////////////////////////////////////////////////////////////
             // 10.05.2021 Position
-            var newPosition = activeTurtle.Position + new Vec2D(-20, 0);
-            activeTurtle.Position = newPosition;
+            activeTurtle.SetPosition((0, activeTurtle.Position.YCor));
 
             /////////////////////////////////////////////////////////////
-            // 15.05.2021
+            // 15.05.2021 TurtleMovement
+            activeTurtle.Speed = SpeedLevel.Slowest;
             activeTurtle.Heading = 180;
             activeTurtle.ShowTurtle();
+            activeTurtle.Forward(50);
+            activeTurtle.SetPosition(activeTurtle.Position + new Vec2D(0, 50));
             activeTurtle.Forward(50);
             activeTurtle.HideTurtle();
             activeTurtle.Forward(50);
             activeTurtle.ShowTurtle();
-
+            activeTurtle.Forward(50);
         }
 
         private void NextTask()
@@ -172,7 +175,7 @@ namespace TurtleWpf
 
         private void WhenWriterIsFinished(int groupId, int objectId)
         {
-            Console.WriteLine($"{objectId} is finished");
+            Debug.WriteLine($"{objectId} is finished");
         }
 
     }

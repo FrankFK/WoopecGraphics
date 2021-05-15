@@ -17,6 +17,12 @@ namespace TurtleCore
         /// The value of Point2 of a line is changed during the animation
         /// </summary>
         Point2,
+
+        /// <summary>
+        /// The value of Position of a figure is changed during the animation
+        /// </summary>
+        Position,
+
     }
 
     public class ScreenAnimationMovement : ScreenAnimationEffect

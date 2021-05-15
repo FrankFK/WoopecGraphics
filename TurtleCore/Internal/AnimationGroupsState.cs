@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace TurtleCore.Internal
             if (!_groupsWithActiveAnimations.ContainsKey(groupId))
                 _groupsWithActiveAnimations.Add(groupId, new AnimationGroupState(groupId));
 
-            _groupsWithActiveAnimations[groupId].AnimationIsRunning = true;
+            _groupsWithActiveAnimations[groupId].AnimationsRunning++;
         }
 
         public void AddWaitingScreenObject(ScreenObject screenObject)
@@ -44,16 +45,16 @@ namespace TurtleCore.Internal
                 // AnimationIsRunning:
                 if (TryGetGroupState(groupIdThatWaits, out var stateOfGroupThatWaits))
                 {
-                    stateOfGroupThatWaits.AnimationIsRunning = true;
+                    stateOfGroupThatWaits.AnimationsRunning++;
                 }
 
                 // The other group gets a waiting-object, that will set AnimationIsRunning to false, when the other group is finished.
                 stateOfGroupToWaitFor.AddWaitingOtherGroup(groupIdThatWaits);
-                Console.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}.");
+                Debug.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}.");
             }
             else
             {
-                Console.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}. But this group has no active animation");
+                Debug.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}. But this group has no active animation");
             }
         }
 
@@ -71,14 +72,14 @@ namespace TurtleCore.Internal
             }
         }
 
-        public void SetAnimationIsRunning(List<int> groupIDs, bool state)
+        public void DecrementAnimationsRunning(List<int> groupIDs)
         {
             foreach (var groupID in groupIDs)
             {
                 if (_groupsWithActiveAnimations.ContainsKey(groupID))
                 {
-                    Console.WriteLine($"    Group {groupID} is not longer waiting.");
-                    _groupsWithActiveAnimations[groupID].AnimationIsRunning = state;
+                    Debug.WriteLine($"    Group {groupID} is not longer waiting.");
+                    _groupsWithActiveAnimations[groupID].AnimationsRunning--;
                 }
             }
         }
@@ -93,7 +94,7 @@ namespace TurtleCore.Internal
 
         public bool AnAnimationOfGroupIsRunning(int groupID)
         {
-            if (_groupsWithActiveAnimations.ContainsKey(groupID) && _groupsWithActiveAnimations[groupID].AnimationIsRunning)
+            if (_groupsWithActiveAnimations.ContainsKey(groupID) && (_groupsWithActiveAnimations[groupID].AnimationsRunning > 0))
                 return true;
             else
                 return false;

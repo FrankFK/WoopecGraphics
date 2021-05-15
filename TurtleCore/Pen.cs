@@ -51,16 +51,17 @@ namespace TurtleCore
             {
                 return _position;
             }
-            set
-            {
-                if (IsDown && !value.IsApproximatelyEqualTo(_position, 0.001))
-                {
-                    DrawMove(_position, value);
-                }
-                _position = value;
-            }
         }
         private Vec2D _position;
+
+        public void SetPosition(Vec2D value)
+        {
+            if (IsDown)
+            {
+                DrawMove(_position, value);
+            }
+            _position = value;
+        }
 
         public Color Color { get; set; }
 

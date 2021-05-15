@@ -36,9 +36,9 @@ namespace TurtleCore.Internal
         public int GroupID { get; init; }
 
         /// <summary>
-        /// True if an animation of this group is running at the moment
+        /// The count of actually running animations
         /// </summary>
-        public bool AnimationIsRunning { get; set; }
+        public int AnimationsRunning { get; set; }
 
         /// <summary>
         /// Normal case: Add a ScreenObject
@@ -72,7 +72,7 @@ namespace TurtleCore.Internal
         public List<int> ExtractLeadingOtherGroupsReadyToRun()
         {
             var otherGroups = new List<int>();
-            if (!AnimationIsRunning)
+            if (AnimationsRunning == 0)
             {
                 while (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingOtherGroup)
                 {
@@ -88,7 +88,7 @@ namespace TurtleCore.Internal
         {
             List<ScreenObject> list = new();
 
-            if (!AnimationIsRunning && _waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
+            if (AnimationsRunning == 0 && _waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
             {
                 // Because animation is not running we can take the first screen object, even it is waiting for an animation
                 var screenObject = (_waitingObjects[0] as WaitingScreenObject).ScreenObject;
@@ -110,7 +110,7 @@ namespace TurtleCore.Internal
 
         public AnimationGroupState(int groupId)
         {
-            AnimationIsRunning = false;
+            AnimationsRunning = 0;
             _waitingObjects = new();
             GroupID = groupId;
         }
