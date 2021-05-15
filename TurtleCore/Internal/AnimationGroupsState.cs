@@ -49,7 +49,7 @@ namespace TurtleCore.Internal
 
                 // The other group gets a waiting-object, that will set AnimationIsRunning to false, when the other group is finished.
                 stateOfGroupToWaitFor.AddWaitingOtherGroup(groupIdThatWaits);
-                Console.WriteLine($"Consumer: {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}.");
+                Console.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}.");
             }
             else
             {
@@ -100,7 +100,7 @@ namespace TurtleCore.Internal
         }
 
 
-        public List<ScreenObject> ExtractAllNonWaitingScreenObjects()
+        public List<ScreenObject> ExtractLeadingScreenObjectsReadyToRun()
         {
             var list = new List<ScreenObject>();
 
@@ -111,30 +111,6 @@ namespace TurtleCore.Internal
             }
 
             return list;
-        }
-
-        public ScreenObject ExtractOneNonWaitingScreenObject()
-        {
-            ScreenObject found = null;
-
-            var group = _groupsWithActiveAnimations.Values.Where(group => (group.FirstLeadingScreenObjectIsReadyToRun())).FirstOrDefault();
-            if (group != null)
-            {
-                found = group.ExtractLeadingScreenObject();
-            }
-
-            return found;
-        }
-
-        public List<int> ExtractLeadingOtherGroupsReadyToRun()
-        {
-            var otherGroups = new List<int>();
-            foreach (var group in _groupsWithActiveAnimations)
-            {
-                otherGroups.AddRange(group.Value.ExtractLeadingOtherGroupsReadyToRun());
-
-            }
-            return otherGroups;
         }
 
 

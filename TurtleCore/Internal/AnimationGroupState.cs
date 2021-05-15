@@ -83,37 +83,6 @@ namespace TurtleCore.Internal
             return otherGroups;
         }
 
-        public bool FirstLeadingScreenObjectIsReadyToRun()
-        {
-            if (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
-            {
-                if (!AnimationIsRunning)
-                {
-                    // Because animation is not running we can take the first screen object, even it is waiting for an animation
-                    return true;
-                }
-                else
-                {
-                    return !(_waitingObjects[0] as WaitingScreenObject).WaitsForAnAnimation();
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public ScreenObject ExtractLeadingScreenObject()
-        {
-            ScreenObject result = null;
-
-            if (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingScreenObject)
-            {
-                result = (_waitingObjects[0] as WaitingScreenObject).ScreenObject;
-                _waitingObjects.RemoveAt(0);
-            }
-            return result;
-        }
 
         public List<ScreenObject> ExtractLeadingScreenObjectsReadyToRun()
         {

@@ -107,6 +107,17 @@ namespace TurtleCore.UnitTests
         }
 
         [TestMethod]
+        public void Case07_FirstReadyToRunObjectHasNoAnimation()
+        {
+            // Groups 2 and 3 are waiting for group 1 to be finished
+            // When group 1 is finished, the first objects of groups 2 and 3 can be sent to the writer
+            // These objects have no animation! 
+            // Therefore it is important that also the next objects of this group are sent to the writer too.
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,1:100 ?(1)2,2:0 ?(1)3,3:0 ?2,4:100 ?3,5:200", stopWhenObjectIsFinished: 5);
+            result.Should().Be("[1><1][2><2][3><3][4>[5><4]<5]");
+        }
+
+        [TestMethod]
         public void NoEndlessLoopIfProducerThreadHasAnException()
         {
             Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2);
@@ -261,8 +272,6 @@ namespace TurtleCore.UnitTests
                 GroupID = groupId,
             };
 
-            line.Animation = new ScreenAnimation();
-
             if (startWhenPredecessorHasFinished)
             {
                 if (otherGroupId != 0)
@@ -271,7 +280,12 @@ namespace TurtleCore.UnitTests
                     line.WaitForAnimationsOfGroupID = groupId;
             }
 
-            line.Animation.Effects.Add(new ScreenAnimationEffect() { Milliseconds = duration });
+            if (duration > 0)
+            {
+                line.Animation = new ScreenAnimation();
+
+                line.Animation.Effects.Add(new ScreenAnimationEffect() { Milliseconds = duration });
+            }
 
             _actualProducer.DrawLine(line);
         }
@@ -318,7 +332,8 @@ namespace TurtleCore.UnitTests
 
         public void Update(ScreenObject screenObject)
         {
-            // Nothing to do in this test
+            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
+            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
         }
 
 

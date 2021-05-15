@@ -151,6 +151,10 @@ namespace TurtleWpf
                 // Aus https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
                 Dispatcher.Invoke(() =>
                 {
+                    if (t.IsFaulted)
+                    {
+                        throw new Exception($"Error while handling screen object: {t.Exception.InnerException.Message}");
+                    }
                     NextTask();
                 });
             });

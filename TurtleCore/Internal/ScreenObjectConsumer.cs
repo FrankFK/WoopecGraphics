@@ -22,25 +22,13 @@ namespace TurtleCore.Internal
             _animationGroupsState = new();
         }
 
+        /// <summary>
+        /// Return a task that waits for the next ScreenObject.
+        /// This task can be "plugged" into the Main-Loop of the actual thread (UI thread of WPF for instance)
+        /// </summary>
+        /// <returns></returns>
         public async Task HandleNextScreenObjectAsync()
         {
-            lock (s_lockObj)
-            {
-                // At first: Inform other groups that are ready to run
-                var otherGroups = _animationGroupsState.ExtractLeadingOtherGroupsReadyToRun();
-                _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
-
-                // Before reading new objects from the channel, take buffered objects which are not waiting anymore.
-                // (But i assume that this situation will never arise because AnimationOfGroupIsFinished has called ExtractAllNonWaitingScreenObjects() before)
-                var writableObject = _animationGroupsState.ExtractOneNonWaitingScreenObject();
-                if (writableObject != null)
-                {
-                    SendNextObjectToWriter(writableObject);
-                    return;
-                }
-            }
-
-            // Otherwise search for a directly writeable object in the channel
             while (true)
             {
                 var screenObject = await _objectChannel.Reader.ReadAsync();
@@ -60,6 +48,12 @@ namespace TurtleCore.Internal
             }
         }
 
+        /// <summary>
+        /// Animation of an object is finished. Check if other objects are waiting for that and
+        /// update these objects.
+        /// </summary>
+        /// <param name="groupId">The groupId of the finished screen object</param>
+        /// <param name="screenObjectId">the Id of the finished screen object</param>
         public void AnimationOfGroupIsFinished(int groupId, int screenObjectId)
         {
             lock (s_lockObj)
@@ -74,32 +68,7 @@ namespace TurtleCore.Internal
                         // We can not trust that GetNextObjectForWriterAsync() handles it, because GetNextObjectForWriterAsync() may get no further objects.
                         Console.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
 
-                        // With one run through this loop many states are changed. It is possible that further objects are not waiting after the first
-                        // run through the loop. Therefore we loop until no changes were found.
-                        var changesFound = true;
-                        while (changesFound)
-                        {
-                            // At first: Inform other groups that are waiting for this group to be finished
-                            var otherGroups = groupState.ExtractLeadingOtherGroupsReadyToRun();
-                            _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
-
-                            // Then: Collect all non longer waiting Screen objects and start them
-                            var noLongerWaitingScreenObjects = _animationGroupsState.ExtractAllNonWaitingScreenObjects();
-                            if (noLongerWaitingScreenObjects.Count == 0)
-                            {
-                                Console.WriteLine($"    Group has no waiting ScreenObjects, and no other ScreenObject is waiting.");
-                            }
-                            else
-                            {
-                                foreach (var screenObject in noLongerWaitingScreenObjects)
-                                {
-                                    Console.WriteLine($"    Group has waiting ScreenObject {screenObject.ID}. Starting animation of it.");
-                                    SendNextObjectToWriter(screenObject);
-                                }
-                            }
-
-                            changesFound = (otherGroups.Count != 0 || noLongerWaitingScreenObjects.Count != 0);
-                        }
+                        SendAllObjectsThatAreReadyToRunToWriter(groupState);
                     }
                 }
                 else
@@ -109,6 +78,42 @@ namespace TurtleCore.Internal
             }
         }
 
+        /// <summary>
+        /// Find out (recursively) all screen objects that wait for the animation of the given group and send them to the writer
+        /// </summary>
+        /// <param name="groupState">State of the group whose animation has ended</param>
+        private void SendAllObjectsThatAreReadyToRunToWriter(AnimationGroupState groupState)
+        {
+            // With one run through this loop many states are changed. It is possible that further objects are not waiting after the first
+            // run through the loop. Therefore we loop until no changes were found.
+            var changesFound = true;
+            while (changesFound)
+            {
+                // At first: Inform other groups that are waiting for this group to be finished
+                var otherGroups = groupState.ExtractLeadingOtherGroupsReadyToRun();
+                if (otherGroups.Count > 0)
+                {
+                    Console.WriteLine($"    Group {groupState.GroupID}: Following waiting groups can start: {string.Join(", ", otherGroups)}.");
+                }
+                _animationGroupsState.SetAnimationIsRunning(otherGroups, false);
+
+                // Then: Collect all non longer waiting Screen objects and start them
+                var noLongerWaitingScreenObjects = _animationGroupsState.ExtractLeadingScreenObjectsReadyToRun();
+                if (noLongerWaitingScreenObjects.Count == 0)
+                {
+                    Console.WriteLine($"    Group {groupState.GroupID} has no waiting ScreenObjects, and no other ScreenObject is waiting.");
+                }
+                else
+                {
+                    foreach (var screenObject in noLongerWaitingScreenObjects)
+                    {
+                        SendNextObjectToWriter(screenObject);
+                    }
+                }
+
+                changesFound = (otherGroups.Count != 0 || noLongerWaitingScreenObjects.Count != 0);
+            }
+        }
 
         private void SendNextObjectToWriter(ScreenObject screenObject)
         {
@@ -116,12 +121,12 @@ namespace TurtleCore.Internal
             {
                 _animationGroupsState.AddRunningAnimation(screenObject.GroupID);
 
-                Console.WriteLine($"Consumer: Animated object {screenObject.ID} sent to writer");
+                Console.WriteLine($"Consumer: Group {screenObject.GroupID},   animated object {screenObject.ID} sent to writer");
                 _writer.UpdateWithAnimation(screenObject);
             }
             else
             {
-                Console.WriteLine($"Consumer: Unanimated object {screenObject.ID} sent to writer");
+                Console.WriteLine($"Consumer: Group {screenObject.GroupID}, unanimated object {screenObject.ID} sent to writer");
                 _writer.Update(screenObject);
             }
         }
@@ -171,7 +176,7 @@ namespace TurtleCore.Internal
                 if (screenObject.WaitForAnimationsOfGroupID == screenObject.GroupID)
                 {
                     // Easy case: When all previous animations of this group are finished this animation will be written
-                    Console.WriteLine($"Consumer: {screenObject.ID} is waiting for animation of the same groupID");
+                    Console.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting for an animation its group");
                 }
                 else
                 {
@@ -181,7 +186,7 @@ namespace TurtleCore.Internal
             }
             else
             {
-                Console.WriteLine($"Consumer: {screenObject.ID} is waiting (but not for an animation)");
+                Console.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting (but not for an animation)");
             }
         }
 
