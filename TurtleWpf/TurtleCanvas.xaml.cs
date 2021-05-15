@@ -154,6 +154,16 @@ namespace TurtleWpf
             activeTurtle.Forward(50);
             activeTurtle.ShowTurtle();
             activeTurtle.Forward(50);
+
+            /////////////////////////////////////////////////////////////
+            // 15.05.2021 (late in the evening) TurtleRotation
+            activeTurtle.Left(720);
+            activeTurtle.Right(720 + 90);
+            activeTurtle.Forward(40);
+            activeTurtle.Right(90);
+            activeTurtle.Forward(30);
+            activeTurtle.Right(90);
+            activeTurtle.Forward(20);
         }
 
         private void NextTask()

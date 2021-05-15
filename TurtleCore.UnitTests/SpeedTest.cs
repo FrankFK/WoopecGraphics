@@ -40,7 +40,7 @@ namespace TurtleCore.UnitTests
         }
 
         [TestMethod]
-        public void Speed_TooLowsResultsToNoAnimation()
+        public void Speed_TooLowResultsToNoAnimation()
         {
             // Act
             Speed speed = 0.4;
@@ -87,6 +87,24 @@ namespace TurtleCore.UnitTests
 
             int duration = speed.MillisecondsForMovement(from, to);
             duration.Should().Be(5000);
+        }
+
+        [TestMethod]
+        public void Speed_DurationForFullRotationOnSlowestSpeed()
+        {
+            Speed speed = SpeedLevel.Slowest;
+
+            int duration = speed.MillisecondsForRotation(0, 360);
+            duration.Should().Be(2300);
+        }
+
+        [TestMethod]
+        public void Speed_DurationForFullRotationOnFastSpeed()
+        {
+            Speed speed = SpeedLevel.Fast;
+
+            int duration = speed.MillisecondsForRotation(0, 360);
+            duration.Should().Be(230);
         }
     }
 }

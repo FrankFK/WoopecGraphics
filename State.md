@@ -17,7 +17,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | goto()
 | setx()
 | sety()
-| setheading()
+| setheading()                        | 1       | first version, Turtle.Heading|
 | home()
 | circle()
 | dot()
@@ -31,7 +31,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | towards()
 | xcor()
 | ycor()
-| heading()
+| heading()                           |         | 100% |
 | distance()
 | **Setting and measurement**
 | degrees()
@@ -55,9 +55,9 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | clear()
 | write()
 | **Visibility**
-| showturtle()                         | 1
-| hideturtle()                         | 1
-| isvisible()
+| showturtle()                         | 1 | first version |
+| hideturtle()                         | 1 | first version |
+| isvisible()                          |   | first version |
 | **Appearance**
 | shape()
 | resizemode()

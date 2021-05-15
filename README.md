@@ -4,6 +4,10 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
+
+* Animations auf Wpf-Seite aufräumen?
+* Mehr Unit-Tests
+* Exceptions müssen abgefangen werden -- aktuell stürtzt dann das Programm ab.
 * Turtle-shapes: Die Defaults stehen hier PythonCode\TurtleScreenClass.py. Das sind alles Shapes -- auch die Schildkröte.
   PenColor und FillColor gelten auch für diese Shapes und ändern damit die Farbe.
   In WPF kann man Pathes auch animieren https://stackoverflow.com/questions/51338163/wpf-polygon-storyboard-animation
@@ -30,7 +34,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-52h 
+60h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -52,7 +56,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 11.05.2021: Animation of a new Pen waits until previous animations are finished
 * 12.05.2021: Classes for Shapes
 * 13.05.2021: Screen has a dictionary of shapes
-* 15.05.2021: First turtle shape shown on screen
+* 15.05.2021: Turtle movement and rotation
+
  
 
 

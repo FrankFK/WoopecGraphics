@@ -112,6 +112,7 @@ namespace TurtleCore
         public void Right(double angle)
         {
             _pen.Rotate(-angle);
+            bool togetherWithPreviousAnimation = _pen.IsDown; // if pen was down, the figure should not wait untel the pen-line is finished
             _figure.Rotate(-angle);
         }
 

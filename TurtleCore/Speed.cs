@@ -70,7 +70,6 @@ namespace TurtleCore
         {
             Vec2D distanceVector = toPoint - fromPoint;
             double distanceInPixels = distanceVector.AbsoluteValue;
-            double speedInPixelsPerMillisecond = Value / 10;  // In case of speed == fast == 10: 1000 pixels per second, 1 pixel per millisecond
 
             // Python-turtle approximates a move by "hops"
             // Historical formula from python turtle: 
@@ -94,7 +93,7 @@ namespace TurtleCore
             // one second for 100 pixels. This is a speed of 0.1 pixel per millisecond
             //
             // This formula yields speed of 0.1 for Value = 1
-            speedInPixelsPerMillisecond = Math.Pow(1.1, Value) * Value * 0.1 / 1.1;
+            var speedInPixelsPerMillisecond = Math.Pow(1.1, Value) * Value * 0.1 / 1.1;
 
             //        speed = distance / time
             //    <=> time  = distance / speed
@@ -104,5 +103,25 @@ namespace TurtleCore
                 milliseconds = 1;
             return milliseconds;
         }
+
+        public int MillisecondsForRotation(double oldHeading, double newHeading)
+        {
+            double distanceInDegrees = Math.Abs(oldHeading - newHeading);
+
+            // Python-turtle approximates rotation by drawing multiple steps with delta-angles
+            // Historical formula from python turtle: 
+            //      anglevel = 3.0 * self._speed
+            //      steps = 1 + int(abs(angle) / anglevel)
+            //
+            // I do not know the duration of a python "step". But on my machine a full rotation with slowest speed (Speed.Value == 1) has a duration of 2.3 seconds
+            var speedInDegreesPerMillisecond = Value * 360 / (2.3 * 1000);
+
+            int milliseconds = (int)(distanceInDegrees / speedInDegreesPerMillisecond);
+            if (milliseconds == 0)
+                // We want an animation
+                milliseconds = 1;
+            return milliseconds;
+        }
+
     }
 }

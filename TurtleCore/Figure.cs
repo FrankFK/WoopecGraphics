@@ -87,16 +87,19 @@ namespace TurtleCore
 
         public void Rotate(double angle)
         {
-            var newHeading = (Heading + angle) % 360;
-            if (newHeading < 0) newHeading += 360;
+            var oldHeading = Heading;
+            Heading = (Heading + angle);
 
             var newOrientation = Orientation.Rotate(angle);
 
             Orientation = newOrientation;
-            Heading = newHeading;
 
             if (IsVisible)
-                UpdateScreen();
+                RotateOnScreen(oldHeading);
+
+            // Reset heading to range 0..360
+            Heading = Heading % 360;
+            if (Heading < 0) Heading += 360;
         }
 
         public void Move(double distance)
@@ -151,6 +154,23 @@ namespace TurtleCore
                 // Animation dazu:
                 figure.Animation = new ScreenAnimation();
                 figure.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Position, StartValue = oldPosition, Milliseconds = speedDuration });
+                _firstAnimationIsAdded = true;
+            }
+
+            _screen.UpdateFigure(figure);
+        }
+
+        private void RotateOnScreen(double oldHeading)
+        {
+            var figure = CreateScreenFigure(togetherWithPreviousAnimation: false);
+
+            if (!Speed.NoAnimation)
+            {
+                int speedDuration = Speed.MillisecondsForRotation(oldHeading, Heading);
+
+                // Animation dazu:
+                figure.Animation = new ScreenAnimation();
+                figure.Animation.Effects.Add(new ScreenAnimationRotation() { AnimatedProperty = ScreenAnimationRotationProperty.Heading, StartValue = oldHeading, Milliseconds = speedDuration });
                 _firstAnimationIsAdded = true;
             }
 

@@ -108,31 +108,63 @@ namespace TurtleWpf
                 var transforms = new TransformGroup();
                 path.RenderTransform = transforms;
 
-                var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
-                transforms.Children.Add(rotateTransform);
-
-                var move = screenFigure.Animation.Effects[0] as ScreenAnimationMovement;
-
-                var translateTransform = new TranslateTransform();
-                transforms.Children.Add(translateTransform);
-
-                var oldPositionOnCanvas = ConvertToCanvasPoint(move.StartValue);
-
-                var positionXAnimation = new DoubleAnimation
+                if (screenFigure.Animation.Effects[0] is ScreenAnimationMovement)
                 {
-                    From = oldPositionOnCanvas.X,
-                    To = positionOnCanvas.X,
-                    Duration = new Duration(TimeSpan.FromMilliseconds(move.Milliseconds))
-                };
-                translateTransform.BeginAnimation(TranslateTransform.XProperty, positionXAnimation);
-                var positionYAnimation = new DoubleAnimation
+                    var move = screenFigure.Animation.Effects[0] as ScreenAnimationMovement;
+
+                    var oldPositionOnCanvas = ConvertToCanvasPoint(move.StartValue);
+
+                    // We change left and top in canvas, because this way is the way we do in case of a rotation:
+                    Canvas.SetLeft(path, oldPositionOnCanvas.X);
+                    Canvas.SetTop(path, oldPositionOnCanvas.Y);
+
+                    var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
+                    transforms.Children.Add(rotateTransform);
+
+                    var translateTransform = new TranslateTransform();
+                    transforms.Children.Add(translateTransform);
+
+
+                    var positionXAnimation = new DoubleAnimation
+                    {
+                        From = 0,
+                        To = positionOnCanvas.X - oldPositionOnCanvas.X,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(move.Milliseconds))
+                    };
+                    translateTransform.BeginAnimation(TranslateTransform.XProperty, positionXAnimation);
+                    var positionYAnimation = new DoubleAnimation
+                    {
+                        From = 0,
+                        To = positionOnCanvas.Y - oldPositionOnCanvas.Y,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(move.Milliseconds))
+                    };
+                    positionYAnimation.Completed += (sender, args) => OnAnimationIsFinished(screenFigure.GroupID, screenFigure.ID);
+                    translateTransform.BeginAnimation(TranslateTransform.YProperty, positionYAnimation);
+                }
+                else if (screenFigure.Animation.Effects[0] is ScreenAnimationRotation)
                 {
-                    From = oldPositionOnCanvas.Y,
-                    To = positionOnCanvas.Y,
-                    Duration = new Duration(TimeSpan.FromMilliseconds(move.Milliseconds))
-                };
-                positionYAnimation.Completed += (sender, args) => OnAnimationIsFinished(screenFigure.GroupID, screenFigure.ID);
-                translateTransform.BeginAnimation(TranslateTransform.YProperty, positionYAnimation);
+                    // We have to set (0, 0) to the actual position of the figure
+                    // (Otherwise an animated rotation of the figure rotates around the upper left corner of the canvas)
+                    Canvas.SetLeft(path, positionOnCanvas.X);
+                    Canvas.SetTop(path, positionOnCanvas.Y);
+
+                    var rotate = screenFigure.Animation.Effects[0] as ScreenAnimationRotation;
+
+                    var rotateTransform = new RotateTransform();
+                    transforms.Children.Add(rotateTransform);
+
+                    var oldAngle = ConvertToCanvasAngle(rotate.StartValue);
+                    var newAngle = ConvertToCanvasAngle(screenFigure.Heading);
+
+                    var rotateAnimation = new DoubleAnimation
+                    {
+                        From = oldAngle,
+                        To = newAngle,
+                        Duration = new Duration(TimeSpan.FromMilliseconds(rotate.Milliseconds))
+                    };
+                    rotateAnimation.Completed += (sender, args) => OnAnimationIsFinished(screenFigure.GroupID, screenFigure.ID);
+                    rotateTransform.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation);
+                }
 
                 if (!_canvas.Children.Contains(path))
                 {
@@ -200,8 +232,13 @@ namespace TurtleWpf
                     var rotateTransform = new RotateTransform(ConvertToCanvasAngle(screenFigure.Heading));
                     transforms.Children.Add(rotateTransform);
 
-                    var translateTransform = new TranslateTransform(positionOnCanvas.X, positionOnCanvas.Y);
-                    transforms.Children.Add(translateTransform);
+                    // We have to set (0, 0) to the actual position of the figure
+                    // (Otherwise an animated rotation of the figure rotates around the upper left corner of the canvas)
+                    Canvas.SetLeft(path, positionOnCanvas.X);
+                    Canvas.SetTop(path, positionOnCanvas.Y);
+
+                    // var translateTransform = new TranslateTransform(positionOnCanvas.X, positionOnCanvas.Y);
+                    // transforms.Children.Add(translateTransform);
 
                     if (!_canvas.Children.Contains(path))
                     {
