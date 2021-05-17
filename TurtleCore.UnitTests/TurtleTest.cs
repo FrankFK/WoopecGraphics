@@ -7,6 +7,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TurtleCore.UnitTests
 {
 
+    /// <summary>
+    /// Tests for the Turtle class
+    /// </summary>
+    /// <remarks>
+    /// The Turtle class mainly is a container consisting of a Pen class and a Figure class.
+    /// The most unit tests are implemented in PenTest and in FigureTest.
+    /// Tests in TurtleTest only test the specifics of the Turtle class
+    /// </remarks>
     [TestClass]
     public class TurtleTest
     {
@@ -67,12 +75,15 @@ namespace TurtleCore.UnitTests
             var turtle = CreateSut();
 
             // Assert
-            var expected = new Vec2D(0, 0);
-            turtle.Position.Should().Be(expected);
-            turtle.Heading.Should().Be(0);
 
+            //
+            // We do not check all initial values of Pen and Figure here
+            //
+            // We only check values that are special to Turtle class or that are special when Pen or Figure are used as part of a Turtle
+            //
             // The turtle is immediately visible after creation!
             turtle.IsVisible.Should().BeTrue();
+            turtle.Figure.IsVisible.Should().BeTrue();
         }
 
 
@@ -88,13 +99,8 @@ namespace TurtleCore.UnitTests
             // Assert
             var expected = new Vec2D(25, 0);
             turtle.Position.Should().Be(expected);
-
-            // Act
-            turtle.Forward(25);
-
-            // Assert
-            var expected2 = new Vec2D(50, 0);
-            turtle.Position.Should().Be(expected2);
+            turtle.Figure.Position.Should().Be(expected);
+            turtle.Pen.Position.Should().Be(expected);
         }
 
         [TestMethod]
@@ -109,13 +115,8 @@ namespace TurtleCore.UnitTests
             // Assert
             var expected = new Vec2D(-25, 0);
             turtle.Position.Should().Be(expected);
-
-            // Act
-            turtle.Backward(25);
-
-            // Assert
-            var expected2 = new Vec2D(-50, 0);
-            turtle.Position.Should().Be(expected2);
+            turtle.Figure.Position.Should().Be(expected);
+            turtle.Pen.Position.Should().Be(expected);
         }
 
         [TestMethod]
@@ -129,23 +130,12 @@ namespace TurtleCore.UnitTests
 
             // Assert
             turtle.Heading.Should().Be(90);
+            turtle.Pen.Heading.Should().Be(90);
+            turtle.Figure.Heading.Should().Be(90);
 
             turtle.Forward(100);
             var expextedPostion = new Vec2D(0, 100);
             turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
-        }
-
-        [TestMethod]
-        public void Turtle_LeftWithMoreThan360Degrees_Works()
-        {
-            // Arrange
-            var turtle = CreateSut();
-
-            // Act
-            turtle.Left(450);
-
-            // Assert
-            turtle.Heading.Should().Be(90);
         }
 
         [TestMethod]
@@ -159,14 +149,13 @@ namespace TurtleCore.UnitTests
 
             // Assert
             turtle.Heading.Should().Be(270);
-
-            turtle.Forward(100);
-            var expextedPostion = new Vec2D(0, -100);
-            turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Figure.Heading.Should().Be(270);
+            turtle.Pen.Heading.Should().Be(270);
         }
 
+
         [TestMethod]
-        public void Turtle_InitiallyPenIsDown()
+        public void Turtle_SetPosition()
         {
             var screenMockup = new ScreenMockup();
 
@@ -174,77 +163,13 @@ namespace TurtleCore.UnitTests
             var turtle = CreateSut(screenMockup);
 
             // Act
-            turtle.Forward(100);
-
-            // Assert
-            screenMockup.DrawnLines.Count.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void Turtle_WhenPenIsUpNoLineIsDrawn()
-        {
-            var screenMockup = new ScreenMockup();
-
-            // Arrange
-            var turtle = CreateSut(screenMockup);
-
-            // Act
-            turtle.PenUp();
-            turtle.Forward(100);
-
-            // Assert
-            screenMockup.DrawnLines.Count.Should().Be(0);
-        }
-
-        [TestMethod]
-        public void Turtle_MoveAfterPenDownIsDrawn()
-        {
-            var screenMockup = new ScreenMockup();
-
-            // Arrange
-            var turtle = CreateSut(screenMockup);
-
-            // Act
-            turtle.PenUp();
-            turtle.Forward(100);
-            turtle.Left(90);
-            turtle.PenDown();
-            turtle.Forward(50);
-
-            // Assert
-            screenMockup.DrawnLines.Count.Should().Be(1);
-            var line = screenMockup.DrawnLines[0];
-            line.Point1.IsApproximatelyEqualTo(new Vec2D(100, 0), 0).Should().BeTrue();
-            line.Point2.IsApproximatelyEqualTo(new Vec2D(100, 50), 0).Should().BeTrue();
-        }
-
-        [TestMethod]
-        public void Turtle_PositionChangeWithPendownIsDrawn()
-        {
-            var screenMockup = new ScreenMockup();
-
-            // Arrange
-            var turtle = CreateSut(screenMockup);
-
-            // Act
-            turtle.PenDown();
             turtle.SetPosition(new Vec2D(0, 100));
 
             // Assert
-            screenMockup.DrawnLines.Count.Should().Be(1);
-        }
-
-        [TestMethod]
-        public void Turtle_InitiallyATurtleIsShown()
-        {
-            var screenMockup = new ScreenMockup();
-
-            // Act
-            var turtle = CreateSut(screenMockup);
-
-            // Assert
-            screenMockup.FigureUpdates.Count.Should().Be(1);
-            screenMockup.FigureUpdates[0].IsVisible.Should().BeTrue();
+            var expextedPostion = new Vec2D(0, 100);
+            turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Pen.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Figure.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
         }
 
 

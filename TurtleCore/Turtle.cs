@@ -105,7 +105,7 @@ namespace TurtleCore
         {
             _pen.Move(-distance);
             bool togetherWithPreviousAnimation = _pen.IsDown; // if pen was down, the figure should not wait untel the pen-line is finished
-            _figure.Move(distance, togetherWithPreviousAnimation);
+            _figure.Move(-distance, togetherWithPreviousAnimation);
         }
 
 
@@ -129,6 +129,14 @@ namespace TurtleCore
             _figure.Rotate(-angle);
         }
 
+        /// <summary>
+        /// Only needed for unit tests
+        /// </summary>
+        internal Pen Pen { get { return _pen; } }
 
+        /// <summary>
+        /// Only needed for unit tests
+        /// </summary>
+        internal Figure Figure {  get { return _figure; } }
     }
 }

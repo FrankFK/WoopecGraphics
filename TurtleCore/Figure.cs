@@ -22,41 +22,6 @@ namespace TurtleCore
         private int _idOnScreen;
         private bool _isVisible;
 
-        public Vec2D Position
-        {
-            get
-            {
-                return _position;
-            }
-        }
-        private Vec2D _position;
-
-
-        public Vec2D Orientation { get; private set; }
-
-        public double Heading { get; private set; }
-
-        public bool IsVisible
-        {
-            get
-            {
-                return _isVisible;
-            }
-            set
-            {
-                bool updateScreen = (_isVisible != value);
-                _isVisible = value;
-                if (updateScreen)
-                    UpdateScreen();
-            }
-        }
-
-        public Color FillColor { get; set; }
-
-        public Color OutlineColor { get; set; }
-
-        public Speed Speed { get; set; }
-
         /// <summary>
         /// Constructs a Figure that is not used as part of a Turtle class and uses the default screen
         /// </summary>
@@ -103,6 +68,42 @@ namespace TurtleCore
 
             _idOnScreen = _screen.CreateFigure(_shapeName);
         }
+
+        public Vec2D Position
+        {
+            get
+            {
+                return _position;
+            }
+        }
+        private Vec2D _position;
+
+
+        public Vec2D Orientation { get; private set; }
+
+        public double Heading { get; private set; }
+
+        public bool IsVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+            set
+            {
+                bool updateScreen = (_isVisible != value);
+                _isVisible = value;
+                if (updateScreen)
+                    UpdateScreen();
+            }
+        }
+
+        public Color FillColor { get; set; }
+
+        public Color OutlineColor { get; set; }
+
+        public Speed Speed { get; set; }
+
 
         public void Rotate(double angle)
         {

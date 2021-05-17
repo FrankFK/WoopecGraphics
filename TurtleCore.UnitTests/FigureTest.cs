@@ -16,7 +16,7 @@ namespace TurtleCore.UnitTests
 
             public List<ScreenFigure> FigureUpdates = new();
 
-            public int LastIssuedAnimatonGroupID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+            public int LastIssuedAnimatonGroupID { get; set; }
 
 
             public int CreateLine()
@@ -77,6 +77,20 @@ namespace TurtleCore.UnitTests
 
             // Assert
             figure.IsVisible.Should().BeFalse();
+        }
+
+        [TestMethod]
+        public void Figure_CreatedByATurtleIsImmediatelyShown()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Act
+            var turtle = new Turtle(screenMockup);
+
+            // Assert
+            turtle.Figure.IsVisible.Should().BeTrue();
+            screenMockup.FigureUpdates.Count.Should().Be(1);
+            screenMockup.FigureUpdates[0].IsVisible.Should().BeTrue();
         }
 
 
