@@ -16,7 +16,7 @@ namespace TurtleCore
         private static int s_totalCounter;
         private readonly int _id;
 
-        private readonly Screen _screen;
+        private readonly IScreen _screen;
         private bool _firstAnimationIsAdded;
         private string _shapeName;
         private int _idOnScreen;
@@ -58,7 +58,7 @@ namespace TurtleCore
         public Speed Speed { get; set; }
 
         /// <summary>
-        /// Constructor for a Figure that is not used as part of a Turtle class
+        /// Constructs a Figure that is not used as part of a Turtle class and uses the default screen
         /// </summary>
         public Figure()
             : this(Interlocked.Increment(ref s_totalCounter))
@@ -66,13 +66,32 @@ namespace TurtleCore
         }
 
         /// <summary>
-        /// Constructor for a Pen that is used as a part of a Turtle class
+        /// Constructs a Figure that is not used as part of a Turtle class
+        /// </summary>
+        /// <param name="screen">Figure is printed on this screen</param>
+        public Figure(IScreen screen)
+            : this(screen, Interlocked.Increment(ref s_totalCounter))
+        {
+        }
+
+        /// <summary>
+        /// Constructs a Figure that is used as a part of a Turtle class and uses the default screen
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
         public Figure(int id)
+            : this(Screen.GetDefaultScreen(), id)
+        {
+        }
+
+        /// <summary>
+        /// Constructs a Figure
+        /// </summary>
+        /// <param name="screen">Figure is printed on this screen</param>
+        /// <param name="id">The Id of the turtle</param>
+        public Figure(IScreen screen, int id)
         {
             _id = id;
-            _screen = Screen.GetDefaultScreen();
+            _screen = screen;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;

@@ -16,11 +16,24 @@ namespace TurtleCore
         private readonly Pen _pen;
         private readonly Figure _figure;
 
+        /// <summary>
+        /// Constructs a turtle that uses the default screen
+        /// </summary>
         public Turtle()
+            : this(Screen.GetDefaultScreen())
+        {
+
+        }
+
+        /// <summary>
+        /// Constructs a turtle
+        /// </summary>
+        /// <param name="screen">Figure is printed on this screen</param>
+        public Turtle(IScreen screen)
         {
             _id = Interlocked.Increment(ref s_totalCounter);
-            _figure = new Figure(_id);
-            _pen = new Pen(_id);
+            _figure = new Figure(screen, _id);
+            _pen = new Pen(screen, _id);
 
             // The Turtle should be visible immediately:
             _figure.IsVisible = true;

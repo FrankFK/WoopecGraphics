@@ -10,53 +10,53 @@ namespace TurtleCore.UnitTests
     [TestClass]
     public class TurtleTest
     {
-        private class TurtleScreenProducerMockup : IScreenObjectProducer
+        private class ScreenMockup : IScreen
         {
-            public List<ScreenLine> DrawnLines = new();
-            public List<ScreenFigure> FigureUpdates = new();
+            private int _figureCounter;
+            private int _lineCounter;
 
-            private int _figureCounter = 0;
+            public List<ScreenFigure> FigureUpdates = new();
+            public List<ScreenLine> DrawnLines = new();
+
+            public int LastIssuedAnimatonGroupID { get; set; }
+
 
             public int CreateLine()
             {
-                return 1;
+                _lineCounter++;
+                return _lineCounter;
             }
 
             public void DrawLine(ScreenLine line)
             {
                 DrawnLines.Add(line);
             }
-            public int CreateFigure(ShapeBase shape)
+
+            public void RegisterShape(string name, ShapeBase shape)
+            {
+                throw new NotImplementedException();
+            }
+            public void AddShape(string name, ShapeBase shape)
+            {
+                throw new NotImplementedException();
+            }
+            public List<string> GetShapes()
+            {
+                throw new NotImplementedException();
+            }
+
+
+            public int CreateFigure(string shapeName)
             {
                 _figureCounter++;
-                return _figureCounter - 1;
+                return _figureCounter;
             }
 
             public void UpdateFigure(ScreenFigure figure)
             {
                 FigureUpdates.Add(figure);
             }
-
-
         }
-
-        private static TurtleScreenProducerMockup _producerMockup;
-
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext _)
-        {
-            Debug.WriteLine("Init start");
-            _producerMockup = new TurtleScreenProducerMockup();
-            TurtleOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
-            Debug.WriteLine("Init end");
-        }
-
-        [TestCleanup]
-        public void TestsCleanup()
-        {
-            Screen.ResetDefaultScreen();
-        }
-
 
         [TestMethod]
         public void Turtle_InitialValues()
@@ -168,41 +168,41 @@ namespace TurtleCore.UnitTests
         [TestMethod]
         public void Turtle_InitiallyPenIsDown()
         {
-            _producerMockup.DrawnLines.Clear();
+            var screenMockup = new ScreenMockup();
 
             // Arrange
-            var turtle = CreateSut();
+            var turtle = CreateSut(screenMockup);
 
             // Act
             turtle.Forward(100);
 
             // Assert
-            _producerMockup.DrawnLines.Count.Should().Be(1);
+            screenMockup.DrawnLines.Count.Should().Be(1);
         }
 
         [TestMethod]
         public void Turtle_WhenPenIsUpNoLineIsDrawn()
         {
-            _producerMockup.DrawnLines.Clear();
+            var screenMockup = new ScreenMockup();
 
             // Arrange
-            var turtle = CreateSut();
+            var turtle = CreateSut(screenMockup);
 
             // Act
             turtle.PenUp();
             turtle.Forward(100);
 
             // Assert
-            _producerMockup.DrawnLines.Count.Should().Be(0);
+            screenMockup.DrawnLines.Count.Should().Be(0);
         }
 
         [TestMethod]
         public void Turtle_MoveAfterPenDownIsDrawn()
         {
-            _producerMockup.DrawnLines.Clear();
+            var screenMockup = new ScreenMockup();
 
             // Arrange
-            var turtle = CreateSut();
+            var turtle = CreateSut(screenMockup);
 
             // Act
             turtle.PenUp();
@@ -212,8 +212,8 @@ namespace TurtleCore.UnitTests
             turtle.Forward(50);
 
             // Assert
-            _producerMockup.DrawnLines.Count.Should().Be(1);
-            var line = _producerMockup.DrawnLines[0];
+            screenMockup.DrawnLines.Count.Should().Be(1);
+            var line = screenMockup.DrawnLines[0];
             line.Point1.IsApproximatelyEqualTo(new Vec2D(100, 0), 0).Should().BeTrue();
             line.Point2.IsApproximatelyEqualTo(new Vec2D(100, 50), 0).Should().BeTrue();
         }
@@ -221,36 +221,41 @@ namespace TurtleCore.UnitTests
         [TestMethod]
         public void Turtle_PositionChangeWithPendownIsDrawn()
         {
-            _producerMockup.DrawnLines.Clear();
+            var screenMockup = new ScreenMockup();
 
             // Arrange
-            var turtle = CreateSut();
+            var turtle = CreateSut(screenMockup);
 
             // Act
             turtle.PenDown();
             turtle.SetPosition(new Vec2D(0, 100));
 
             // Assert
-            _producerMockup.DrawnLines.Count.Should().Be(1);
+            screenMockup.DrawnLines.Count.Should().Be(1);
         }
 
         [TestMethod]
         public void Turtle_InitiallyATurtleIsShown()
         {
-            _producerMockup.FigureUpdates.Clear();
+            var screenMockup = new ScreenMockup();
 
             // Act
-            var turtle = CreateSut();
+            var turtle = CreateSut(screenMockup);
 
             // Assert
-            _producerMockup.FigureUpdates.Count.Should().Be(1);
-            _producerMockup.FigureUpdates[0].IsVisible.Should().BeTrue();
+            screenMockup.FigureUpdates.Count.Should().Be(1);
+            screenMockup.FigureUpdates[0].IsVisible.Should().BeTrue();
         }
 
 
         private static Turtle CreateSut()
         {
-            return new Turtle();
+            return new Turtle(new ScreenMockup());
+        }
+
+        private static Turtle CreateSut(IScreen screen)
+        {
+            return new Turtle(screen);
         }
     }
 }

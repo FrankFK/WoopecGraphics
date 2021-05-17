@@ -10,51 +10,59 @@ namespace TurtleCore.UnitTests
     [TestClass]
     public class FigureTest
     {
-        private class TurtleScreenProducerMockup : IScreenObjectProducer
+        private class ScreenMockup : IScreen
         {
-            public List<ScreenLine> DrawnLines = new();
+            private int _figureCounter;
+
             public List<ScreenFigure> FigureUpdates = new();
 
-            private int _figureCounter = 0;
+            public int LastIssuedAnimatonGroupID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
 
             public int CreateLine()
             {
-                return 1;
+                throw new NotImplementedException();
             }
 
             public void DrawLine(ScreenLine line)
             {
-                DrawnLines.Add(line);
+                throw new NotImplementedException();
             }
-            public int CreateFigure(ShapeBase shape)
+
+            public void RegisterShape(string name, ShapeBase shape)
+            {
+                throw new NotImplementedException();
+            }
+            public void AddShape(string name, ShapeBase shape)
+            {
+                throw new NotImplementedException();
+            }
+            public List<string> GetShapes()
+            {
+                throw new NotImplementedException();
+            }
+
+
+            public int CreateFigure(string shapeName)
             {
                 _figureCounter++;
-                return _figureCounter - 1;
+                return _figureCounter;
             }
 
             public void UpdateFigure(ScreenFigure figure)
             {
                 FigureUpdates.Add(figure);
             }
-
-
         }
-
-        private static TurtleScreenProducerMockup _producerMockup;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
         {
-            Debug.WriteLine("Init start");
-            _producerMockup = new TurtleScreenProducerMockup();
-            TurtleOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
-            Debug.WriteLine("Init end");
         }
 
         [TestCleanup]
         public void TestsCleanup()
         {
-            Screen.ResetDefaultScreen();
         }
 
 
@@ -62,9 +70,10 @@ namespace TurtleCore.UnitTests
         public void Figure_InitialValues()
         {
             // Arrange
+            var screenMockup = new ScreenMockup();
 
             // Act
-            var figure = CreateSut();
+            var figure = CreateSut(screenMockup);
 
             // Assert
             figure.IsVisible.Should().BeFalse();
@@ -72,9 +81,9 @@ namespace TurtleCore.UnitTests
 
 
 
-        private static Figure CreateSut()
+        private static Figure CreateSut(IScreen screen)
         {
-            return new Figure();
+            return new Figure(screen);
         }
     }
 }

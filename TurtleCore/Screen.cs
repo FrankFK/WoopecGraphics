@@ -9,7 +9,7 @@ namespace TurtleCore
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
     /// </summary>
-    public class Screen
+    public class Screen : IScreen
     {
         private static Screen _defaultScreen;
 
@@ -26,22 +26,24 @@ namespace TurtleCore
         }
 
 
-        /// <summary>
-        /// Return the GroupId of the last animation that is drawn at the screen
-        /// </summary>
+        #region Methods of IScreen
+        ///<inheritdoc/>
         public int LastIssuedAnimatonGroupID { get; set; }
 
+        ///<inheritdoc/>
         public int CreateLine()
         {
             return _screenObjectProducer.CreateLine();
         }
 
+        ///<inheritdoc/>
         public void DrawLine(ScreenLine line)
         {
             UpdateLastIssuedAnimationGroupID(line);
             _screenObjectProducer.DrawLine(line);
         }
 
+        ///<inheritdoc/>
         public int CreateFigure(string shapeName)
         {
             int figureId;
@@ -56,31 +58,29 @@ namespace TurtleCore
             return figureId;
         }
 
+        ///<inheritdoc/>
         public void UpdateFigure(ScreenFigure figure)
         {
             UpdateLastIssuedAnimationGroupID(figure);
             _screenObjectProducer.UpdateFigure(figure);
         }
 
-        /// <summary>
-        /// Add a shape to the screen's shapelist. Only these shapes can be used by Turtle.Shape = name
-        /// </summary>
-        /// <param name="name">name of the shape</param>
-        /// <param name="shape">A Shape class or an ImageShape class</param>
+        ///<inheritdoc/>
         public void RegisterShape(string name, ShapeBase shape)
         {
             _shapes.Add(name, shape);
         }
+
+        ///<inheritdoc/>
         public void AddShape(string name, ShapeBase shape) => RegisterShape(name, shape);
 
-        /// <summary>
-        /// Return a list of all currently available turtle shapes
-        /// </summary>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public List<string> GetShapes()
         {
             return _shapes.Select(s => s.Key).ToList();
         }
+
+        #endregion
 
         /// <summary>
         /// Create a Screen-Instance which draws to a default-Screen

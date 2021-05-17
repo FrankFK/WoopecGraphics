@@ -13,7 +13,7 @@ namespace TurtleCore
     /// </summary>
     internal class Pen
     {
-        private readonly Screen _screen;
+        private readonly IScreen _screen;
 
         private static int s_totalCounter;
 
@@ -22,7 +22,7 @@ namespace TurtleCore
         private bool _firstAnimationIsAdded; // true, if an animation of this pen (or the turtle it belongs to) is added
 
         /// <summary>
-        /// Constructor for a Pen that is not used as part of a Turtle class
+        /// Constructs a Pen that is not used as part of a Turtle class and uses the default screen
         /// </summary>
         public Pen()
             : this(Interlocked.Increment(ref s_totalCounter))
@@ -30,12 +30,32 @@ namespace TurtleCore
         }
 
         /// <summary>
-        /// Constructor for a Pen that is used as a part of a Turtle class
+        /// Constructs a Pen that is not used as part of a Turtle class
+        /// </summary>
+        /// <param name="screen">Pen is printed on this screen</param>
+        public Pen(IScreen screen)
+            : this(screen, Interlocked.Increment(ref s_totalCounter))
+        {
+        }
+
+        /// <summary>
+        /// Constructs a Pen that is used as a part of a Turtle class and uses the default screen
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
-        internal Pen(int id)
+        public Pen(int id)
+            : this(Screen.GetDefaultScreen(), id)
         {
-            _screen = Screen.GetDefaultScreen();
+        }
+
+
+        /// <summary>
+        /// Constructs a Pen
+        /// </summary>
+        /// <param name="screen">Pen is printed on this screen</param>
+        /// <param name="id">The Id of the turtle</param>
+        internal Pen(IScreen screen, int id)
+        {
+            _screen = screen;
             _id = id;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
