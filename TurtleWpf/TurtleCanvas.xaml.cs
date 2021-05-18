@@ -144,7 +144,7 @@ namespace TurtleWpf
 
             /////////////////////////////////////////////////////////////
             // 15.05.2021 TurtleMovement
-            activeTurtle.Speed = SpeedLevel.Slowest;
+            activeTurtle.Speed = SpeedLevel.Slow;
             activeTurtle.Heading = 180;
             activeTurtle.ShowTurtle();
             activeTurtle.Forward(50);
@@ -157,6 +157,7 @@ namespace TurtleWpf
 
             /////////////////////////////////////////////////////////////
             // 15.05.2021 (late in the evening) TurtleRotation
+            activeTurtle.Speed = SpeedLevel.Normal;
             activeTurtle.Left(720);
             activeTurtle.Right(720 + 90);
             activeTurtle.Forward(40);

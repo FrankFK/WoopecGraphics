@@ -5,7 +5,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 ## Planned
 
 
-* Animations auf Wpf-Seite aufräumen?
 * Mehr Unit-Tests
 * Exceptions müssen abgefangen werden -- aktuell stürtzt dann das Programm ab.
 * Turtle-shapes: Die Defaults stehen hier PythonCode\TurtleScreenClass.py. Das sind alles Shapes -- auch die Schildkröte.
@@ -34,7 +33,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-62h 
+64h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -58,6 +57,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 13.05.2021: Screen has a dictionary of shapes
 * 15.05.2021: Turtle movement and rotation
 * 17.05.2021: Cleaner code
+* 18.05.2021: Cleaner code, prepared TurtleWpf such that I can write unit tests for it
 
  
 
