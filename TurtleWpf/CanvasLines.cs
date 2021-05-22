@@ -28,21 +28,7 @@ namespace TurtleWpf
 
         public CanvasChildrenChange UpdateWithAnimation(ScreenLine screenLine, AnimationIsFinished finishedEvent)
         {
-            while (_lines.Count <= screenLine.ID)
-            {
-                _lines.Add(new Line());
-            }
-
-            var line = _lines[screenLine.ID];
-            line.Stroke = new SolidColorBrush(ColorConverter.Convert(screenLine.Color));
-
-            var canvasPoint1 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point1, _canvasWidth, _canvasHeight);
-            var canvasPoint2 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point2, _canvasWidth, _canvasHeight);
-            line.X1 = canvasPoint1.X;
-            line.Y1 = canvasPoint1.Y;
-            line.X2 = canvasPoint2.X;
-            line.Y2 = canvasPoint2.Y;
-            line.StrokeThickness = 2;
+            var line = CreateLine(screenLine);
 
             var animation = screenLine.Animation;
             var effect = animation.Effects[0] as ScreenAnimationMovement;
@@ -53,14 +39,14 @@ namespace TurtleWpf
             var lineXAnimation = new DoubleAnimation
             {
                 From = canvasStartPoint.X,
-                To = canvasPoint2.X,
+                To = line.X2,
                 Duration = new Duration(TimeSpan.FromMilliseconds(effect.Milliseconds))
             };
             line.BeginAnimation(Line.X2Property, lineXAnimation);
             var lineYAnimation = new DoubleAnimation
             {
                 From = canvasStartPoint.Y,
-                To = canvasPoint2.Y,
+                To = line.Y2,
                 Duration = new Duration(TimeSpan.FromMilliseconds(effect.Milliseconds))
             };
             lineYAnimation.Completed += (sender, args) => finishedEvent(screenLine.GroupID, screenLine.ID);
@@ -70,6 +56,13 @@ namespace TurtleWpf
         }
 
         public CanvasChildrenChange Update(ScreenLine screenLine)
+        {
+            var line = CreateLine(screenLine);
+
+            return new(Operation.Add, line);
+        }
+
+        private Line CreateLine(ScreenLine screenLine)
         {
             while (_lines.Count <= screenLine.ID)
             {
@@ -85,11 +78,10 @@ namespace TurtleWpf
             line.Y1 = canvasPoint1.Y;
             line.X2 = canvasPoint2.X;
             line.Y2 = canvasPoint2.Y;
-            line.StrokeThickness = 2;
+            line.StrokeThickness = 1;
 
-            return new(Operation.Add, line);
+            return line;
         }
-
 
     }
 }
