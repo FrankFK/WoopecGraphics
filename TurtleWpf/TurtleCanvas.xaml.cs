@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TurtleCore;
 using TurtleCore.Internal;
+using TurtleSamples;
 using Colors = TurtleCore.Colors;
 
 namespace TurtleWpf
@@ -68,6 +69,9 @@ namespace TurtleWpf
 
         private static void TestProgram()
         {
+            TurtleDemoByteDesign.Run();
+            return;
+
             /////////////////////////////////////////////////////////////
             // 08.03.2021: First turtle with WPF
             var firstTurtle = new Turtle() { Speed = SpeedLevel.Slow, IsVisible = false, };

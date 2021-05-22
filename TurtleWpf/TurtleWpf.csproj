@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TurtleCore\TurtleCore.csproj" />
+    <ProjectReference Include="..\TurtleSamples\TurtleSamples.csproj" />
   </ItemGroup>
 
 </Project>
