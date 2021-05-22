@@ -56,6 +56,8 @@ namespace TurtleWpf
                 result = _canvasPathes.CreatePath(screenObject as ScreenFigureCreate);
             else if (screenObject is ScreenFigure)
                 result = _canvasPathes.Update(screenObject as ScreenFigure);
+            else if (screenObject is ScreenLine)
+                result = _canvasLines.Update(screenObject as ScreenLine);
             else
                 throw new ArgumentOutOfRangeException(nameof(screenObject), "Parameter has wrong type");
 

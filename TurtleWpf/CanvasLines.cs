@@ -69,5 +69,27 @@ namespace TurtleWpf
             return new(Operation.Add, line);
         }
 
+        public CanvasChildrenChange Update(ScreenLine screenLine)
+        {
+            while (_lines.Count <= screenLine.ID)
+            {
+                _lines.Add(new Line());
+            }
+
+            var line = _lines[screenLine.ID];
+            line.Stroke = new SolidColorBrush(ColorConverter.Convert(screenLine.Color));
+
+            var canvasPoint1 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point1, _canvasWidth, _canvasHeight);
+            var canvasPoint2 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point2, _canvasWidth, _canvasHeight);
+            line.X1 = canvasPoint1.X;
+            line.Y1 = canvasPoint1.Y;
+            line.X2 = canvasPoint2.X;
+            line.Y2 = canvasPoint2.Y;
+            line.StrokeThickness = 2;
+
+            return new(Operation.Add, line);
+        }
+
+
     }
 }

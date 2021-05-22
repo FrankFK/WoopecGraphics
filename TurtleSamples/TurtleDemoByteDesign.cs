@@ -21,7 +21,7 @@ namespace TurtleSamples
         {
             var design = new TurtleDemoByteDesign();
             design.HideTurtle();
-            design.Speed = SpeedLevel.Fast;
+            design.Speed = SpeedLevel.Fastest;
             design.design(design.Position, 2);
         }
 
