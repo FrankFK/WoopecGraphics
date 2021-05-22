@@ -43,13 +43,13 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | pen()
 | isdown()                             |        | first version |
 | **Color Control**
-| color()                              | 1
-| pencolor()                           | 1       | first version |
-| fillcolor()
+| color()                              | 1       | 100% only a setter for pencolor and fillcolor, no getter  |
+| pencolor()                           | 1       | first version, one polygon works |
+| fillcolor()                          | 1       | first version, one polygon works |
 | **Filling**
 | filling()
-| begin_fill()                         | 2 | I want to see the turtle-star-demo |
-| end_fill()                           | 2 | I want to see the turtle-star-demo |
+| begin_fill()                         | 2 | open. I want to see the turtle-star-demo |
+| end_fill()                           | 2 | open. I want to see the turtle-star-demo |
 | **More drawing control**
 | reset()
 | clear()

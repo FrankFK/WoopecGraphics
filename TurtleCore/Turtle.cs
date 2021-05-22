@@ -44,7 +44,17 @@ namespace TurtleCore
         public Vec2D Position { get { return _pen.Position; } }
 
 
-        public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; } }
+        public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; _figure.OutlineColor = value; } }
+
+        public Color FillColor { get { return _figure.FillColor; } set { _figure.FillColor = value; } }
+
+        /// <summary>
+        /// Set pen color and fill color.
+        /// </summary>
+        /// <remarks>
+        /// This property has no getter. Use PenColor and FillColor.
+        /// </remarks>
+        public Color Color { set { PenColor = value; FillColor = value; } }
 
         public Speed Speed { get { return _pen.Speed; } set { _pen.Speed = value; _figure.Speed = value; } }
 

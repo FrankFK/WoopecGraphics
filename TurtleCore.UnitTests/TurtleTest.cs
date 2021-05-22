@@ -172,6 +172,55 @@ namespace TurtleCore.UnitTests
             turtle.Figure.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
         }
 
+        [TestMethod]
+        public void Turtle_SetPenColor_ChangesPenAndFigure()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange
+            var turtle = CreateSut(screenMockup);
+
+            // Act
+            turtle.PenColor = Colors.Red;
+
+            // Assert
+            turtle.Pen.Color.Should().Be(Colors.Red);
+            turtle.Figure.OutlineColor.Should().Be(Colors.Red);
+            turtle.PenColor.Should().Be(Colors.Red);
+        }
+
+        [TestMethod]
+        public void Turtle_SetFillColor_ChangesFigure()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange
+            var turtle = CreateSut(screenMockup);
+
+            // Act
+            turtle.FillColor = Colors.Red;
+
+            // Assert
+            turtle.Figure.FillColor.Should().Be(Colors.Red);
+        }
+
+        [TestMethod]
+        public void Turtle_SetColor_ChangesPenColorAndFillColor()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange
+            var turtle = CreateSut(screenMockup);
+
+            // Act
+            turtle.Color = Colors.Red;
+
+            // Assert
+            turtle.FillColor.Should().Be(Colors.Red);
+            turtle.PenColor.Should().Be(Colors.Red);
+        }
+
+
 
         private static Turtle CreateSut()
         {

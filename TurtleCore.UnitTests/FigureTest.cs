@@ -94,6 +94,74 @@ namespace TurtleCore.UnitTests
         }
 
 
+        [TestMethod]
+        public void Figure_SetFillColorWhenFigureIsNotVisible_ChangesNothing()
+        {
+            var screenMockup = new ScreenMockup();
+            var figure = CreateSut(screenMockup);
+
+            // Act
+            figure.FillColor = Colors.Red;
+
+            // Assert
+            figure.FillColor.Should().Be(Colors.Red);
+            // The figure is not visible, therefore nothing an the screen should be changed.
+            screenMockup.FigureUpdates.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Figure_SetFillColorWhenFigureIsVisible_ChangesScreenColor()
+        {
+            var screenMockup = new ScreenMockup();
+            var figure = CreateSut(screenMockup);
+
+            // Act
+            var initialColor = figure.FillColor;
+            figure.IsVisible = true;
+            figure.FillColor = Colors.Red;
+
+            // Assert
+            figure.FillColor.Should().Be(Colors.Red);
+            screenMockup.FigureUpdates.Count.Should().Be(2);
+            screenMockup.FigureUpdates[0].FillColor.Should().Be(initialColor);  // figure is set to visible. Fill color must be initial value
+            screenMockup.FigureUpdates[1].FillColor.Should().Be(Colors.Red);    // Color changed
+        }
+
+
+        [TestMethod]
+        public void Figure_SetOutlineColorWhenFigureIsNotVisible_ChangesNothing()
+        {
+            var screenMockup = new ScreenMockup();
+            var figure = CreateSut(screenMockup);
+
+            // Act
+            figure.OutlineColor = Colors.Red;
+
+            // Assert
+            figure.OutlineColor.Should().Be(Colors.Red);
+            // The figure is not visible, therefore nothing an the screen should be changed.
+            screenMockup.FigureUpdates.Count.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void Figure_SetOutlineColorWhenFigureIsVisible_ChangesScreenColor()
+        {
+            var screenMockup = new ScreenMockup();
+            var figure = CreateSut(screenMockup);
+
+            // Act
+            var initialColor = figure.OutlineColor;
+            figure.IsVisible = true;
+            figure.OutlineColor = Colors.Red;
+
+            // Assert
+            figure.OutlineColor.Should().Be(Colors.Red);
+            screenMockup.FigureUpdates.Count.Should().Be(2);
+            screenMockup.FigureUpdates[0].OutlineColor.Should().Be(initialColor);  // figure is set to visible. Fill color must be initial value
+            screenMockup.FigureUpdates[1].OutlineColor.Should().Be(Colors.Red);    // Color changed
+        }
+
+
 
         private static Figure CreateSut(IScreen screen)
         {

@@ -7,9 +7,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 * Mehr Unit-Tests
 * Exceptions müssen abgefangen werden -- aktuell stürtzt dann das Programm ab.
-* Turtle-shapes: Die Defaults stehen hier PythonCode\TurtleScreenClass.py. Das sind alles Shapes -- auch die Schildkröte.
-  PenColor und FillColor gelten auch für diese Shapes und ändern damit die Farbe.
-  In WPF kann man Pathes auch animieren https://stackoverflow.com/questions/51338163/wpf-polygon-storyboard-animation
 * Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
   Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:
@@ -57,7 +54,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 13.05.2021: Screen has a dictionary of shapes
 * 15.05.2021: Turtle movement and rotation
 * 17.05.2021: Cleaner code
-* 18.05.2021: Cleaner code, prepared TurtleWpf such that I can write unit tests for it
+* 18.05.2021: Cleaner code in TurtleWpf
+* 22.05.2021: FillColor and OutlineColor
 
  
 

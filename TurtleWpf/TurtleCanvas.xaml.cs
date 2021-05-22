@@ -165,6 +165,11 @@ namespace TurtleWpf
             activeTurtle.Forward(30);
             activeTurtle.Right(90);
             activeTurtle.Forward(20);
+
+            activeTurtle.FillColor = Colors.DarkRed;
+            activeTurtle.Speed = SpeedLevel.Slowest;
+            activeTurtle.Forward(50);
+            activeTurtle.PenColor = Colors.Blue;
         }
 
         private void NextTask()

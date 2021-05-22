@@ -21,6 +21,8 @@ namespace TurtleCore
         private string _shapeName;
         private int _idOnScreen;
         private bool _isVisible;
+        private Color _fillColor;
+        private Color _outlineColor;
 
         /// <summary>
         /// Constructs a Figure that is not used as part of a Turtle class and uses the default screen
@@ -62,8 +64,8 @@ namespace TurtleCore
             Heading = 0;
             _isVisible = false;
             Speed = SpeedLevel.Normal;
-            FillColor = Colors.Black;
-            OutlineColor = Colors.Black;
+            _fillColor = Colors.Black;
+            _outlineColor = Colors.Black;
             _shapeName = ShapeNames.Classic;
 
             _idOnScreen = _screen.CreateFigure(_shapeName);
@@ -98,9 +100,33 @@ namespace TurtleCore
             }
         }
 
-        public Color FillColor { get; set; }
+        public Color FillColor
+        {
+            get
+            {
+                return _fillColor;
+            }
+            set
+            {
+                _fillColor = value;
+                if (_isVisible)
+                    UpdateScreen();
+            }
+        }
 
-        public Color OutlineColor { get; set; }
+        public Color OutlineColor
+        {
+            get
+            {
+                return _outlineColor;
+            }
+            set
+            {
+                _outlineColor = value;
+                if (_isVisible)
+                    UpdateScreen();
+            }
+        }
 
         public Speed Speed { get; set; }
 

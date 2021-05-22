@@ -113,7 +113,8 @@ namespace TurtleWpf
         private void UpdatePathUnanimated(Path path, ScreenFigure screenFigure)
         {
             path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
-            path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
+            if (screenFigure.OutlineColor != null)
+                path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
             var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvasWidth, _canvasHeight);
 
@@ -132,7 +133,8 @@ namespace TurtleWpf
         private void UpdatePathWithMovementAnimation(Path path, ScreenFigure screenFigure, AnimationIsFinished finishedEvent)
         {
             path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
-            path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
+            if (screenFigure.OutlineColor != null)
+                path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
             var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvasWidth, _canvasHeight);
 
@@ -174,7 +176,8 @@ namespace TurtleWpf
         private void UpdatePathWithRotationAnimation(Path path, ScreenFigure screenFigure, AnimationIsFinished finishedEvent)
         {
             path.Fill = new SolidColorBrush(ColorConverter.Convert(screenFigure.FillColor));
-            path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
+            if (screenFigure.OutlineColor != null)
+                path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
             var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvasWidth, _canvasHeight);
 
