@@ -21,6 +21,9 @@ namespace TurtleCore
 
         private bool _firstAnimationIsAdded; // true, if an animation of this pen (or the turtle it belongs to) is added
 
+        private bool _isFilling; // true, if pen is used to draw a shape
+        private List<Vec2D> _fillingPolygon;
+
         /// <summary>
         /// Constructs a Pen that is not used as part of a Turtle class and uses the default screen
         /// </summary>
@@ -74,12 +77,17 @@ namespace TurtleCore
         }
         private Vec2D _position;
 
+
         public void SetPosition(Vec2D value)
         {
             if (IsDown)
             {
                 DrawMove(_position, value);
             }
+
+            if (_isFilling)
+                _fillingPolygon.Add(value);
+
             _position = value;
         }
 
@@ -104,7 +112,6 @@ namespace TurtleCore
 
             var newOrientation = Orientation.Rotate(angle);
 
-            // TODO: Turtle neu anzeigen
             Orientation = newOrientation;
             Heading = newHeading;
         }
@@ -118,9 +125,43 @@ namespace TurtleCore
                 DrawMove(Position, newPosition);
             }
 
+            if (_isFilling)
+                _fillingPolygon.Add(newPosition);
+
             _position = newPosition;
         }
 
+        public bool Filling { get { return _isFilling; } }
+
+        public void BeginFilling()
+        {
+            if (!_isFilling)
+            {
+                _isFilling = true;
+                _fillingPolygon = new();
+                _fillingPolygon.Add(Position);
+            }
+        }
+
+        /// <summary>
+        /// The Shape resulting from the traversed points between BeginFilling and EndFilling is returned.
+        /// </summary>
+        /// <returns></returns>
+        public Shape EndFilling()
+        {
+            Shape shape;
+            if (_isFilling)
+            {
+                _isFilling = false;
+                shape = new Shape(_fillingPolygon);
+                _fillingPolygon = null;
+            }
+            else
+            {
+                shape = new Shape(new List<Vec2D>());
+            }
+            return shape;
+        }
 
         private void DrawMove(Vec2D oldPosition, Vec2D newPosition)
         {

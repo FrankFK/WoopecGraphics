@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -255,6 +256,33 @@ namespace TurtleCore.UnitTests
             turtle.FillColor.Should().Be(Colors.Red);
             turtle.PenColor.Should().Be(Colors.Red);
         }
+
+        [TestMethod]
+        public void Turtle_Filling()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange
+            var turtle = CreateSut(screenMockup);
+
+            // Act
+            turtle.IsDown = true;
+            turtle.Forward(90);   // filling shape starts at 90, 0
+            turtle.BeginFilling();
+            turtle.Filling.Should().BeTrue();
+            turtle.SetPosition((90, 90));      // second point is 90, 90
+            foreach (var _ in Enumerable.Range(0, 3))
+            {
+                turtle.Forward(90);
+                turtle.Right(90);
+            }
+            turtle.EndFilling();
+
+            // Assert
+            turtle.Filling.Should().BeFalse();
+            throw new NotImplementedException("Mockup prüfen darauf, dass er das Polygon enthält");
+        }
+
 
 
 

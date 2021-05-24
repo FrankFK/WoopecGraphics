@@ -146,6 +146,23 @@ namespace TurtleCore
             _figure.Rotate(-angle);
         }
 
+
+        public bool Filling { get { return _pen.Filling; } }
+
+        public void BeginFilling()
+        {
+            _pen.BeginFilling();
+        }
+
+        public void EndFilling()
+        {
+            var shape = _pen.EndFilling();
+
+            // TODO:
+            // shape (mit outlinecolor, fillcolor) an den Screen weitergeben, soll den Shape direkt ausgeben. Dafür braucht der Screen noch eine Methode.
+        }
+
+
         /// <summary>
         /// Only needed for unit tests
         /// </summary>
