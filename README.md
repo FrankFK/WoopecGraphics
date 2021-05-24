@@ -5,7 +5,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 ## Planned
 
 
-* Mehr Unit-Tests
 * Exceptions müssen abgefangen werden -- aktuell stürtzt dann das Programm ab.
 * Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
   Die Lösung dokumentieren. 
@@ -14,8 +13,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
      Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
   Der Ansatz mit dem WPF-Dispose kommt von hier:
        https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
-* Mapping der Koordinaten von (Turtle) Screen-Koordinaten auf (Wpf) Screen-Output-Koordinaten
 * Die Screen* Klassen prüfen, ob das nicht besser Records wären
+* Debuggen einfacher machen: Ziel: Die Turtle-Aktion die ich im Debugger durch-steppe, sehe ich auch am Bildschirm (Idee: Im Debug-Modus Channel auf einen Eintrag beschränken, und mit asyn auf das Schreiben warten?)
 * ScreenLine.Width
 * TurtleMain über Reflection finden und automatisch aufrufen
   https://stackoverflow.com/questions/42524704/asp-net-core-find-all-class-types-in-all-assemblies/44444309
@@ -26,6 +25,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## To decide
 * Screen-Klasse sauberer machen. Vermischt aktuell Methoden für Programmierer und interne Methoden
+* Figure und Pen: Methoden revidieren. Wann gibt es Property-Setter? Wann gibt es SetXy-Methoden? Analog zur Turtle-Klasse beides anbieten?
 * Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
 
 ## Done

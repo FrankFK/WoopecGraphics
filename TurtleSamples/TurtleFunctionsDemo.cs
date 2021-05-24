@@ -117,6 +117,23 @@ namespace TurtleSamples
             activeTurtle.Forward(50);
             activeTurtle.PenColor = Colors.Blue;
 
+            /////////////////////////////////////////////////////////////
+            // 22.05.2021 Speed.Fastest => No animation
+            activeTurtle.IsVisible = false;
+            activeTurtle.Speed = SpeedLevel.Fastest;
+            foreach (var i in Enumerable.Range(0, 10))
+            {
+                activeTurtle.PenUp();
+                activeTurtle.Left(72);
+                activeTurtle.Forward(5);
+                activeTurtle.Right(72);
+                activeTurtle.PenDown();
+                foreach (var _ in Enumerable.Range(0, 5))
+                {
+                    activeTurtle.Forward(60 - 5 * i);
+                    activeTurtle.Left(72);
+                }
+            }
         }
     }
 }

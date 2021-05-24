@@ -48,8 +48,8 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | fillcolor()                          | 1       | first version, one polygon works |
 | **Filling**
 | filling()
-| begin_fill()                         | 2 | open. I want to see the turtle-star-demo |
-| end_fill()                           | 2 | open. I want to see the turtle-star-demo |
+| begin_fill()                         | 1 |  |
+| end_fill()                           | 1 |  |
 | **More drawing control**
 | reset()
 | clear()
@@ -60,7 +60,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | isvisible()                          |   | first version |
 | **Appearance**
 | shape()
-| resizemode()
+| resizemode()                         | 1 |        |
 | shapesize() 
 | shearfactor()
 | settiltangle()
@@ -88,7 +88,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | function                            | priority | state                                                |
 |-------------------------------------|----------|------------------------------------------------------|
 | **Window control**
-| bgcolor()                           | 1
+| bgcolor()                           | 2
 | bgpic()
 | clear() 
 | reset() 
