@@ -69,8 +69,8 @@ namespace TurtleWpf
 
         private static void TestProgram()
         {
-            TurtleDemoByteDesign.Run();
-            // TurtleFunctionsDemo.Run();
+            // TurtleDemoByteDesign.Run();
+            TurtleFunctionsDemo.Run();
             return;
         }
 

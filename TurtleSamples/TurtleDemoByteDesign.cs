@@ -22,125 +22,121 @@ namespace TurtleSamples
             var design = new TurtleDemoByteDesign();
             design.HideTurtle();
             design.Speed = SpeedLevel.Fastest;
-            design.design(design.Position, 2);
+            design.Design(design.Position, 2);
         }
 
-        private void design(Vec2D homePos, double scale)
+        private void Design(Vec2D homePos, double scale)
         {
-            this.PenUp();
+            PenUp();
             foreach (var i in Enumerable.Range(0, 5))
             {
-                this.Forward(64.65 * scale);
-                this.PenDown();
-                this.wheel(this.Position, scale);
-                this.PenUp();
-                this.Backward(64.65 * scale);
-                this.Right(72);
+                Forward(64.65 * scale);
+                PenDown();
+                Wheel(Position, scale);
+                PenUp();
+                Backward(64.65 * scale);
+                Right(72);
             }
-            this.PenUp();
-            this.SetPosition(homePos);
-            this.Right(36);
-            this.Forward(24.5 * scale);
-            this.Right(198);
-            this.PenDown();
-            this.centerpiece(46 * scale, 143.4, scale);
-            // this.Screen.tracer(true);
+            PenUp();
+            GoTo(homePos);
+            Right(36);
+            Forward(24.5 * scale);
+            Right(198);
+            PenDown();
+            CenterPiece(46 * scale, 143.4, scale);
         }
 
-        private void wheel(Vec2D initpos, double scale)
+        private void Wheel(Vec2D initpos, double scale)
         {
-            this.Right(54);
+            Right(54);
             foreach (var i in Enumerable.Range(0, 4))
             {
-                this.pentpiece(initpos, scale);
+                PentPiece(initpos, scale);
             }
-            this.PenDown();
-            this.Left(36);
+            PenDown();
+            Left(36);
             foreach (var i in Enumerable.Range(0, 5))
             {
-                this.tripiece(initpos, scale);
+                TriPiece(initpos, scale);
             }
-            this.Left(36);
+            Left(36);
             foreach (var i in Enumerable.Range(0, 5))
             {
-                this.PenDown();
-                this.Right(72);
-                this.Forward(28 * scale);
-                this.PenUp();
-                this.Backward(28 * scale);
+                PenDown();
+                Right(72);
+                Forward(28 * scale);
+                PenUp();
+                Backward(28 * scale);
             }
-            this.Left(54);
-            // this.Screen().update();
+            Left(54);
         }
 
-        private void tripiece(Vec2D initpos, double scale)
+        private void TriPiece(Vec2D initpos, double scale)
         {
-            var oldh = this.Heading;
-            this.PenDown();
-            this.Backward(2.5 * scale);
-            this.tripolyr(31.5 * scale, scale);
-            this.PenUp();
-            this.SetPosition(initpos);
-            this.Heading = oldh;
-            this.PenDown();
-            this.Backward(2.5 * scale);
-            this.tripolyl(31.5 * scale, scale);
-            this.PenUp();
-            this.SetPosition(initpos);
-            this.Heading = oldh;
-            this.Left(72);
-            // this.Screen.update();
+            var oldh = Heading;
+            PenDown();
+            Backward(2.5 * scale);
+            TriPolyRight(31.5 * scale, scale);
+            PenUp();
+            GoTo(initpos);
+            SetHeading(oldh);
+            PenDown();
+            Backward(2.5 * scale);
+            TriPolyLeft(31.5 * scale, scale);
+            PenUp();
+            GoTo(initpos);
+            SetHeading(oldh);
+            Left(72);
         }
 
-        private void pentpiece(Vec2D initpos, double scale)
+        private void PentPiece(Vec2D initpos, double scale)
         {
-            var oldh = this.Heading;
-            this.PenUp();
-            this.Forward(29 * scale);
-            this.PenDown();
+            var oldh = Heading;
+            PenUp();
+            Forward(29 * scale);
+            PenDown();
             foreach (var i in Enumerable.Range(0, 5))
             {
-                this.Forward(18 * scale);
-                this.Right(72);
+                Forward(18 * scale);
+                Right(72);
             }
-            this.pentr(18 * scale, 75, scale);
-            this.PenUp();
-            this.SetPosition(initpos);
-            this.Heading = oldh;
-            this.Forward(29 * scale);
-            this.PenDown();
+            PentRight(18 * scale, 75, scale);
+            PenUp();
+            GoTo(initpos);
+            SetHeading(oldh);
+            Forward(29 * scale);
+            PenDown();
             foreach (var j in Enumerable.Range(0, 5))
             {
-                this.Forward(18 * scale);
-                this.Right(72);
+                Forward(18 * scale);
+                Right(72);
             }
-            this.pentl(18 * scale, 75, scale);
-            this.PenUp();
-            this.SetPosition(initpos);
-            this.Heading = oldh;
-            this.Left(72);
-            // this.Screen.update();
+            PentLeft(18 * scale, 75, scale);
+            PenUp();
+            GoTo(initpos);
+            SetHeading(oldh);
+            Left(72);
         }
 
-        private void pentl(double side, double ang, double scale)
+        private void PentLeft(double side, double ang, double scale)
         {
             if (side < (2 * scale))
                 return;
-            this.Forward(side);
-            this.Left(ang);
-            this.pentl(side - (.38 * scale), ang, scale);
+            Forward(side);
+            Left(ang);
+            PentLeft(side - (.38 * scale), ang, scale);
         }
 
-        private void pentr(double side, double ang, double scale)
+        private void PentRight(double side, double ang, double scale)
         {
             if (side < (2 * scale))
                 return;
-            this.Forward(side);
-            this.Right(ang);
-            this.pentr(side - (.38 * scale), ang, scale);
+            Forward(side);
+            Right(ang);
+            PentRight(side - (.38 * scale), ang, scale);
         }
 
-        private void tripolyr(double side, double scale)
+        private void TriPolyRight(double side, double scale)
         {
             if (side < (4 * scale))
                 return;
@@ -150,10 +146,10 @@ namespace TurtleSamples
             Right(111);
             Forward(side / 1.3);
             Right(146);
-            tripolyr(side * .75, scale);
+            TriPolyRight(side * .75, scale);
         }
 
-        private void tripolyl(double side, double scale)
+        private void TriPolyLeft(double side, double scale)
         {
             if (side < (4 * scale))
                 return;
@@ -163,17 +159,17 @@ namespace TurtleSamples
             Left(111);
             Forward(side / 1.3);
             Left(146);
-            tripolyl(side * .75, scale);
+            TriPolyLeft(side * .75, scale);
 
         }
 
-        private void centerpiece(double s, double a, double scale)
+        private void CenterPiece(double s, double a, double scale)
         {
             Forward(s);
             Left(a);
             if (s < (7.5 * scale))
                 return;
-            centerpiece(s - (1.2 * scale), a, scale);
+            CenterPiece(s - (1.2 * scale), a, scale);
         }
 
     }

@@ -41,7 +41,7 @@ namespace TurtleCore
             _pen.TurtleObjectSentToScreen();
         }
 
-        public Vec2D Position { get { return _pen.Position; } }
+        public Vec2D Position { get { return _pen.Position; } set { SetPosition(value); } }
 
 
         public Color PenColor { get { return _pen.Color; } set { _pen.Color = value; _figure.OutlineColor = value; } }
@@ -103,6 +103,11 @@ namespace TurtleCore
             }
         }
 
+        public void SetHeading(double value)
+        {
+            Heading = value;
+        }
+
 
         public void Forward(double distance)
         {
@@ -125,6 +130,8 @@ namespace TurtleCore
             bool togetherWithPreviousAnimation = _pen.IsDown; // if pen was down, the figure should not wait untel the pen-line is finished
             _figure.SetPosition(position, togetherWithPreviousAnimation);
         }
+
+        public void GoTo(Vec2D position) => SetPosition(position);
 
         public void Left(double angle)
         {

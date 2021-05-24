@@ -173,6 +173,42 @@ namespace TurtleCore.UnitTests
         }
 
         [TestMethod]
+        public void Turtle_SetPositionViaSetter()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange
+            var turtle = CreateSut(screenMockup);
+
+            // Act
+            turtle.Position = (0, 100);
+
+            // Assert
+            var expextedPostion = new Vec2D(0, 100);
+            turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Pen.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Figure.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+        }
+
+        [TestMethod]
+        public void Turtle_SetPositionWithGoTo()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange
+            var turtle = CreateSut(screenMockup);
+
+            // Act
+            turtle.GoTo((0, 100));
+
+            // Assert
+            var expextedPostion = new Vec2D(0, 100);
+            turtle.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Pen.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+            turtle.Figure.Position.IsApproximatelyEqualTo(expextedPostion, 0.001).Should().BeTrue();
+        }
+
+        [TestMethod]
         public void Turtle_SetPenColor_ChangesPenAndFigure()
         {
             var screenMockup = new ScreenMockup();

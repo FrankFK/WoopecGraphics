@@ -14,10 +14,10 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | backward()                          | 1       | first version |
 | right()                             | 1       | first version |
 | left()                              | 1       | first version |
-| goto()
+| goto()                              |         | 100% |
 | setx()
 | sety()
-| setheading()                        | 1       | first version, Turtle.Heading|
+| setheading()                        | 1       | 100% |
 | home()
 | circle()
 | dot()
