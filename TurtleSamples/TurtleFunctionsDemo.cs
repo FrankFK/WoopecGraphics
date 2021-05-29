@@ -134,6 +134,15 @@ namespace TurtleSamples
                     activeTurtle.Left(72);
                 }
             }
+
+            /////////////////////////////////////////////////////////////
+            // 29.05.2021 shape can be changed
+            activeTurtle.PenUp();
+            activeTurtle.Color = Colors.DarkGreen;
+            activeTurtle.Shape = ShapeNames.Turtle;
+            activeTurtle.Speed = SpeedLevel.Slowest;
+            activeTurtle.IsVisible = true;
+            activeTurtle.Forward(100);
         }
     }
 }

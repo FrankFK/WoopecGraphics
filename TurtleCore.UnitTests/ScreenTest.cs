@@ -24,7 +24,7 @@ namespace TurtleCore.UnitTests
                 DrawnLines.Add(line);
             }
 
-            public int CreateFigure(ShapeBase shape)
+            public int CreateFigure()
             {
                 throw new NotImplementedException();
             }
@@ -33,7 +33,6 @@ namespace TurtleCore.UnitTests
             {
                 throw new NotImplementedException();
             }
-
 
         }
 

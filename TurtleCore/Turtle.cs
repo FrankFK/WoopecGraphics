@@ -73,6 +73,13 @@ namespace TurtleCore
         /// </summary>
         public bool IsVisible { get { return _figure.IsVisible; } set { _figure.IsVisible = value; } }
 
+        /// <summary>
+        /// Set the turtles shape to the shape with the given Name. Shape with name must exist in the Turtle Screen’s shape dictionary. 
+        /// The names of the initially availabe shapes can be accessed by <code>ShapeNames.</code>
+        /// To learn about how to deal with shapes see Screen method RegisterShape
+        /// </summary>
+        public string Shape { get { return _figure.ShapeName; } set { _figure.ShapeName = value; } }
+
         public void HideTurtle() { IsVisible = false; }
         public void ShowTurtle() { IsVisible = true; }
 

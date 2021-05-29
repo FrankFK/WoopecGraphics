@@ -49,13 +49,18 @@ namespace TurtleCore.UnitTests
             {
                 throw new NotImplementedException();
             }
+            public ShapeBase GetShape(string shapeName)
+            {
+                return new Shape();
+            }
+
             public List<string> GetShapes()
             {
                 throw new NotImplementedException();
             }
 
 
-            public int CreateFigure(string shapeName)
+            public int CreateFigure()
             {
                 _figureCounter++;
                 return _figureCounter;
@@ -65,6 +70,7 @@ namespace TurtleCore.UnitTests
             {
                 FigureUpdates.Add(figure);
             }
+
         }
 
         [TestMethod]

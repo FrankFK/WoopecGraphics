@@ -59,7 +59,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | hideturtle()                         | 1 | first version |
 | isvisible()                          |   | first version |
 | **Appearance**
-| shape()
+| shape()                              | 2 | first version |
 | resizemode()                         | 1 |        |
 | shapesize() 
 | shearfactor()

@@ -31,17 +31,14 @@ namespace TurtleCore.Internal
         }
 
 
-        public int CreateFigure(ShapeBase shape)
+        public int CreateFigure()
         {
             _figureCounter++;
             var figureId = _figureCounter - 1;
 
-            // The consumer creates the figure. The consumer does not show the figure
-            var creation = new ScreenFigureCreate(figureId, shape);
-            _objectChannel.Writer.TryWrite(creation);
-
             return figureId;
         }
+
 
         public void UpdateFigure(ScreenFigure figure)
         {

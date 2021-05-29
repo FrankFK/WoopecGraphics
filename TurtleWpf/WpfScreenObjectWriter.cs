@@ -52,9 +52,7 @@ namespace TurtleWpf
         public void Update(ScreenObject screenObject)
         {
             CanvasChildrenChange result;
-            if (screenObject is ScreenFigureCreate)
-                result = _canvasPathes.CreatePath(screenObject as ScreenFigureCreate);
-            else if (screenObject is ScreenFigure)
+            if (screenObject is ScreenFigure)
                 result = _canvasPathes.Update(screenObject as ScreenFigure);
             else if (screenObject is ScreenLine)
                 result = _canvasLines.Update(screenObject as ScreenLine);

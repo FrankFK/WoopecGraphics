@@ -44,18 +44,9 @@ namespace TurtleCore
         }
 
         ///<inheritdoc/>
-        public int CreateFigure(string shapeName)
+        public int CreateFigure()
         {
-            int figureId;
-            if (_shapes.TryGetValue(shapeName, out var shape))
-            {
-                figureId = _screenObjectProducer.CreateFigure(shape);
-            }
-            else
-            {
-                throw new KeyNotFoundException($"A shape with name '{shapeName} does not exist. At first call RegisterShape(...) to register the shape");
-            }
-            return figureId;
+            return _screenObjectProducer.CreateFigure();
         }
 
         ///<inheritdoc/>
@@ -73,6 +64,12 @@ namespace TurtleCore
 
         ///<inheritdoc/>
         public void AddShape(string name, ShapeBase shape) => RegisterShape(name, shape);
+
+        public ShapeBase GetShape(string shapeName)
+        {
+            return _shapes.GetValueOrDefault(shapeName);
+        }
+
 
         ///<inheritdoc/>
         public List<string> GetShapes()

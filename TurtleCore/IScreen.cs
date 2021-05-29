@@ -20,7 +20,7 @@ namespace TurtleCore
 
         public void DrawLine(ScreenLine line);
 
-        public int CreateFigure(string shapeName);
+        public int CreateFigure();
 
         public void UpdateFigure(ScreenFigure figure);
 
@@ -37,6 +37,13 @@ namespace TurtleCore
         /// <param name="name"></param>
         /// <param name="shape"></param>
         public void AddShape(string name, ShapeBase shape);
+
+        /// <summary>
+        /// Get the shape of the given name
+        /// </summary>
+        /// <param name="shapeName"></param>
+        /// <returns></returns>
+        public ShapeBase GetShape(string shapeName);
 
         /// <summary>
         /// Return a list of all currently available turtle shapes

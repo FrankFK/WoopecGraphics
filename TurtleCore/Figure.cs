@@ -19,7 +19,9 @@ namespace TurtleCore
         private readonly IScreen _screen;
         private bool _firstAnimationIsAdded;
         private string _shapeName;
+        private bool _shapeIsChanged;
         private int _idOnScreen;
+        private bool _figureIsCreated;
         private bool _isVisible;
         private Color _fillColor;
         private Color _outlineColor;
@@ -67,8 +69,8 @@ namespace TurtleCore
             _fillColor = Colors.Black;
             _outlineColor = Colors.Black;
             _shapeName = ShapeNames.Classic;
-
-            _idOnScreen = _screen.CreateFigure(_shapeName);
+            _shapeIsChanged = true;
+            _figureIsCreated = false; // the figure is only created when it is necessary
         }
 
         public Vec2D Position
@@ -128,6 +130,22 @@ namespace TurtleCore
             }
         }
 
+        public string ShapeName
+        {
+            get
+            {
+                return _shapeName;
+            }
+            set
+            {
+                _shapeName = value;
+                _shapeIsChanged = true;
+                if (_isVisible)
+                    UpdateScreen();
+            }
+        }
+
+
         public Speed Speed { get; set; }
 
 
@@ -177,7 +195,7 @@ namespace TurtleCore
 
         private void UpdateScreen()
         {
-            var figure = CreateScreenFigure(false);
+            var figure = CreateScreenFigureUpdate(false);
 
             if (!Speed.NoAnimation)
             {
@@ -191,7 +209,7 @@ namespace TurtleCore
 
         private void MoveOnScreen(Vec2D oldPosition, bool togetherWithPreviousAnimation)
         {
-            var figure = CreateScreenFigure(togetherWithPreviousAnimation);
+            var figure = CreateScreenFigureUpdate(togetherWithPreviousAnimation);
 
             if (!Speed.NoAnimation)
             {
@@ -208,7 +226,7 @@ namespace TurtleCore
 
         private void RotateOnScreen(double oldHeading)
         {
-            var figure = CreateScreenFigure(togetherWithPreviousAnimation: false);
+            var figure = CreateScreenFigureUpdate(togetherWithPreviousAnimation: false);
 
             if (!Speed.NoAnimation)
             {
@@ -227,8 +245,14 @@ namespace TurtleCore
         /// Create a ScreenFigure object according to the actual values of this.
         /// </summary>
         /// <returns></returns>
-        private ScreenFigure CreateScreenFigure(bool togetherWithPreviousAnimation)
+        private ScreenFigure CreateScreenFigureUpdate(bool togetherWithPreviousAnimation)
         {
+            if (!_figureIsCreated)
+            {
+                _idOnScreen = _screen.CreateFigure();
+                _figureIsCreated = true;
+            }
+
             var figure = new ScreenFigure(_idOnScreen)
             {
                 IsVisible = IsVisible,
@@ -238,6 +262,12 @@ namespace TurtleCore
                 Heading = Heading,
                 GroupID = _id,
             };
+            if (_shapeIsChanged)
+            {
+                // To reduce overhead we only set the shape if it was changed:
+                figure.Shape = _screen.GetShape(_shapeName);
+                _shapeIsChanged = false;
+            }
             if (!togetherWithPreviousAnimation)
             {
                 if (_firstAnimationIsAdded)
@@ -258,5 +288,6 @@ namespace TurtleCore
             }
             return figure;
         }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,7 +13,7 @@ namespace TurtleCore.UnitTests
     {
         private class ScreenMockup : IScreen
         {
-            private int _figureCounter;
+            public int FigureCounter;
 
             public List<ScreenFigure> FigureUpdates = new();
 
@@ -37,16 +38,23 @@ namespace TurtleCore.UnitTests
             {
                 throw new NotImplementedException();
             }
+
+
+            public ShapeBase GetShape(string shapeName)
+            {
+                return new Shape();
+            }
+
             public List<string> GetShapes()
             {
                 throw new NotImplementedException();
             }
 
 
-            public int CreateFigure(string shapeName)
+            public int CreateFigure()
             {
-                _figureCounter++;
-                return _figureCounter;
+                FigureCounter++;
+                return FigureCounter;
             }
 
             public void UpdateFigure(ScreenFigure figure)
@@ -161,6 +169,48 @@ namespace TurtleCore.UnitTests
             screenMockup.FigureUpdates[1].OutlineColor.Should().Be(Colors.Red);    // Color changed
         }
 
+        [TestMethod]
+        public void Figure_ShapeChangesAtTheBeginningProducesNoOverhead()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Act
+            var figure = new Figure(screenMockup) { ShapeName = ShapeNames.Turtle };
+
+            // Assert. The creation of the figure did not sent events to the screen
+            screenMockup.FigureCounter.Should().Be(0);
+            screenMockup.FigureUpdates.Count.Should().Be(0);
+
+            // Only when the figure is set to visible, the figure is created
+            figure.IsVisible = true;
+            screenMockup.FigureCounter.Should().Be(1);
+            screenMockup.FigureUpdates.Count.Should().Be(1);
+        }
+
+        [TestMethod]
+        public void Figure_ChangeOfShapeChangesShapeOnScreen()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Act
+            var figure = CreateSut(screenMockup);
+
+            // The figure is shown with the default shape:
+            figure.IsVisible = true;
+            screenMockup.FigureCounter.Should().Be(1); // the default shape
+
+            // A simple move
+            figure.Move(50);
+
+            // Because the shape did not change, it is not contained in the update
+            screenMockup.FigureUpdates.Last().Shape.Should().BeNull();
+
+            // Now we change the shape
+            figure.ShapeName = ShapeNames.Turtle;
+
+            // Because the shape has changed, it is contained in the update
+            screenMockup.FigureUpdates.Last().Shape.Should().NotBeNull();
+        }
 
 
         private static Figure CreateSut(IScreen screen)
