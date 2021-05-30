@@ -133,7 +133,7 @@ namespace TurtleCore
 
         public bool Filling { get { return _isFilling; } }
 
-        public void BeginFilling()
+        public void BeginFill()
         {
             if (!_isFilling)
             {
@@ -147,7 +147,7 @@ namespace TurtleCore
         /// The Shape resulting from the traversed points between BeginFilling and EndFilling is returned.
         /// </summary>
         /// <returns></returns>
-        public Shape EndFilling()
+        public Shape EndFill()
         {
             Shape shape;
             if (_isFilling)

@@ -274,7 +274,7 @@ namespace TurtleCore.UnitTests
             // Act
             turtle.IsDown = true;
             turtle.Forward(90);   // filling shape starts at 90, 0
-            turtle.BeginFilling();
+            turtle.BeginFill();
             turtle.Filling.Should().BeTrue();
             turtle.SetPosition((90, 90));      // second point is 90, 90
             foreach (var _ in Enumerable.Range(0, 3))
@@ -282,11 +282,16 @@ namespace TurtleCore.UnitTests
                 turtle.Forward(90);
                 turtle.Right(90);
             }
-            turtle.EndFilling();
+            turtle.EndFill();
 
             // Assert
             turtle.Filling.Should().BeFalse();
-            throw new NotImplementedException("Mockup prüfen darauf, dass er das Polygon enthält");
+            var lastUpdate = screenMockup.FigureUpdates.Last();
+            lastUpdate.Shape.Should().NotBeNull();
+            lastUpdate.Shape.Type.Should().Be(ShapeType.Polygon);
+            var shape = lastUpdate.Shape as Shape;
+            var polygon = shape.Components[0].Polygon;
+            polygon.Count.Should().Be(5);
         }
 
 

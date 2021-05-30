@@ -138,11 +138,30 @@ namespace TurtleSamples
             /////////////////////////////////////////////////////////////
             // 29.05.2021 shape can be changed
             activeTurtle.PenUp();
+            activeTurtle.Left(180);
             activeTurtle.Color = Colors.DarkGreen;
-            activeTurtle.Shape = ShapeNames.Turtle;
+            activeTurtle.Shape = Shapes.Turtle;
             activeTurtle.Speed = SpeedLevel.Slowest;
             activeTurtle.IsVisible = true;
-            activeTurtle.Forward(100);
+            activeTurtle.Forward(150);
+
+            /////////////////////////////////////////////////////////////
+            // 30.05.2021 Filling (with the classic example from the python turtle documentation)
+            var startPos = activeTurtle.Position;
+            activeTurtle.Speed = SpeedLevel.Fast;
+            activeTurtle.FillColor = Colors.DarkBlue;
+            activeTurtle.PenColor = Colors.DarkGreen;
+            activeTurtle.IsVisible = false;
+            activeTurtle.PenDown();
+            activeTurtle.BeginFill();
+            while(true)
+            {
+                activeTurtle.Forward(200);
+                activeTurtle.Left(170);
+                if ((startPos - activeTurtle.Position).AbsoluteValue < 1)
+                    break;
+            }
+            activeTurtle.EndFill();
         }
     }
 }

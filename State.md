@@ -59,7 +59,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | hideturtle()                         | 1 | first version |
 | isvisible()                          |   | first version |
 | **Appearance**
-| shape()                              | 2 | first version |
+| shape()                              | 2 | first version (a little bit different, because the shape is not set by its name) |
 | resizemode()                         | 1 |        |
 | shapesize() 
 | shearfactor()
@@ -109,8 +109,8 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | mode()
 | colormode()
 | getcanvas()
-| getshapes()                       |           | 100% |
-| register_shape()                  |           | Screen.RegisterShape(string name, ShapeBase shape), images not possible yet |
+| getshapes()                       |           | ?? unsure, if we need this because one can set the turtle's shape directly |
+| register_shape()                  |           | ?? unsure, if we need this because one can set the turtle's shape directly |
 | turtles()
 | window_height()
 | window_width()

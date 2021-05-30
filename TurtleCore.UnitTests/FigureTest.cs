@@ -175,7 +175,7 @@ namespace TurtleCore.UnitTests
             var screenMockup = new ScreenMockup();
 
             // Act
-            var figure = new Figure(screenMockup) { ShapeName = ShapeNames.Turtle };
+            var figure = new Figure(screenMockup) { Shape = Shapes.Turtle };
 
             // Assert. The creation of the figure did not sent events to the screen
             screenMockup.FigureCounter.Should().Be(0);
@@ -206,7 +206,7 @@ namespace TurtleCore.UnitTests
             screenMockup.FigureUpdates.Last().Shape.Should().BeNull();
 
             // Now we change the shape
-            figure.ShapeName = ShapeNames.Turtle;
+            figure.Shape = Shapes.Turtle;
 
             // Because the shape has changed, it is contained in the update
             screenMockup.FigureUpdates.Last().Shape.Should().NotBeNull();

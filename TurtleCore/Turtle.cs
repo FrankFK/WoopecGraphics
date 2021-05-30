@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 
 namespace TurtleCore
 {
@@ -13,6 +14,7 @@ namespace TurtleCore
         private static int s_totalCounter;
 
         private readonly int _id;
+        private readonly IScreen _screen;
         private readonly Pen _pen;
         private readonly Figure _figure;
 
@@ -32,6 +34,7 @@ namespace TurtleCore
         public Turtle(IScreen screen)
         {
             _id = Interlocked.Increment(ref s_totalCounter);
+            _screen = screen;
             _figure = new Figure(screen, _id);
             _pen = new Pen(screen, _id);
 
@@ -74,11 +77,9 @@ namespace TurtleCore
         public bool IsVisible { get { return _figure.IsVisible; } set { _figure.IsVisible = value; } }
 
         /// <summary>
-        /// Set the turtles shape to the shape with the given Name. Shape with name must exist in the Turtle Screen’s shape dictionary. 
-        /// The names of the initially availabe shapes can be accessed by <code>ShapeNames.</code>
-        /// To learn about how to deal with shapes see Screen method RegisterShape
+        /// Set the turtles shape.
         /// </summary>
-        public string Shape { get { return _figure.ShapeName; } set { _figure.ShapeName = value; } }
+        public ShapeBase Shape { get { return _figure.Shape; } set { _figure.Shape = value; } }
 
         public void HideTurtle() { IsVisible = false; }
         public void ShowTurtle() { IsVisible = true; }
@@ -156,17 +157,30 @@ namespace TurtleCore
 
         public bool Filling { get { return _pen.Filling; } }
 
-        public void BeginFilling()
+        public void BeginFill()
         {
-            _pen.BeginFilling();
+            _pen.BeginFill();
         }
 
-        public void EndFilling()
+        public void EndFill()
         {
-            var shape = _pen.EndFilling();
+            var shape = _pen.EndFill();
 
-            // TODO:
-            // shape (mit outlinecolor, fillcolor) an den Screen weitergeben, soll den Shape direkt ausgeben. Dafür braucht der Screen noch eine Methode.
+            var figure = new Figure(_screen, _id) { FillColor = FillColor, OutlineColor = PenColor, Shape = shape };
+
+            // Imagine the created shape is an arrow like this
+            //
+            //                     /\
+            //                    /  \
+            // 
+            // Now compare it to the predefined shape Shapes.Arrow.
+            // Both shapes point to North
+            // But if we create a figure, its shape points to West.
+            // Therefore we have to rotate the figure from West to North, such that the shape is drawn in the right way.
+            figure.Rotate(90);
+
+
+            figure.IsVisible = true;
         }
 
 

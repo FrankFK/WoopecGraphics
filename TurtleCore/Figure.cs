@@ -18,7 +18,7 @@ namespace TurtleCore
 
         private readonly IScreen _screen;
         private bool _firstAnimationIsAdded;
-        private string _shapeName;
+        private ShapeBase _shape;
         private bool _shapeIsChanged;
         private int _idOnScreen;
         private bool _figureIsCreated;
@@ -68,7 +68,7 @@ namespace TurtleCore
             Speed = SpeedLevel.Normal;
             _fillColor = Colors.Black;
             _outlineColor = Colors.Black;
-            _shapeName = ShapeNames.Classic;
+            _shape = Shapes.Classic;
             _shapeIsChanged = true;
             _figureIsCreated = false; // the figure is only created when it is necessary
         }
@@ -130,15 +130,15 @@ namespace TurtleCore
             }
         }
 
-        public string ShapeName
+        public ShapeBase Shape
         {
             get
             {
-                return _shapeName;
+                return _shape;
             }
             set
             {
-                _shapeName = value;
+                _shape = value;
                 _shapeIsChanged = true;
                 if (_isVisible)
                     UpdateScreen();
@@ -265,7 +265,7 @@ namespace TurtleCore
             if (_shapeIsChanged)
             {
                 // To reduce overhead we only set the shape if it was changed:
-                figure.Shape = _screen.GetShape(_shapeName);
+                figure.Shape = Shape;
                 _shapeIsChanged = false;
             }
             if (!togetherWithPreviousAnimation)

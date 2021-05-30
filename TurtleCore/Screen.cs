@@ -21,7 +21,6 @@ namespace TurtleCore
         {
             _screenObjectProducer = producer ?? throw new ArgumentNullException("producer");
             _shapes = new();
-            AddPredefinedShapes(_shapes);
             LastIssuedAnimatonGroupID = ScreenObject.NoGroupId;
         }
 
@@ -98,17 +97,6 @@ namespace TurtleCore
         internal static void ResetDefaultScreen()
         {
             _defaultScreen = null;
-        }
-
-        private static void AddPredefinedShapes(Dictionary<string, ShapeBase> shapes)
-        {
-            // The names and geometries of these shapes are copied from python-turtle (turtle.py by Gregor Lingl)
-            shapes.Add(ShapeNames.Arrow, new Shape(new() { (-10, 0), (10, 0), (0, 10) }));
-            shapes.Add(ShapeNames.Turtle, new Shape(new() { (0, 16), (-2, 14), (-1, 10), (-4, 7), (-7, 9), (-9, 8), (-6, 5), (-7, 1), (-5, -3), (-8, -6), (-6, -8), (-4, -5), (0, -7), (4, -5), (6, -8), (8, -6), (5, -3), (7, 1), (6, 5), (9, 8), (7, 9), (4, 7), (1, 10), (2, 14) }));
-            shapes.Add(ShapeNames.Circle, new Shape(new() { (10, 0), (9.51, 3.09), (8.09, 5.88), (5.88, 8.09), (3.09, 9.51), (0, 10), (-3.09, 9.51), (-5.88, 8.09), (-8.09, 5.88), (-9.51, 3.09), (-10, 0), (-9.51, -3.09), (-8.09, -5.88), (-5.88, -8.09), (-3.09, -9.51), (-0.00, -10.00), (3.09, -9.51), (5.88, -8.09), (8.09, -5.88), (9.51, -3.09) }));
-            shapes.Add(ShapeNames.Square, new Shape(new() { (10, -10), (10, 10), (-10, 10), (-10, -10) }));
-            shapes.Add(ShapeNames.Triangle, new Shape(new() { (10, -5.77), (0, 11.55), (-10, -5.77) }));
-            shapes.Add(ShapeNames.Classic, new Shape(new() { (0, 0), (-5, -9), (0, -7), (5, -9) }));
         }
 
         private void UpdateLastIssuedAnimationGroupID(ScreenObject screenObject)

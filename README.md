@@ -24,13 +24,14 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Syntax-Coloring evtl. mit AvalonEdit (https://www.nuget.org/packages/AvalonEdit) oder RoslynPad https://github.com/aelij/RoslynPad
 
 ## To decide
+* Benötigt man überhaupt Screen.RegisterShape? Man kann einfach die Shape-Property der Turtle setzen.
 * Screen-Klasse sauberer machen. Vermischt aktuell Methoden für Programmierer und interne Methoden
 * Figure und Pen: Methoden revidieren. Wann gibt es Property-Setter? Wann gibt es SetXy-Methoden? Analog zur Turtle-Klasse beides anbieten?
 * Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
 
 ## Done
 
-69h 
+74h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -56,6 +57,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 17.05.2021: Cleaner code
 * 18.05.2021: Cleaner code in TurtleWpf
 * 22.05.2021: FillColor and OutlineColor
+* 29.05.2021: One can change shapes of a turtle
+* 30.05.2021: Filling
 
  
 
