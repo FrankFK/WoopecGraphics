@@ -4,7 +4,7 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <PackageId>Woopec.Wpf</PackageId>
-    <Version>1.0.0-alpha</Version>
+    <Version>1.0.0-alpha2</Version>
     <Authors>woopec</Authors>
     <Company>woopec</Company>
     <Product>Woopec.Wpf</Product>
@@ -13,10 +13,19 @@
     <PackageTags>C# Graphics Turtle Beginners WPF</PackageTags>
     <AssemblyName>Woopec.Wpf</AssemblyName>
     <RootNamespace>Woopec.Wpf</RootNamespace>
+    <PackageProjectUrl>https://woopec.wordpress.com/</PackageProjectUrl>
+    <PackageIcon>NuGetIcon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TurtleCore\TurtleCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\NuGetIcon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
