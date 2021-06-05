@@ -146,3 +146,30 @@ und Methoden, die eher intern sind (DrawLine, CreateLine)**
 | TurtleScreenBase(object) | TurtleCore.IScreenOutput and TurtleWpf.ScreenOutput    | 
 
 
+
+# Nuget Infos
+
+Auf anderem Rechner kann es installiert und genutzt werden (ohne Doku)
+* Siehe https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-visual-studio?tabs=netcore-cli
+* Ich brauche einen nuget Account (hab' ich den schon)
+* Woopec.Core ruhig auch auch schon mal als eigenes Paktet, denn Pakete sollen ja nicht so groß sein
+  * Properties des nuget-Pakets, Beschreibung siehe https://docs.microsoft.com/en-us/nuget/reference/nuspec
+  * Package-Id: Woopec.Core
+  * Package-Version: 1.0.0-alpha (nuget untersützt, so etwas wie pre-releases, daher das -alpha Suffix)
+  * Author: Laut Beschreibung sollen hier die Namen von Autoren stehen, die zu Profil-Namen auf nuget.org passen. Also Woopec
+  * License: MIT
+  * Tags: Ich habe keine Liste von gängigen Tags gefunden. Erst mal diese: C# Graphics Turtle Beginners
+  * Repository: Habe ich erst mal noch nicht eingetragen, weil das zurzeit noch private ist
+* Woopec.Wpf analog. 
+  * Package-Id: Woopec.Wpf
+  * Package-Version: 1.0.0-alpha (nuget untersützt, so etwas wie pre-releases, daher das -alpha Suffix)
+  * Author: Laut Beschreibung sollen hier die Namen von Autoren stehen, die zu Profil-Namen auf nuget.org passen. Also Woopec
+  * License: MIT
+  * Tags: Ich habe keine Liste von gängigen Tags gefunden. Erst mal diese: C# Graphics Turtle Beginners
+  * Repository: Habe ich erst mal noch nicht eingetragen, weil das zurzeit noch private ist
+  * Dabei nutze ich erst mal Woopec.Core über Projekt-Referenz und nicht über nuget (das ist einfacher).
+    Es sieht für mich so aus, als ob Nuget das aber erkennt. Weil es beim Herunterladen des Woopec.Wpf Pakets
+    behauptet, dass dieses Woopec.Core verwendet (magic?)
+* Nutzung von Nuget woopec.wpf ausprobieren
+
+

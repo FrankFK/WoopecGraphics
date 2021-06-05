@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageId>Woopec.Core</PackageId>
+    <Authors>woopec</Authors>
+    <Product>Woopec.Core</Product>
+    <Version>1.0.0-alpha</Version>
+    <Description>Base package for simple C# graphics. At the moment only used by Woopec.Wpf</Description>
+    <Company />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>C# Graphics Turtle Beginners</PackageTags>
   </PropertyGroup>
 
 </Project>

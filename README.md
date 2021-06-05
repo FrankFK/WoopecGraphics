@@ -5,13 +5,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 ## Planned
 
 * Erste Version nutzbar machen (MVP)
-  * Auf anderem Rechner kann es installiert und genutzt werden (ohne Doku)
-    * Wpf-Paket auf Nuget packen
-    * Siehe https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-visual-studio?tabs=netcore-cli
-    * Ich brauche einen nuget Account (hab' ich den schon)
-    * Name für das Paket Woopec.Wpf ? Woopec.Core auch schon mal draufpacken, damit ich das später mal trennen kann und das auch nutzbar ist.
-    * Paktet unlisten 
-    * Nutzung von Nuget woopec.wpf ausprobieren
   * Turtle und Bird Shapes von Clemens einbauen. Bird shape in einer der Demos nutzen.
   * Namespaces, Klassen und Methoden: Nur das public, was auch public sein soll. Namen passend und konsistent machen.
   * Öffentliche Methoden im Code kommentieren und Code-Kommentare in nuget-Package mitveröffentlichen
@@ -20,7 +13,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
   * Mail-Account anlegen und auf Wordpress-Seite verlinken
   * Wordpress-Seite als URL im Nuget-Package verlinken
-  * Nuget-Package öffentlich machen
+  * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
+  * Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 
   * Code auf github kann erst mal noch privat bleiben.
 
 * Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
@@ -47,7 +41,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-78h 
+80h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -76,6 +70,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 29.05.2021: One can change shapes of a turtle
 * 30.05.2021: Filling
 * 05.06.2021: Find TurtleMain by reflection
+* 05.06.2021: Prerelease on nuget
 
  
 

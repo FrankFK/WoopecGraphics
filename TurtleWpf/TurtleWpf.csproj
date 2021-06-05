@@ -3,11 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <PackageId>Woopec.Wpf</PackageId>
+    <Version>1.0.0-alpha</Version>
+    <Authors>woopec</Authors>
+    <Company>woopec</Company>
+    <Product>Woopec.Wpf</Product>
+    <Description>Simple graphics for C# beginners (starting with turtle-graphics)</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>C# Graphics Turtle Beginners WPF</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TurtleCore\TurtleCore.csproj" />
-    <ProjectReference Include="..\TurtleSamples\TurtleSamples.csproj" />
   </ItemGroup>
 
 </Project>
