@@ -28,8 +28,6 @@ namespace UsingTurtleCanvas
         public MainWindow()
         {
             InitializeComponent();
-            SampleProgram.TurtleMain();
-
         }
     }
 }

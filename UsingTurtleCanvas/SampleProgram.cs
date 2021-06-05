@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Channels;
-using System.Threading.Tasks;
-using TurtleCore;
+﻿using TurtleCore;
 
 namespace UsingTurtleCanvas
 {
@@ -12,16 +6,13 @@ namespace UsingTurtleCanvas
     {
         public static void TurtleMain()
         {
-            /*
-             * Wird aktuell noch von TurtleCanvas aufgerufen
-             * 
             var turtle = new Turtle();
-
-            turtle.Right(45);
-            turtle.Forward(50);
-            turtle.Left(90);
+            turtle.Color = Colors.DarkGreen;
+            turtle.Shape = Shapes.Turtle;
+            turtle.Speed = SpeedLevel.Slowest;
+            turtle.Left(45);
             turtle.Forward(100);
-            */
+            turtle.Right(45);
         }
     }
 }

@@ -38,18 +38,17 @@ namespace TurtleWpf
             _canvas = new Canvas() { Width = 400, Height = 400 };
             this.Content = _canvas;
 
-            // generate a mockup-object, that simulation the draw-operations on the screen (in reality this would be a wpf-canvas)
+            // Generate a class that writes all objects to the wpf-canvas
             _screenObjectWriter = new WpfScreenObjectWriter(_canvas);
             _screenObjectWriter.OnAnimationIsFinished += WhenWriterIsFinished;
 
             // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
-            // to-do: check, if an unbound broker is better
             var objectBroker = new ScreenObjectBroker(_screenObjectWriter, 10000);
             // the one and only consumer
             _actualConsumer = objectBroker.Consumer;
 
-            // It is possible to have multiple producers. In this test we only have one
-            // This producer runs in a another thread.
+            // It is possible to have multiple producers. In this case we ony have one.
+            // This producer runs in another thread.
             _actualProducer = new ScreenObjectProducer(objectBroker.ObjectChannel);
             TurtleOutputs.InitializeDefaultScreenObjectProducer(_actualProducer);
             var producerThread = new Thread(
@@ -69,8 +68,23 @@ namespace TurtleWpf
 
         private static void TestProgram()
         {
-            // TurtleDemoByteDesign.Run();
-            TurtleFunctionsDemo.Run();
+            var foundTurtleCode = TurtleCodeFinder.Find();
+
+            if (foundTurtleCode != null)
+            {
+                foundTurtleCode.Invoke();
+            }
+            else
+            {
+                var firstTurtle = new Turtle() { Speed = SpeedLevel.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkGreen };
+                firstTurtle.Right(45);
+                firstTurtle.Forward(50);
+                firstTurtle.Left(90);
+                firstTurtle.Forward(100);
+                firstTurtle.Right(45);
+                firstTurtle.Forward(20);
+            }
+
             return;
         }
 
