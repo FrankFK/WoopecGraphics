@@ -8,9 +8,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using TurtleCore;
+using Woopec.Core;
 
-namespace TurtleWpf
+namespace Woopec.Wpf
 {
     internal class CanvasLines
     {

@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using TurtleCore.Internal;
+using Woopec.Core.Internal;
 
-namespace TurtleCore.UnitTests
+namespace Woopec.Core.UnitTests
 {
     /// <summary>
     /// Test the handling of animations.

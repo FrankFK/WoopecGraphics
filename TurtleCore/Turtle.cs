@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace TurtleCore
+namespace Woopec.Core
 {
     /// <summary>
     /// An instance of this class represents a turtle.

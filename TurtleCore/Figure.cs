@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace Woopec.Core
 {
     /// <summary>
     /// An instance of this class is a form (for instance the image of a turtle), which 

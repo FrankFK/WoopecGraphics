@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TurtleWpf
+namespace Woopec.Wpf
 {
     /// <summary>
     /// Convert Turtle-Colors to WPF-Colors.
@@ -20,7 +20,7 @@ namespace TurtleWpf
         /// <remarks>
         /// At the moment Turtle-Color does not contain a value for alpha-channel (transparency)
         /// </remarks>
-        public static System.Windows.Media.Color Convert(TurtleCore.Color color)
+        public static System.Windows.Media.Color Convert(Woopec.Core.Color color)
         {
             return System.Windows.Media.Color.FromRgb(color.R, color.G, color.B);
         }

@@ -11,6 +11,6 @@ using System.Threading.Tasks;
 // should not be visible to Turtle-Users. Therfore these parts are declared as internal and made
 // visible to TurtleWpf
 // 
-[assembly: InternalsVisibleTo("TurtleWpf")]
+[assembly: InternalsVisibleTo("Woopec.Wpf")]
 [assembly: InternalsVisibleTo("TurtleCore.UnitTests")]
 

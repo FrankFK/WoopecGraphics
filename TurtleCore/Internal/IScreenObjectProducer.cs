@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace Woopec.Core
 {
     /// <summary>
     /// Generate screen objects and hand them over to a consumer

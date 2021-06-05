@@ -15,11 +15,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TurtleCore;
-using TurtleCore.Internal;
-using Colors = TurtleCore.Colors;
+using Woopec.Core;
+using Woopec.Core.Internal;
+using Colors = Woopec.Core.Colors;
 
-namespace TurtleWpf
+namespace Woopec.Wpf
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml

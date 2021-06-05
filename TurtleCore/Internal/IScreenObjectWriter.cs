@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace Woopec.Core
 {
     internal delegate void AnimationIsFinished(int groupId, int objectId);
 

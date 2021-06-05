@@ -11,6 +11,8 @@
     <Description>Simple graphics for C# beginners (starting with turtle-graphics)</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>C# Graphics Turtle Beginners WPF</PackageTags>
+    <AssemblyName>Woopec.Wpf</AssemblyName>
+    <RootNamespace>Woopec.Wpf</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

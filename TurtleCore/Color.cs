@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace Woopec.Core
 {
     /// <summary>
     /// A color specified by the values for Red, Green and Blue.

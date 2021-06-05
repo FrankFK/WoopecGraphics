@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TurtleCore
+namespace Woopec.Core
 {
     /// <summary>
     /// At the moment this class only contains the default canvas, which should be used if

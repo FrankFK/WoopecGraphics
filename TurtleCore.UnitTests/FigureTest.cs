@@ -5,7 +5,7 @@ using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TurtleCore.UnitTests
+namespace Woopec.Core.UnitTests
 {
 
     [TestClass]

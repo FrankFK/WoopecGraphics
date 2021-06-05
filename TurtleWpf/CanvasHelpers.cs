@@ -4,9 +4,9 @@ using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TurtleCore;
+using Woopec.Core;
 
-namespace TurtleWpf
+namespace Woopec.Wpf
 {
     class CanvasHelpers
     {

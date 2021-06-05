@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
-namespace TurtleCore.UnitTests
+namespace Woopec.Core.UnitTests
 {
     [TestClass]
     public class ShapeTest

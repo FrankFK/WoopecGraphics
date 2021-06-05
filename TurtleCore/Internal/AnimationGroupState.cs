@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TurtleCore.Internal
+namespace Woopec.Core.Internal
 {
     /// <summary>
     /// An instance of this class describes the actually known state of an animation group.

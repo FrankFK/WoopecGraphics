@@ -11,7 +11,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Hilfe-Seite mit Überlick über alle öffentlichen Methoden verfassen
   * Wordpress-Seite anlegen, auf der die Hilfe-Seite steht.
   * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
-  * Mail-Account anlegen und auf Wordpress-Seite verlinken
   * Wordpress-Seite als URL im Nuget-Package verlinken
   * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
   * Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 

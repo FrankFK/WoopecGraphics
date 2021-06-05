@@ -8,9 +8,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using TurtleCore;
+using Woopec.Core;
 
-namespace TurtleWpf
+namespace Woopec.Wpf
 {
     internal class CanvasPathes
     {
@@ -167,10 +167,10 @@ namespace TurtleWpf
 
         private void UpdatePathWithShape(Path path, ShapeBase screenFigureShape)
         {
-            if (!(screenFigureShape is TurtleCore.Shape))
+            if (!(screenFigureShape is Woopec.Core.Shape))
                 throw new NotImplementedException($"Shapes of type {screenFigureShape.Type} are not implemented yet.");
 
-            var shape = screenFigureShape as TurtleCore.Shape;
+            var shape = screenFigureShape as Woopec.Core.Shape;
 
             // Set or change the pahtGeometry
             var pathGeometry = new PathGeometry
