@@ -4,8 +4,28 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Planned
 
+* Erste Version nutzbar machen (MVP)
+  * Auf anderem Rechner kann es installiert und genutzt werden (ohne Doku)
+    * Wpf-Paket auf Nuget packen
+    * Siehe https://docs.microsoft.com/en-us/nuget/quickstart/create-and-publish-a-package-using-visual-studio?tabs=netcore-cli
+    * Ich brauche einen nuget Account (hab' ich den schon)
+    * Name für das Paket Woopec.Wpf ? Woopec.Core auch schon mal draufpacken, damit ich das später mal trennen kann und das auch nutzbar ist.
+    * Paktet unlisten 
+    * Nutzung von Nuget woopec.wpf ausprobieren
+  * Turtle und Bird Shapes von Clemens einbauen. Bird shape in einer der Demos nutzen.
+  * Namespaces, Klassen und Methoden: Nur das public, was auch public sein soll. Namen passend und konsistent machen.
+  * Öffentliche Methoden im Code kommentieren und Code-Kommentare in nuget-Package mitveröffentlichen
+  * Hilfe-Seite mit Überlick über alle öffentlichen Methoden verfassen
+  * Wordpress-Seite anlegen, auf der die Hilfe-Seite steht.
+  * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
+  * Mail-Account anlegen und auf Wordpress-Seite verlinken
+  * Wordpress-Seite als URL im Nuget-Package verlinken
+  * Nuget-Package öffentlich machen
+  * Code auf github kann erst mal noch privat bleiben.
 
-* Exceptions müssen abgefangen werden -- aktuell stürtzt dann das Programm ab.
+* Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
+  * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
+
 * Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
   Die Lösung dokumentieren. 
   Channels sind hier dokumentiert:
@@ -16,10 +36,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * Die Screen* Klassen prüfen, ob das nicht besser Records wären
 * Debuggen einfacher machen: Ziel: Die Turtle-Aktion die ich im Debugger durch-steppe, sehe ich auch am Bildschirm (Idee: Im Debug-Modus Channel auf einen Eintrag beschränken, und mit asyn auf das Schreiben warten?)
 * ScreenLine.Width
-* TurtleMain über Reflection finden und automatisch aufrufen
-  https://stackoverflow.com/questions/42524704/asp-net-core-find-all-class-types-in-all-assemblies/44444309
-  https://stackoverflow.com/questions/1315665/c-list-all-classes-in-assembly
-  `Assembly myAssembly = Assembly.GetExecutingAssembly();`
 * Code im WPF-Text-Feld editierbar anzeigen.
   * Syntax-Coloring evtl. mit AvalonEdit (https://www.nuget.org/packages/AvalonEdit) oder RoslynPad https://github.com/aelij/RoslynPad
 
@@ -31,7 +47,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-74h 
+78h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -59,6 +75,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 22.05.2021: FillColor and OutlineColor
 * 29.05.2021: One can change shapes of a turtle
 * 30.05.2021: Filling
+* 05.06.2021: Find TurtleMain by reflection
 
  
 
