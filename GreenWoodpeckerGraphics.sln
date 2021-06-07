@@ -32,7 +32,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleWpf", "TurtleWpf\Turt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingTurtleCanvas", "UsingTurtleCanvas\UsingTurtleCanvas.csproj", "{0774A6F2-D96F-46EB-A095-52E85DB01960}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurtleSamples", "TurtleSamples\TurtleSamples.csproj", "{57716963-7829-4C96-940B-21892DA97E94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleSamples", "TurtleSamples\TurtleSamples.csproj", "{57716963-7829-4C96-940B-21892DA97E94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDocumentation", "ExternalDocumentation", "{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F}"
+	ProjectSection(SolutionItems) = preProject
+		Turtle.md = Turtle.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +86,7 @@ Global
 		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{0774A6F2-D96F-46EB-A095-52E85DB01960} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{57716963-7829-4C96-940B-21892DA97E94} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
+		{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}

@@ -295,8 +295,6 @@ namespace Woopec.Core.UnitTests
         }
 
 
-
-
         private static Turtle CreateSut()
         {
             return new Turtle(new ScreenMockup());

@@ -8,10 +8,12 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Turtle und Bird Shapes von Clemens einbauen. Bird shape in einer der Demos nutzen.
   * Namespaces, Klassen und Methoden: Nur das public, was auch public sein soll. Namen passend und konsistent machen.
   * Öffentliche Methoden im Code kommentieren und Code-Kommentare in nuget-Package mitveröffentlichen
+    * Siehe dazu: https://docs.microsoft.com/en-us/dotnet/csharp/codedoc. Es geht eine Menge (Code, Auflistungen, Links, usw.)
+    * Dann vielleicht mit https://dotnet.github.io/docfx/tutorial/docfx_getting_started.html Doku generieren?
+    * https://github.com/EWSoftware/SHFB Sandcastle sieht mir oversized aus. Ich brauche nur ein bisschen html. 
   * Hilfe-Seite mit Überlick über alle öffentlichen Methoden verfassen
   * Wordpress-Seite anlegen, auf der die Hilfe-Seite steht.
   * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
-  * Wordpress-Seite als URL im Nuget-Package verlinken
   * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
   * Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 
   * Code auf github kann erst mal noch privat bleiben.
@@ -40,7 +42,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-80h 
+86h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -70,6 +72,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 30.05.2021: Filling
 * 05.06.2021: Find TurtleMain by reflection
 * 05.06.2021: Prerelease on nuget
+* 07.06.2021: Started with documentation (Speed, Move and Draw Methods of Turtle)
 
  
 

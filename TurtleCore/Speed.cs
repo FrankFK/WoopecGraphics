@@ -16,20 +16,25 @@ namespace Woopec.Core
     }
 
     /// <summary>
-    /// Nearly the same as in python-turtle
     /// A value in the range 0..10 or a SpeedLevel (see enum SpeedLevel)
-    /// Set the turtle's speed to an integer value in the range 0 .. 10.
+    /// Specifies the turtle's speed as a value in the range 0 .. 10.
     /// If input is smaller than 0.5, speed is set to 0.
     /// SpeedLevels are mapped to speedvalues in the following way:
-    ///      Fastest :   0
-    ///      Fast    :  10
-    ///      Normal  :   6
-    ///      Slow    :   3
-    ///      Slowest :   1
+    ///      Fastest :   0 (*no* animation takes place.)<br></br>
+    ///      Fast    :  10<br></br>
+    ///      Normal  :   6<br></br>
+    ///      Slow    :   3<br></br>
+    ///      Slowest :   1<br></br>
     /// speeds from 1 to 10 enforce increasingly faster animation of
     /// line drawing and turtle turning.
-    /// Attention:
-    /// speed = 0 : *no* animation takes place.
+    /// Examples
+    /// <example>
+    /// <code>
+    /// turtle.Speed = SpeedLevel.Slow; <br/>
+    /// turtle.Speed = 5; <br/>
+    /// </code>
+    /// </example>
+    /// </summary>
     /// </summary>
     public record Speed
     {
@@ -104,6 +109,12 @@ namespace Woopec.Core
             return milliseconds;
         }
 
+        /// <summary>
+        /// For the given Speed:  Time (measured in milliseconds) for the movement between two heading-angles
+        /// </summary>
+        /// <param name="oldHeading">Old heading. Specified in degrees.</param>
+        /// <param name="newHeading">New heading. Specified in degrees.</param>
+        /// <returns></returns>
         public int MillisecondsForRotation(double oldHeading, double newHeading)
         {
             double distanceInDegrees = Math.Abs(oldHeading - newHeading);

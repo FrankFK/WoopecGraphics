@@ -1,5 +1,12 @@
 # State
 
+## For comparison
+
+Documentation: see https://docs.python.org/3/library/turtle.html#module-turtle
+python Implementation: see https://github.com/python/cpython/blob/master/Lib/turtle.py
+Sample turtle programs: see https://github.com/python/cpython/tree/master/Lib/turtledemo
+
+
 ## Overview of python turtle functions
 
 See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)
