@@ -138,13 +138,19 @@ namespace Woopec.Core
     {
         // The names and geometries of these shapes are copied from python-turtle (turtle.py by Gregor Lingl)
         public static Shape Arrow { get { return CreateNamedShape("arrow", new() { (-10, 0), (10, 0), (0, 10) }); } }
-        public static Shape Turtle { get { return CreateNamedShape("turtle", new() { (0, 16), (-2, 14), (-1, 10), (-4, 7), (-7, 9), (-9, 8), (-6, 5), (-7, 1), (-5, -3), (-8, -6), (-6, -8), (-4, -5), (0, -7), (4, -5), (6, -8), (8, -6), (5, -3), (7, 1), (6, 5), (9, 8), (7, 9), (4, 7), (1, 10), (2, 14) }); } }
         public static Shape Circle { get { return CreateNamedShape("circle", new() { (10, 0), (9.51, 3.09), (8.09, 5.88), (5.88, 8.09), (3.09, 9.51), (0, 10), (-3.09, 9.51), (-5.88, 8.09), (-8.09, 5.88), (-9.51, 3.09), (-10, 0), (-9.51, -3.09), (-8.09, -5.88), (-5.88, -8.09), (-3.09, -9.51), (-0.00, -10.00), (3.09, -9.51), (5.88, -8.09), (8.09, -5.88), (9.51, -3.09) }); } }
         public static Shape Square { get { return CreateNamedShape("square", new() { (10, -10), (10, 10), (-10, 10), (-10, -10) }); } }
         public static Shape Triangle { get { return CreateNamedShape("triangle", new() { (10, -5.77), (0, 11.55), (-10, -5.77) }); } }
         public static Shape Classic { get { return CreateNamedShape("classic", new() { (0, 0), (-5, -9), (0, -7), (5, -9) }); } }
-        public static Shape Bird { get { return CreateNamedShape("bird", new() { (0, 0), (-5, -9), (0, -7), (5, -9) }); } }
+        public static Shape Turtle { get { return CreateNamedShape("turtle", new() { (0, 16), (-2, 14), (-1, 10), (-4, 7), (-7, 9), (-9, 8), (-6, 5), (-7, 1), (-5, -3), (-8, -6), (-6, -8), (-4, -5), (0, -7), (4, -5), (6, -8), (8, -6), (5, -3), (7, 1), (6, 5), (9, 8), (7, 9), (4, 7), (1, 10), (2, 14) }); } }
 
+        // Turtle designed by Clemens:
+        // public static Shape TurtleClemens { get { return CreateNamedShape("turtle", new() { (0, -10.5), (0.75, -9), (2.7, -9), (4.2, -7.5), (6.6, -9), (6.6, -12), (9.0, -12), (9.0, -7.5), (6.3, -5.4), (6.6, -5.1), (6.6, 5.1), (6.3, 5.4), (9.0, 7.5), (9.0, 12), (6.6, 12), (6.6, 9), (4.2, 7.5), (2.7, 9), (1.5, 9), (1.5, 15.8), (-1.5, 15.8), (-1.5, 9), (-2.7, 9), (-4.2, 7.5), (-6.6, 9), (-6.6, 12), (-9.0, 12), (-9.0, 7.5), (-6.3, 5.4), (-6.6, 5.1), (-6.6, -5.1), (-6.3, -5.4), (-9.0, -7.5), (-9.0, -12), (-6.6, -12), (-6.6, -9), (-4.2, -7.5), (-2.7, -9), (-0.75, -9), (0, -10.5) }); } }
+
+        // Bird designed by Clemens:
+        public static Shape Bird { get { return CreateNamedShape("bird", new() { (1, -4), (2, -3), (2, -2.5), (5, -2.5), (9, -4.5), (8, -0.5), (6, 2.5), (2, 3.5), (2, 4), (0, 7), (-2, 4), (-2, 3.5), (-6, 2.5), (-8, -0.5), (-9, -4.5), (-5, -2.5), (-2, -2.5), (-2, -3), (-1, -4), (-3, -7), (0, -6), (3, -7), (1, -4) }); } }
+
+        // (1,4), (2,3), (2,2.5), (5,2.5), (9,4.5), (8,0.5), (6,-2.5), (2,-3.5), (2,-4), (0,-7), (-2,-4), (-2,-3.5), (-6,-2.5), (-8,0.5), (-9,4.5), (-5,2.5), (-2,2.5), (-2,3), (-1,4), (-3,7), (0,6), (3,7), (1,4)
         private static Shape CreateNamedShape(string name, List<Vec2D> polygon)
         {
             var shape = new Shape(polygon);
