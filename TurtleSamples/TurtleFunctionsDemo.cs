@@ -162,6 +162,17 @@ namespace TurtleSamples
                     break;
             }
             activeTurtle.EndFill();
+
+            /////////////////////////////////////////////////////////////
+            // 08.06.2021 Shape for bird (in the meantime: nuget-package, documentation)
+            activeTurtle.Speed = SpeedLevel.Slow;
+            activeTurtle.Shape = Shapes.Bird;
+            activeTurtle.Color = Colors.DarkGreen;
+            activeTurtle.PenUp();
+            activeTurtle.Heading = 45;
+            activeTurtle.IsVisible = true;
+            activeTurtle.Forward(300);
+
         }
     }
 }
