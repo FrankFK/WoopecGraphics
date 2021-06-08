@@ -60,6 +60,7 @@ namespace Woopec.Core.UnitTests
             Shapes.Square.Name.Should().NotBeNullOrWhiteSpace();
             Shapes.Classic.Name.Should().NotBeNullOrWhiteSpace();
             Shapes.Triangle.Name.Should().NotBeNullOrWhiteSpace();
+            Shapes.Bird.Name.Should().NotBeNullOrWhiteSpace();
         }
 
         [TestMethod]

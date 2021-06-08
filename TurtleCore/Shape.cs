@@ -17,8 +17,7 @@ namespace Woopec.Core
     {
         /// <summary>
         /// A shape can have a name. 
-        /// All predefined shape (Turtle, Classic and so on) have a name ("turtle", "classic" and so on).
-        /// All shapes that are registered in the Screen class must have a name
+        /// All predefined shapes (Turtle, Classic and so on) have a name ("turtle", "classic" and so on).
         /// </summary>
         public string Name { get; set; }
 
@@ -56,9 +55,12 @@ namespace Woopec.Core
         /// <summary>
         /// Add a polygon to a compound shape
         /// </summary>
+        /// <remarks>
+        /// Currently only Shapes with one polygon are rendered correctly. Therefore this method is internal
+        /// </remarks>
         /// <param name="polygon">Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } </param>
         /// <param name="fillColor">Color the polygon will be filled with</param>
-        public void AddComponent(List<Vec2D> polygon, Color fillColor)
+        internal void AddComponent(List<Vec2D> polygon, Color fillColor)
         {
             AddComponent(polygon, fillColor, null);
         }
@@ -66,10 +68,13 @@ namespace Woopec.Core
         /// <summary>
         /// 
         /// </summary>
+        /// <remarks>
+        /// Currently only Shapes with one polygon are rendered correctly. Therefore this method is internal
+        /// </remarks>
         /// <param name="polygon">Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } </param>
         /// <param name="fillColor">Color the polygon will be filled with</param>
         /// <param name="outlineColor">Color for the polygons outline</param>
-        public void AddComponent(List<Vec2D> polygon, Color fillColor, Color outlineColor)
+        internal void AddComponent(List<Vec2D> polygon, Color fillColor, Color outlineColor)
         {
             if (Type != ShapeType.Compound)
                 throw new NotSupportedException("AddComponent is only allowed for a shape that was constructed in this way: shape = new Shape().");
@@ -97,7 +102,10 @@ namespace Woopec.Core
     /// <summary>
     /// An instance of this class is an image which can be used as a shape
     /// </summary>
-    public class ImageShape : ShapeBase
+    /// <remarks>
+    /// Currently only Shapes with one polygon are rendered correctly. Therefore this method is internal
+    /// </remarks>
+    internal class ImageShape : ShapeBase
     {
         /// <summary>
         /// Create an image shape.
@@ -135,7 +143,7 @@ namespace Woopec.Core
         public static Shape Square { get { return CreateNamedShape("square", new() { (10, -10), (10, 10), (-10, 10), (-10, -10) }); } }
         public static Shape Triangle { get { return CreateNamedShape("triangle", new() { (10, -5.77), (0, 11.55), (-10, -5.77) }); } }
         public static Shape Classic { get { return CreateNamedShape("classic", new() { (0, 0), (-5, -9), (0, -7), (5, -9) }); } }
-
+        public static Shape Bird { get { return CreateNamedShape("bird", new() { (0, 0), (-5, -9), (0, -7), (5, -9) }); } }
 
         private static Shape CreateNamedShape(string name, List<Vec2D> polygon)
         {

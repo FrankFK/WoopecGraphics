@@ -11,7 +11,7 @@ namespace Woopec.Core
     /// If the id of the figure was already used, the figure already exists on the screen. In this case the 
     /// screen figure is updated according to the actual values of the class-instance.
     /// </summary>
-    public class ScreenFigure : ScreenObject
+    internal class ScreenFigure : ScreenObject
     {
         public Vec2D Position { get; set; }
 

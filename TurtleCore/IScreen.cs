@@ -9,7 +9,7 @@ namespace Woopec.Core
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
     /// </summary>
-    public interface IScreen
+    internal interface IScreen
     {
         /// <summary>
         /// Return the GroupId of the last animation that is drawn at the screen

@@ -10,7 +10,7 @@ namespace Woopec.Core
     /// An instance of this class is a line that can be printed and animated on the screen.
     /// It also can be removed from the screen.
     /// </summary>
-    public class ScreenLine : ScreenObject
+    internal class ScreenLine : ScreenObject
     {
         public Vec2D Point1 { get; set; }
 

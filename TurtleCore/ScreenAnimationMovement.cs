@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Woopec.Core
 {
-    public enum ScreenAnimationMovementProperty
+    internal enum ScreenAnimationMovementProperty
     {
         /// <summary>
         /// The value of Point1 of a line is changed during the animation
@@ -25,7 +25,7 @@ namespace Woopec.Core
 
     }
 
-    public class ScreenAnimationMovement : ScreenAnimationEffect
+    internal class ScreenAnimationMovement : ScreenAnimationEffect
     {
         public ScreenAnimationMovementProperty AnimatedProperty { get; set; }
 

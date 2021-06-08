@@ -9,7 +9,7 @@ namespace Woopec.Core
     /// <summary>
     /// Base-Class for ScreenLine and ScreenForm
     /// </summary>
-    public class ScreenObject
+    internal class ScreenObject
     {
         internal const int NoGroupId = 0;
         private int _groupId;

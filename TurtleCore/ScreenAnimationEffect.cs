@@ -9,7 +9,7 @@ namespace Woopec.Core
     /// <summary>
     /// Base class for ScreenAnimationMovement and so on.
     /// </summary>
-    public class ScreenAnimationEffect
+    internal class ScreenAnimationEffect
     {
         /// <summary>
         /// Duration of the Effect

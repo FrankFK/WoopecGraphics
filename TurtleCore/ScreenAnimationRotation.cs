@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Woopec.Core
 {
 
-    public enum ScreenAnimationRotationProperty
+    internal enum ScreenAnimationRotationProperty
     {
         /// <summary>
         /// The value of Heading of a line is changed during the animation
@@ -15,7 +15,7 @@ namespace Woopec.Core
         Heading,
     }
 
-    public class ScreenAnimationRotation : ScreenAnimationEffect
+    internal class ScreenAnimationRotation : ScreenAnimationEffect
     {
         public ScreenAnimationRotationProperty AnimatedProperty { get; set; }
 

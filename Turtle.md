@@ -5,7 +5,8 @@
 
 ## Turtle Class
 
-Kurze Info zu dieser Klasse
+Kurze Info zu dieser Klasse.
+Was ist der Pen, was ist die (Figure) / Turtle...
 
 ### Examples
 
@@ -37,19 +38,51 @@ Daher vielleicht so wie in Python erst mal eine kurze Übersicht über alle Method
 detaillierte Doku zu jeder einzelnen Methode.
 
 
-#### Move and Draw
+#### Move, Draw and Position State
 
 | Method                                           | Description                                           |
 |--------------------------------------------------|-------------------------------------------------------|
-| Forward(distance)                                | Move forward                                          |
-| Backward(distance)                               | Move backward                                         |
-| Left(angle)                                      | Rotate left                                           |
-| Right(angle)                                     | Rotate right                                          |
-| SetPosition(position) GoTo(position)             | Change position                                       |
-| Position                                         | Get or change position                                |
-| SetHeading(angle)                                | Change heading (rotate to this heading)               |
-| Heading                                          | Get or change heading                                 |
-| Speed                                            | Get or change speed                                 |
+| Forward(double distance)                         | Move forward                                          |
+| Backward(double distance)                        | Move backward                                         |
+| Left(double angle)                               | Rotate left                                           |
+| Right(double angle)                              | Rotate right                                          |
+| SetPosition(Vec2D position) GoTo(Vec2D position) | Change position.                                      |
+| Position [Type is Vec2D]                         | Get or change position                                |
+| SetHeading(double angle)                         | Change heading (rotate to this heading)               |
+| Heading [Type is double]                         | Get or change heading                                 |
+| Speed [Type is Speed]                            | Get or change speed                                 |
+
+#### Drawing state
+
+| Method                                           | Description                                           |
+|--------------------------------------------------|-------------------------------------------------------|
+| PenUp()                                          | Pull the pen down – drawing when moving                                                       |
+| PenDown()                                        | Pull the pen up – no drawing when moving                                                       |
+| IsDown [Type is bool]                            | Get or change state of pen                            |
+
+#### Color control
+
+| Method                                           | Description                                           |
+|--------------------------------------------------|-------------------------------------------------------|
+| PenColor [Type is Color]                         | Pencolor                                              |
+| FillColor [Type is Color]                        | Fillcolor                                             |
+| Color [Type is Color]                            | Change pencolor and fillcolor                         |
+|                                                  |                                                       |
 
 
+#### Visibility and appearance
 
+| Method                                           | Description                                           |
+|--------------------------------------------------|-------------------------------------------------------|
+| HideTurtle()                                     | Make the turtle invisible                             |
+| ShowTurtle()                                     | Make the turtle visible                               |
+| IsVisible (Type is bool)                         | True if turtle is shown, false if is hidden           |
+| Shape (Type is a Shape)                          | Get or change shape of the turtle                     |
+
+#### Filling
+
+| Method                                           | Description                                           |
+|--------------------------------------------------|-------------------------------------------------------|
+| BeginFill()                                      | Start the filling                                     |
+| EndFill()                                        | Fill the shape drawn after the last call of BeginFill()|
+| Filling (Type is bool)                           | Return fillstate (true if filling, false else)        |

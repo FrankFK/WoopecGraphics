@@ -9,7 +9,7 @@ namespace Woopec.Core
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
     /// </summary>
-    public class Screen : IScreen
+    internal class Screen : IScreen
     {
         private static Screen _defaultScreen;
 

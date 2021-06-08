@@ -14,17 +14,26 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 
 ### Turtle Methods
 
+Remark: I no longer aim to produce the same functionality as python turtle. Currently
+the following features of python are no longer planned:
+* Different "modes" (turtle.mode()) with different interpretation of heading=0 and rotation-angles
+* Different possiblilities to specify rotation angles (turtle.degrees() and turtle.radians())
+* Different colormodes (turtle.colormode())
+* User-defined coordinate-systems (turtle.setworldcoordinates())
+
+These decesions make it easier for me to set the state for functions to "ok".
+
 | function                            | priority | state                                                |
 |-------------------------------------|----------|------------------------------------------------------|
 | **Move & Draw**
-| forward()                           | 1       | first version |
-| backward()                          | 1       | first version |
-| right()                             | 1       | first version |
-| left()                              | 1       | first version |
-| goto()                              |         | 100% |
+| forward()                           | 1       | ok |
+| backward()                          | 1       | ok |
+| right()                             | 1       | ok |
+| left()                              | 1       | ok |
+| goto()                              |         | ok |
 | setx()
 | sety()
-| setheading()                        | 1       | 100% |
+| setheading()                        | 1       | ok |
 | home()
 | circle()
 | dot()
@@ -32,42 +41,42 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | clearstamp()
 | clearstamps()
 | undo()
-| speed()                             | 1       | first version |
+| speed()                             | 1       | ok |
 | **Tell Turtle’s state**
-| position()                          |         | first version |
+| position()                          |         | ok |
 | towards()
 | xcor()
 | ycor()
-| heading()                           |         | 100% |
+| heading()                           |         | ok |
 | distance()
 | **Setting and measurement**
-| degrees()
-| radians()
+| degrees()                           | not planned |
+| radians()                           | not planned |
 | **Drawing state**
-| pendown()                            | 1      | first version |
-| penup()                              | 1      | first version |
+| pendown()                            | 1      | ok |
+| penup()                              | 1      | ok |
 | pensize() 
 | pen()
-| isdown()                             |        | first version |
+| isdown()                             |        | ok |
 | **Color Control**
-| color()                              | 1       | 100% only a setter for pencolor and fillcolor, no getter  |
-| pencolor()                           | 1       | first version, one polygon works |
-| fillcolor()                          | 1       | first version, one polygon works |
+| color()                              | 1      | ok |
+| pencolor()                           | 1      | ok |
+| fillcolor()                          | 1      | ok |
 | **Filling**
-| filling()
-| begin_fill()                         | 1 |  |
-| end_fill()                           | 1 |  |
+| filling()                            |   | ok |
+| begin_fill()                         | 1 | ok |
+| end_fill()                           | 1 |  ok |
 | **More drawing control**
 | reset()
 | clear()
 | write()
 | **Visibility**
-| showturtle()                         | 1 | first version |
-| hideturtle()                         | 1 | first version |
-| isvisible()                          |   | first version |
+| showturtle()                         | 1 | ok  |
+| hideturtle()                         | 1 | ok  |
+| isvisible()                          |   | ok  |
 | **Appearance**
-| shape()                              | 2 | first version (a little bit different, because the shape is not set by its name) |
-| resizemode()                         | 1 |        |
+| shape()                              | 2 | ok |
+| resizemode()                        
 | shapesize() 
 | shearfactor()
 | settiltangle()
@@ -100,7 +109,7 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | clear() 
 | reset() 
 | screensize()
-| setworldcoordinates()
+| setworldcoordinates()               | not planned | 
 | **Animation control**
 | delay()                             | ?       | Do we need this? Isn't Turtle.Speed() enough?         |
 | tracer()                            | ?       | Do we need this? Isn't Turtle.ShowTurtle() enough?    |
@@ -113,8 +122,8 @@ See [python: turtle - Turtle graphics](https://docs.python.org/3/library/turtle.
 | ontimer()
 | mainloop()
 | **Settings and special methods**
-| mode()
-| colormode()
+| mode()                            | not planned |
+| colormode()                       | not planned |
 | getcanvas()
 | getshapes()                       |           | ?? unsure, if we need this because one can set the turtle's shape directly |
 | register_shape()                  |           | ?? unsure, if we need this because one can set the turtle's shape directly |
