@@ -38,6 +38,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDocumentation", "Ex
 	ProjectSection(SolutionItems) = preProject
 		ExternalDocumentation\FirstSample.png = ExternalDocumentation\FirstSample.png
 		Turtle.md = Turtle.md
+		ExternalDocumentation\Turtle.md = ExternalDocumentation\Turtle.md
 	EndProjectSection
 EndProject
 Global
