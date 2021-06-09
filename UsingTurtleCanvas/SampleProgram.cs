@@ -4,7 +4,7 @@ namespace UsingTurtleCanvas
 {
     class SampleProgram
     {
-        public static void TurtleMain()
+        public static void TurtleMainx()
         {
             TurtleSamples.TurtleFunctionsDemo.Run();
         }

@@ -1,30 +1,39 @@
-# Woopec.Core Classes and Methods
-
+# Woopec: Turtle-Class
 
 ## Introduction
 
-## Turtle Class
+> Turtle graphics is a popular way for introducing programming to kids. It was part of the original Logo programming language developed by Wally Feurzeig, Seymour Papert and Cynthia Solomon in 1967.
+> >
+> Imagine a robotic turtle starting at (0, 0) in the x-y plane. [...] give it the command turtle.Forward(15), and it moves (on-screen!) 15 pixels in the direction it is facing, drawing a line as it moves. Give it the command turtle.Right(25), and it rotates in-place 25 degrees clockwise.
+>
+> Turtle can draw intricate shapes using programs that repeat simple moves. By combining together these and similar commands, intricate shapes and pictures can easily be drawn
 
-Kurze Info zu dieser Klasse.
-Was ist der Pen, was ist die (Figure) / Turtle...
+This quote from the documentation of the [pyhton-Turtle-Graphics](https://docs.python.org/3/library/turtle.html#module-turtle) describes the advantages of turtle Graphics.
+
+Woopec-turtle is an attempt to make something similar available to C# developers as well. 
+
+The structure (methods and their names) was largely taken over from python. Some things have been adapted to C# (upper/lower case, properties). The range of functions does not come close to that of the great python library. But it's a first step.
 
 ### Examples
 
-The following example ...
-Sollte hier erst mal ein möglichst einfaches Beispiel sein (Quadrat oder so). Damit jeder erst mal
-das Prinzip verstehen kann. Vielleicht auch ein Bild dazu, das das Ergebnis zeigt.
-
+Let's start with a simple example:
 ```csharp
-    var joe = new Turtle();
+    var turtle = Turtle.Seymour();
 
-    joe.Right(45);
-    joe.Forward(50);
-    joe.Left(90);
-    joe.Forward(100);
-    joe.Right(45);
-    joe.Forward(20);
-
+    turtle.Right(45);
+    turtle.Forward(50);
+    turtle.Left(90);
+    turtle.Forward(100);
+    turtle.Right(45);
+    turtle.Forward(20);
 ```
+This code produces the following result:
+
+![Result of simple example](./FirstSample.png)
+
+
+
+
 
 ### Remarks
 
