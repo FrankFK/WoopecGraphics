@@ -5,8 +5,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 ## Planned
 
 * Erste Version nutzbar machen (MVP)
-  * Turtle und Bird Shapes von Clemens einbauen. Bird shape in einer der Demos nutzen.
-  * Namespaces, Klassen und Methoden: Nur das public, was auch public sein soll. Namen passend und konsistent machen.
   * Öffentliche Methoden im Code kommentieren und Code-Kommentare in nuget-Package mitveröffentlichen
     * Siehe dazu: https://docs.microsoft.com/en-us/dotnet/csharp/codedoc. Es geht eine Menge (Code, Auflistungen, Links, usw.)
     * Dann vielleicht mit https://dotnet.github.io/docfx/tutorial/docfx_getting_started.html Doku generieren?
@@ -20,6 +18,18 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 * Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
   * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
+
+* Open-Data erfahrbar machen. Idee
+  * Es gibt einen Rest-Service, mit dem man den aktuellen Stand von Tube-Linien in London abfragen kann: https://tfl.gov.uk/info-for/open-data-users/our-open-data?intcmp=3671#on-this-page-2
+  * Details hier: https://content.tfl.gov.uk/trackernet-data-services-guide-beta.pdf
+  * Man könnte es mit dem Train Predictions Service versuchen
+  * Feed wird alle 30 Sekunden aktualisiert, man benötigt einen api-Key
+  * Daraus eine "App" entwickeln, die anzeigt wo sie gerade die Linien befinden
+  * Linie inklusive Stationen mit Pen malen (wie auf einem U-Bahn-Plan)
+  * Daten abrufen, umformen und Positionen anzeigen
+  * Zum ausprobieren und entwickeln: Beispieldaten in Woopec.Core ablegen (Rohdaten json)
+  * Entwickler kann entscheiden, ob er Rohdaten nimmt oder sich selbst einen Api-Key besorgt
+  * Keine Hilfsklassen für Aufbereitung der Rohdaten. Das ist Teil des Lernerfolgs.
 
 * Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
   Die Lösung dokumentieren. 

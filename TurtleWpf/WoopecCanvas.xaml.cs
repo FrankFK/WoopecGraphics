@@ -24,14 +24,14 @@ namespace Woopec.Wpf
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class TurtleCanvas : UserControl
+    public partial class WoopecCanvas : UserControl
     {
         private readonly Canvas _canvas;
         private readonly IScreenObjectProducer _actualProducer;
         private readonly IScreenObjectConsumer _actualConsumer;
         private readonly WpfScreenObjectWriter _screenObjectWriter;
 
-        public TurtleCanvas()
+        public WoopecCanvas()
         {
             InitializeComponent();
             _canvas = new Canvas() { Width = 400, Height = 400 };

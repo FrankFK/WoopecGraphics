@@ -149,7 +149,7 @@ namespace TurtleSamples
             // 30.05.2021 Filling (with the classic example from the python turtle documentation)
             var startPos = activeTurtle.Position;
             activeTurtle.Speed = SpeedLevel.Fast;
-            activeTurtle.FillColor = Colors.DarkBlue;
+            activeTurtle.FillColor = Colors.LightGreen;
             activeTurtle.PenColor = Colors.DarkGreen;
             activeTurtle.IsVisible = false;
             activeTurtle.PenDown();
