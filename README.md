@@ -13,11 +13,13 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Wordpress-Seite anlegen, auf der die Hilfe-Seite steht.
   * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
   * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
-  * Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 
-  * Code auf github kann erst mal noch privat bleiben.
 
 * Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
   * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
+
+* Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 
+* Code auf github kann erst mal noch privat bleiben.
+
 
 * Open-Data erfahrbar machen. Idee
   * Es gibt einen Rest-Service, mit dem man den aktuellen Stand von Tube-Linien in London abfragen kann: https://tfl.gov.uk/info-for/open-data-users/our-open-data?intcmp=3671#on-this-page-2
@@ -52,7 +54,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-92h 
+93h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF

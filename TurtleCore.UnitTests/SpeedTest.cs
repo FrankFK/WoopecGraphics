@@ -13,7 +13,7 @@ namespace Woopec.Core.UnitTests
         public void Speed_CreateByPredefinedSpeed()
         {
             // Act
-            Speed speed = SpeedLevel.Normal;
+            Speed speed = Speeds.Normal;
 
             // Assert
             speed.Value.Should().Be(6);
@@ -33,7 +33,7 @@ namespace Woopec.Core.UnitTests
         public void Speed_FastestMeansNoAnimation()
         {
             // Act
-            Speed speed = SpeedLevel.Fastest;
+            Speed speed = Speeds.Fastest;
 
             // Assert
             speed.NoAnimation.Should().BeTrue();
@@ -66,7 +66,7 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void Speed_DurationForFastSpeed()
         {
-            Speed speed = SpeedLevel.Fast;
+            Speed speed = Speeds.Fast;
 
             // two non trivial vectors with distance 500
             var from = new Vec2D(100, 200);
@@ -79,7 +79,7 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void Speed_DurationForSlowestSpeed()
         {
-            Speed speed = SpeedLevel.Slowest;
+            Speed speed = Speeds.Slowest;
 
             // two non trivial vectors with distance 500
             var from = new Vec2D(100, 200);
@@ -92,7 +92,7 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void Speed_DurationForFullRotationOnSlowestSpeed()
         {
-            Speed speed = SpeedLevel.Slowest;
+            Speed speed = Speeds.Slowest;
 
             int duration = speed.MillisecondsForRotation(0, 360);
             duration.Should().Be(2300);
@@ -101,7 +101,7 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void Speed_DurationForFullRotationOnFastSpeed()
         {
-            Speed speed = SpeedLevel.Fast;
+            Speed speed = Speeds.Fast;
 
             int duration = speed.MillisecondsForRotation(0, 360);
             duration.Should().Be(230);

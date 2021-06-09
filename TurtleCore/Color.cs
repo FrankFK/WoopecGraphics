@@ -48,6 +48,9 @@ namespace Woopec.Core
 
     }
 
+    /// <summary>
+    /// Predefined Colors
+    /// </summary>
     public class Colors
     {
         public static Color MediumPurple { get { return new Color(147, 112, 219); } }

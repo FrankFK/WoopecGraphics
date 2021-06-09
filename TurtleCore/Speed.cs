@@ -6,31 +6,15 @@ using System.Threading.Tasks;
 
 namespace Woopec.Core
 {
-    public enum SpeedLevel
-    {
-        Fastest,
-        Fast,
-        Normal,
-        Slow,
-        Slowest
-    }
-
     /// <summary>
-    /// A value in the range 0..10 or a SpeedLevel (see enum SpeedLevel)
     /// Specifies the turtle's speed as a value in the range 0 .. 10.
     /// If input is smaller than 0.5, speed is set to 0.
-    /// SpeedLevels are mapped to speedvalues in the following way:
-    ///      Fastest :   0 (*no* animation takes place.)<br></br>
-    ///      Fast    :  10<br></br>
-    ///      Normal  :   6<br></br>
-    ///      Slow    :   3<br></br>
-    ///      Slowest :   1<br></br>
     /// speeds from 1 to 10 enforce increasingly faster animation of
     /// line drawing and turtle turning.
     /// Examples
     /// <example>
     /// <code>
-    /// turtle.Speed = SpeedLevel.Slow; <br/>
+    /// turtle.Speed = Speeds.Slow; <br/>
     /// turtle.Speed = 5; <br/>
     /// </code>
     /// </example>
@@ -50,18 +34,6 @@ namespace Woopec.Core
                 Value = value; // In contrast to python: No speed limit
         }
 
-        public static implicit operator Speed(SpeedLevel level)
-        {
-            return level switch
-            {
-                SpeedLevel.Fastest => new Speed(0.0),
-                SpeedLevel.Fast => new Speed(10.0),
-                SpeedLevel.Normal => new Speed(6.0),
-                SpeedLevel.Slow => new Speed(3.0),
-                SpeedLevel.Slowest => new Speed(1.0),
-                _ => new Speed(6.0),// Same as normal
-            };
-        }
 
         public static implicit operator Speed(double speed) => new(speed);
 
@@ -133,6 +105,23 @@ namespace Woopec.Core
                 milliseconds = 1;
             return milliseconds;
         }
-
     }
+
+    /// <summary>
+    /// Predefined Speeds with following speedvalues:
+    ///      Fastest :   0 (*no* animation takes place.)<br></br>
+    ///      Fast    :  10<br></br>
+    ///      Normal  :   6<br></br>
+    ///      Slow    :   3<br></br>
+    ///      Slowest :   1<br></br>
+    /// </summary>
+    public class Speeds
+    {
+        public static Speed Fastest { get { return new Speed(0.0); } }
+        public static Speed Fast { get { return new Speed(10.0); } }
+        public static Speed Normal { get { return new Speed(6.0); } }
+        public static Speed Slow { get { return new Speed(3.0); } }
+        public static Speed Slowest { get { return new Speed(1.0); } }
+    }
+
 }

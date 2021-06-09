@@ -65,7 +65,7 @@ namespace Woopec.Core
             Orientation = new Vec2D(1, 0);
             Heading = 0;
             _isVisible = false;
-            Speed = SpeedLevel.Normal;
+            Speed = Speeds.Normal;
             _fillColor = Colors.Black;
             _outlineColor = Colors.Black;
             _shape = Shapes.Classic;

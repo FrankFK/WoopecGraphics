@@ -54,7 +54,7 @@ namespace Woopec.Core
         {
             // See https://en.wikipedia.org/wiki/Turtle_graphics
             //     Seymour Papert added support for turtle graphics to Logo in the late 1960s to support his version of the turtle robot
-            var example = new Turtle() { Speed = SpeedLevel.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkGreen };
+            var example = new Turtle() { Speed = Speeds.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkGreen };
             return example;
         }
 
@@ -244,17 +244,17 @@ namespace Woopec.Core
 
         /// <summary>
         /// Speed of the turtle.
-        /// Speed from SpeedLevel.Slowest to SpeedLevel.Fast enforce increasingly faster animation of
+        /// Speed from Speeds.Slowest to Speeds.Fast enforce increasingly faster animation of
         /// line drawing and turtle turning.<br></br>
-        /// Attention: With SpeedLevel.Fastest *no* animation takes place.<br></br>
+        /// Attention: With Speeds.Fastest *no* animation takes place.<br></br>
         /// <br></br>
         /// <para>
         /// Examples for setting the speed:
         /// <example>
         /// <code>
-        /// turtle.Speed = SpeedLevel.Slowest; // turtle moves very slow <br/>
-        /// turtle.Speed = SpeedLevel.Fast;    // turtle moves very fast<br/>
-        /// turtle.Speed = SpeedLevel.Fastest; // No animation takes place<br/>
+        /// turtle.Speed = Speeds.Slowest; // turtle moves very slow <br/>
+        /// turtle.Speed = Speeds.Fast;    // turtle moves very fast<br/>
+        /// turtle.Speed = Speeds.Fastest; // No animation takes place<br/>
         /// </code>
         /// </example>
         /// </para>
@@ -264,7 +264,7 @@ namespace Woopec.Core
         /// <example>
         /// <code>
         /// var currentSpeed = turtle.Speed; <br/>
-        /// if (currentSpeed == SpeedLevel.Slow) ...<br/>
+        /// if (currentSpeed == Speeds.Slow) ...<br/>
         /// if (currentSpeed.NoAnimation) ...<br></br>
         /// </code>
         /// </example>
@@ -464,7 +464,7 @@ namespace Woopec.Core
         /// <example>
         /// <code>
         /// var turtle = new Turtle(); <br/>
-        /// turtle.Speed = SpeedLevel.Fast; <br/>
+        /// turtle.Speed = Speeds.Fast; <br/>
         /// turtle.FillColor = Colors.DarkBlue; <br/>
         /// turtle.PenColor = Colors.DarkGreen; <br/>
         /// turtle.IsVisible = false; <br/>

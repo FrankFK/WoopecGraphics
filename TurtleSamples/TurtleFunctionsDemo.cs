@@ -16,7 +16,7 @@ namespace TurtleSamples
         {
             /////////////////////////////////////////////////////////////
             // 08.03.2021: First turtle with WPF
-            var firstTurtle = new Turtle() { Speed = SpeedLevel.Slow, IsVisible = false, };
+            var firstTurtle = new Turtle() { Speed = Speeds.Slow, IsVisible = false, };
 
             firstTurtle.Right(45);
             firstTurtle.Forward(50);
@@ -32,7 +32,7 @@ namespace TurtleSamples
             var turtles = new List<Turtle>();
             for (var counter = 0; counter < 10; counter++)
             {
-                turtles.Add(new Turtle() { IsDown = false, Speed = SpeedLevel.Fast, IsVisible = false, });
+                turtles.Add(new Turtle() { IsDown = false, Speed = Speeds.Fast, IsVisible = false, });
             }
 
             // Move all turtles to the same position as firstTurtle
@@ -63,10 +63,10 @@ namespace TurtleSamples
 
             //////////////////////////////////////////////////////////////
             // 5.5.2021: Different Speeds
-            turtles[0].Speed = SpeedLevel.Slowest; turtles[0].PenColor = Colors.DarkGreen;
-            turtles[1].Speed = SpeedLevel.Slow; turtles[1].PenColor = Colors.DarkRed;
-            turtles[2].Speed = SpeedLevel.Normal; turtles[2].PenColor = Colors.DarkOrange;
-            turtles[3].Speed = SpeedLevel.Fast; turtles[3].PenColor = Colors.DarkBlue;
+            turtles[0].Speed = Speeds.Slowest; turtles[0].PenColor = Colors.DarkGreen;
+            turtles[1].Speed = Speeds.Slow; turtles[1].PenColor = Colors.DarkRed;
+            turtles[2].Speed = Speeds.Normal; turtles[2].PenColor = Colors.DarkOrange;
+            turtles[3].Speed = Speeds.Fast; turtles[3].PenColor = Colors.DarkBlue;
             for (var speedIndex = 0; speedIndex <= 3; speedIndex++)
             {
                 var speedTurtle = turtles[speedIndex];
@@ -90,7 +90,7 @@ namespace TurtleSamples
 
             /////////////////////////////////////////////////////////////
             // 15.05.2021 TurtleMovement
-            activeTurtle.Speed = SpeedLevel.Slow;
+            activeTurtle.Speed = Speeds.Slow;
             activeTurtle.Heading = 180;
             activeTurtle.ShowTurtle();
             activeTurtle.Forward(50);
@@ -103,7 +103,7 @@ namespace TurtleSamples
 
             /////////////////////////////////////////////////////////////
             // 15.05.2021 (late in the evening) TurtleRotation
-            activeTurtle.Speed = SpeedLevel.Normal;
+            activeTurtle.Speed = Speeds.Normal;
             activeTurtle.Left(720);
             activeTurtle.Right(720 + 90);
             activeTurtle.Forward(40);
@@ -113,14 +113,14 @@ namespace TurtleSamples
             activeTurtle.Forward(20);
 
             activeTurtle.FillColor = Colors.DarkRed;
-            activeTurtle.Speed = SpeedLevel.Slowest;
+            activeTurtle.Speed = Speeds.Slowest;
             activeTurtle.Forward(50);
             activeTurtle.PenColor = Colors.Blue;
 
             /////////////////////////////////////////////////////////////
             // 22.05.2021 Speed.Fastest => No animation
             activeTurtle.IsVisible = false;
-            activeTurtle.Speed = SpeedLevel.Fastest;
+            activeTurtle.Speed = Speeds.Fastest;
             foreach (var i in Enumerable.Range(0, 10))
             {
                 activeTurtle.PenUp();
@@ -141,14 +141,14 @@ namespace TurtleSamples
             activeTurtle.Left(180);
             activeTurtle.Color = Colors.DarkGreen;
             activeTurtle.Shape = Shapes.Turtle;
-            activeTurtle.Speed = SpeedLevel.Slowest;
+            activeTurtle.Speed = Speeds.Slowest;
             activeTurtle.IsVisible = true;
             activeTurtle.Forward(150);
 
             /////////////////////////////////////////////////////////////
             // 30.05.2021 Filling (with the classic example from the python turtle documentation)
             var startPos = activeTurtle.Position;
-            activeTurtle.Speed = SpeedLevel.Fast;
+            activeTurtle.Speed = Speeds.Fast;
             activeTurtle.FillColor = Colors.LightGreen;
             activeTurtle.PenColor = Colors.DarkGreen;
             activeTurtle.IsVisible = false;
@@ -165,7 +165,7 @@ namespace TurtleSamples
 
             /////////////////////////////////////////////////////////////
             // 08.06.2021 Shape for bird (in the meantime: nuget-package, documentation)
-            activeTurtle.Speed = SpeedLevel.Slow;
+            activeTurtle.Speed = Speeds.Slow;
             activeTurtle.Shape = Shapes.Bird;
             activeTurtle.Color = Colors.DarkGreen;
             activeTurtle.PenUp();
