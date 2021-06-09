@@ -29,8 +29,6 @@ Let's start with a simple example:
 ```
 This code produces the following result:
 
-![Result of simple example](./FirstSample.png)
-
 
 
 
