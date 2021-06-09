@@ -36,7 +36,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleSamples", "TurtleSamp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDocumentation", "ExternalDocumentation", "{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F}"
 	ProjectSection(SolutionItems) = preProject
+		ExternalDocumentation\ByteDesignDemo.png = ExternalDocumentation\ByteDesignDemo.png
 		ExternalDocumentation\FirstSample.png = ExternalDocumentation\FirstSample.png
+		ExternalDocumentation\GettingStarted.md = ExternalDocumentation\GettingStarted.md
+		ExternalDocumentation\IntelliSense.png = ExternalDocumentation\IntelliSense.png
 		ExternalDocumentation\Turtle.md = ExternalDocumentation\Turtle.md
 	EndProjectSection
 EndProject

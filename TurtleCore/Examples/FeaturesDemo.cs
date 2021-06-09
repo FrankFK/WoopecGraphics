@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Core;
 
-namespace TurtleSamples
+namespace Woopec.Examples
 {
     /// <summary>
-    /// This class uses many features of Turtle (in the order I have implemented them)
+    /// This Example shows many features of the library (in the order they were implemented)
     /// </summary>
-    public static class TurtleFunctionsDemo
+    public static class FeaturesDemo
     {
         public static void Run()
         {

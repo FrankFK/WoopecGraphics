@@ -14,7 +14,7 @@ namespace Woopec.Core
     /// Often color-systems also support a fourth value: the alpha-channel.
     /// This value indicates the transperency of the color. This is not implemented here.
     /// </remarks>
-    public record Color(byte R, byte G, byte B)
+    public record Color(int R, int G, int B)
     {
         public static implicit operator Color(string colorName) => ConvertName(colorName);
 

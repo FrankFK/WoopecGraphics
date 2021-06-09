@@ -22,7 +22,7 @@ namespace Woopec.Wpf
         /// </remarks>
         public static System.Windows.Media.Color Convert(Woopec.Core.Color color)
         {
-            return System.Windows.Media.Color.FromRgb(color.R, color.G, color.B);
+            return System.Windows.Media.Color.FromRgb((byte)color.R, (byte)color.G, (byte)color.B);
         }
     }
 }

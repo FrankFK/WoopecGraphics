@@ -14,7 +14,7 @@ Woopec-turtle is an attempt to make something similar available to C# developers
 
 The structure (methods and their names) was largely taken over from python. Some things have been adapted to C# (upper/lower case, properties). The range of functions does not come close to that of the great python library. But it's a first step.
 
-### Examples
+## Examples
 
 Let's start with a simple example:
 ```csharp
@@ -31,26 +31,67 @@ This code produces the following result:
 
 ![Result of simple example](./FirstSample.png)
 
+The previous example used a predefined turtle `Turtle.Seymour()`. It is also possible to create several turtles.
+The following example creates two turtles, cynthia and wally. In this example at first cynthia will turn left and 
+move forward, and then wally will turn right and move forward:
+```csharp
+    var cynthia = new Turtle();
+    cynthia.Speed = Speeds.Slowest;
+    cynthia.Left(90);
+    cynthia.Forward(200);
+
+    var wally = new Turtle();
+    wally.Speed = Speeds.Slowest;
+    wally.Right(90);
+    wally.Forward(200);
+```
+
+But what can you do if you want him and her to move at the same time? In this case, *both* turtles must be created *before*
+the first move is performed. In this example cynthia and wally will move at the same time:
+```csharp
+    var cynthia = new Turtle();
+    cynthia.Speed = Speeds.Slowest;
+
+    var wally = new Turtle();
+    wally.Speed = Speeds.Slowest;
+
+    cynthia.Left(90);
+    cynthia.Forward(200);
+
+    wally.Right(90);
+    wally.Forward(200);
+```
+
+## How to write your own program?
+
+You only have to install Visual Studio (Community Edition, or Visual Studio Code) and the [Woopec.Wpf-Library](https://www.nuget.org/packages/Woopec.Wpf). 
+All of these are free to use. For your program you create a Visual Studio Project of type 
+"WPF Application", add the Woopec-library and add the WoopecCanvas to your MainWindow. 
+Then you can write your first turtle program. [Getting started](./GettingStarted.md) describes this in more detail.
 
 
+Your program must have a main-method named `TurtleMain()`, this method is started automatically:
 
+```csharp
+    public static void TurtleMain()
+    {
+        var turtle = Turtle.Seymour();
+        turtle.Forward(50);
+    }
+```
 
-### Remarks
+Because Woopec (currently) uses WPF, the code must run on a Windows Computer.
 
-Ich kommentiere die Details der Methoden direkt im Code. Man kann das über Intellisense sehen.
-Hier nur eine Übersicht über die vorhandenen Methoden
+## Overview of Methods
 
-### Overview of Methods
+The following table gives a short overview of all methods. The methods are described in more detail by code comments.
+The IntelliSense-Feature of Visual Studio shows these comments when you move the mouse over the name of the method:
 
-Bei Microsoft gibt es für jede Methode eine separate Hilfeseite. Das würde ich gerne schlanker halten.
-Daher vielleicht so wie in Python erst mal eine kurze Übersicht über alle Methoden. Und dann weiter unten
-detaillierte Doku zu jeder einzelnen Methode.
-
-
-#### Move, Draw and Position State
+![IntelliSense](./IntelliSense.png)
 
 | Method                                           | Description                                           |
 |--------------------------------------------------|-------------------------------------------------------|
+| **Move, Draw and Position State:**
 | Forward(double distance)                         | Move forward                                          |
 | Backward(double distance)                        | Move backward                                         |
 | Left(double angle)                               | Rotate left                                           |
@@ -60,38 +101,43 @@ detaillierte Doku zu jeder einzelnen Methode.
 | SetHeading(double angle)                         | Change heading (rotate to this heading)               |
 | Heading [Type is double]                         | Get or change heading                                 |
 | Speed [Type is Speed]                            | Get or change speed                                 |
-
-#### Drawing state
-
-| Method                                           | Description                                           |
-|--------------------------------------------------|-------------------------------------------------------|
+| **Drawing state:**
 | PenUp()                                          | Pull the pen down – drawing when moving                                                       |
 | PenDown()                                        | Pull the pen up – no drawing when moving                                                       |
 | IsDown [Type is bool]                            | Get or change state of pen                            |
-
-#### Color control
-
-| Method                                           | Description                                           |
-|--------------------------------------------------|-------------------------------------------------------|
+| **Color control:**
 | PenColor [Type is Color]                         | Pencolor                                              |
 | FillColor [Type is Color]                        | Fillcolor                                             |
 | Color [Type is Color]                            | Change pencolor and fillcolor                         |
-|                                                  |                                                       |
-
-
-#### Visibility and appearance
-
-| Method                                           | Description                                           |
-|--------------------------------------------------|-------------------------------------------------------|
+| **Visibility and appearance:**
 | HideTurtle()                                     | Make the turtle invisible                             |
 | ShowTurtle()                                     | Make the turtle visible                               |
 | IsVisible (Type is bool)                         | True if turtle is shown, false if is hidden           |
 | Shape (Type is a Shape)                          | Get or change shape of the turtle                     |
-
-#### Filling
-
-| Method                                           | Description                                           |
-|--------------------------------------------------|-------------------------------------------------------|
+| **Filling:**
 | BeginFill()                                      | Start the filling                                     |
 | EndFill()                                        | Fill the shape drawn after the last call of BeginFill()|
 | Filling (Type is bool)                           | Return fillstate (true if filling, false else)        |
+
+## More Examples
+
+The library contains a few demo programs. All of these programs are in the namespace
+`Woopec.Examples`. The following code calls the C# version of the [pyhton ByteDesignDemo](https://github.com/python/cpython/blob/main/Lib/turtledemo/bytedesign.py) 
+
+```csharp
+    public static void TurtleMain()
+    {
+        Woopec.Examples.TurtleDemoByteDesign.Run();
+    }
+```
+
+This example generates the following picture in just a few seconds:
+
+![Byte Design Demo](./ByteDesignDemo.png)
+
+
+**And now: Write your own programs and have fun.**
+
+
+
+
