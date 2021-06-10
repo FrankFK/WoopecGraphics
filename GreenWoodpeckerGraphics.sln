@@ -43,6 +43,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDocumentation", "Ex
 		ExternalDocumentation\Turtle.md = ExternalDocumentation\Turtle.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWoopec", "UsingWoopec\UsingWoopec.csproj", "{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{57716963-7829-4C96-940B-21892DA97E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57716963-7829-4C96-940B-21892DA97E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57716963-7829-4C96-940B-21892DA97E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,6 +97,7 @@ Global
 		{0774A6F2-D96F-46EB-A095-52E85DB01960} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{57716963-7829-4C96-940B-21892DA97E94} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
+		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}

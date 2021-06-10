@@ -5,14 +5,11 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 ## Planned
 
 * Erste Version nutzbar machen (MVP)
-  * Öffentliche Methoden im Code kommentieren und Code-Kommentare in nuget-Package mitveröffentlichen
-    * Siehe dazu: https://docs.microsoft.com/en-us/dotnet/csharp/codedoc. Es geht eine Menge (Code, Auflistungen, Links, usw.)
-    * Dann vielleicht mit https://dotnet.github.io/docfx/tutorial/docfx_getting_started.html Doku generieren?
-    * https://github.com/EWSoftware/SHFB Sandcastle sieht mir oversized aus. Ich brauche nur ein bisschen html. 
-  * Hilfe-Seite mit Überlick über alle öffentlichen Methoden verfassen
+  * xml-Kommentare so einstellen, dass sie auch im nuget-package vorhanden sind
   * Wordpress-Seite anlegen, auf der die Hilfe-Seite steht.
   * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
   * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
+  * Hilfe-Seite mit Details zum Umgang mit mehreren Turtles
 
 * Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
   * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
@@ -54,7 +51,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-96h 
+98h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF

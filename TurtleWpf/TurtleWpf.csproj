@@ -4,13 +4,13 @@
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <PackageId>Woopec.Wpf</PackageId>
-    <Version>1.0.0-alpha2</Version>
+    <Version>1.0.0-alpha3</Version>
     <Authors>woopec</Authors>
     <Company>woopec</Company>
     <Product>Woopec.Wpf</Product>
     <Description>Simple graphics for C# beginners (starting with turtle-graphics)</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>C# Graphics Turtle Beginners WPF</PackageTags>
+    <PackageTags>C# 2D Graphics Turtle Beginners WPF</PackageTags>
     <AssemblyName>Woopec.Wpf</AssemblyName>
     <RootNamespace>Woopec.Wpf</RootNamespace>
     <PackageProjectUrl>https://woopec.wordpress.com/</PackageProjectUrl>
