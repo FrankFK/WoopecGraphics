@@ -6,10 +6,10 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 * Erste Version nutzbar machen (MVP)
   * xml-Kommentare so einstellen, dass sie auch im nuget-package vorhanden sind
-  * Wordpress-Seite anlegen, auf der die Hilfe-Seite steht.
-  * Wordpress-Seite anlegen, auf der beschrieben ist, wie man ein Turtle-Projekt auf dem eigenen Rechner anlegt.
+  * Wordpress-Seiten für die Hilfe-Seiten anlegen.
   * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
-  * Hilfe-Seite mit Details zum Umgang mit mehreren Turtles
+
+* Hilfe-Seite mit Details zum Umgang mit mehreren Turtles
 
 * Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
   * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
@@ -51,7 +51,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-98h 
+100h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF

@@ -75,13 +75,7 @@ namespace Woopec.Wpf
             }
             else
             {
-                var firstTurtle = new Turtle() { Speed = Speeds.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkGreen };
-                firstTurtle.Right(45);
-                firstTurtle.Forward(50);
-                firstTurtle.Left(90);
-                firstTurtle.Forward(100);
-                firstTurtle.Right(45);
-                firstTurtle.Forward(20);
+                var firstTurtle = new Turtle() { Speed = Speeds.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkRed };
             }
 
             return;
