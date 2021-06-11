@@ -31,6 +31,9 @@ namespace Woopec.Wpf
         private readonly IScreenObjectConsumer _actualConsumer;
         private readonly WpfScreenObjectWriter _screenObjectWriter;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public WoopecCanvas()
         {
             InitializeComponent();

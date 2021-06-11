@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Woopec.Wpf" Version="1.0.0-alpha3" />
+    <PackageReference Include="Woopec.Wpf" Version="1.0.0-alpha4" />
   </ItemGroup>
 
 </Project>

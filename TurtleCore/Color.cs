@@ -16,6 +16,10 @@ namespace Woopec.Core
     /// </remarks>
     public record Color(int R, int G, int B)
     {
+        /// <summary>
+        /// Create Color by string
+        /// </summary>
+        /// <param name="colorName"></param>
         public static implicit operator Color(string colorName) => ConvertName(colorName);
 
         private static Dictionary<string, Color> s_colorsByName = null;
@@ -53,6 +57,7 @@ namespace Woopec.Core
     /// </summary>
     public class Colors
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static Color MediumPurple { get { return new Color(147, 112, 219); } }
         public static Color MediumSeaGreen { get { return new Color(60, 179, 113); } }
         public static Color MediumSlateBlue { get { return new Color(123, 104, 238); } }
@@ -194,6 +199,7 @@ namespace Woopec.Core
         public static Color MediumAquamarine { get { return new Color(102, 205, 170); } }
         public static Color MediumBlue { get { return new Color(0, 0, 205); } }
         public static Color MediumOrchid { get { return new Color(186, 85, 211); } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
 }

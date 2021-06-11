@@ -8,13 +8,15 @@ using Woopec.Core;
 
 namespace Woopec.Wpf
 {
-    class CanvasHelpers
+    internal class CanvasHelpers
     {
         /// <summary>
         /// Convert a vector (in turtle-coordinate-system) to a point on the canvas. 
         /// Canvas point (0, 0) is in the middle of the canvas
         /// </summary>
         /// <param name="turtleVector"></param>
+        /// <param name="canvasHeigth"></param>
+        /// <param name="canvasWidth"></param>
         /// <returns></returns>
         public static Point ConvertToCanvasPoint(Vec2D turtleVector, double canvasWidth, double canvasHeigth)
         {

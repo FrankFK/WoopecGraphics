@@ -6,13 +6,28 @@ using System.Threading.Tasks;
 
 namespace Woopec.Core
 {
+    /// <summary>
+    /// For future use: Different shape types
+    /// </summary>
     public enum ShapeType
     {
+        /// <summary>
+        /// Shape conists of one polygon
+        /// </summary>
         Polygon,
+        /// <summary>
+        /// Shape is an image
+        /// </summary>
         Image,
+        /// <summary>
+        /// Shape can contain more than one polygon
+        /// </summary>
         Compound
     }
 
+    /// <summary>
+    /// Base class for different types of Shapes
+    /// </summary>
     public abstract class ShapeBase
     {
         /// <summary>
@@ -21,6 +36,9 @@ namespace Woopec.Core
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// Shape type
+        /// </summary>
         public ShapeType Type { get; protected set; }
     }
 
@@ -136,6 +154,7 @@ namespace Woopec.Core
     /// </summary>
     public static class Shapes
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         // The names and geometries of these shapes are copied from python-turtle (turtle.py by Gregor Lingl)
         public static Shape Arrow { get { return CreateNamedShape("arrow", new() { (-10, 0), (10, 0), (0, 10) }); } }
         public static Shape Circle { get { return CreateNamedShape("circle", new() { (10, 0), (9.51, 3.09), (8.09, 5.88), (5.88, 8.09), (3.09, 9.51), (0, 10), (-3.09, 9.51), (-5.88, 8.09), (-8.09, 5.88), (-9.51, 3.09), (-10, 0), (-9.51, -3.09), (-8.09, -5.88), (-5.88, -8.09), (-3.09, -9.51), (-0.00, -10.00), (3.09, -9.51), (5.88, -8.09), (8.09, -5.88), (9.51, -3.09) }); } }
@@ -149,6 +168,7 @@ namespace Woopec.Core
 
         // Bird designed by Clemens:
         public static Shape Bird { get { return CreateNamedShape("bird", new() { (1, -4), (2, -3), (2, -2.5), (5, -2.5), (9, -4.5), (8, -0.5), (6, 2.5), (2, 3.5), (2, 4), (0, 7), (-2, 4), (-2, 3.5), (-6, 2.5), (-8, -0.5), (-9, -4.5), (-5, -2.5), (-2, -2.5), (-2, -3), (-1, -4), (-3, -7), (0, -6), (3, -7), (1, -4) }); } }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         // (1,4), (2,3), (2,2.5), (5,2.5), (9,4.5), (8,0.5), (6,-2.5), (2,-3.5), (2,-4), (0,-7), (-2,-4), (-2,-3.5), (-6,-2.5), (-8,0.5), (-9,4.5), (-5,2.5), (-2,2.5), (-2,3), (-1,4), (-3,7), (0,6), (3,7), (1,4)
         private static Shape CreateNamedShape(string name, List<Vec2D> polygon)

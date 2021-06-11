@@ -1,0 +1,1157 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Woopec.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Woopec.Core.Color">
+            <summary>
+            A color specified by the values for Red, Green and Blue.
+            The range for all of these values is 0-255.
+            </summary>
+            <remarks>
+            Often color-systems also support a fourth value: the alpha-channel.
+            This value indicates the transperency of the color. This is not implemented here.
+            </remarks>
+        </member>
+        <member name="M:Woopec.Core.Color.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            A color specified by the values for Red, Green and Blue.
+            The range for all of these values is 0-255.
+            </summary>
+            <remarks>
+            Often color-systems also support a fourth value: the alpha-channel.
+            This value indicates the transperency of the color. This is not implemented here.
+            </remarks>
+        </member>
+        <member name="M:Woopec.Core.Color.op_Implicit(System.String)~Woopec.Core.Color">
+            <summary>
+            Create Color by string
+            </summary>
+            <param name="colorName"></param>
+        </member>
+        <member name="T:Woopec.Core.Colors">
+            <summary>
+            Predefined Colors
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Coordinate">
+            <summary>
+            I have made a few attempts using this record for coordinates.
+            If the coordinates in Vec2D were these C#-records the usage would be fine
+            (the actual unit-tests for Vec2D would work without any code-changes). But the performance
+            would slow down with factor 2. 
+            Therefore this record is not used at the moment.
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Coordinate.#ctor(System.Double)">
+            <summary>
+            I have made a few attempts using this record for coordinates.
+            If the coordinates in Vec2D were these C#-records the usage would be fine
+            (the actual unit-tests for Vec2D would work without any code-changes). But the performance
+            would slow down with factor 2. 
+            Therefore this record is not used at the moment.
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Figure">
+            <summary>
+            An instance of this class is a form (for instance the image of a turtle), which 
+            can be moved on the screen
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Figure.#ctor">
+            <summary>
+            Constructs a Figure that is not used as part of a Turtle class and uses the default screen
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Figure.#ctor(Woopec.Core.IScreen)">
+            <summary>
+            Constructs a Figure that is not used as part of a Turtle class
+            </summary>
+            <param name="screen">Figure is printed on this screen</param>
+        </member>
+        <member name="M:Woopec.Core.Figure.#ctor(System.Int32)">
+            <summary>
+            Constructs a Figure that is used as a part of a Turtle class and uses the default screen
+            </summary>
+            <param name="id">The Id of the turtle</param>
+        </member>
+        <member name="M:Woopec.Core.Figure.#ctor(Woopec.Core.IScreen,System.Int32)">
+            <summary>
+            Constructs a Figure
+            </summary>
+            <param name="screen">Figure is printed on this screen</param>
+            <param name="id">The Id of the turtle</param>
+        </member>
+        <member name="M:Woopec.Core.Figure.CreateScreenFigureUpdate(System.Boolean)">
+            <summary>
+            Create a ScreenFigure object according to the actual values of this.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Woopec.Core.Internal.AnimationGroupsState">
+            <summary>
+            An instance of this class describes the actually known state of all an animation groups.
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Internal.AnimationGroupState">
+            <summary>
+            An instance of this class describes the actually known state of an animation group.
+            - Is an animation running at the moment?
+            - Are there other ScreenObjects that we already have consumed but that have to wait? 
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Internal.AnimationGroupState.AnimationsRunning">
+            <summary>
+            The count of actually running animations
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Internal.AnimationGroupState.AddScreenObject(Woopec.Core.ScreenObject)">
+            <summary>
+            Normal case: Add a ScreenObject
+            </summary>
+            <param name="screenObject"></param>
+        </member>
+        <member name="M:Woopec.Core.Internal.AnimationGroupState.AddWaitingOtherGroup(System.Int32)">
+            <summary>
+            Special case: Another group is waiting until the current objects of this group are finished
+            </summary>
+            <param name="groupId"></param>
+        </member>
+        <member name="F:Woopec.Core.Internal.AnimationGroupState._waitingObjects">
+            <summary>
+            Objects that are waiting for the animation of this group. If AnimationIsRunning == false, the next object can be handled.
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Internal.ScreenObjectBroker">
+            <summary>
+            An instance of this class transports ScreenObjects from (one or many) producers to (one) consumer
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Internal.ScreenObjectConsumer.HandleNextScreenObjectAsync">
+            <summary>
+            Return a task that waits for the next ScreenObject.
+            This task can be "plugged" into the Main-Loop of the actual thread (UI thread of WPF for instance)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.Internal.ScreenObjectConsumer.AnimationOfGroupIsFinished(System.Int32,System.Int32)">
+            <summary>
+            Animation of an object is finished. Check if other objects are waiting for that and
+            update these objects.
+            </summary>
+            <param name="groupId">The groupId of the finished screen object</param>
+            <param name="screenObjectId">the Id of the finished screen object</param>
+        </member>
+        <member name="M:Woopec.Core.Internal.ScreenObjectConsumer.SendAllObjectsThatAreReadyToRunToWriter(Woopec.Core.Internal.AnimationGroupState)">
+            <summary>
+            Find out (recursively) all screen objects that wait for the animation of the given group and send them to the writer
+            </summary>
+            <param name="groupState">State of the group whose animation has ended</param>
+        </member>
+        <member name="M:Woopec.Core.Internal.ScreenObjectConsumer.ObjectIsWritable(Woopec.Core.ScreenObject)">
+            <summary>
+            Return true if the given object is directly writable and has not to wait for others
+            </summary>
+            <param name="screenObject"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Woopec.Core.Internal.TurtleCodeFinder">
+            <summary>
+            To make it easier for coding programmers, this class searches for the turtle code
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.IScreenObjectConsumer">
+            <summary>
+            Get screen objects from producer(s) and hand them over to a screen object writer
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.IScreenObjectConsumer.HandleNextScreenObjectAsync">
+            <summary>
+            A Task that waits for the next object and sends it to the writer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Woopec.Core.IScreenObjectProducer">
+            <summary>
+            Generate screen objects and hand them over to a consumer
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.IScreenObjectWriter">
+            <summary>
+            Interface
+            Write turtle-graphics objects to a real "screen" (for instance a canvas in WPF).
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.IScreenObjectWriter.UpdateWithAnimation(Woopec.Core.ScreenObject)">
+            <summary>
+            Handles the object with an animation
+            </summary>
+            <param name="screenObject"></param>
+        </member>
+        <member name="E:Woopec.Core.IScreenObjectWriter.OnAnimationIsFinished">
+            <summary>
+            The Writer calls these events for every animation which is finished
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.IScreenObjectWriter.Update(Woopec.Core.ScreenObject)">
+            <summary>
+            Handles the object directly, no animation
+            </summary>
+            <param name="screenObject"></param>
+        </member>
+        <member name="T:Woopec.Core.TurtleOutputs">
+            <summary>
+            At the moment this class only contains the default canvas, which should be used if
+            the contructor of Turtle() is called without arguments
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.IScreen">
+            <summary>
+            An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.IScreen.LastIssuedAnimatonGroupID">
+            <summary>
+            Return the GroupId of the last animation that is drawn at the screen
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.IScreen.RegisterShape(System.String,Woopec.Core.ShapeBase)">
+            <summary>
+            Add a shape to the screen's shapelist. Only these shapes can be used by Turtle.Shape = name
+            </summary>
+            <param name="name">name of the shape</param>
+            <param name="shape">A Shape class or an ImageShape class</param>
+        </member>
+        <member name="M:Woopec.Core.IScreen.AddShape(System.String,Woopec.Core.ShapeBase)">
+            <summary>
+            The same as AddShape
+            </summary>
+            <param name="name"></param>
+            <param name="shape"></param>
+        </member>
+        <member name="M:Woopec.Core.IScreen.GetShape(System.String)">
+            <summary>
+            Get the shape of the given name
+            </summary>
+            <param name="shapeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.IScreen.GetShapes">
+            <summary>
+            Return a list of all currently available turtle shapes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Woopec.Core.Pen">
+            <summary>
+            An instance of this class is a pen, which can draw lines on the screen
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Pen.#ctor">
+            <summary>
+            Constructs a Pen that is not used as part of a Turtle class and uses the default screen
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Pen.#ctor(Woopec.Core.IScreen)">
+            <summary>
+            Constructs a Pen that is not used as part of a Turtle class
+            </summary>
+            <param name="screen">Pen is printed on this screen</param>
+        </member>
+        <member name="M:Woopec.Core.Pen.#ctor(System.Int32)">
+            <summary>
+            Constructs a Pen that is used as a part of a Turtle class and uses the default screen
+            </summary>
+            <param name="id">The Id of the turtle</param>
+        </member>
+        <member name="M:Woopec.Core.Pen.#ctor(Woopec.Core.IScreen,System.Int32)">
+            <summary>
+            Constructs a Pen
+            </summary>
+            <param name="screen">Pen is printed on this screen</param>
+            <param name="id">The Id of the turtle</param>
+        </member>
+        <member name="P:Woopec.Core.Pen.IsDown">
+            <summary>
+            True if pen is down, False if it’s up.
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Pen.EndFill">
+            <summary>
+            The Shape resulting from the traversed points between BeginFilling and EndFilling is returned.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.Pen.TurtleObjectSentToScreen">
+            <summary>
+            This method is called if the first turtle object is sent to screen
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Screen">
+            <summary>
+            An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Screen.LastIssuedAnimatonGroupID">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.CreateLine">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.DrawLine(Woopec.Core.ScreenLine)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.CreateFigure">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.UpdateFigure(Woopec.Core.ScreenFigure)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.RegisterShape(System.String,Woopec.Core.ShapeBase)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.AddShape(System.String,Woopec.Core.ShapeBase)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.GetShapes">
+            <inheritdoc/>
+        </member>
+        <member name="M:Woopec.Core.Screen.GetDefaultScreen">
+            <summary>
+            Create a Screen-Instance which draws to a default-Screen
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.Screen.ResetDefaultScreen">
+            <summary>
+            Needed for tests
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.ScreenAnimation">
+            <summary>
+            Base class for ScreenAnimationMovement and so on.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenAnimation.Milliseconds">
+            <summary>
+            Duration of the Animation
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenAnimation.Effects">
+            <summary>
+            One Animation can consist of several effects (e.g. effect one changes the start-point of a line and effect two changes the end-point of a line)
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.ScreenAnimationEffect">
+            <summary>
+            Base class for ScreenAnimationMovement and so on.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenAnimationEffect.Milliseconds">
+            <summary>
+            Duration of the Effect
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ScreenAnimationMovementProperty.Point1">
+            <summary>
+            The value of Point1 of a line is changed during the animation
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ScreenAnimationMovementProperty.Point2">
+            <summary>
+            The value of Point2 of a line is changed during the animation
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ScreenAnimationMovementProperty.Position">
+            <summary>
+            The value of Position of a figure is changed during the animation
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenAnimationMovement.StartValue">
+            <summary>
+            At the beginning of the animation the animated property has this value
+            At the end of the animation the animated property has the value, that is specified in the ScreenObject
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ScreenAnimationRotationProperty.Heading">
+            <summary>
+            The value of Heading of a line is changed during the animation
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenAnimationRotation.StartValue">
+            <summary>
+            At the beginning of the animation the animated property has this value
+            At the end of the animation the animated property has the value, that is specified in the ScreenObject
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.ScreenFigure">
+            <summary>
+            An instance of this class describes a figure (position, heading, colors, visibility, shape) on the screen.
+            If the id of the figure was already used, the figure already exists on the screen. In this case the 
+            screen figure is updated according to the actual values of the class-instance.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenFigure.Shape">
+            <summary>
+            If this value is null, the current shape of the figure is retained.
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.ScreenFigure.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="id">If this is the id of an already existing ScreenFigure, this figure is upated according to the values of this. 
+            Otherwise the figure is created with the given values.</param>
+        </member>
+        <member name="T:Woopec.Core.ScreenLine">
+            <summary>
+            An instance of this class is a line that can be printed and animated on the screen.
+            It also can be removed from the screen.
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.ScreenObject">
+            <summary>
+            Base-Class for ScreenLine and ScreenForm
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenObject.GroupID">
+            <summary>
+            Multiple ScreenObjects can belong to a group. For instance: All ScreenObjects created by the same Turtle-instance have the same GroupId.
+            If ScreenObjects belong to a group they are written to the screen in the same order as they are inserted into the channel.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenObject.BelongsToAGroup">
+            <summary>
+            true if this screen object belongs to a group
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenObject.WaitForAnimationsOfGroupID">
+            <summary>
+            When set to a value of a GroupID: This object waits until all already produced animations of the given GroupId are finished.
+            This can be the same group as this.GroupID, it also can be another group.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenObject.WaitsForAnimations">
+            <summary>
+            true, if this animation waits for other animations.
+            Set to false, if this animation should not wait for other animations.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ScreenObject.HasAnimations">
+            <summary>
+            true if this screen object has animations
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.ShapeType">
+            <summary>
+            For future use: Different shape types
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ShapeType.Polygon">
+            <summary>
+            Shape conists of one polygon
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ShapeType.Image">
+            <summary>
+            Shape is an image
+            </summary>
+        </member>
+        <member name="F:Woopec.Core.ShapeType.Compound">
+            <summary>
+            Shape can contain more than one polygon
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.ShapeBase">
+            <summary>
+            Base class for different types of Shapes
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ShapeBase.Name">
+            <summary>
+            A shape can have a name. 
+            All predefined shapes (Turtle, Classic and so on) have a name ("turtle", "classic" and so on).
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.ShapeBase.Type">
+            <summary>
+            Shape type
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Shape">
+            <summary>
+            An instance of this class is one of the following
+            - A polygon (fillcolor and outline color are specified by the turtle class)
+            - A list of polygons (with fillcolor and outline color)
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Shape.#ctor(System.Collections.Generic.List{Woopec.Core.Vec2D})">
+            <summary>
+            Create a polygon shape
+            </summary>
+            <param name="polygon">Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } </param>
+        </member>
+        <member name="M:Woopec.Core.Shape.#ctor">
+            <summary>
+            Create a compound shape. Components can be added by AddComponent
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Shape.AddComponent(System.Collections.Generic.List{Woopec.Core.Vec2D},Woopec.Core.Color)">
+            <summary>
+            Add a polygon to a compound shape
+            </summary>
+            <remarks>
+            Currently only Shapes with one polygon are rendered correctly. Therefore this method is internal
+            </remarks>
+            <param name="polygon">Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } </param>
+            <param name="fillColor">Color the polygon will be filled with</param>
+        </member>
+        <member name="M:Woopec.Core.Shape.AddComponent(System.Collections.Generic.List{Woopec.Core.Vec2D},Woopec.Core.Color,Woopec.Core.Color)">
+            <summary>
+            
+            </summary>
+            <remarks>
+            Currently only Shapes with one polygon are rendered correctly. Therefore this method is internal
+            </remarks>
+            <param name="polygon">Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } </param>
+            <param name="fillColor">Color the polygon will be filled with</param>
+            <param name="outlineColor">Color for the polygons outline</param>
+        </member>
+        <member name="T:Woopec.Core.ImageShape">
+            <summary>
+            An instance of this class is an image which can be used as a shape
+            </summary>
+            <remarks>
+            Currently only Shapes with one polygon are rendered correctly. Therefore this method is internal
+            </remarks>
+        </member>
+        <member name="M:Woopec.Core.ImageShape.#ctor(System.String)">
+            <summary>
+            Create an image shape.
+            </summary>
+            <param name="imagePath">The file-path of the image</param>
+        </member>
+        <member name="T:Woopec.Core.Shapes">
+            <summary>
+            Predifined Shapes
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Speed">
+            <summary>
+            Specifies the turtle's speed as a value in the range 0 .. 10.
+            If input is smaller than 0.5, speed is set to 0.
+            speeds from 1 to 10 enforce increasingly faster animation of
+            line drawing and turtle turning.
+            Examples
+            <example>
+            <code>
+            turtle.Speed = Speeds.Slow; <br/>
+            turtle.Speed = 5; <br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speed.Value">
+            <summary>
+            Speed as a double value: 1 is slow and 10 is fast
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speed.NoAnimation">
+            <summary>
+            true, if the no animation takes place (fastest speed)
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Speed.#ctor(System.Double)">
+            <summary>
+            Construct Speed directly by a value. In most cases you better should use the predefines speeds Speeds.Slowest, Speeds.Slow and so on.
+            </summary>
+            <param name="value">Speed as a double value: 1 is slow and 10 is fast</param>
+        </member>
+        <member name="M:Woopec.Core.Speed.op_Implicit(System.Double)~Woopec.Core.Speed">
+            <summary>
+            Convert a double to the Speed value object
+            </summary>
+            <param name="speed"></param>
+        </member>
+        <member name="M:Woopec.Core.Speed.MillisecondsForMovement(Woopec.Core.Vec2D,Woopec.Core.Vec2D)">
+            <summary>
+            For the given speed: Time (measured in milliseconds) for the movement between two points
+            </summary>
+            <param name="fromPoint"></param>
+            <param name="toPoint"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.Speed.MillisecondsForRotation(System.Double,System.Double)">
+            <summary>
+            For the given Speed:  Time (measured in milliseconds) for the movement between two heading-angles
+            </summary>
+            <param name="oldHeading">Old heading. Specified in degrees.</param>
+            <param name="newHeading">New heading. Specified in degrees.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Woopec.Core.Speeds">
+            <summary>
+            Predefined Speeds with following speedvalues:
+                 Fastest :   0 (*no* animation takes place.)<br></br>
+                 Fast    :  10<br></br>
+                 Normal  :   6<br></br>
+                 Slow    :   3<br></br>
+                 Slowest :   1<br></br>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speeds.Fastest">
+            <summary>
+            Fastest speed. No animation takes place
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speeds.Fast">
+            <summary>
+            Fast speed: 100 pixels in 0.04 seconds. Full rotation in 0.23 seconds.
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speeds.Normal">
+            <summary>
+            Normal speed
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speeds.Slow">
+            <summary>
+            Slow speed
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Speeds.Slowest">
+            <summary>
+            Slowest speed: 100 pixels in one second. Full rotation in 2.3 seconds.
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Turtle">
+            <summary>
+            An instance of this class represents a turtle.
+            </summary>
+            <remarks>
+            Method-names and comments are based on the methods and comments of python-turtle
+            (see: https://docs.python.org/3/library/turtle.html#module-turtle)
+            </remarks>
+        </member>
+        <member name="M:Woopec.Core.Turtle.#ctor">
+            <summary>
+            Constructs a turtle that uses the default screen
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.#ctor(Woopec.Core.IScreen)">
+            <summary>
+            Construct a turtle
+            </summary>
+            <param name="screen">Figure is printed on this screen</param>
+            <remarks>At the moment internal, because multi-screen support is not tested.</remarks>
+        </member>
+        <member name="M:Woopec.Core.Turtle.Seymour">
+            <summary>
+            Create a turtle that you can start learning to code with.
+            </summary>
+            <returns>A turtle to start with</returns>
+        </member>
+        <member name="M:Woopec.Core.Turtle.Forward(System.Double)">
+            <summary>
+            Move the turtle forward by the specified distance, in the the direction the turtle is headed. 
+            <example>
+            <code>
+            var turtle = Turtle.Seymour(); <br/>
+            // Turtle position is (0, 0) <br/>
+            turtle.Forward(100); <br/>
+            // Turtle position is (100, 0) <br/>
+            </code>
+            </example>
+            </summary>
+            <param name="distance"></param>
+        </member>
+        <member name="M:Woopec.Core.Turtle.Backward(System.Double)">
+            <summary>
+            Move the turtle backward by the specified distance, opposite to the direction the turtle is headed. 
+            Do not change the turtle's heading.
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // Turtle position is (0, 0) <br/>
+            turtle.Backward(100); <br/>
+            // Turtle position is (-100, 0) <br/>
+            </code>
+            </example>
+            </summary>
+            <param name="distance"></param>
+        </member>
+        <member name="M:Woopec.Core.Turtle.SetPosition(Woopec.Core.Vec2D)">
+            <summary>
+            Move the turtle to the given position. Do not change the turtle's heading.
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // Turtle position is (0, 0) <br/>
+            turtle.SetPosition((100, 100)); <br/>
+            // Turtle position is (100, 100) <br/>
+            turtle.SetPosition(new Vec2D(150, 120)); <br/>
+            // Turtle position is (150, 120) <br/>
+            </code>
+            </example>
+            </summary>
+            <param name="position">The new position of the turtle.<br/>
+            Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+            </param>
+        </member>
+        <member name="M:Woopec.Core.Turtle.GoTo(Woopec.Core.Vec2D)">
+            <summary>
+            Move the turtle to the given position. Do not change the turtle's heading.
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // Turtle position is (0, 0) <br/>
+            turtle.GoTo((100, 100)); <br/>
+            // Turtle position is (100, 100) <br/>
+            turtle.GoTo(new Vec2D(150, 120)); <br/>
+            // Turtle position is (150, 120) <br/>
+            </code>
+            </example>
+            </summary>
+            <param name="position">The new position of the turtle.<br/>
+            Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+            </param>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Position">
+            <summary>
+            The turtle's current position (as a Vec2D vector). Does not change the turtle's heading.
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            turtle.Position = (100, 100); <br/>
+            var actualPosition = turtle.Position;  <br/>
+            // actualPosition is (100, 100) <br/>
+            var newPosition = actualPosition + (50, 0);  <br/>
+            turtle.Position = newPosition;  <br/>
+            </code>
+            </example>
+            </summary>
+            <value>The new position of the turtle.<br/>
+            Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+            </value>
+        </member>
+        <member name="M:Woopec.Core.Turtle.Left(System.Double)">
+            <summary>
+            Turn turtle left by <paramref name="angle"/> units. 
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // turtle.Heading is 0 and turtle looks to the east <br/>
+            turtle.Left(90); <br/>
+            // turtle.Heading is 90 and turtle looks north <br/>
+            </code>
+            </example>
+            </summary>
+            <param name="angle">Rotation-value specified in degrees (value of 360 is a full rotation).</param>
+        </member>
+        <member name="M:Woopec.Core.Turtle.Right(System.Double)">
+            <summary>
+            Turn turtle right by <paramref name="angle"/> units. 
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // turtle.Heading is 0 and turtle looks to the east <br/>
+            turtle.Right(90); <br/>
+            // turtle.Heading is 270 and turtle looks south<br/>
+            </code>
+            </example>
+            </summary>
+            <param name="angle">Rotation-value specified in degrees (value of 360 is a full rotation).</param>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Heading">
+            <summary>
+            Orientation of the turtle. The heading is measured in degrees. Some common directions:<br></br>
+               0 - east <br></br>
+              90 - north<br></br>
+             180 - west <br></br>
+             270 - south<br></br>
+            <br></br>
+            Examples:
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // Get the heading (in this example the heading is 0 and turtle looks to the east):<br/>
+            var heading = turtle.Heading; <br></br>
+            // Set the heading (turtle will rotate left and finally look north):<br/>
+            turtle.Heading = 90; <br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.SetHeading(System.Double)">
+            <summary>
+            Set the orientation of the turtle. The heading is measured in degrees. Some common directions:<br></br>
+               0 - east <br></br>
+              90 - north<br></br>
+             180 - west <br></br>
+             270 - south<br></br>
+            Example:
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            // heading is 0 and turtle looks to the east <br/>
+            turtle.SetHeading(90); <br/>
+            // turtle rotates left and finally looks north<br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Speed">
+            <summary>
+            Speed of the turtle.
+            Speed from Speeds.Slowest to Speeds.Fast enforce increasingly faster animation of
+            line drawing and turtle turning.<br></br>
+            Attention: With Speeds.Fastest *no* animation takes place.<br></br>
+            <br></br>
+            <para>
+            Examples for setting the speed:
+            <example>
+            <code>
+            turtle.Speed = Speeds.Slowest; // turtle moves very slow <br/>
+            turtle.Speed = Speeds.Fast;    // turtle moves very fast<br/>
+            turtle.Speed = Speeds.Fastest; // No animation takes place<br/>
+            </code>
+            </example>
+            </para>
+            <br></br>
+            <para>
+            Examples for getting and checking the speed:
+            <example>
+            <code>
+            var currentSpeed = turtle.Speed; <br/>
+            if (currentSpeed == Speeds.Slow) ...<br/>
+            if (currentSpeed.NoAnimation) ...<br></br>
+            </code>
+            </example>
+            </para>
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.PenDown">
+            <summary>
+            Pull the pen down – drawing when moving.
+            <example>
+            <code>
+            turtle.PenDown(); <br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.PenUp">
+            <summary>
+            Pull the pen up – no drawing when moving.
+            <example>
+            <code>
+            turtle.PenUp(); <br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.IsDown">
+            <summary>
+            True if pen is down, False if it’s up.
+            <example>
+            <code>
+            turtle.PenUp(); <br/>
+            Console.WriteLine(turtle.IsDown);  // Output: "false" <br/>
+            turtle.PenDown(); <br/>
+            Console.WriteLine(turtle.IsDown);  // Output: "true" <br/>
+            turtle.IsDown = false;             // Pen is up from now on
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.PenColor">
+            <summary>
+            Pencolor<br></br>
+            Three ways to set the color are allowed.<br></br>
+            <br></br>
+            Set a predefined Color:
+            <example>
+            <code>
+                turtle.PenColor = Colors.Green;
+            </code>
+            </example>
+            <br></br>
+            Set a predefined Color by its name:
+            <example>
+            <code>
+                turtle.PenColor = "green";
+            </code>
+            </example>
+            <br></br>
+            Set RGB color represented by three values for red, green and blue. Each of these values must be in the range 0..255:
+            <example>
+            <code>
+                turtle.PenColor = new Color(255, 165, 0); // orange
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.FillColor">
+            <summary>
+            Fillcolor
+            Three ways to set the color are allowed.<br></br>
+            <br></br>
+            Set a predefined Color:
+            <example>
+            <code>
+                turtle.PenColor = Colors.Green;
+            </code>
+            </example>
+            <br></br>
+            Set a predefined Color by its name:
+            <example>
+            <code>
+                turtle.PenColor = "green";
+            </code>
+            </example>
+            <br></br>
+            Set RGB color represented by three values for red, green and blue. Each of these values must be in the range 0..255:
+            <example>
+            <code>
+                turtle.PenColor = new Color(255, 165, 0); // orange
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Color">
+            <summary>
+            Set pencolor and fillcolor.
+            Three ways to set the color are allowed.<br></br>
+            Set a predefined Color:
+            <example>
+            <code>
+                turtle.Color = Colors.Green;
+            </code>
+            </example>
+            <br></br>
+            Set a predefined Color by its name:
+            <example>
+            <code>
+                turtle.Color = "green";
+            </code>
+            </example>
+            <br></br>
+            Set RGB color represented by three values for red, green and blue. Each of these values must be in the range 0..255:
+            <example>
+            <code>
+                turtle.Color = new Color(255, 165, 0); // orange
+            </code>
+            </example>
+            </summary>
+            <remarks>
+            This property has no getter. Use PenColor and FillColor.
+            </remarks>
+        </member>
+        <member name="M:Woopec.Core.Turtle.ShowTurtle">
+            <summary>
+            Make the turtle visible.
+            <example>
+            <code>
+                turtle.ShowTurtle();
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.HideTurtle">
+            <summary>
+            Make the turtle invisible. It's a good idea to do this while yor're in the middle of doing some complex drawing,
+            bebause hiding the turtle speeds up the drawing observably.
+            <example>
+            <code>
+                turtle.HideTurtle();
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.IsVisible">
+            <summary>
+            True if turtle is shown, false if it is hidden.
+            <example>
+            <code>
+                turtle.IsVisible = true; // makes the turtle visible
+                Console.WriteLine(turtle.IsVisible); // Output: "true"
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Shape">
+            <summary>
+            The turtles shape.<br></br>
+            Two types of shapes are possible:<br></br>
+            <br></br>
+            Set a predefined shape:
+            <example>
+            <code>
+                turtle.Shape = Shapes.Turtle;   <br/>
+                turtle.Shape = Shapes.Arrow;<br/>
+                turtle.Shape = Shapes.Circle;<br/>
+                turtle.Shape = Shapes.Classic;<br/>
+                turtle.Shape = Shapes.Triangle;<br/>
+                turtle.Shape = Shapes.Bird;<br/>
+            </code>
+            </example>
+            <br></br>
+            Set a user defined shape:
+            <example>
+            <code>
+                var shape = new Shape(new() { (0, 0), (-5, -9), (0, -7), (5, -9) }); // same shape as Shapes.Classic <br></br>
+                turtle.Shape = shape;   <br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.BeginFill">
+            <summary>
+            To be called just before drawing a shape to be filled. See EndFill() for an example.
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Turtle.EndFill">
+            <summary>
+            Fill the shape drawn after the last call of BeginFill() <br></br>
+            The actual fillcolor of the turtle is used as fillcolor of the shape. 
+            The actual pencolor of the turtle is used as outlinecolor of the shape.
+            <example>
+            <code>
+            var turtle = new Turtle(); <br/>
+            turtle.Speed = Speeds.Fast; <br/>
+            turtle.FillColor = Colors.DarkBlue; <br/>
+            turtle.PenColor = Colors.DarkGreen; <br/>
+            turtle.IsVisible = false; <br/>
+            turtle.PenDown(); <br/>
+            turtle.BeginFill(); <br/>
+            turtle.Forward(100); <br/>
+            turtle.Left(90); <br/>
+            turtle.Forward(100); <br/>
+            turtle.Left(90); <br/>
+            turtle.Forward(100); <br/>
+            turtle.Left(90); <br/>
+            turtle.Forward(100); <br/>
+            turtle.Left(90); <br/>
+            activeTurtle.EndFill(); <br/>
+            </code>
+            </example>
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Filling">
+            <summary>
+            Return fillstate (true if filling, false else)
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Pen">
+            <summary>
+            Only needed for unit tests
+            </summary>
+        </member>
+        <member name="P:Woopec.Core.Turtle.Figure">
+            <summary>
+            Only needed for unit tests
+            </summary>
+        </member>
+        <member name="T:Woopec.Core.Vec2D">
+            <summary>
+            An instance of this class is a two-dimensional vector
+            </summary>
+            <remarks>
+            The values of a Vec2D can not be changed. If you want to change a value, You can copy the vector.
+            <code>
+               var vector = new Vec2D(1, 2);
+               var vector2 = vector with { YCor = 0 );
+            </code>
+            </remarks>
+        </member>
+        <member name="M:Woopec.Core.Vec2D.#ctor(System.Double,System.Double)">
+            <summary>
+            An instance of this class is a two-dimensional vector
+            </summary>
+            <remarks>
+            The values of a Vec2D can not be changed. If you want to change a value, You can copy the vector.
+            <code>
+               var vector = new Vec2D(1, 2);
+               var vector2 = vector with { YCor = 0 );
+            </code>
+            </remarks>
+        </member>
+        <member name="P:Woopec.Core.Vec2D.AbsoluteValue">
+            <summary>
+            The absolute value of the vector (the "length" of the vector)
+            </summary>
+        </member>
+        <member name="M:Woopec.Core.Vec2D.Rotate(System.Double)">
+            <summary>
+            Rotation counterclockwise
+            </summary>
+            <param name="angle">measured in degress (360 = complete rotation)</param>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.Vec2D.IsApproximatelyEqualTo(Woopec.Core.Vec2D,System.Double)">
+            <summary>
+            Return true if this is approximately equal to <paramref name="vector"/>
+            </summary>
+            <param name="vector"></param>
+            <param name="precision">Absolute difference of the x- and y-coordinates is less than this value</param>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Core.Vec2D.op_Implicit(System.ValueTuple{System.Double,System.Double})~Woopec.Core.Vec2D">
+            <summary>
+            Instead of <code>Vec2D x = new Vec2D(1, 4)</code> you can write <code>Vec2D x = (1, 4)</code>
+            </summary>
+            <param name="tuple"></param>
+        </member>
+        <member name="T:Woopec.Examples.FeaturesDemo">
+            <summary>
+            This Example shows many features of the library (in the order they were implemented)
+            </summary>
+        </member>
+        <member name="M:Woopec.Examples.FeaturesDemo.Run">
+            <summary>
+            This Example shows many features of the library (in the order they were implemented)
+            </summary>
+        </member>
+        <member name="T:Woopec.Examples.ParallelTurtles">
+            <summary>
+            This example shows how turtles can be animated in parallel
+            </summary>
+        </member>
+        <member name="M:Woopec.Examples.ParallelTurtles.Run">
+            <summary>
+            This example shows how turtles can be animated in parallel
+            </summary>
+        </member>
+        <member name="T:Woopec.Examples.TurtleDemoByteDesign">
+            <summary>
+            This is a port of https://github.com/python/cpython/blob/main/Lib/turtledemo/bytedesign.py
+            Description from there:<br></br>
+                    An example adapted from the example-suite
+                    of PythonCard's turtle graphics.
+                    It's based on an article in BYTE magazine
+                    Problem Solving with Logo: Using Turtle
+                    Graphics to Redraw a Design
+                    November 1982, p. 118 - 134
+            <br></br>
+            <br></br>
+            This example shows the performance with Speed.Fastest (no animations)
+            </summary>
+        </member>
+        <member name="M:Woopec.Examples.TurtleDemoByteDesign.Run">
+            <summary>
+            This is a port of https://github.com/python/cpython/blob/main/Lib/turtledemo/bytedesign.py
+            Description from there:<br></br>
+                    An example adapted from the example-suite
+                    of PythonCard's turtle graphics.
+                    It's based on an article in BYTE magazine
+                    Problem Solving with Logo: Using Turtle
+                    Graphics to Redraw a Design
+                    November 1982, p. 118 - 134
+            <br></br>
+            <br></br>
+            This example shows the performance with Speed.Fastest (no animations)
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Woopec.Wpf</name>
+    </assembly>
+    <members>
+        <member name="M:Woopec.Wpf.CanvasHelpers.ConvertToCanvasPoint(Woopec.Core.Vec2D,System.Double,System.Double)">
+            <summary>
+            Convert a vector (in turtle-coordinate-system) to a point on the canvas. 
+            Canvas point (0, 0) is in the middle of the canvas
+            </summary>
+            <param name="turtleVector"></param>
+            <param name="canvasHeigth"></param>
+            <param name="canvasWidth"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Woopec.Wpf.CanvasHelpers.ConvertToCanvasOrientation(Woopec.Core.Vec2D)">
+            <summary>
+            Convert a vector (in turtle-coordinate-system) to a point on the canvas. 
+            Point (0, 0) is not changed
+            </summary>
+            <param name="turtleVector"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Woopec.Wpf.ColorConverter">
+            <summary>
+            Convert Turtle-Colors to WPF-Colors.
+            For more informations see "Painting with Solid Colors and Gradients Overview" https://docs.microsoft.com/en-us/dotnet/desktop/wpf/graphics-multimedia/painting-with-solid-colors-and-gradients-overview?view=netframeworkdesktop-4.8
+            </summary>
+        </member>
+        <member name="M:Woopec.Wpf.ColorConverter.Convert(Woopec.Core.Color)">
+            <summary>
+            
+            </summary>
+            <param name="color"></param>
+            <returns></returns>
+            <remarks>
+            At the moment Turtle-Color does not contain a value for alpha-channel (transparency)
+            </remarks>
+        </member>
+        <member name="T:Woopec.Wpf.WoopecCanvas">
+            <summary>
+            Interaction logic for UserControl1.xaml
+            </summary>
+            <summary>
+            WoopecCanvas
+            </summary>
+        </member>
+        <member name="M:Woopec.Wpf.WoopecCanvas.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="M:Woopec.Wpf.WoopecCanvas.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>

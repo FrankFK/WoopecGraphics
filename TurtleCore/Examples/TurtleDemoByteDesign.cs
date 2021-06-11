@@ -20,6 +20,19 @@ namespace Woopec.Examples
     /// </summary>
     public class TurtleDemoByteDesign : Turtle
     {
+        /// <summary>
+        /// This is a port of https://github.com/python/cpython/blob/main/Lib/turtledemo/bytedesign.py
+        /// Description from there:<br></br>
+        ///         An example adapted from the example-suite
+        ///         of PythonCard's turtle graphics.
+        ///         It's based on an article in BYTE magazine
+        ///         Problem Solving with Logo: Using Turtle
+        ///         Graphics to Redraw a Design
+        ///         November 1982, p. 118 - 134
+        /// <br></br>
+        /// <br></br>
+        /// This example shows the performance with Speed.Fastest (no animations)
+        /// </summary>
         public static void Run()
         {
             var design = new TurtleDemoByteDesign();

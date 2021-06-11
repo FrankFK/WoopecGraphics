@@ -19,13 +19,22 @@ namespace Woopec.Core
     /// </code>
     /// </example>
     /// </summary>
-    /// </summary>
     public record Speed
     {
+        /// <summary>
+        /// Speed as a double value: 1 is slow and 10 is fast
+        /// </summary>
         public double Value { get; init; }
 
+        /// <summary>
+        /// true, if the no animation takes place (fastest speed)
+        /// </summary>
         public bool NoAnimation { get { return Value == 0.0; } }
 
+        /// <summary>
+        /// Construct Speed directly by a value. In most cases you better should use the predefines speeds Speeds.Slowest, Speeds.Slow and so on.
+        /// </summary>
+        /// <param name="value">Speed as a double value: 1 is slow and 10 is fast</param>
         public Speed(double value)
         {
             if (value <= 0.5)
@@ -34,7 +43,10 @@ namespace Woopec.Core
                 Value = value; // In contrast to python: No speed limit
         }
 
-
+        /// <summary>
+        /// Convert a double to the Speed value object
+        /// </summary>
+        /// <param name="speed"></param>
         public static implicit operator Speed(double speed) => new(speed);
 
         /// <summary>
@@ -117,10 +129,29 @@ namespace Woopec.Core
     /// </summary>
     public class Speeds
     {
+        /// <summary>
+        /// Fastest speed. No animation takes place
+        /// </summary>
         public static Speed Fastest { get { return new Speed(0.0); } }
+
+        /// <summary>
+        /// Fast speed: 100 pixels in 0.04 seconds. Full rotation in 0.23 seconds.
+        /// </summary>
         public static Speed Fast { get { return new Speed(10.0); } }
+
+        /// <summary>
+        /// Normal speed
+        /// </summary>
         public static Speed Normal { get { return new Speed(6.0); } }
+
+        /// <summary>
+        /// Slow speed
+        /// </summary>
         public static Speed Slow { get { return new Speed(3.0); } }
+
+        /// <summary>
+        /// Slowest speed: 100 pixels in one second. Full rotation in 2.3 seconds.
+        /// </summary>
         public static Speed Slowest { get { return new Speed(1.0); } }
     }
 

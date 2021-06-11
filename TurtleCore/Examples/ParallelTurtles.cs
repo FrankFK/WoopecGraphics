@@ -13,6 +13,9 @@ namespace Woopec.Examples
     /// </summary>
     public static class ParallelTurtles
     {
+        /// <summary>
+        /// This example shows how turtles can be animated in parallel
+        /// </summary>
         public static void Run()
         {
             const int count = 100;

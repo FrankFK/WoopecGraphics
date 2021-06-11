@@ -18,13 +18,18 @@ namespace Woopec.Core
     /// </remarks>
     public record Vec2D(double XCor, double YCor)
     {
+        /// <summary>
+        /// The absolute value of the vector (the "length" of the vector)
+        /// </summary>
         public double AbsoluteValue => Math.Sqrt(XCor * XCor + YCor * YCor);
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static Vec2D operator +(Vec2D vector1, Vec2D vector2) => new(vector1.XCor + vector2.XCor, vector1.YCor + vector2.YCor);
         public static Vec2D operator -(Vec2D vector1, Vec2D vector2) => new(vector1.XCor - vector2.XCor, vector1.YCor - vector2.YCor);
         public static Vec2D operator *(Vec2D vector1, Vec2D vector2) => new(vector1.XCor * vector2.XCor, vector1.YCor * vector2.YCor);
         public static Vec2D operator *(double scalar, Vec2D vector) => new(scalar * vector.XCor, scalar * vector.YCor);
         public static Vec2D operator -(Vec2D vector) => new(-vector.XCor, -vector.YCor);
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Rotation counterclockwise

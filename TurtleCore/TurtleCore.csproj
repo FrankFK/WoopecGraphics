@@ -5,7 +5,7 @@
     <PackageId>Woopec.Core</PackageId>
     <Authors>woopec</Authors>
     <Product>Woopec.Core</Product>
-    <Version>1.0.0-alpha3</Version>
+    <Version>1.0.0-alpha4</Version>
     <Description>Base package for simple C# graphics. At the moment only used by Woopec.Wpf</Description>
     <Company />
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -14,6 +14,10 @@
     <RootNamespace>Woopec.Core</RootNamespace>
     <PackageIcon>NuGetIcon.png</PackageIcon>
     <PackageProjectUrl>https://woopec.wordpress.com/</PackageProjectUrl>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

@@ -12,6 +12,9 @@ namespace Woopec.Examples
     /// </summary>
     public static class FeaturesDemo
     {
+        /// <summary>
+        /// This Example shows many features of the library (in the order they were implemented)
+        /// </summary>
         public static void Run()
         {
             /////////////////////////////////////////////////////////////
