@@ -15,7 +15,7 @@ namespace UsingWoopec
 
         public static void TurtleMain()
         {
-            Woopec.Examples.ParallelTurtles.Run();
+            Woopec.Examples.FeaturesDemo.Run();
         }
     }
 }

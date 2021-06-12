@@ -51,7 +51,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 ## Done
 
-101h 
+105h 
 
 * 04.04.2021: Basic turtle movements
 * 06.04.2021: Learned: Line-Drawing and Animations in WPF
@@ -86,6 +86,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 08.06.2021: Shape for bird
 * 09.06.2021: Public Code is consistent and documented, all non public code is internal
 * 10.06.2021: publish comments with nuget packages
+* 12.06.2021: Release 1.0.0 including documentation on woopec.wordpress.com (105 hours of work)
 
 
  
