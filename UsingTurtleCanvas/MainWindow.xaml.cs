@@ -32,6 +32,8 @@ namespace UsingTurtleCanvas
 
         public static void TurtleMain()
         {
+            Woopec.Examples.FeaturesDemo.Run();
+            /*
             var turtle = Turtle.Seymour();
 
             turtle.Right(45);
@@ -40,6 +42,7 @@ namespace UsingTurtleCanvas
             turtle.Forward(100);
             turtle.Right(45);
             turtle.Forward(20);
+            */
         }
 
     }

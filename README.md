@@ -1,180 +1,174 @@
-﻿# simple-graphics-for-csharp-beginners
-Simple Graphics for C# Beginners (starting with Turtle-Graphics)
-
-
-## Planned
-
-* Erste Version nutzbar machen (MVP)
-  * xml-Kommentare so einstellen, dass sie auch im nuget-package vorhanden sind
-  * Wordpress-Seiten für die Hilfe-Seiten anlegen.
-  * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
-
-* Hilfe-Seite mit Details zum Umgang mit mehreren Turtles
-
-* Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
-  * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
-
-* Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 
-* Code auf github kann erst mal noch privat bleiben.
-
-
-* Open-Data erfahrbar machen. Idee
-  * Es gibt einen Rest-Service, mit dem man den aktuellen Stand von Tube-Linien in London abfragen kann: https://tfl.gov.uk/info-for/open-data-users/our-open-data?intcmp=3671#on-this-page-2
-  * Details hier: https://content.tfl.gov.uk/trackernet-data-services-guide-beta.pdf
-  * Man könnte es mit dem Train Predictions Service versuchen
-  * Feed wird alle 30 Sekunden aktualisiert, man benötigt einen api-Key
-  * Daraus eine "App" entwickeln, die anzeigt wo sie gerade die Linien befinden
-  * Linie inklusive Stationen mit Pen malen (wie auf einem U-Bahn-Plan)
-  * Daten abrufen, umformen und Positionen anzeigen
-  * Zum ausprobieren und entwickeln: Beispieldaten in Woopec.Core ablegen (Rohdaten json)
-  * Entwickler kann entscheiden, ob er Rohdaten nimmt oder sich selbst einen Api-Key besorgt
-  * Keine Hilfsklassen für Aufbereitung der Rohdaten. Das ist Teil des Lernerfolgs.
-
-* Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
-  Die Lösung dokumentieren. 
-  Channels sind hier dokumentiert:
-     Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
-     Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
-  Der Ansatz mit dem WPF-Dispose kommt von hier:
-       https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
-* Die Screen* Klassen prüfen, ob das nicht besser Records wären
-* Debuggen einfacher machen: Ziel: Die Turtle-Aktion die ich im Debugger durch-steppe, sehe ich auch am Bildschirm (Idee: Im Debug-Modus Channel auf einen Eintrag beschränken, und mit asyn auf das Schreiben warten?)
-* ScreenLine.Width
-* Code im WPF-Text-Feld editierbar anzeigen.
-  * Syntax-Coloring evtl. mit AvalonEdit (https://www.nuget.org/packages/AvalonEdit) oder RoslynPad https://github.com/aelij/RoslynPad
-
-## To decide
-* Benötigt man überhaupt Screen.RegisterShape? Man kann einfach die Shape-Property der Turtle setzen.
-* Screen-Klasse sauberer machen. Vermischt aktuell Methoden für Programmierer und interne Methoden
-* Figure und Pen: Methoden revidieren. Wann gibt es Property-Setter? Wann gibt es SetXy-Methoden? Analog zur Turtle-Klasse beides anbieten?
-* Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
-
-## Done
-
-105h 
-
-* 04.04.2021: Basic turtle movements
-* 06.04.2021: Learned: Line-Drawing and Animations in WPF
-* 08.04.2021: First turtle-moves visible in WPF
-* 11.04.2021: Got an overview of the turtle functionality in python 
-              (see [state.md](State.md), it is a lot!). 
-              I do not want to make a C# reimplementation of pyhton-turtle. My first 
-              milestone is a subset of the python-commands. For these commands I will 
-              try to use the same class- and method-names. But if I think to have good reasons to
-              make things different, I will make things different.
-* 13.04.2021: Started with class-design for Pens, Forms, ScreenObjects and ScreenAnimations
-* 17.04.2021: Principally working: TurtleThread writes ScreenObjects into channel, WPF-thread reads ScreenObjects from the channel and drwas them animated
-* 20.04.2021: Channel-communication classes: ScreenObjectBroker, ScreenObjectProducer, SreenObjectConsumer and ScreenObjectWriter. And the first unit test for this is green.
-* 24.04.2021: First version of animation-handling-basics is working (3 unit-tests are green)
-* 01.05.2021: Animation-Handling works together with WPF
-* 04.05.2021: Colors for Pens
-* 05.05.2021: Speed for Pens
-* 10.05.2021: Penup, Pendown
-* 11.05.2021: Animation of a new Pen waits until previous animations are finished
-* 12.05.2021: Classes for Shapes
-* 13.05.2021: Screen has a dictionary of shapes
-* 15.05.2021: Turtle movement and rotation
-* 17.05.2021: Cleaner code
-* 18.05.2021: Cleaner code in TurtleWpf
-* 22.05.2021: FillColor and OutlineColor
-* 29.05.2021: One can change shapes of a turtle
-* 30.05.2021: Filling
-* 05.06.2021: Find TurtleMain by reflection
-* 05.06.2021: Prerelease on nuget
-* 07.06.2021: Started with documentation (Speed, Move and Draw Methods of Turtle)
-* 08.06.2021: Documentation of first release methods is done. All other methods are set to internal.
-* 08.06.2021: Shape for bird
-* 09.06.2021: Public Code is consistent and documented, all non public code is internal
-* 10.06.2021: publish comments with nuget packages
-* 12.06.2021: Release 1.0.0 including documentation on woopec.wordpress.com (105 hours of work)
-
-
- 
+<!--
+*** Template for this readme copied from https://github.com/othneildrew/Best-README-Template
+-->
 
 
 
-## Contribution
-
-### Commits
-
-The same as [Angular Commit Message Conventions](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-format)
-without `<scope>`:
-
-Each commit message consists of a **header**, a **body**, and a **footer**.
-
-
-```
-<header>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
-
-The `header` is mandatory and must conform to the [Commit Message Header](#commit-header) format.
-
-The `body` is mandatory for all commits except for those of type "docs".
-When the body is present it must be at least 20 characters long and must conform to the [Commit Message Body](#commit-body) format.
-
-The `footer` is optional. The [Commit Message Footer](#commit-footer) format describes what the footer is used for and the structure it must have.
-
-Any line of the commit message cannot be longer than 100 characters.
+<!-- PROJECT SHIELDS -->
+<!--
+*** I'm using markdown "reference style" links for readability.
+*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
+*** See the bottom of this document for the declaration of the reference variables
+*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
+*** https://www.markdownguide.org/basic-syntax/#reference-style-links
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+-->
 
 
-#### <a name="commit-header"></a>Commit Message Header
 
-```
-<type>: <short summary>
-  │              │
-  │              └─⫸ Summary in present tense. Not capitalized. No period at the end.
-  │
-  └─⫸ Commit Type: build|ci|docs|feat|fix|perf|refactor|test
-```
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://woopec.wordpress.com/">
+    <img src="ExternalDocumentation/FirstSample.png" alt="Logo" width="80" height="80">
+  </a>
 
-The `<type>` and `<summary>` fields are mandatory.
+  <h3 align="center">Woopec</h3>
 
-##### Type
-
-Must be one of the following:
-
-* **build**: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
-* **ci**: Changes to our CI configuration files and scripts (example scopes: Circle, BrowserStack, SauceLabs)
-* **docs**: Documentation only changes
-* **feat**: A new feature
-* **fix**: A bug fix
-* **perf**: A code change that improves performance
-* **refactor**: A code change that neither fixes a bug nor adds a feature
-* **test**: Adding missing tests or correcting existing tests
-
-##### Summary
-
-Use the summary field to provide a succinct description of the change:
-
-* use the imperative, present tense: "change" not "changed" nor "changes"
-* don't capitalize the first letter
-* no dot (.) at the end
+  <p align="center">
+    Simple graphics for C# beginners (starting with turtle graphics)
+    <br />
+    <a href="https://woopec.wordpress.com/documentation-turtle-class/"><strong>Explore the docs �</strong></a>
+  </p>
+</p>
 
 
-#### <a name="commit-body"></a>Commit Message Body
 
-Just as in the summary, use the imperative, present tense: "fix" not "fixed" nor "fixes".
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
-Explain the motivation for the change in the commit message body. This commit message should explain _why_ you are making the change.
-You can include a comparison of the previous behavior with the new behavior in order to illustrate the impact of the change.
 
 
-#### <a name="commit-footer"></a>Commit Message Footer
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-The footer can contain information about breaking changes and is also the place to reference GitHub issues, Jira tickets, and other PRs that this commit closes or is related to.
+![Woopec examples](ExternalDocumentation/Examples.jpg)
 
-```
-BREAKING CHANGE: <breaking change summary>
-<BLANK LINE>
-<breaking change description + migration instructions>
-<BLANK LINE>
-<BLANK LINE>
-Fixes #<issue number>
-```
+Programming is fun. Programming with graphics is even more fun. C# is a great programming language. For beginners there should be an easy start to graphic programming with C#. Woopec tries to help � it�s free.
 
-Breaking Change section should start with the phrase "BREAKING CHANGE: " followed by a summary of the breaking change, a blank line, and a detailed description of the breaking change that also includes migration instructions.
+The first version contains turtle graphics. There is a [great implementation](https://docs.python.org/3/library/turtle.html#module-turtle) of turtle graphics in python.
+I tried to bring the first parts of it into the C# world.
 
+### Built With
+
+* [C# and .NET 5](https://docs.microsoft.com/en-us/dotnet/core/dotnet-five)
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+To debug and run this project locally...
+
+### Prerequisites
+
+* Visual Studio 2019
+* Windows Computer
+
+### Installation
+
+* Clone the repo
+* Open the solution in Visual Studio
+* Build the solution
+* Set `UsingTurtleCanvas` as active project
+* Call Debug - Start without Debugging
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+There is a [nuget-package](https://www.nuget.org/packages/Woopec.Wpf) for usage of Woopec in 
+WPF-applications. 
+
+_For more examples, please refer to the [Documentation](https://woopec.wordpress.com/)_
+
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+This is a first version. The code has not yet been cleaned up properly. I will continue in winter...
+
+
+
+<!-- CONTRIBUTING 
+## Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+-->
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+
+
+<!-- CONTACT -->
+## Contact
+
+Frank Kruse - woopec.graphics@gmail.com
+
+Project Link: [https://github.com/FrankFK/simple-graphics-for-csharp-beginners](https://github.com/FrankFK/simple-graphics-for-csharp-beginners)
+
+
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+* [Python Turtle graphics](https://docs.python.org/3/library/turtle.html#module-turtle)
+* [othneildrew/Best-README-Template](https://github.com/othneildrew/Best-README-Template)
+
+
+
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!--
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
+[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/othneildrew
+[product-screenshot]: images/screenshot.png
+-->

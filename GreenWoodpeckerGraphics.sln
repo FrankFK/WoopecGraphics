@@ -8,25 +8,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		LICENSE = LICENSE
 		README.md = README.md
-		State.md = State.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{B04C91C6-31FF-41CC-9A29-D15C6C6038D5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ArchitectureDecisions", "ArchitectureDecisions", "{D77248D0-0434-4F9A-BCDA-C5F7263EBDEB}"
-	ProjectSection(SolutionItems) = preProject
-		001_StartWithWPF.md = 001_StartWithWPF.md
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfSample1", "samples\WpfSample1\WpfSample1.csproj", "{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleCore", "TurtleCore\TurtleCore.csproj", "{32BF1D15-063F-4961-B085-232EB52C7DBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleCore.UnitTests", "TurtleCore.UnitTests\TurtleCore.UnitTests.csproj", "{F175C79A-9CD3-4C40-9134-AEAF7231A25C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppWithSkiaSharp", "WpfAppWithSkiaSharp\WpfAppWithSkiaSharp.csproj", "{E30E28B9-13C8-46B5-83CF-2448525C73E4}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppWithAnimations", "WpfAppWithAnimations\WpfAppWithAnimations.csproj", "{CE338155-97D2-49AF-8889-44DC717E5F42}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleWpf", "TurtleWpf\TurtleWpf.csproj", "{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}"
 EndProject
@@ -37,13 +25,21 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDocumentation", "ExternalDocumentation", "{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F}"
 	ProjectSection(SolutionItems) = preProject
 		ExternalDocumentation\ByteDesignDemo.png = ExternalDocumentation\ByteDesignDemo.png
+		ExternalDocumentation\Examples.jpg = ExternalDocumentation\Examples.jpg
 		ExternalDocumentation\FirstSample.png = ExternalDocumentation\FirstSample.png
 		ExternalDocumentation\GettingStarted.md = ExternalDocumentation\GettingStarted.md
 		ExternalDocumentation\IntelliSense.png = ExternalDocumentation\IntelliSense.png
 		ExternalDocumentation\Turtle.md = ExternalDocumentation\Turtle.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingWoopec", "UsingWoopec\UsingWoopec.csproj", "{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingWoopec", "UsingWoopec\UsingWoopec.csproj", "{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InternalDocumentation", "InternalDocumentation", "{A1A3B4C4-3E21-4D08-9087-D82CF396A54D}"
+	ProjectSection(SolutionItems) = preProject
+		InternalDocumentation\001_StartWithWPF.md = InternalDocumentation\001_StartWithWPF.md
+		InternalDocumentation\AktuelleArbeit.md = InternalDocumentation\AktuelleArbeit.md
+		InternalDocumentation\VergleichZuPython.md = InternalDocumentation\VergleichZuPython.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +47,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32BF1D15-063F-4961-B085-232EB52C7DBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32BF1D15-063F-4961-B085-232EB52C7DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32BF1D15-063F-4961-B085-232EB52C7DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,14 +55,6 @@ Global
 		{F175C79A-9CD3-4C40-9134-AEAF7231A25C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F175C79A-9CD3-4C40-9134-AEAF7231A25C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F175C79A-9CD3-4C40-9134-AEAF7231A25C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E30E28B9-13C8-46B5-83CF-2448525C73E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE338155-97D2-49AF-8889-44DC717E5F42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE338155-97D2-49AF-8889-44DC717E5F42}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE338155-97D2-49AF-8889-44DC717E5F42}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE338155-97D2-49AF-8889-44DC717E5F42}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B05BF2ED-25DD-48CC-B91F-C0F1205B7829}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -92,12 +76,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D77248D0-0434-4F9A-BCDA-C5F7263EBDEB} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
-		{084AFB6C-95A2-4C8C-9124-F17A0D3F4F57} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{0774A6F2-D96F-46EB-A095-52E85DB01960} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{57716963-7829-4C96-940B-21892DA97E94} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
 		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
+		{A1A3B4C4-3E21-4D08-9087-D82CF396A54D} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}
