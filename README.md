@@ -25,7 +25,7 @@
 <br />
 <p align="center">
   <a href="https://woopec.wordpress.com/">
-    <img src="ExternalDocumentation/FirstSample.png" alt="Logo" width="80" height="80">
+    <img src="ExternalDocumentation/Examples.jpg" alt="Logo" width="auto" height="200">
   </a>
 
   <h3 align="center">Woopec</h3>
@@ -39,7 +39,7 @@
 
 
 
-<!-- TABLE OF CONTENTS -->
+<!-- TABLE OF CONTENTS 
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
@@ -63,18 +63,21 @@
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
-
+-->
 
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Woopec examples](ExternalDocumentation/Examples.jpg)
-
 Programming is fun. Programming with graphics is even more fun. C# is a great programming language. For beginners there should be an easy start to graphic programming with C#. Woopec tries to help – it’s free.
 
 The first version contains turtle graphics. There is a [great implementation](https://docs.python.org/3/library/turtle.html#module-turtle) of turtle graphics in python.
 I tried to bring the first parts of it into the C# world.
+
+View this example for an overview of the Woopec''s current abilities:
+
+![Woopec animated example](ExternalDocumentation/AnimatedExample1.gif)
+
 
 ### Built With
 
