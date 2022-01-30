@@ -33,7 +33,7 @@
   <p align="center">
     Simple graphics for C# beginners (starting with turtle graphics)
     <br />
-    <a href="https://woopec.wordpress.com/documentation-turtle-class/"><strong>Explore the docs »</strong></a>
+    <a href="https://woopec.wordpress.com/documentation-turtle-class/"><strong>Explore the docs ï¿½</strong></a>
   </p>
 </p>
 
@@ -69,7 +69,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Programming is fun. Programming with graphics is even more fun. C# is a great programming language. For beginners there should be an easy start to graphic programming with C#. Woopec tries to help – it’s free.
+Programming is fun. Programming with graphics is even more fun. C# is a great programming language. For beginners there should be an easy start to graphic programming with C#. Woopec tries to help, it's free.
 
 The first version contains turtle graphics. There is a [great implementation](https://docs.python.org/3/library/turtle.html#module-turtle) of turtle graphics in python.
 I tried to bring the first parts of it into the C# world.
