@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "woopec",
+  "classifications": [ "Common", "WPF" ],
+  "identity": "Woopec.WpfProject",
+  "name": "Woopec Turtle WPF Project",
+  "shortName": "woopec-wpf",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "TemplateWpf",
+  "preferNameDirectory": true
+}
