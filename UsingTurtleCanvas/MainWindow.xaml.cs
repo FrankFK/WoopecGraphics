@@ -30,7 +30,7 @@ namespace UsingTurtleCanvas
             InitializeComponent();
         }
 
-        public static void TurtleMain()
+        public static void WoopecMain()
         {
             Woopec.Examples.FeaturesDemo.Run();
             /*

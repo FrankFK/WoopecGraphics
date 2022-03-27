@@ -12,9 +12,9 @@ namespace Woopec.Core.Internal
     {
         private int _lineCounter;
         private int _figureCounter;
-        private readonly Channel<ScreenObject> _objectChannel;
+        private readonly IChannel _objectChannel;
 
-        public ScreenObjectProducer(Channel<ScreenObject> channel)
+        public ScreenObjectProducer(IChannel channel)
         {
             _objectChannel = channel;
         }
@@ -27,7 +27,7 @@ namespace Woopec.Core.Internal
         public void DrawLine(ScreenLine line)
         {
             Debug.WriteLine($"Producer: Line {line.ID} send to channel");
-            _objectChannel.Writer.TryWrite(line);
+            _objectChannel.TryWrite(line);
         }
 
 
@@ -42,7 +42,7 @@ namespace Woopec.Core.Internal
 
         public void UpdateFigure(ScreenFigure figure)
         {
-            _objectChannel.Writer.TryWrite(figure);
+            _objectChannel.TryWrite(figure);
             Debug.WriteLine($"Producer: Update of figure {figure.ID} send to channel");
         }
     }

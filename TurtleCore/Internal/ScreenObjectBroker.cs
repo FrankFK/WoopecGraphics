@@ -12,7 +12,7 @@ namespace Woopec.Core.Internal
     /// </summary>
     internal class ScreenObjectBroker
     {
-        public Channel<ScreenObject> ObjectChannel { get; init; }
+        public IChannel ObjectChannel { get; init; }
 
         public IScreenObjectConsumer Consumer { get; init; }
 
@@ -20,7 +20,7 @@ namespace Woopec.Core.Internal
         public ScreenObjectBroker(IScreenObjectWriter writer, int capacity)
         {
             var channelOptions = new BoundedChannelOptions(capacity) { SingleReader = true, SingleWriter = false };
-            ObjectChannel = Channel.CreateBounded<ScreenObject>(channelOptions);
+            ObjectChannel = new ChannelBetweenThreads(channelOptions); 
             var screenObjectConsumer = new ScreenObjectConsumer(writer, ObjectChannel);
             Consumer = screenObjectConsumer;
             writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOfGroupIsFinished;

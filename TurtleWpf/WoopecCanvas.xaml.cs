@@ -56,7 +56,7 @@ namespace Woopec.Wpf
             var producerThread = new Thread(
                         new ThreadStart(() =>
                         {
-                            TestProgram();
+                            StartWoopecProgramm();
                         }
                     )
                 );
@@ -68,9 +68,9 @@ namespace Woopec.Wpf
         }
 
 
-        private static void TestProgram()
+        private static void StartWoopecProgramm()
         {
-            var foundTurtleCode = TurtleCodeFinder.Find();
+            var foundTurtleCode = WoopecCodeFinder.Find();
 
             if (foundTurtleCode != null)
             {

@@ -91,7 +91,7 @@ To debug and run this project locally...
 
 ### Prerequisites
 
-* Visual Studio 2019
+* Visual Studio 2022
 * Windows Computer
 
 ### Installation
@@ -116,7 +116,7 @@ _For more examples, please refer to the [Documentation](https://woopec.wordpress
 <!-- ROADMAP -->
 ## Roadmap
 
-This is a first version. The code has not yet been cleaned up properly. I will continue in winter...
+This is a first version. The code has not yet been cleaned up properly. I will continue in 2022 ...
 
 
 

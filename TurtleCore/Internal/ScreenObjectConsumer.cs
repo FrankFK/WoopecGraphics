@@ -11,12 +11,12 @@ namespace Woopec.Core.Internal
     internal class ScreenObjectConsumer : IScreenObjectConsumer
     {
         private readonly IScreenObjectWriter _writer;
-        private readonly Channel<ScreenObject> _objectChannel;
+        private readonly IChannel _objectChannel;
         private readonly AnimationGroupsState _animationGroupsState;
         private static readonly object s_lockObj = new();
 
 
-        public ScreenObjectConsumer(IScreenObjectWriter writer, Channel<ScreenObject> channel)
+        public ScreenObjectConsumer(IScreenObjectWriter writer, IChannel channel)
         {
             _writer = writer;
             _objectChannel = channel;
@@ -32,7 +32,7 @@ namespace Woopec.Core.Internal
         {
             while (true)
             {
-                var screenObject = await _objectChannel.Reader.ReadAsync();
+                var screenObject = await _objectChannel.ReadAsync();
 
                 lock (s_lockObj)
                 {
