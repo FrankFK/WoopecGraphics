@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TemplatePackage", "Template
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplatePack", "TemplatePack\TemplatePack.csproj", "{C07F696C-7045-4ADD-B2FE-80CE130B948A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingTurtleCore", "UsingTurtleCore\UsingTurtleCore.csproj", "{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{A1A3B4C4-3E21-4D08-9087-D82CF396A54D} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A} = {5645D8C2-659B-4862-82AB-1EDD4ADE7649}
+		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}

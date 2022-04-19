@@ -32,7 +32,16 @@ namespace Woopec.Core.Internal
         {
             while (true)
             {
-                var screenObject = await _objectChannel.ReadAsync();
+                ScreenObject screenObject = null;
+                try
+                {
+                    screenObject = await _objectChannel.ReadAsync();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Consumer: Exception " + ex.Message);
+                    throw;
+                }
 
                 lock (s_lockObj)
                 {

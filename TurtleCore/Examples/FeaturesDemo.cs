@@ -157,7 +157,7 @@ namespace Woopec.Examples
             activeTurtle.IsVisible = false;
             activeTurtle.PenDown();
             activeTurtle.BeginFill();
-            while(true)
+            while (true)
             {
                 activeTurtle.Forward(200);
                 activeTurtle.Left(170);
@@ -175,6 +175,9 @@ namespace Woopec.Examples
             activeTurtle.Heading = 45;
             activeTurtle.IsVisible = true;
             activeTurtle.Forward(300);
+
+            /////////////////////////////////////////////////////////////
+            // 19.04.2022 When debugger is attached, the WPF-renderer runs in a second process. This makes debugging of turtle code much easier
 
         }
     }

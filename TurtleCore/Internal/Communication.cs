@@ -4,57 +4,29 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Woopec.Core;
-using Woopec.Core.Internal;
-using Colors = Woopec.Core.Colors;
-using System.Reflection;
 
-namespace Woopec.Wpf
+namespace Woopec.Core.Internal
 {
-    /// <summary>
-    /// Interaction logic for UserControl1.xaml
-    /// </summary>
-    public partial class WoopecCanvas : UserControl
+    internal class Communication
     {
-        private readonly Canvas _canvas;
-
-        private readonly Communication _communication;
-        private readonly WpfScreenObjectWriter _screenObjectWriter;
-        /*
         private IScreenObjectProducer _actualProducer;
         private IScreenObjectConsumer _actualConsumer;
-        */
+        private readonly IScreenObjectWriter _actualWriter;
+        private ScreenObjectBroker _actualScreenObjectBroker;
 
+        public Communication(IScreenObjectWriter writer)
+        {
+            _actualWriter = writer;
+        }
 
         /// <summary>
-        /// Constructor
+        /// - Create a producer and start the turtle/woopec program in it.
+        /// - Create a consumer which reads the generated objects and renders it
+        /// - Create a communication channel between producer and consumer
         /// </summary>
-        public WoopecCanvas()
+        public void StartProgram()
         {
-            InitializeComponent();
-            _canvas = new Canvas() { Width = 400, Height = 400 };
-            this.Content = _canvas;
-
-            _screenObjectWriter = new WpfScreenObjectWriter(_canvas);
-            _screenObjectWriter.OnAnimationIsFinished += WhenWriterIsFinished;
-
-            _communication = new Communication(_screenObjectWriter);
-            _communication.StartProgram();
-
-            NextTask();
-
-            /*
             var readFromPipeOption = "--read_from_pipe";
             string[] arguments = Environment.GetCommandLineArgs();
             string pipeHandle = null;
@@ -82,27 +54,45 @@ namespace Woopec.Wpf
                     RunInSingleProcess();
                 }
             }
-            */
-
         }
 
         /// <summary>
-        /// Normal use of woopec:
-        /// - The code that draws woopec-objects to the WPF-canvas runs in one thread.
-        /// - The code that generates woopec-objects runs in a second thread
-        /// - Both threads communicate through a System.Threading.Channels.Channel
-        /// 
-        /// This setting isn`t easy to debug (see ADR 003 for details)
+        /// When used in WPF: Consume the next object.
+        /// </summary>
+        /// <returns></returns>
+        public Task ConsumeNextScreenObjectAsync() => _actualConsumer.HandleNextScreenObjectAsync();
+
+        /// <summary>
+        /// An experiment: Initalization routine for a woopec program which runs as an console program and uses a second
+        /// process as renderer (the same concept as in <c>RunWithDrawingInSecondProcess</c>)
+        /// </summary>
+        public void InitForConsoleProgram()
+        {
+            // Create a process that renders to WPF
+            // This process has to be installed somehow. At the moment it isn't.
+            var secondProcess = new Process();
+            secondProcess.StartInfo.FileName = @"C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\UsingTurtleCanvas\bin\Debug\net6.0-windows\UsingTurtleCanvas.exe";
+
+            // the broker start the secondProcess and creates a pipe from this process to the second process
+            _actualScreenObjectBroker = new ScreenObjectBroker(secondProcess, "--read_from_pipe");
+
+            // It is possible to have multiple producers. In this case we ony have one.
+            // This producer runs in another thread.
+            _actualProducer = new ScreenObjectProducer(_actualScreenObjectBroker.ObjectChannel);
+            TurtleOutputs.InitializeDefaultScreenObjectProducer(_actualProducer);
+        }
+
+
+        /// <summary>
+        /// Most performant use of woopec
+        /// - We start a new thread that that generates woopec-objects (producer)
+        /// - This thread (consumer) reads this objects by calling ConsumeNextScreenObjectAsync() and draws them to the WPF-canvas
+        /// - Both threads communicate through a channel
         /// </summary>
         private void RunInSingleProcess()
         {
-            /*
-            // Generate a class that writes all objects to the wpf-canvas
-            _screenObjectWriter = new WpfScreenObjectWriter(_canvas);
-            _screenObjectWriter.OnAnimationIsFinished += WhenWriterIsFinished;
-
             // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
-            var objectBroker = new ScreenObjectBroker(_screenObjectWriter, 10000);
+            var objectBroker = new ScreenObjectBroker(_actualWriter, 10000);
             // the one and only consumer
             _actualConsumer = objectBroker.Consumer;
 
@@ -118,34 +108,28 @@ namespace Woopec.Wpf
                     )
                 );
             producerThread.Start();
-            */
-
-            // The consumer runs in this thread. It waits asynchronically for the next object in the channel
-            // and sends it to the writer
-            NextTask();
         }
 
         /// <summary>
         /// Easier use of woopec (for debugging)
         /// - We start a new process that draws woopec-objects to the WPF-canvas
         /// - The code that generates woopec-objects runs in this process
-        /// - Both threads communicate through an anonymous pipe
+        /// - Both processes communicate through an anonymous pipe
         /// 
         /// This setting is easier to debug (see ADR 003 for details)
         /// </summary>
         private void RunWithDrawingInSecondProcess(string startOptionForSecondProcess)
         {
-            /*
             // Create a copy of the current executable
             var secondProcess = new Process();
             secondProcess.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
 
             // the broker start the secondProcess and creates a pipe from this process to the second process
-            var objectBroker = new ScreenObjectBroker(secondProcess, startOptionForSecondProcess);
+            _actualScreenObjectBroker = new ScreenObjectBroker(secondProcess, startOptionForSecondProcess);
 
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
-            _actualProducer = new ScreenObjectProducer(objectBroker.ObjectChannel);
+            _actualProducer = new ScreenObjectProducer(_actualScreenObjectBroker.ObjectChannel);
             TurtleOutputs.InitializeDefaultScreenObjectProducer(_actualProducer);
             var producerThread = new Thread(
                         new ThreadStart(() =>
@@ -158,7 +142,6 @@ namespace Woopec.Wpf
 
             // This thread can sleep for ever because the woopec-objects are drawn by a second process
             Thread.Sleep(int.MaxValue);
-            */
         }
 
         /// <summary>
@@ -167,22 +150,13 @@ namespace Woopec.Wpf
         /// </summary>
         private void ReadObjectsFromPipeAndDrawThem(string pipeHandle)
         {
-            /*
-            // Generate a class that writes all objects to the wpf-canvas
-            _screenObjectWriter = new WpfScreenObjectWriter(_canvas);
-            _screenObjectWriter.OnAnimationIsFinished += WhenWriterIsFinished;
-
             // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
-            var objectBroker = new ScreenObjectBroker(pipeHandle, _screenObjectWriter);
+            var objectBroker = new ScreenObjectBroker(pipeHandle, _actualWriter);
             // the one and only consumer
             _actualConsumer = objectBroker.Consumer;
-            */
-            // The consumer runs in this thread. It waits asynchronically for the next object in the channel
-            // and sends it to the writer
-            NextTask();
         }
 
-        /*
+
         private static void StartWoopecProgramm()
         {
             var foundTurtleCode = WoopecCodeFinder.Find();
@@ -197,29 +171,6 @@ namespace Woopec.Wpf
             }
 
             return;
-        }
-        */
-
-        private void NextTask()
-        {
-            var task = _communication.ConsumeNextScreenObjectAsync();
-            task.ContinueWith((t) =>
-            {
-                // Aus https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
-                Dispatcher.Invoke(() =>
-                {
-                    if (t.IsFaulted)
-                    {
-                        throw new Exception($"Error while handling screen object: {t.Exception.InnerException.Message}");
-                    }
-                    NextTask();
-                });
-            });
-        }
-
-        private void WhenWriterIsFinished(int groupId, int objectId)
-        {
-            Debug.WriteLine($"{objectId} is finished");
         }
 
     }

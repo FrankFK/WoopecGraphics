@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Woopec.Core.Internal;
 
 namespace Woopec.Core
 {
@@ -57,6 +58,16 @@ namespace Woopec.Core
             var example = new Turtle() { Speed = Speeds.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkGreen };
             return example;
         }
+
+        /// <summary>
+        /// Does not work. Only an experiment.
+        /// </summary>
+        public static void ExperimentalInit()
+        {
+            _communicationForConsole = new Communication(null);
+            _communicationForConsole.InitForConsoleProgram();
+        }
+        private static Communication _communicationForConsole;
 
         /// <summary>
         /// Move the turtle forward by the specified distance, in the the direction the turtle is headed. 
@@ -518,6 +529,6 @@ namespace Woopec.Core
         /// <summary>
         /// Only needed for unit tests
         /// </summary>
-        internal Figure Figure {  get { return _figure; } }
+        internal Figure Figure { get { return _figure; } }
     }
 }

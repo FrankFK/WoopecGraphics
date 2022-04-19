@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Woopec.Core
@@ -40,6 +42,41 @@ namespace Woopec.Core
         /// Shape type
         /// </summary>
         public ShapeType Type { get; protected set; }
+
+        #region Specific Json Serialization, because this class had derived classes
+        internal enum JsonTypeDiscriminator
+        {
+            ShapeBase = 0,
+            Shape = 1,
+            ImageShape = 2
+        }
+
+        internal static ShapeBase JsonRead(ref Utf8JsonReader reader, int typeDiscriminatorAsInt, JsonSerializerOptions options)
+        {
+            return (JsonTypeDiscriminator)typeDiscriminatorAsInt switch
+            {
+                JsonTypeDiscriminator.Shape => (Shape)JsonSerializer.Deserialize(ref reader, typeof(Shape), options),
+                JsonTypeDiscriminator.ImageShape => (ImageShape)JsonSerializer.Deserialize(ref reader, typeof(ImageShape), options),
+                _ => throw new NotSupportedException(),
+            };
+        }
+
+        internal static int JsonTypeDiscriminatorAsInt(ShapeBase obj)
+        {
+            if (obj is Shape) return (int)JsonTypeDiscriminator.Shape;
+            else if (obj is ImageShape) return (int)JsonTypeDiscriminator.ImageShape;
+            else throw new NotSupportedException();
+        }
+
+        internal static void JsonWrite(Utf8JsonWriter writer, ShapeBase obj, JsonSerializerOptions options)
+        {
+            if (obj is Shape shape) JsonSerializer.Serialize(writer, shape, options);
+            else if (obj is ImageShape imageShape) JsonSerializer.Serialize(writer, imageShape, options);
+            else throw new NotSupportedException();
+        }
+        #endregion
+
+
     }
 
     /// <summary>
@@ -65,7 +102,7 @@ namespace Woopec.Core
         /// </summary>
         public Shape()
         {
-            Type = ShapeType.Compound;
+            Type = ShapeType.Polygon; // As long as it only contains one component it can be seen as a polygon
             _components = new();
         }
 
@@ -94,25 +131,47 @@ namespace Woopec.Core
         /// <param name="outlineColor">Color for the polygons outline</param>
         internal void AddComponent(List<Vec2D> polygon, Color fillColor, Color outlineColor)
         {
-            if (Type != ShapeType.Compound)
-                throw new NotSupportedException("AddComponent is only allowed for a shape that was constructed in this way: shape = new Shape().");
+            if (_components.Count > 0)
+            {
+                Type = ShapeType.Compound;
+            }
             _components.Add(new ShapeComponent() { Polygon = polygon, FillColor = fillColor, OutlineColor = outlineColor });
         }
 
-        // Only to be used from TurtleWpf
-        internal List<ShapeComponent> Components { get { return _components; } }
+        /// <summary>
+        /// Only for internal purposes!
+        /// </summary>
+        /// <remarks>
+        /// Json-Serialization in <c>ProcessChannelConverter</c> does not work if the property is internal. Therefore:
+        /// - The getter (needed by Wpf-code) is public
+        /// - The setter (only needed by Json-Deserialization) is private
+        /// </remarks>
+        [JsonInclude]
+        public List<ShapeComponent> Components { get { return _components; } private set { _components = value; } }
 
         // null if Shape is an Image
-        private readonly List<ShapeComponent> _components;
+        private List<ShapeComponent> _components;
 
     }
 
-    internal class ShapeComponent
+    /// <summary>
+    /// One part of a complex shape
+    /// </summary>
+    public class ShapeComponent
     {
+        /// <summary>
+        /// Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } 
+        /// </summary>
         public List<Vec2D> Polygon { get; set; }
 
+        /// <summary>
+        /// Color the polygon will be filled with
+        /// </summary>
         public Color FillColor { get; set; }
 
+        /// <summary>
+        /// Color for the polygons outline
+        /// </summary>
         public Color OutlineColor { get; set; }
     }
 
@@ -134,7 +193,8 @@ namespace Woopec.Core
             Type = ShapeType.Image;
             _imagePath = imagePath;
 
-            throw new NotImplementedException("Image shapes are not implemented yet.");
+            if (!string.IsNullOrWhiteSpace(_imagePath))
+                throw new NotImplementedException("Image shapes are not implemented yet.");
 
             // to-do: Which way?
             // (a) Load image bitmap directly into this class (but do not create dependencies to WPF by this) 
@@ -142,11 +202,12 @@ namespace Woopec.Core
             // I would prefer (a)
         }
 
+
         // Only to be used from TurtleWpf
-        internal string ImagePath { get { return _imagePath; } }
+        public string ImagePath { get { return _imagePath; } set { _imagePath = value; } }
 
         // null if Shape is not an Image
-        private readonly string _imagePath;
+        private string _imagePath;
     }
 
     /// <summary>

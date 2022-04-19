@@ -29,7 +29,7 @@ namespace Woopec.Core.UnitTests
             shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue);
 
             // Assert
-            shape.Type.Should().Be(ShapeType.Compound);
+            shape.Type.Should().Be(ShapeType.Polygon);
             shape.Components.Count.Should().Be(1);
             shape.Components[0].Polygon.Count.Should().Be(4);
             (shape.Components[0].Polygon[0] is Vec2D).Should().BeTrue();
@@ -45,7 +45,7 @@ namespace Woopec.Core.UnitTests
             shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue, Colors.Yellow);
 
             // Assert
-            shape.Type.Should().Be(ShapeType.Compound);
+            shape.Type.Should().Be(ShapeType.Polygon);
             shape.Components.Count.Should().Be(1);
             shape.Components[0].Polygon.Count.Should().Be(4);
             (shape.Components[0].Polygon[0] is Vec2D).Should().BeTrue();
@@ -67,14 +67,15 @@ namespace Woopec.Core.UnitTests
         }
 
         [TestMethod]
-        public void Shape_AddComponentToPolygonShapeYieldsException()
+        public void Shape_AddComponentToPolygonChangesTypeToCompund()
         {
             // Act
             var shape = new Shape(new() { (0, 0), (10, -5), (0, 10), (-10, -5) });
+            shape.Type.Should().Be(ShapeType.Polygon);
 
-            Action act = () => shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue, Colors.Yellow); ;
+            shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue, Colors.Yellow); ;
 
-            act.Should().Throw<NotSupportedException>();
+            shape.Type.Should().Be(ShapeType.Compound);
         }
 
         [TestMethod]
