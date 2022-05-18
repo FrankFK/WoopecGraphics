@@ -100,10 +100,10 @@ The IntelliSense-Feature of Visual Studio shows these comments when you move the
 | Position [Type is Vec2D]                         | Get or change position                                |
 | SetHeading(double angle)                         | Change heading (rotate to this heading)               |
 | Heading [Type is double]                         | Get or change heading                                 |
-| Speed [Type is Speed]                            | Get or change speed                                 |
+| Speed [Type is Speed]                            | Get or change speed                                   |
 | **Drawing state:**
-| PenUp()                                          | Pull the pen down – drawing when moving                                                       |
-| PenDown()                                        | Pull the pen up – no drawing when moving                                                       |
+| PenUp()                                          | Pull the pen down, drawing when moving                                                       |
+| PenDown()                                        | Pull the pen up, no drawing when moving                                                       |
 | IsDown [Type is bool]                            | Get or change state of pen                            |
 | **Color control:**
 | PenColor [Type is Color]                         | Pencolor                                              |
