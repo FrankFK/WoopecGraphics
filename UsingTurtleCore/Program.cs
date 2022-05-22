@@ -1,18 +1,15 @@
 ﻿using Woopec.Core;
 
-Turtle.ExperimentalInit();
+internal class Program
+{
+    public static void WoopecMain()
+    {
+        var seymour = Turtle.Seymour();
 
-var turtle = Turtle.Seymour();
-
-turtle.Right(45);
-turtle.Forward(50);
-turtle.Left(90);
-turtle.Forward(100);
-turtle.Right(45);
-turtle.Forward(200);
-
-Console.ReadKey();
-
-turtle.Left(90);
-turtle.Forward(100);
+        seymour.Left(45);
+        seymour.Forward(100);
+        seymour.Right(45);
+        seymour.Forward(50);
+    }
+}
 

@@ -33,13 +33,14 @@
   <p align="center">
     Simple graphics for C# beginners (starting with turtle graphics)
     <br />
-    <a href="https://woopec.wordpress.com/documentation-turtle-class/"><strong>Explore the docs �</strong></a>
+    <a href="https://frank.woopec.net/woopec-docs-index.html"><strong>Explore the docs</strong></a>
   </p>
 </p>
 
 
 
 <!-- TABLE OF CONTENTS 
+
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
@@ -76,15 +77,15 @@ I tried to bring the first parts of it into the C# world.
 
 View this example for an overview of the Woopec''s current abilities:
 
-![Woopec animated example](ExternalDocumentation/AnimatedExample1.gif)
+![Woopec animated example](ExternalDocumentation/WoopecAnimation.gif)
 
 
 ### Built With
 
-* [C# and .NET 5](https://docs.microsoft.com/en-us/dotnet/core/dotnet-five)
-
+* [C# and .NET 6](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6)
 
 <!-- GETTING STARTED -->
+
 ## Getting Started
 
 To debug and run this project locally...
@@ -109,14 +110,14 @@ To debug and run this project locally...
 There is a [nuget-package](https://www.nuget.org/packages/Woopec.Wpf) for usage of Woopec in 
 WPF-applications. 
 
-_For more examples, please refer to the [Documentation](https://woopec.wordpress.com/)_
+_For more examples, please refer to the [Documentation](https://frank.woopec.net/woopec-docs-index.html)_
 
 
 
 <!-- ROADMAP -->
 ## Roadmap
 
-This is a first version. The code has not yet been cleaned up properly. I will continue in 2022 ...
+This is a first version. The code has not yet been cleaned up properly. I'm working on it...
 
 
 
@@ -143,7 +144,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Frank Kruse - woopec.graphics@gmail.com
+Frank Kruse - frank@woopec.net
 
 Project Link: [https://github.com/FrankFK/simple-graphics-for-csharp-beginners](https://github.com/FrankFK/simple-graphics-for-csharp-beginners)
 

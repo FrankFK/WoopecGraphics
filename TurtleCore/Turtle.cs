@@ -70,7 +70,7 @@ namespace Woopec.Core
         private static Communication _communicationForConsole;
 
         /// <summary>
-        /// Move the turtle forward by the specified distance, in the the direction the turtle is headed. 
+        /// Move the turtle forward by the specified distance, in the direction the turtle is headed. 
         /// <example>
         /// <code>
         /// var turtle = Turtle.Seymour(); <br/>

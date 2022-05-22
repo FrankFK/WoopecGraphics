@@ -24,13 +24,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TurtleSamples", "TurtleSamp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExternalDocumentation", "ExternalDocumentation", "{3A9317E6-EFF8-4F7A-B5BA-CD595D0B360F}"
 	ProjectSection(SolutionItems) = preProject
-		ExternalDocumentation\AnimatedExample1.gif = ExternalDocumentation\AnimatedExample1.gif
-		ExternalDocumentation\ByteDesignDemo.png = ExternalDocumentation\ByteDesignDemo.png
 		ExternalDocumentation\Examples.jpg = ExternalDocumentation\Examples.jpg
-		ExternalDocumentation\FirstSample.png = ExternalDocumentation\FirstSample.png
-		ExternalDocumentation\GettingStarted.md = ExternalDocumentation\GettingStarted.md
-		ExternalDocumentation\IntelliSense.png = ExternalDocumentation\IntelliSense.png
-		ExternalDocumentation\Turtle.md = ExternalDocumentation\Turtle.md
+		ExternalDocumentation\WoopecAnimation.gif = ExternalDocumentation\WoopecAnimation.gif
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingWoopec", "UsingWoopec\UsingWoopec.csproj", "{6B715BF6-5F3A-462A-97CB-3C58E74C80DA}"
@@ -39,6 +34,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InternalDocumentation", "In
 	ProjectSection(SolutionItems) = preProject
 		InternalDocumentation\001_StartWithWPF.md = InternalDocumentation\001_StartWithWPF.md
 		InternalDocumentation\AktuelleArbeit.md = InternalDocumentation\AktuelleArbeit.md
+		InternalDocumentation\DotnetNewTemplate.md = InternalDocumentation\DotnetNewTemplate.md
 		InternalDocumentation\VergleichZuPython.md = InternalDocumentation\VergleichZuPython.md
 	EndProjectSection
 EndProject
@@ -48,7 +44,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TemplatePackage", "Template
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemplatePack", "TemplatePack\TemplatePack.csproj", "{C07F696C-7045-4ADD-B2FE-80CE130B948A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingTurtleCore", "UsingTurtleCore\UsingTurtleCore.csproj", "{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingTurtleCoreExperimental", "UsingTurtleCoreExperimental\UsingTurtleCoreExperimental.csproj", "{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingTurtleCore", "UsingTurtleCore\UsingTurtleCore.csproj", "{BDF76B83-BF65-4045-BCE5-432A2CA74343}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,10 +86,14 @@ Global
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,7 +105,8 @@ Global
 		{6B715BF6-5F3A-462A-97CB-3C58E74C80DA} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{A1A3B4C4-3E21-4D08-9087-D82CF396A54D} = {9D6BC02B-63D7-4878-97AD-6E4CDA9A945E}
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A} = {5645D8C2-659B-4862-82AB-1EDD4ADE7649}
-		{7E2DD301-FDBB-465F-B5AF-D1EFD0EB5E90} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
+		{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
+		{BDF76B83-BF65-4045-BCE5-432A2CA74343} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}

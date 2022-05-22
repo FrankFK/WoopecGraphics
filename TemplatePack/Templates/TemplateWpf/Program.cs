@@ -2,7 +2,7 @@
 
 internal class Program
 {
-    public static void TurtleMain()
+    public static void WoopecMain()
     {
         var seymour = Turtle.Seymour();
 
