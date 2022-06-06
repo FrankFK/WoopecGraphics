@@ -33,11 +33,14 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
-            Woopec.Examples.FeaturesDemo.Run();
+            // Woopec.Examples.FeaturesDemo.Run();
 
             var turtle = Turtle.Seymour();
             turtle.Forward(50);
-            turtle.Screen.TextInput("Überschrift", "Bitte antworte umgehend auf diese Frage:");
+            var answer = turtle.Screen.TextInput("Color selection", "Please input the name of a color (e.g. red):");
+
+            if (answer != null)
+                turtle.Color = answer;
 
             turtle.Right(45);
             turtle.Forward(50);

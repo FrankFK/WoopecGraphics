@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Woopec.Core;
+using Woopec.Core.Internal;
 
 namespace Woopec.Wpf
 {
@@ -19,6 +20,7 @@ namespace Woopec.Wpf
 
         private readonly CanvasLines _canvasLines;
         private readonly CanvasPathes _canvasPathes;
+        private IScreenResultProducer _screenResultProducer;
 
         public WpfScreenObjectWriter(Canvas canvas)
         {
@@ -53,7 +55,7 @@ namespace Woopec.Wpf
         {
             if (screenObject is ScreenDialog dialog)
             {
-                ShowDialog(dialog);
+                ShowDialogAndSendAnswer(dialog);
             }
             else
             {
@@ -70,6 +72,10 @@ namespace Woopec.Wpf
             }
         }
 
+        public void SetScreenResultProducer(IScreenResultProducer producer)
+        {
+            _screenResultProducer = producer;
+        }
 
         private void UpdateCanvasChildren(CanvasChildrenChange change)
         {
@@ -91,7 +97,7 @@ namespace Woopec.Wpf
             }
         }
 
-        private string ShowDialog(ScreenDialog dialog)
+        private void ShowDialogAndSendAnswer(ScreenDialog dialog)
         {
             string answer = null;
 
@@ -101,7 +107,7 @@ namespace Woopec.Wpf
                 answer = dialogWindow.Answer;
             }
 
-            return answer;
+            _screenResultProducer.SendText(answer);
         }
 
     }

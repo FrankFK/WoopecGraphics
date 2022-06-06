@@ -17,12 +17,14 @@ namespace Woopec.Core.Internal
         private static LowLevelScreen _defaultScreen;
 
         private readonly IScreenObjectProducer _screenObjectProducer;
+        private readonly IScreenResultConsumer _screenResultConsumer;
 
         private readonly Dictionary<string, ShapeBase> _shapes;
 
-        private LowLevelScreen(IScreenObjectProducer producer)
+        private LowLevelScreen(IScreenObjectProducer screenObjectProducer, IScreenResultConsumer screenResultConsumer)
         {
-            _screenObjectProducer = producer ?? throw new ArgumentNullException("producer");
+            _screenObjectProducer = screenObjectProducer ?? throw new ArgumentNullException("producer");
+            _screenResultConsumer = screenResultConsumer ?? throw new ArgumentNullException(nameof(screenResultConsumer));
             _shapes = new();
             LastIssuedAnimatonGroupID = ScreenObject.NoGroupId;
         }
@@ -80,7 +82,7 @@ namespace Woopec.Core.Internal
         }
 
         ///<inheritdoc/>
-        public string TextInput(string title, string prompt)
+        public async Task<string> TextInputAsync(string title, string prompt)
         {
             var dialog = new ScreenDialog() { Title = title, Prompt = prompt };
             // If we do not wait for another animation this dialog is shown immediately. In most cases the programmer expects
@@ -88,7 +90,8 @@ namespace Woopec.Core.Internal
             // Therefore:
             dialog.WaitForAnimationsOfGroupID = LastIssuedAnimatonGroupID;
             _screenObjectProducer.ShowDialog(dialog);
-            return "Hier fehlt noch das Warten auf den Dialog";
+            var answer = await _screenResultConsumer.ReadTextResultAsync();
+            return answer;
         }
 
 
@@ -102,7 +105,7 @@ namespace Woopec.Core.Internal
         {
             if (_defaultScreen == null)
             {
-                _defaultScreen = new LowLevelScreen(TurtleOutputs.GetDefaultScreenObjectProducer());
+                _defaultScreen = new LowLevelScreen(TurtleInputsAndOutputs.GetDefaultScreenObjectProducer(), TurtleInputsAndOutputs.GetDefaultScreenResultConsumer());
             }
             return _defaultScreen;
         }

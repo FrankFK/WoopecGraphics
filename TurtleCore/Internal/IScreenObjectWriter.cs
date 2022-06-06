@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Core.Internal;
 
 namespace Woopec.Core
 {
@@ -30,6 +31,12 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="screenObject"></param>
         public void Update(ScreenObject screenObject);
+
+        /// <summary>
+        /// The writer needs a class that can send screen results (e.g. answer of a text input dialog window) back to the code that is waiting for it.
+        /// </summary>
+        /// <param name="producer"></param>
+        public void SetScreenResultProducer(IScreenResultProducer producer);
 
     }
 }

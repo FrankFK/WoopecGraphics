@@ -54,7 +54,13 @@ namespace Woopec.Core.Internal
         /// <returns></returns>
         public List<string> GetShapes();
 
-        public string TextInput(string title, string prompt);
+        /// <summary>
+        /// Open a TextInput dialog on screen and return the text, that the user has entered
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="prompt"></param>
+        /// <returns></returns>
+        public Task<string> TextInputAsync(string title, string prompt);
 
     }
 }

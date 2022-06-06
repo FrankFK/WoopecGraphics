@@ -41,7 +41,9 @@ namespace Woopec.Core
         /// <returns>The string input. If the dialog is canceled, return null</returns>
         public string TextInput(string title, string prompt)
         {
-            return _lowLevelScreen.TextInput(title, prompt);
+            // async/await is too complex for C# beginners. Therfore we wait for the input:
+            var task = _lowLevelScreen.TextInputAsync(title, prompt);
+            return task.Result;
         }
 
     }

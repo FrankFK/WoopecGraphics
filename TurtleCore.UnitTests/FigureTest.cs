@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woopec.Core.Internal;
@@ -64,6 +65,11 @@ namespace Woopec.Core.UnitTests
             }
 
             public string TextInput(string title, string prompt)
+            {
+                throw new NotImplementedException();
+            }
+
+            public Task<string> TextInputAsync(string title, string prompt)
             {
                 throw new NotImplementedException();
             }

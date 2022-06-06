@@ -365,6 +365,10 @@ namespace Woopec.Core.UnitTests
             return sb.ToString();
         }
 
+        public void SetScreenResultProducer(IScreenResultProducer producer)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

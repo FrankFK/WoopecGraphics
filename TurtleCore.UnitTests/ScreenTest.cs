@@ -47,7 +47,7 @@ namespace Woopec.Core.UnitTests
         public static void ClassInitialize(TestContext _)
         {
             _producerMockup = new TurtleScreenProducerMockup();
-            TurtleOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
+            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
         }
 
         [TestCleanup]
