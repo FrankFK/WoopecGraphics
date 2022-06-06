@@ -93,7 +93,8 @@ namespace Woopec.Core
         {
             ScreenObject = 0,
             ScreenLine = 1,
-            ScreenFigure = 2
+            ScreenFigure = 2,
+            ScreenDialog = 3,
         }
 
         internal static ScreenObject JsonRead(ref Utf8JsonReader reader, int typeDiscriminatorAsInt, JsonSerializerOptions options)
@@ -103,6 +104,7 @@ namespace Woopec.Core
                 JsonTypeDiscriminator.ScreenObject => (ScreenObject)JsonSerializer.Deserialize(ref reader, typeof(ScreenObject), options),
                 JsonTypeDiscriminator.ScreenLine => (ScreenObject)JsonSerializer.Deserialize(ref reader, typeof(ScreenLine), options),
                 JsonTypeDiscriminator.ScreenFigure => (ScreenObject)JsonSerializer.Deserialize(ref reader, typeof(ScreenFigure), options),
+                JsonTypeDiscriminator.ScreenDialog => (ScreenObject)JsonSerializer.Deserialize(ref reader, typeof(ScreenDialog), options),
                 _ => throw new NotSupportedException(),
             };
         }
@@ -111,6 +113,7 @@ namespace Woopec.Core
         {
             if (obj is ScreenLine) return (int)JsonTypeDiscriminator.ScreenLine;
             else if (obj is ScreenFigure) return (int)JsonTypeDiscriminator.ScreenFigure;
+            else if (obj is ScreenDialog) return (int)JsonTypeDiscriminator.ScreenDialog;
             else if (obj is ScreenObject) return (int)JsonTypeDiscriminator.ScreenObject;
             else throw new NotSupportedException();
         }
@@ -119,6 +122,7 @@ namespace Woopec.Core
         {
             if (obj is ScreenLine line) JsonSerializer.Serialize(writer, line, options);
             else if (obj is ScreenFigure figure) JsonSerializer.Serialize(writer, figure, options);
+            else if (obj is ScreenDialog dialog) JsonSerializer.Serialize(writer, dialog, options);
             else if (obj is ScreenObject screenObject) JsonSerializer.Serialize(writer, screenObject, options);
             else throw new NotSupportedException();
         }

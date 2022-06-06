@@ -11,7 +11,7 @@ namespace Woopec.Core.UnitTests
     [TestClass]
     public class FigureTest
     {
-        private class ScreenMockup : IScreen
+        private class ScreenMockup : ILowLevelScreen
         {
             public int FigureCounter;
 
@@ -60,6 +60,11 @@ namespace Woopec.Core.UnitTests
             public void UpdateFigure(ScreenFigure figure)
             {
                 FigureUpdates.Add(figure);
+            }
+
+            public string TextInput(string title, string prompt)
+            {
+                throw new NotImplementedException();
             }
         }
 
@@ -213,7 +218,7 @@ namespace Woopec.Core.UnitTests
         }
 
 
-        private static Figure CreateSut(IScreen screen)
+        private static Figure CreateSut(ILowLevelScreen screen)
         {
             return new Figure(screen);
         }

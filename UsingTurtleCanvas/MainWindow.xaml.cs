@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Woopec.Core;
+using Woopec.Wpf;
 
 namespace UsingTurtleCanvas
 {
@@ -33,6 +34,18 @@ namespace UsingTurtleCanvas
         public static void WoopecMain()
         {
             Woopec.Examples.FeaturesDemo.Run();
+
+            var turtle = Turtle.Seymour();
+            turtle.Forward(50);
+            turtle.Screen.TextInput("Überschrift", "Bitte antworte umgehend auf diese Frage:");
+
+            turtle.Right(45);
+            turtle.Forward(50);
+            turtle.Left(90);
+            turtle.Forward(100);
+            turtle.Right(45);
+            turtle.Forward(20);
+
             /*
             var turtle = Turtle.Seymour();
 

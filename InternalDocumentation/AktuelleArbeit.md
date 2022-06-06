@@ -3,19 +3,43 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 
 ## Planned
-
-* Erste Version nutzbar machen (MVP)
-  * xml-Kommentare so einstellen, dass sie auch im nuget-package vorhanden sind
-  * Wordpress-Seiten für die Hilfe-Seiten anlegen.
-  * Nuget-Package mit einer Version ohne "-alpha" öffentlich machen (solange ist es nur als Prerelease gelistet und taucht im nuget-Browser nur mit gesetztem Prerelease-Haken auf)
+* TextInput()
+** Auf Animations der anderen Objekte warten, damit der Dialog nicht zu früh kommt. `ScreenObjectConsumer` anpassen, bzw. die `GroupID` von `ScreenDialog` setzen, damit das passiert.
+** Alle Animations nach dem Dialog müssen auch warten bis der Dialog beantwortet wurde. Den Dialog so wie eine Animation mit offenem Ende behandeln.
+** Rückkanal anlegen und in LowLevelScreen auf das Ergebnis des Rückkanals warten.
 
 * Hilfe-Seite mit Details zum Umgang mit mehreren Turtles
 
 * Exceptions müssen abgefangen werden -- aktuell stürzt dann das Programm ab.
   * https://docs.microsoft.com/en-us/dotnet/api/system.windows.application.dispatcherunhandledexception?redirectedfrom=MSDN&view=net-5.0*
 
-* Wenn man es ganz extrem treiben will, kann man auch versuchen woopec. als Präfix auf nuget zu reservieren: https://docs.microsoft.com/de-de/nuget/nuget-org/id-prefix-reservation 
-* Code auf github kann erst mal noch privat bleiben.
+* Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
+  Die Lösung dokumentieren. 
+  Channels sind hier dokumentiert:
+     Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
+     Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
+  Der Ansatz mit dem WPF-Dispose kommt von hier:
+       https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
+* Die Screen* Klassen prüfen, ob das nicht besser Records wären
+* ScreenLine.Width
+
+
+## To decide
+* Viewer-Komponente in anderer Technologie
+    * Aktuell denke ich, dass Blazor der beste Weg wäre
+    * Vielleicht kann man [OpenTK](https://opentk.net/resources.html) als Alternative zu WPF nutzen
+      * Auf OpenTK bin ich durch [Artikel]()https://www.hanselman.com/blog/how-to-install-net-core-on-your-remarkable-2-eink-tablet-with-remarkablenet von Scott Hanselman gestoßen.
+      * Animationen mit OpenTK macht wohl eher low level: Bei jedem neuen Frame ändert man die Rotations/Transformations/Usw-Matrizen. Siehe in diesem [Beispiel](http://neokabuto.blogspot.com/2013/07/opentk-tutorial-3-enter-third-dimension.html)
+      * OpenTK scheint mir "aktiv" zu sein (aktiver als Yak2D) und wird zumindest aktuell noch im iOS-Teil von Xamarin verwendet, siehe [Microsoft-Doku](https://docs.microsoft.com/de-de/dotnet/api/opentk?view=xamarin-ios-sdk-12)
+    * Nachdem ich release 1.0.0 veröffentlicht hatte und nach meiner Library gegoogelt habe, bin ich noch auf andere Graphik-Paktete gestoßen:
+      * [Yak2D](https://github.com/AlzPatz/yak2d) möchte Grafik-Entwicklung auch einfach machen. 
+        * Projekt ist aber irgendwie stehen geblieben, keine commits mehr und die Doku ist auch nur teilweise fertig. Tutorial ab Schritt 2 nur geplant. Bin mir unsicher, ob das noch weiter geht.
+      * Über Yak2D bin ich auf [Veldrid](https://github.com/mellinoe/veldrid) gestoßen.
+        * Da ist viel mehr los. 
+        * Das könnte eine Alternative zu WPF oder MAUI sein.
+* Benötigt man überhaupt Screen.RegisterShape? Man kann einfach die Shape-Property der Turtle setzen.
+* Figure und Pen: Methoden revidieren. Wann gibt es Property-Setter? Wann gibt es SetXy-Methoden? Analog zur Turtle-Klasse beides anbieten?
+* Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
 
 
 * Open-Data erfahrbar machen. Idee
@@ -30,34 +54,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
   * Entwickler kann entscheiden, ob er Rohdaten nimmt oder sich selbst einen Api-Key besorgt
   * Keine Hilfsklassen für Aufbereitung der Rohdaten. Das ist Teil des Lernerfolgs.
 
-* Mehr Fälle als Unit-Tests codieren. Z.B. auch dass der Channel voll läuft. Lasttests.
-  Die Lösung dokumentieren. 
-  Channels sind hier dokumentiert:
-     Mal hiermit versuchen: https://devblogs.microsoft.com/dotnet/an-introduction-to-system-threading-channels/
-     Beispiel: https://www.davidguida.net/how-to-implement-producer-consumer-with-system-threading-channels/
-  Der Ansatz mit dem WPF-Dispose kommt von hier:
-       https://igorpopov.io/2018/06/16/asynchronous-programming-in-csharp-with-wpf/
-* Die Screen* Klassen prüfen, ob das nicht besser Records wären
-* Debuggen einfacher machen: Ziel: Die Turtle-Aktion die ich im Debugger durch-steppe, sehe ich auch am Bildschirm (Idee: Im Debug-Modus Channel auf einen Eintrag beschränken, und mit asyn auf das Schreiben warten?)
-* ScreenLine.Width
-* Code im WPF-Text-Feld editierbar anzeigen.
-  * Syntax-Coloring evtl. mit AvalonEdit (https://www.nuget.org/packages/AvalonEdit) oder RoslynPad https://github.com/aelij/RoslynPad
-
-## To decide
-* Vielleicht kann man [OpenTK](https://opentk.net/resources.html) als Alterntive zu WPF nutzen
-  * Auf OpenTK bin ich durch [Artikel]()https://www.hanselman.com/blog/how-to-install-net-core-on-your-remarkable-2-eink-tablet-with-remarkablenet von Scott Hanselman gestoßen.
-  * Animationen mit OpenTK macht wohl eher low level: Bei jedem neuen Frame ändert man die Rotations/Transformations/Usw-Matrizen. Siehe in diesem [Beispiel](http://neokabuto.blogspot.com/2013/07/opentk-tutorial-3-enter-third-dimension.html)
-  * OpenTK scheint mir "aktiv" zu sein (aktiver als Yak2D) und wird zumindest aktuell noch im iOS-Teil von Xamarin verwendet, siehe [Microsoft-Doku](https://docs.microsoft.com/de-de/dotnet/api/opentk?view=xamarin-ios-sdk-12)
-* Nachdem ich release 1.0.0 veröffentlicht hatte und nach meiner Library gegoogelt habe, bin ich noch auf andere Graphik-Paktete gestoßen:
-  * [Yak2D](https://github.com/AlzPatz/yak2d) möchte Grafik-Entwicklung auch einfach machen. 
-    * Projekt ist aber irgendwie stehen geblieben, keine commits mehr und die Doku ist auch nur teilweise fertig. Tutorial ab Schritt 2 nur geplant. Bin mir unsicher, ob das noch weiter geht.
-  * Über Yak2D bin ich auf [Veldrid](https://github.com/mellinoe/veldrid) gestoßen.
-    * Da ist viel mehr los. 
-    * Das könnte eine Alternative zu WPF oder MAUI sein.
-* Benötigt man überhaupt Screen.RegisterShape? Man kann einfach die Shape-Property der Turtle setzen.
-* Screen-Klasse sauberer machen. Vermischt aktuell Methoden für Programmierer und interne Methoden
-* Figure und Pen: Methoden revidieren. Wann gibt es Property-Setter? Wann gibt es SetXy-Methoden? Analog zur Turtle-Klasse beides anbieten?
-* Vielleicht kann man eine gemeinsame Basisklasse für Pen und Form machen?
 
 ## Done
 
@@ -100,7 +96,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 28.07.2021: Make github repo visible
 * xx.12.2021: .NET 6
 * 20.02.2022: Project Template on nuget makes creation of a project easier
-
+* 19.04.2022: Easier debugging (starting two processes when running in debug mode)
+* 05.06.2022: Screen class contains the externally usable methods, LowLevelScreen class handles internal stuff
 
  
 

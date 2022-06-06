@@ -13,7 +13,7 @@ namespace Woopec.Core
     /// </summary>
     internal class Pen
     {
-        private readonly IScreen _screen;
+        private readonly ILowLevelScreen _lowLevelScreen;
 
         private static int s_totalCounter;
 
@@ -36,7 +36,7 @@ namespace Woopec.Core
         /// Constructs a Pen that is not used as part of a Turtle class
         /// </summary>
         /// <param name="screen">Pen is printed on this screen</param>
-        public Pen(IScreen screen)
+        public Pen(ILowLevelScreen screen)
             : this(screen, Interlocked.Increment(ref s_totalCounter))
         {
         }
@@ -46,7 +46,7 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
         public Pen(int id)
-            : this(Screen.GetDefaultScreen(), id)
+            : this(LowLevelScreen.GetDefaultScreen(), id)
         {
         }
 
@@ -56,9 +56,9 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="screen">Pen is printed on this screen</param>
         /// <param name="id">The Id of the turtle</param>
-        internal Pen(IScreen screen, int id)
+        internal Pen(ILowLevelScreen screen, int id)
         {
-            _screen = screen;
+            _lowLevelScreen = screen;
             _id = id;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
@@ -167,7 +167,7 @@ namespace Woopec.Core
         {
             var line = new ScreenLine()
             {
-                ID = _screen.CreateLine(),
+                ID = _lowLevelScreen.CreateLine(),
                 Color = Color,
                 Point1 = oldPosition,
                 Point2 = newPosition,
@@ -181,12 +181,12 @@ namespace Woopec.Core
             }
             else
             {
-                if (_screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+                if (_lowLevelScreen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
                 {
                     // If we do not wait for another animation this pen is drawn immediately. In most cases the programmer expects
                     // that all previously created animation are drawn before this pen is drawn.
                     // Therefore:
-                    line.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                    line.WaitForAnimationsOfGroupID = _lowLevelScreen.LastIssuedAnimatonGroupID;
                 }
             }
 
@@ -200,7 +200,7 @@ namespace Woopec.Core
                 _firstAnimationIsAdded = true;
             }
 
-            _screen.DrawLine(line);
+            _lowLevelScreen.DrawLine(line);
         }
 
         /// <summary>

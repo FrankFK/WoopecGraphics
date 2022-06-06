@@ -18,5 +18,7 @@ namespace Woopec.Core
         public int CreateFigure();
 
         public void UpdateFigure(ScreenFigure figure);
+
+        public void ShowDialog(ScreenDialog dialog);
     }
 }

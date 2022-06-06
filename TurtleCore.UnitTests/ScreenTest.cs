@@ -34,6 +34,10 @@ namespace Woopec.Core.UnitTests
                 throw new NotImplementedException();
             }
 
+            public void ShowDialog(ScreenDialog dialog)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private static TurtleScreenProducerMockup _producerMockup;
@@ -48,7 +52,7 @@ namespace Woopec.Core.UnitTests
         [TestCleanup]
         public void TestCleanup()
         {
-            Screen.ResetDefaultScreen();
+            LowLevelScreen.ResetDefaultScreen();
         }
 
         [TestMethod]
@@ -66,7 +70,7 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void Screen_AddPolygonShape()
         {
-            var screen = Screen.GetDefaultScreen();
+            var screen = LowLevelScreen.GetDefaultScreen();
             screen.AddShape("polygon", new Shape(new() { (-10, 0), (10, 0), (0, 10) }));
             screen.GetShapes().Should().Contain("polygon");
         }
@@ -74,7 +78,7 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void Screen_AddCompoundShape()
         {
-            var screen = Screen.GetDefaultScreen();
+            var screen = LowLevelScreen.GetDefaultScreen();
 
             var shape = new Shape();
             shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue, Colors.Yellow);

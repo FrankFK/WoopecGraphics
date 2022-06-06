@@ -16,7 +16,8 @@ namespace Woopec.Core
         private static int s_totalCounter;
 
         private readonly int _id;
-        private readonly IScreen _screen;
+        private readonly ILowLevelScreen _lowLevelScreen;
+        private readonly Screen _screen;
         private readonly Pen _pen;
         private readonly Figure _figure;
 
@@ -24,7 +25,7 @@ namespace Woopec.Core
         /// Constructs a turtle that uses the default screen
         /// </summary>
         public Turtle()
-            : this(Screen.GetDefaultScreen())
+            : this(LowLevelScreen.GetDefaultScreen())
         {
 
         }
@@ -32,14 +33,15 @@ namespace Woopec.Core
         /// <summary>
         /// Construct a turtle
         /// </summary>
-        /// <param name="screen">Figure is printed on this screen</param>
+        /// <param name="lowLevelScreen">Figure is printed on this screen</param>
         /// <remarks>At the moment internal, because multi-screen support is not tested.</remarks>
-        internal Turtle(IScreen screen)
+        internal Turtle(ILowLevelScreen lowLevelScreen)
         {
             _id = Interlocked.Increment(ref s_totalCounter);
-            _screen = screen;
-            _figure = new Figure(screen, _id);
-            _pen = new Pen(screen, _id);
+            _lowLevelScreen = lowLevelScreen;
+            _screen = new Screen(_lowLevelScreen);
+            _figure = new Figure(lowLevelScreen, _id);
+            _pen = new Pen(lowLevelScreen, _id);
 
             // The Turtle should be visible immediately:
             _figure.IsVisible = true;
@@ -499,7 +501,7 @@ namespace Woopec.Core
 
             // The shape simply is created by creating a new figure:
 
-            var figure = new Figure(_screen, _id) { FillColor = FillColor, OutlineColor = PenColor, Shape = shape };
+            var figure = new Figure(_lowLevelScreen, _id) { FillColor = FillColor, OutlineColor = PenColor, Shape = shape };
 
             // Imagine the created shape is an arrow like this
             //
@@ -519,6 +521,11 @@ namespace Woopec.Core
         /// Return fillstate (true if filling, false else)
         /// </summary>
         public bool Filling { get { return _pen.Filling; } }
+
+        /// <summary>
+        /// Return the screen on which this turtle is drawn
+        /// </summary>
+        public Screen Screen { get { return _screen; } }
 
 
         /// <summary>

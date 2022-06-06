@@ -9,102 +9,39 @@ namespace Woopec.Core
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
     /// </summary>
-    internal class Screen : IScreen
+    public class Screen
     {
-        private static Screen _defaultScreen;
+        private readonly ILowLevelScreen _lowLevelScreen;
 
-        private readonly IScreenObjectProducer _screenObjectProducer;
-
-        private readonly Dictionary<string, ShapeBase> _shapes;
-
-        private Screen(IScreenObjectProducer producer)
+        internal Screen(ILowLevelScreen lowLevelScreen)
         {
-            _screenObjectProducer = producer ?? throw new ArgumentNullException("producer");
-            _shapes = new();
-            LastIssuedAnimatonGroupID = ScreenObject.NoGroupId;
-        }
-
-
-        #region Methods of IScreen
-        ///<inheritdoc/>
-        public int LastIssuedAnimatonGroupID { get; set; }
-
-        ///<inheritdoc/>
-        public int CreateLine()
-        {
-            return _screenObjectProducer.CreateLine();
-        }
-
-        ///<inheritdoc/>
-        public void DrawLine(ScreenLine line)
-        {
-            UpdateLastIssuedAnimationGroupID(line);
-            _screenObjectProducer.DrawLine(line);
-        }
-
-        ///<inheritdoc/>
-        public int CreateFigure()
-        {
-            return _screenObjectProducer.CreateFigure();
-        }
-
-        ///<inheritdoc/>
-        public void UpdateFigure(ScreenFigure figure)
-        {
-            UpdateLastIssuedAnimationGroupID(figure);
-            _screenObjectProducer.UpdateFigure(figure);
-        }
-
-        ///<inheritdoc/>
-        public void RegisterShape(string name, ShapeBase shape)
-        {
-            _shapes.Add(name, shape);
-        }
-
-        ///<inheritdoc/>
-        public void AddShape(string name, ShapeBase shape) => RegisterShape(name, shape);
-
-        public ShapeBase GetShape(string shapeName)
-        {
-            return _shapes.GetValueOrDefault(shapeName);
-        }
-
-
-        ///<inheritdoc/>
-        public List<string> GetShapes()
-        {
-            return _shapes.Select(s => s.Key).ToList();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Create a Screen-Instance which draws to a default-Screen
-        /// </summary>
-        /// <returns></returns>
-        internal static Screen GetDefaultScreen()
-        {
-            if (_defaultScreen == null)
-            {
-                _defaultScreen = new Screen(TurtleOutputs.GetDefaultScreenObjectProducer());
-            }
-            return _defaultScreen;
+            _lowLevelScreen = lowLevelScreen;
         }
 
         /// <summary>
-        /// Needed for tests
+        /// Pop up a dialog window for input of a string.
+        /// <example>
+        /// <code>
+        /// var turtle = new Turtle(); <br/>
+        /// var answer = turtle.Screen.TextInput("NIM", "Name of first player:"); <br/>
+        /// if (answer != null)  <br/>
+        /// {  <br/>
+        ///     // Handling the answer. <br/>
+        /// }  <br/>
+        /// else  <br/>
+        /// {  <br/>
+        ///     // Code for the case, that the user has canceled the dialog. <br/>
+        /// }  <br/>
+        /// </code>
+        /// </example>
         /// </summary>
-        internal static void ResetDefaultScreen()
+        /// <param name="title">Title of the dialog window</param>
+        /// <param name="prompt">A text mostly describing what information to input</param>
+        /// <returns>The string input. If the dialog is canceled, return null</returns>
+        public string TextInput(string title, string prompt)
         {
-            _defaultScreen = null;
+            return _lowLevelScreen.TextInput(title, prompt);
         }
 
-        private void UpdateLastIssuedAnimationGroupID(ScreenObject screenObject)
-        {
-            if (screenObject.HasAnimations)
-            {
-                LastIssuedAnimatonGroupID = screenObject.GroupID;
-            }
-        }
     }
 }

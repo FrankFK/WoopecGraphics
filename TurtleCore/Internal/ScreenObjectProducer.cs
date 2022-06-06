@@ -45,5 +45,12 @@ namespace Woopec.Core.Internal
             _objectChannel.TryWrite(figure);
             Debug.WriteLine($"Producer: Update of figure {figure.ID} send to channel");
         }
+
+        public void ShowDialog(ScreenDialog dialog)
+        {
+            _objectChannel.TryWrite(dialog);
+            Debug.WriteLine($"Producer: Dialog {dialog.Title} send to channel");
+        }
+
     }
 }

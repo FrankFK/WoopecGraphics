@@ -19,7 +19,7 @@ namespace Woopec.Core.UnitTests
     [TestClass]
     public class TurtleTest
     {
-        private class ScreenMockup : IScreen
+        private class ScreenMockup : ILowLevelScreen
         {
             private int _figureCounter;
             private int _lineCounter;
@@ -71,6 +71,10 @@ namespace Woopec.Core.UnitTests
                 FigureUpdates.Add(figure);
             }
 
+            public string TextInput(string title, string prompt)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [TestMethod]
@@ -300,7 +304,7 @@ namespace Woopec.Core.UnitTests
             return new Turtle(new ScreenMockup());
         }
 
-        private static Turtle CreateSut(IScreen screen)
+        private static Turtle CreateSut(ILowLevelScreen screen)
         {
             return new Turtle(screen);
         }

@@ -16,7 +16,7 @@ namespace Woopec.Core
         private static int s_totalCounter;
         private readonly int _id;
 
-        private readonly IScreen _screen;
+        private readonly ILowLevelScreen _lowLevelScreen;
         private bool _firstAnimationIsAdded;
         private ShapeBase _shape;
         private bool _shapeIsChanged;
@@ -37,9 +37,9 @@ namespace Woopec.Core
         /// <summary>
         /// Constructs a Figure that is not used as part of a Turtle class
         /// </summary>
-        /// <param name="screen">Figure is printed on this screen</param>
-        public Figure(IScreen screen)
-            : this(screen, Interlocked.Increment(ref s_totalCounter))
+        /// <param name="lowLevelScreen">Figure is printed on this screen</param>
+        public Figure(ILowLevelScreen lowLevelScreen)
+            : this(lowLevelScreen, Interlocked.Increment(ref s_totalCounter))
         {
         }
 
@@ -48,19 +48,19 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
         public Figure(int id)
-            : this(Screen.GetDefaultScreen(), id)
+            : this(LowLevelScreen.GetDefaultScreen(), id)
         {
         }
 
         /// <summary>
         /// Constructs a Figure
         /// </summary>
-        /// <param name="screen">Figure is printed on this screen</param>
+        /// <param name="lowLevelScreen">Figure is printed on this screen</param>
         /// <param name="id">The Id of the turtle</param>
-        public Figure(IScreen screen, int id)
+        public Figure(ILowLevelScreen lowLevelScreen, int id)
         {
             _id = id;
-            _screen = screen;
+            _lowLevelScreen = lowLevelScreen;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             Heading = 0;
@@ -203,7 +203,7 @@ namespace Woopec.Core
                 _firstAnimationIsAdded = true;
             }
 
-            _screen.UpdateFigure(figure);
+            _lowLevelScreen.UpdateFigure(figure);
 
         }
 
@@ -221,7 +221,7 @@ namespace Woopec.Core
                 _firstAnimationIsAdded = true;
             }
 
-            _screen.UpdateFigure(figure);
+            _lowLevelScreen.UpdateFigure(figure);
         }
 
         private void RotateOnScreen(double oldHeading)
@@ -238,7 +238,7 @@ namespace Woopec.Core
                 _firstAnimationIsAdded = true;
             }
 
-            _screen.UpdateFigure(figure);
+            _lowLevelScreen.UpdateFigure(figure);
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Woopec.Core
         {
             if (!_figureIsCreated)
             {
-                _idOnScreen = _screen.CreateFigure();
+                _idOnScreen = _lowLevelScreen.CreateFigure();
                 _figureIsCreated = true;
             }
 
@@ -277,12 +277,12 @@ namespace Woopec.Core
                 }
                 else
                 {
-                    if (!Speed.NoAnimation && _screen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+                    if (!Speed.NoAnimation && _lowLevelScreen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
                     {
                         // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
                         // that all previously created animation are drawn before this pen is drawn.
                         // Therefore:
-                        figure.WaitForAnimationsOfGroupID = _screen.LastIssuedAnimatonGroupID;
+                        figure.WaitForAnimationsOfGroupID = _lowLevelScreen.LastIssuedAnimatonGroupID;
                     }
                 }
             }

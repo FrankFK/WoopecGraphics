@@ -51,15 +51,23 @@ namespace Woopec.Wpf
 
         public void Update(ScreenObject screenObject)
         {
-            CanvasChildrenChange result;
-            if (screenObject is ScreenFigure)
-                result = _canvasPathes.Update(screenObject as ScreenFigure);
-            else if (screenObject is ScreenLine)
-                result = _canvasLines.Update(screenObject as ScreenLine);
+            if (screenObject is ScreenDialog dialog)
+            {
+                ShowDialog(dialog);
+            }
             else
-                throw new ArgumentOutOfRangeException(nameof(screenObject), "Parameter has wrong type");
+            {
+                CanvasChildrenChange result;
+                if (screenObject is ScreenFigure)
+                    result = _canvasPathes.Update(screenObject as ScreenFigure);
+                else if (screenObject is ScreenLine)
+                    result = _canvasLines.Update(screenObject as ScreenLine);
+                else
+                    throw new ArgumentOutOfRangeException(nameof(screenObject), "Parameter has wrong type");
 
-            UpdateCanvasChildren(result);
+                UpdateCanvasChildren(result);
+
+            }
         }
 
 
@@ -81,6 +89,19 @@ namespace Woopec.Wpf
                 default:
                     break;
             }
+        }
+
+        private string ShowDialog(ScreenDialog dialog)
+        {
+            string answer = null;
+
+            var dialogWindow = new TextInputWindow(dialog.Title, dialog.Prompt);
+            if (dialogWindow.ShowDialog() == true)
+            {
+                answer = dialogWindow.Answer;
+            }
+
+            return answer;
         }
 
     }

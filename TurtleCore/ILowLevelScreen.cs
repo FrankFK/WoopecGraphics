@@ -9,7 +9,10 @@ namespace Woopec.Core
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
     /// </summary>
-    internal interface IScreen
+    /// <remarks>
+    /// This interface only is used internally.The users of the woopec library are using the Screen class
+    /// </remarks>
+    internal interface ILowLevelScreen
     {
         /// <summary>
         /// Return the GroupId of the last animation that is drawn at the screen
@@ -32,7 +35,7 @@ namespace Woopec.Core
         public void RegisterShape(string name, ShapeBase shape);
 
         /// <summary>
-        /// The same as AddShape
+        /// The same as RegisterShape
         /// </summary>
         /// <param name="name"></param>
         /// <param name="shape"></param>
@@ -50,6 +53,8 @@ namespace Woopec.Core
         /// </summary>
         /// <returns></returns>
         public List<string> GetShapes();
+
+        public string TextInput(string title, string prompt);
 
     }
 }
