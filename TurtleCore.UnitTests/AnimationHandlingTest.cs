@@ -150,13 +150,13 @@ namespace Woopec.Core.UnitTests
             _actualWriter.OnAnimationIsFinished += WhenWriterIsFinished;
 
             // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
-            var objectBroker = new ScreenObjectBroker(_actualWriter, brokerCapacity);
+            var objectBroker = new CommunicationBroker(_actualWriter, brokerCapacity);
             // the one and only consumer
-            _actualConsumer = objectBroker.Consumer;
+            _actualConsumer = objectBroker.ScreenObjectConsumer;
 
             // It is possible to have multiple producers. In this test we only have one
             // This producer runs in a another thread.
-            _actualProducer = new ScreenObjectProducer(objectBroker.ObjectChannel);
+            _actualProducer = new ScreenObjectProducer(objectBroker.ScreenObjectChannel);
             var producerThread = new Thread(
                         new ThreadStart(() =>
                         {
@@ -367,7 +367,7 @@ namespace Woopec.Core.UnitTests
 
         public void SetScreenResultProducer(IScreenResultProducer producer)
         {
-            throw new NotImplementedException();
+            // Ignore
         }
     }
 

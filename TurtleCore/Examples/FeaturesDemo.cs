@@ -179,6 +179,16 @@ namespace Woopec.Examples
             /////////////////////////////////////////////////////////////
             // 19.04.2022 When debugger is attached, the WPF-renderer runs in a second process. This makes debugging of turtle code much easier
 
+            /////////////////////////////////////////////////////////////
+            // 06.06.2022 TextInput()
+
+            var answer = activeTurtle.Screen.TextInput("Color selection", "Please input the name of a color (e.g. red):");
+            if (answer != null)
+                activeTurtle.Color = answer;
+            activeTurtle.Forward(50);
+
+
+
         }
     }
 }

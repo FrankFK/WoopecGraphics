@@ -131,7 +131,7 @@ These decesions make it easier for me to set the state for functions to "ok".
 | window_height()
 | window_width()
 | **Input methods**
-| textinput()
+| textinput()                       |           | Screen.TextInput()
 | numinput()
 | **Methods specific to Screen**
 | bye()

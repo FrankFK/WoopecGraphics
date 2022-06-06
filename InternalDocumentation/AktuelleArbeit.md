@@ -3,10 +3,6 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 
 
 ## Planned
-* TextInput()
-** Auf Animations der anderen Objekte warten, damit der Dialog nicht zu früh kommt. `ScreenObjectConsumer` anpassen, bzw. die `GroupID` von `ScreenDialog` setzen, damit das passiert.
-** Alle Animations nach dem Dialog müssen auch warten bis der Dialog beantwortet wurde. Den Dialog so wie eine Animation mit offenem Ende behandeln.
-** Rückkanal anlegen und in LowLevelScreen auf das Ergebnis des Rückkanals warten.
 
 * Hilfe-Seite mit Details zum Umgang mit mehreren Turtles
 
@@ -98,6 +94,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 20.02.2022: Project Template on nuget makes creation of a project easier
 * 19.04.2022: Easier debugging (starting two processes when running in debug mode)
 * 05.06.2022: Screen class contains the externally usable methods, LowLevelScreen class handles internal stuff
+* 06.06.2022: Screen.TextInput() Method
 
  
 

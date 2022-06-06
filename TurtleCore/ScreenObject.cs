@@ -30,8 +30,8 @@ namespace Woopec.Core
             }
             init
             {
-                if (value == NoGroupId)
-                    throw new ArgumentOutOfRangeException($"{NoGroupId} is not allowed for GroupID");
+                // if (value == NoGroupId)
+                //    throw new ArgumentOutOfRangeException($"{NoGroupId} is not allowed for GroupID");
                 _groupId = value;
             }
 

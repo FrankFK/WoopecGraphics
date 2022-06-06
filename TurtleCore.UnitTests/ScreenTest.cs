@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Woopec.Core.Internal;
 
 namespace Woopec.Core.UnitTests
@@ -41,13 +42,24 @@ namespace Woopec.Core.UnitTests
             }
         }
 
+        private class TurtleScreenResultConsumerMockup : IScreenResultConsumer
+        {
+            public Task<string> ReadTextResultAsync()
+            {
+                return Task.FromResult("Don't care");
+            }
+        }
+
         private static TurtleScreenProducerMockup _producerMockup;
+        private static TurtleScreenResultConsumerMockup _resultConsumerMockup;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext _)
         {
             _producerMockup = new TurtleScreenProducerMockup();
+            _resultConsumerMockup = new TurtleScreenResultConsumerMockup();
             TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
+            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(_resultConsumerMockup);
         }
 
         [TestCleanup]

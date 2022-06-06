@@ -13,8 +13,7 @@ namespace Woopec.Core.Internal
         private IScreenObjectProducer _actualScreenObjectProducer;
         private IScreenObjectConsumer _actualScreenObjectConsumer;
         private readonly IScreenObjectWriter _actualScreenObjectWriter;
-        private ScreenObjectBroker _actualScreenObjectBroker;
-        private ScreenResultBroker _actualScreenResultBroker;
+        private CommunicationBroker _actualBroker;
 
         public Communication(IScreenObjectWriter writer)
         {
@@ -28,26 +27,28 @@ namespace Woopec.Core.Internal
         /// </summary>
         public void StartProgram()
         {
-            var readFromPipeOption = "--read_from_pipe";
+            var usePipesOption = "--use_pipes";
             string[] arguments = Environment.GetCommandLineArgs();
-            string pipeHandle = null;
-            if (arguments.Length > 2 && arguments[1] == readFromPipeOption && arguments[2] != null)
+            string screenObjectPipeHandle = null;
+            string screenResultPipeHandle = null;
+            if (arguments.Length > 3 && arguments[1] == usePipesOption && arguments[2] != null && arguments[3] != null)
             {
-                pipeHandle = arguments[2];
+                screenObjectPipeHandle = arguments[2];
+                screenResultPipeHandle = arguments[3];
 
             }
 
-            if (pipeHandle != null)
+            if (screenObjectPipeHandle != null && screenResultPipeHandle != null)
             {
                 // This process reads the woopec-objects from a pipe. Another process puts them to this pipe. (Useful setting for debugging)
-                ReadObjectsFromPipeAndDrawThem(pipeHandle);
+                ReadObjectsFromPipeAndDrawThem(screenObjectPipeHandle, screenResultPipeHandle);
             }
             else
             {
                 if (Debugger.IsAttached)
                 {
                     // Debugging is easier, if this process only produces the woopec-objects and another process draws them
-                    RunWithDrawingInSecondProcess(readFromPipeOption);
+                    RunWithDrawingInSecondProcess(usePipesOption);
                 }
                 else
                 {
@@ -75,12 +76,16 @@ namespace Woopec.Core.Internal
             secondProcess.StartInfo.FileName = @"C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\UsingTurtleCanvas\bin\Debug\net6.0-windows\UsingTurtleCanvas.exe";
 
             // the broker start the secondProcess and creates a pipe from this process to the second process
-            _actualScreenObjectBroker = new ScreenObjectBroker(secondProcess, "--read_from_pipe");
+            _actualBroker = new CommunicationBroker(secondProcess, "--use_pipes");
 
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
-            _actualScreenObjectProducer = new ScreenObjectProducer(_actualScreenObjectBroker.ObjectChannel);
+            _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannel);
             TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
+
+            var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannel);
+            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(resultConsumer);
+
         }
 
 
@@ -94,22 +99,18 @@ namespace Woopec.Core.Internal
         {
             const int capacity = 10000;
             // the screen object broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
-            var objectBroker = new ScreenObjectBroker(_actualScreenObjectWriter, capacity);
+            var communicationBroker = new CommunicationBroker(_actualScreenObjectWriter, capacity);
             // the one and only consumer
-            _actualScreenObjectConsumer = objectBroker.Consumer;
+            _actualScreenObjectConsumer = communicationBroker.ScreenObjectConsumer;
 
             // It is possible to have multiple screen object producers. In this case we ony have one.
             // This producer runs in another thread.
-            _actualScreenObjectProducer = new ScreenObjectProducer(objectBroker.ObjectChannel);
+            _actualScreenObjectProducer = new ScreenObjectProducer(communicationBroker.ScreenObjectChannel);
             TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
             // the screen result broker transports screen results (e.g. answer in a text input dialog windos) from the screen thread to the screen object producing thread
-            var resultBroker = new ScreenResultBroker(capacity);
-            var resultConsumer = new ScreenResultConsumer(resultBroker.ScreenResultChannel);
+            var resultConsumer = new ScreenResultConsumer(communicationBroker.ScreenResultChannel);
             TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(resultConsumer);
-
-            var resultProducer = new ScreenResultProducer(resultBroker.ScreenResultChannel);
-            _actualScreenObjectWriter.SetScreenResultProducer(resultProducer);
 
 
             var screenObjectProducingThread = new Thread(
@@ -137,12 +138,16 @@ namespace Woopec.Core.Internal
             secondProcess.StartInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
 
             // the broker start the secondProcess and creates a pipe from this process to the second process
-            _actualScreenObjectBroker = new ScreenObjectBroker(secondProcess, startOptionForSecondProcess);
+            _actualBroker = new CommunicationBroker(secondProcess, startOptionForSecondProcess);
 
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
-            _actualScreenObjectProducer = new ScreenObjectProducer(_actualScreenObjectBroker.ObjectChannel);
+            _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannel);
             TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
+
+            var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannel);
+            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(resultConsumer);
+
             var producerThread = new Thread(
                         new ThreadStart(() =>
                         {
@@ -160,12 +165,12 @@ namespace Woopec.Core.Internal
         /// The counterpart of <c>RunWithDrawingInSecondProcess</c>:
         /// This code runs in the new process that reads woopec-objects from the pipe and draws them to this canvas.
         /// </summary>
-        private void ReadObjectsFromPipeAndDrawThem(string pipeHandle)
+        private void ReadObjectsFromPipeAndDrawThem(string screenObjectPipeHandle, string screenResultPipeHandle)
         {
             // the broker transports screen objects from the producer(s) to the consumer. The consumer sends them to the writer.
-            var objectBroker = new ScreenObjectBroker(pipeHandle, _actualScreenObjectWriter);
+            var objectBroker = new CommunicationBroker(screenObjectPipeHandle, screenResultPipeHandle, _actualScreenObjectWriter);
             // the one and only consumer
-            _actualScreenObjectConsumer = objectBroker.Consumer;
+            _actualScreenObjectConsumer = objectBroker.ScreenObjectConsumer;
         }
 
 

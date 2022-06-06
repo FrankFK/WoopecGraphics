@@ -19,7 +19,7 @@ namespace Woopec.Core.Internal
 
         public ScreenResultChannelInClientProcess(string handle)
         {
-            _clientStream = new AnonymousPipeClientStream(PipeDirection.In, handle);
+            _clientStream = new AnonymousPipeClientStream(PipeDirection.Out, handle);
             _streamWriter = new StreamWriter(_clientStream);
         }
 
