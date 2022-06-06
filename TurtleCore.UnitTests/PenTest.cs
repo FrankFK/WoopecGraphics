@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Woopec.Core.Internal;
 
 namespace Woopec.Core.UnitTests
 {

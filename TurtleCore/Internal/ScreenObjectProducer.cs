@@ -12,9 +12,9 @@ namespace Woopec.Core.Internal
     {
         private int _lineCounter;
         private int _figureCounter;
-        private readonly IChannel _objectChannel;
+        private readonly IScreenObjectChannel _objectChannel;
 
-        public ScreenObjectProducer(IChannel channel)
+        public ScreenObjectProducer(IScreenObjectChannel channel)
         {
             _objectChannel = channel;
         }

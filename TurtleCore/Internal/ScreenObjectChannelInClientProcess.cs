@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace Woopec.Core.Internal
 {
-    internal class ProcessChannelInClient : IChannel
+    internal class ScreenObjectChannelInClientProcess : IScreenObjectChannel
     {
-        private static readonly JsonSerializerOptions _options = ProcessChannelInServer.SerializerOptions();
+        private static readonly JsonSerializerOptions _options = ScrennObjectChannelInServerProcess.SerializerOptions();
         private readonly AnonymousPipeClientStream _clientStream;
         private readonly StreamReader _streamReader;
 
-        public ProcessChannelInClient(string handle)
+        public ScreenObjectChannelInClientProcess(string handle)
         {
             _clientStream = new AnonymousPipeClientStream(PipeDirection.In, handle);
             _streamReader = new StreamReader(_clientStream);

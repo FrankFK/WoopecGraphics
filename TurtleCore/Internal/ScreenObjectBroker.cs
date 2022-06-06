@@ -13,7 +13,7 @@ namespace Woopec.Core.Internal
     /// </summary>
     internal class ScreenObjectBroker
     {
-        public IChannel ObjectChannel { get; init; }
+        public IScreenObjectChannel ObjectChannel { get; init; }
 
         public IScreenObjectConsumer Consumer { get; init; }
 
@@ -26,7 +26,7 @@ namespace Woopec.Core.Internal
         public ScreenObjectBroker(IScreenObjectWriter writer, int capacity)
         {
             var channelOptions = new BoundedChannelOptions(capacity) { SingleReader = true, SingleWriter = false };
-            ObjectChannel = new ChannelBetweenThreads(channelOptions);
+            ObjectChannel = new ScreenObjectChannelWithinProcess(channelOptions);
             var screenObjectConsumer = new ScreenObjectConsumer(writer, ObjectChannel);
             Consumer = screenObjectConsumer;
             writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOfGroupIsFinished;
@@ -39,7 +39,7 @@ namespace Woopec.Core.Internal
         /// <param name="startOptionForSecondProcess">Name of option for the process</param>
         public ScreenObjectBroker(Process writerProcess, string startOptionForSecondProcess)
         {
-            var serverProcessChannel = new ProcessChannelInServer();
+            var serverProcessChannel = new ScrennObjectChannelInServerProcess();
             writerProcess.StartInfo.ArgumentList.Add(startOptionForSecondProcess);
             writerProcess.StartInfo.ArgumentList.Add(serverProcessChannel.Handle);
             writerProcess.Start();
@@ -58,7 +58,7 @@ namespace Woopec.Core.Internal
         /// <param name="writer"></param>
         public ScreenObjectBroker(string pipeHandle, IScreenObjectWriter writer)
         {
-            ObjectChannel = new ProcessChannelInClient(pipeHandle);
+            ObjectChannel = new ScreenObjectChannelInClientProcess(pipeHandle);
 
             var screenObjectConsumer = new ScreenObjectConsumer(writer, ObjectChannel);
             Consumer = screenObjectConsumer;

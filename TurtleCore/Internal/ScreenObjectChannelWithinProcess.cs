@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Woopec.Core.Internal
 {
-    internal class ChannelBetweenThreads : IChannel
+    internal class ScreenObjectChannelWithinProcess : IScreenObjectChannel
     {
         private readonly Channel<ScreenObject> _channel;
 
-        public ChannelBetweenThreads(BoundedChannelOptions options)
+        public ScreenObjectChannelWithinProcess(BoundedChannelOptions options)
         {
             _channel = Channel.CreateBounded<ScreenObject>(options);
         }

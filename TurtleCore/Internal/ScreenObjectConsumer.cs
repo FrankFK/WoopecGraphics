@@ -11,12 +11,12 @@ namespace Woopec.Core.Internal
     internal class ScreenObjectConsumer : IScreenObjectConsumer
     {
         private readonly IScreenObjectWriter _writer;
-        private readonly IChannel _objectChannel;
+        private readonly IScreenObjectChannel _objectChannel;
         private readonly AnimationGroupsState _animationGroupsState;
         private static readonly object s_lockObj = new();
 
 
-        public ScreenObjectConsumer(IScreenObjectWriter writer, IChannel channel)
+        public ScreenObjectConsumer(IScreenObjectWriter writer, IScreenObjectChannel channel)
         {
             _writer = writer;
             _objectChannel = channel;

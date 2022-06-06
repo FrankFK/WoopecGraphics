@@ -10,7 +10,7 @@ namespace Woopec.Core.Internal
     /// <summary>
     /// Communication between ScreenObjectProducer and ScreenObjectConsumer
     /// </summary>
-    internal interface IChannel
+    internal interface IScreenObjectChannel
     {
         /// <summary>
         /// See same method in System.Threading.Channels.ChannelWriter
