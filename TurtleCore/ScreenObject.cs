@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Woopec.Core
 {
     /// <summary>
-    /// Base-Class for ScreenLine and ScreenFigure
+    /// An Object (ScreenLine, ScreenFigure, ScreenDialog) to be rendered on the screen.
     /// </summary>
     internal class ScreenObject
     {

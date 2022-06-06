@@ -13,7 +13,7 @@ namespace Woopec.Core.Internal
 {
     internal class ScreenObjectChannelInClientProcess : IScreenObjectChannel
     {
-        private static readonly JsonSerializerOptions _options = ScrennObjectChannelInServerProcess.SerializerOptions();
+        private static readonly JsonSerializerOptions _options = ScreenObjectChannelInServerProcess.SerializerOptions();
         private readonly AnonymousPipeClientStream _clientStream;
         private readonly StreamReader _streamReader;
 

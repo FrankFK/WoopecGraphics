@@ -39,7 +39,7 @@ namespace Woopec.Core.Internal
         /// <param name="startOptionForSecondProcess">Name of option for the process</param>
         public ScreenObjectBroker(Process writerProcess, string startOptionForSecondProcess)
         {
-            var serverProcessChannel = new ScrennObjectChannelInServerProcess();
+            var serverProcessChannel = new ScreenObjectChannelInServerProcess();
             writerProcess.StartInfo.ArgumentList.Add(startOptionForSecondProcess);
             writerProcess.StartInfo.ArgumentList.Add(serverProcessChannel.Handle);
             writerProcess.Start();

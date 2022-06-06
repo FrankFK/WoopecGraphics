@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Woopec.Core.Internal
 {
-    internal class ScrennObjectChannelInServerProcess : IScreenObjectChannel
+    internal class ScreenObjectChannelInServerProcess : IScreenObjectChannel
     {
         private static readonly JsonSerializerOptions _options = InitOptions();
         private readonly AnonymousPipeServerStream _serverStream;
@@ -19,7 +19,7 @@ namespace Woopec.Core.Internal
 
         public string Handle { get; init; }
 
-        public ScrennObjectChannelInServerProcess()
+        public ScreenObjectChannelInServerProcess()
         {
             _serverStream = new AnonymousPipeServerStream(PipeDirection.Out, HandleInheritability.Inheritable);
             _streamWriter = new StreamWriter(_serverStream);
