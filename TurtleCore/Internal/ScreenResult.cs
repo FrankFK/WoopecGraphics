@@ -17,6 +17,7 @@ namespace Woopec.Core.Internal
         {
             ScreenResult = 0,
             ScreenResultText = 1,
+            ScreenResultNumber = 2,
         }
 
         internal static ScreenResult JsonRead(ref Utf8JsonReader reader, int typeDiscriminatorAsInt, JsonSerializerOptions options)
@@ -25,6 +26,7 @@ namespace Woopec.Core.Internal
             {
                 JsonTypeDiscriminator.ScreenResult => (ScreenResult)JsonSerializer.Deserialize(ref reader, typeof(ScreenResult), options),
                 JsonTypeDiscriminator.ScreenResultText => (ScreenResultText)JsonSerializer.Deserialize(ref reader, typeof(ScreenResultText), options),
+                JsonTypeDiscriminator.ScreenResultNumber => (ScreenResultNumber)JsonSerializer.Deserialize(ref reader, typeof(ScreenResultNumber), options),
                 _ => throw new NotSupportedException(),
             };
         }
@@ -32,6 +34,7 @@ namespace Woopec.Core.Internal
         internal static int JsonTypeDiscriminatorAsInt(ScreenResult obj)
         {
             if (obj is ScreenResultText) return (int)JsonTypeDiscriminator.ScreenResultText;
+            else if (obj is ScreenResultNumber) return (int)JsonTypeDiscriminator.ScreenResultNumber;
             else if (obj is ScreenResult) return (int)JsonTypeDiscriminator.ScreenResult;
             else throw new NotSupportedException();
         }
@@ -39,6 +42,7 @@ namespace Woopec.Core.Internal
         internal static void JsonWrite(Utf8JsonWriter writer, ScreenResult obj, JsonSerializerOptions options)
         {
             if (obj is ScreenResultText text) JsonSerializer.Serialize(writer, text, options);
+            else if (obj is ScreenResultNumber number) JsonSerializer.Serialize(writer, number, options);
             else if (obj is ScreenResult result) JsonSerializer.Serialize(writer, result, options);
             else throw new NotSupportedException();
         }

@@ -38,6 +38,7 @@ namespace UsingTurtleCanvas
             /*
             var turtle = Turtle.Seymour();
 
+
             turtle.Right(45);
             turtle.Forward(50);
             turtle.Left(90);

@@ -73,6 +73,11 @@ namespace Woopec.Core.UnitTests
             {
                 throw new NotImplementedException();
             }
+
+            public Task<double?> NumberInputAsync(ScreenNumberDialog dialog)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         [ClassInitialize]

@@ -57,6 +57,10 @@ namespace Woopec.Wpf
             {
                 ShowDialogAndSendAnswer(dialog);
             }
+            else if (screenObject is ScreenNumberDialog numberDialog)
+            {
+                ShowNumberDialogAndSendAnswer(numberDialog);
+            }
             else
             {
                 CanvasChildrenChange result;
@@ -111,5 +115,18 @@ namespace Woopec.Wpf
             _screenResultProducer.SendText(answer);
         }
 
+        private void ShowNumberDialogAndSendAnswer(ScreenNumberDialog dialog)
+        {
+            double? answer = null;
+
+            var dialogWindow = new NumberInputWindow(dialog);
+            dialogWindow.Owner = Window.GetWindow(_canvas);
+            if (dialogWindow.ShowDialog() == true)
+            {
+                answer = dialogWindow.AnswerAsDouble;
+            }
+
+            _screenResultProducer.SendNumber(answer);
+        }
     }
 }

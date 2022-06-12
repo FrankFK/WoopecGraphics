@@ -16,7 +16,5 @@ namespace Woopec.Core
         public string Prompt { get; set; }
 
         public string DefaultAnswer { get; set; }
-
-        public bool OnlyNumbersAreAllowed { get; set; }
     }
 }

@@ -26,10 +26,26 @@ namespace Woopec.Core.Internal
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("ScreenResultConsumer: Exception " + ex.Message);
+                Debug.WriteLine("ScreenResultConsumer ReadTextResultAsync: Exception " + ex.Message);
                 throw;
             }
             return screenResultText.Text;
+        }
+
+        public async Task<double?> ReadNumberResultAsync()
+        {
+            ScreenResultNumber screenResultNumber = null;
+            try
+            {
+                var screenResult = await _screenResultChannel.ReadAsync();
+                screenResultNumber = screenResult as ScreenResultNumber;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ScreenResultConsumer ReadNumberResultAsync: Exception " + ex.Message);
+                throw;
+            }
+            return screenResultNumber.Value;
         }
     }
 }

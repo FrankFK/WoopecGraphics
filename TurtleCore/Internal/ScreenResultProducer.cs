@@ -24,5 +24,11 @@ namespace Woopec.Core.Internal
             Debug.WriteLine($"ScreenResult: Text {result.Text} send to channel");
         }
 
+        public void SendNumber(double? number)
+        {
+            var result = new ScreenResultNumber() { Value = number};
+            _resultChannel.TryWrite(result);
+            Debug.WriteLine($"ScreenResult: Number {result.Value} send to channel");
+        }
     }
 }

@@ -40,10 +40,20 @@ namespace Woopec.Core.UnitTests
             {
                 throw new NotImplementedException();
             }
+
+            public void ShowNumberDialog(ScreenNumberDialog dialog)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private class TurtleScreenResultConsumerMockup : IScreenResultConsumer
         {
+            public Task<double?> ReadNumberResultAsync()
+            {
+                throw new NotImplementedException();
+            }
+
             public Task<string> ReadTextResultAsync()
             {
                 return Task.FromResult("Don't care");

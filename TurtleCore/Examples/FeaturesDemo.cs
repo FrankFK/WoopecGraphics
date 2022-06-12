@@ -187,6 +187,15 @@ namespace Woopec.Examples
                 activeTurtle.Color = answer;
             activeTurtle.Forward(50);
 
+            /////////////////////////////////////////////////////////////
+            // 12.06.2022 NumInput() and DoubleInput()
+
+            var degreeAnswer = activeTurtle.Screen.NumInput("Turn around", "Enter degrees to turn (value between 0 and 360)", 90, 0, 360);
+            if (degreeAnswer != null)
+            {
+                var degrees = degreeAnswer.GetValueOrDefault();
+                activeTurtle.Right(degrees);
+            }
 
 
         }

@@ -12,5 +12,6 @@ namespace Woopec.Core.Internal
     internal interface IScreenResultProducer
     {
         public void SendText(string text);
+        public void SendNumber(double? number);
     }
 }

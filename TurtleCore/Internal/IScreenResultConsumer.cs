@@ -10,5 +10,6 @@ namespace Woopec.Core.Internal
     internal interface IScreenResultConsumer
     {
         public Task<string> ReadTextResultAsync();
+        public Task<double?> ReadNumberResultAsync();
     }
 }

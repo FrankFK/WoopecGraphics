@@ -20,5 +20,6 @@ namespace Woopec.Core
         public void UpdateFigure(ScreenFigure figure);
 
         public void ShowDialog(ScreenDialog dialog);
+        public void ShowNumberDialog(ScreenNumberDialog dialog);
     }
 }

@@ -62,5 +62,11 @@ namespace Woopec.Core.Internal
         /// <returns></returns>
         public Task<string> TextInputAsync(string title, string prompt);
 
+        /// <summary>
+        /// Open a NumberInput dialog on screen and return the number, that the user has entered
+        /// </summary>
+        /// <param name="dialog">Informations about the dialog and the expected value</param>
+        /// <returns></returns>
+        public Task<double?> NumberInputAsync(ScreenNumberDialog dialog);
     }
 }

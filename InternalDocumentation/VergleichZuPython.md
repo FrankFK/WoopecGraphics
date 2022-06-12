@@ -131,8 +131,8 @@ These decesions make it easier for me to set the state for functions to "ok".
 | window_height()
 | window_width()
 | **Input methods**
-| textinput()                       |           | Screen.TextInput()
-| numinput()
+| textinput()                       |         | ok: Screen.TextInput()
+| numinput()                        |         | ok: Screen.NumInput(), Screen.DoubleInput()
 | **Methods specific to Screen**
 | bye()
 | exitonclick()
@@ -141,8 +141,6 @@ These decesions make it easier for me to set the state for functions to "ok".
 
 ## Overview of python turtle classes
 
-**Die Screen-Klasse ist noch nicht gut. Sie enthält Methoden für Programmierer (z.B. RegisterShape)
-und Methoden, die eher intern sind (DrawLine, CreateLine)**
 
 | python class                      | C# class         | state                                                |
 |-----------------------------------|------------------|------------------------------------------------------|

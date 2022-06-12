@@ -52,5 +52,10 @@ namespace Woopec.Core.Internal
             Debug.WriteLine($"Producer: Dialog {dialog.Title} send to channel");
         }
 
+        public void ShowNumberDialog(ScreenNumberDialog dialog)
+        {
+            _objectChannel.TryWrite(dialog);
+            Debug.WriteLine($"Producer: Number dialog {dialog.Title} send to channel");
+        }
     }
 }

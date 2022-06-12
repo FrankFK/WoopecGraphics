@@ -95,6 +95,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 19.04.2022: Easier debugging (starting two processes when running in debug mode)
 * 05.06.2022: Screen class contains the externally usable methods, LowLevelScreen class handles internal stuff
 * 06.06.2022: Screen.TextInput() Method
+* 12.06.2022: Screen.NumInput(), Screen.DoubleInput() methods
 
  
 

@@ -94,6 +94,16 @@ namespace Woopec.Core.Internal
             return answer;
         }
 
+        ///<inheritdoc/>
+        public async Task<double?> NumberInputAsync(ScreenNumberDialog dialog)
+        {
+            dialog.WaitForAnimationsOfGroupID = LastIssuedAnimatonGroupID;
+            _screenObjectProducer.ShowNumberDialog(dialog);
+            var answer = await _screenResultConsumer.ReadNumberResultAsync();
+            return answer;
+        }
+
+
 
         #endregion
 
