@@ -127,6 +127,23 @@ namespace Woopec.Core
         public double? DoubleInput(string title, string prompt, double defaultValue) => DoubleInput(title, prompt, defaultValue, null, null);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
-
+        /// <summary>
+        /// Shut the turtlegraphics window
+        /// <example>
+        /// <code>
+        /// var turtle = new Turtle(); <br/>
+        /// // ... <br/>
+        /// if (userWantsToExit) <br/>
+        /// {  <br/>
+        ///     turtle.Screen.Bye();  <br/>
+        /// }  <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
+        public void Bye()
+        {
+            // There may be better ways to shut the window. But that`s enough for the start (KISS)
+            System.Environment.Exit(0);
+        }
     }
 }

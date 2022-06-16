@@ -134,7 +134,7 @@ These decesions make it easier for me to set the state for functions to "ok".
 | textinput()                       |         | ok: Screen.TextInput()
 | numinput()                        |         | ok: Screen.NumInput(), Screen.DoubleInput()
 | **Methods specific to Screen**
-| bye()
+| bye()                             |         | ok: Screen.Bye()
 | exitonclick()
 | setup()
 | title()
