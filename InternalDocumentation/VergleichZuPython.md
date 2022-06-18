@@ -89,9 +89,9 @@ These decesions make it easier for me to set the state for functions to "ok".
 | onrelease()
 | ondrag()
 | **Special Turtle methods**
-| begin_poly()
-| end_poly()
-| get_poly()
+| begin_poly()                          |  | BeginPoly() |
+| end_poly()                            |  | EndPoly() |
+| get_poly()                            |  | not needed, EndPoly() returns the polygon | 
 | clone()
 | getturtle() 
 | getscreen()
@@ -125,8 +125,8 @@ These decesions make it easier for me to set the state for functions to "ok".
 | mode()                            | not planned |
 | colormode()                       | not planned |
 | getcanvas()
-| getshapes()                       |           | ?? unsure, if we need this because one can set the turtle's shape directly |
-| register_shape()                  |           | ?? unsure, if we need this because one can set the turtle's shape directly |
+| register_shape(), add_shape()     |  ok       | not implemented as method of Screen class, instead: Shapes.Add() |
+| getshapes()                       |  ok       | not implemented as method of Screen class, instead: Shapes.Get() |
 | turtles()
 | window_height()
 | window_width()
@@ -150,7 +150,7 @@ These decesions make it easier for me to set the state for functions to "ok".
 | TurtleScreen(cv)                  | Screen           | konstruiert über Screen(IScreenOutput). Es könnte mehrere geben. 
 | Screen                            | Screen           | konstruiert über Screen(). Es kann nur eins geben. Hat auch Methoden für das gesamte Window <- Dafür vielleich separate Klasse
 | ScrolledCanvas(master)
-| Shape(type_, data)                | Shape, ImageShape | Methods of ImageShape are there, but not implemented yet|
+| Shape(type_, data)                | Shape, ImageShape | Methods of ImageShape are there, but not implemented yet. CompoundShapes with different colors not implemented yet|
 | Vec2D                             | Vec2D           | 100%                                                  |
 
 ## Overview of internally used python turtle classes

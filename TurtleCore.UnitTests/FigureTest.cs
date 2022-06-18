@@ -229,6 +229,38 @@ namespace Woopec.Core.UnitTests
             screenMockup.FigureUpdates.Last().Shape.Should().NotBeNull();
         }
 
+        [TestMethod]
+        public void Figure_AddShapeAndUseIt()
+        {
+            var screenMockup = new ScreenMockup();
+
+            var shape = new Shape();
+            shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue, Colors.Yellow);
+            shape.AddComponent(new() { (0, 0), (-10, 5), (0, -10), (10, 5) }, Colors.Yellow, Colors.Blue);
+
+            Shapes.Add("compound shape", shape);
+
+            var figure = CreateSut(screenMockup);
+            figure.IsVisible = true;
+            figure.Move(50);
+
+            // Because the shape did not change, it is not contained in the update
+            screenMockup.FigureUpdates.Last().Shape.Should().BeNull();
+
+            // Act: Change the shape
+            figure.Shape = Shapes.Get("compound shape");
+
+            // Because the shape has changed, it is contained in the update
+            screenMockup.FigureUpdates.Last().Shape.Should().NotBeNull();
+        }
+
+        [TestMethod]
+        public void MultipleUsageOfSamePredefinedShape_DoesWork()
+        {
+            var screenMockup = new ScreenMockup();
+            var figure1 = new Figure(screenMockup) { IsVisible = false, Shape = Shapes.Turtle };
+            var figure2 = new Figure(screenMockup) { IsVisible = false, Shape = Shapes.Turtle };
+        }
 
         private static Figure CreateSut(ILowLevelScreen screen)
         {

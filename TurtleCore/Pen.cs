@@ -22,8 +22,12 @@ namespace Woopec.Core
 
         private bool _firstAnimationIsAdded; // true, if an animation of this pen (or the turtle it belongs to) is added
 
-        private bool _isFilling; // true, if pen is used to draw a shape
-        private List<Vec2D> _fillingPolygon;
+        private bool _isShapeDrawing; // true, if pen is used to draw a shape
+        private List<Vec2D> _shapeDrawingPolygon;
+
+        private bool _isFilling; // true, if pen is used to draw a polygon
+
+        private bool _isCreatingPoly; // true, if the pen is used to create a polygon
 
         /// <summary>
         /// Constructs a Pen that is not used as part of a Turtle class and uses the default screen
@@ -86,8 +90,8 @@ namespace Woopec.Core
                 DrawMove(_position, value);
             }
 
-            if (_isFilling)
-                _fillingPolygon.Add(value);
+            if (_isShapeDrawing)
+                _shapeDrawingPolygon.Add(value);
 
             _position = value;
         }
@@ -126,8 +130,8 @@ namespace Woopec.Core
                 DrawMove(Position, newPosition);
             }
 
-            if (_isFilling)
-                _fillingPolygon.Add(newPosition);
+            if (_isShapeDrawing)
+                _shapeDrawingPolygon.Add(newPosition);
 
             _position = newPosition;
         }
@@ -139,8 +143,9 @@ namespace Woopec.Core
             if (!_isFilling)
             {
                 _isFilling = true;
-                _fillingPolygon = new();
-                _fillingPolygon.Add(Position);
+                _isShapeDrawing = true;
+                _shapeDrawingPolygon = new();
+                _shapeDrawingPolygon.Add(Position);
             }
         }
 
@@ -154,8 +159,9 @@ namespace Woopec.Core
             if (_isFilling)
             {
                 _isFilling = false;
-                shape = new Shape(_fillingPolygon);
-                _fillingPolygon = null;
+                _isShapeDrawing = false;
+                shape = new Shape(_shapeDrawingPolygon);
+                _shapeDrawingPolygon = null;
             }
             else
             {
@@ -163,6 +169,43 @@ namespace Woopec.Core
             }
             return shape;
         }
+
+        /// <summary>
+        /// Start recording the vertices of a polygon. Current turtle position is first vertex of polygon.
+        /// </summary>
+        public void BeginPoly()
+        {
+            if (!_isCreatingPoly)
+            {
+                _isCreatingPoly = true;
+                _isShapeDrawing = true;
+                _shapeDrawingPolygon = new();
+                _shapeDrawingPolygon.Add(Position);
+            }
+        }
+
+        /// <summary>
+        /// Stop recording the vertices of a polygon. Current turtle position is last vertex of polygon. 
+        /// </summary>
+        /// <returns>The recorded polygon.</returns>
+        public List<Vec2D> EndPoly()
+        {
+            List<Vec2D> polygon;
+            if (_isCreatingPoly)
+            {
+                _isCreatingPoly = false;
+                _isShapeDrawing = false;
+                polygon = _shapeDrawingPolygon;
+                _shapeDrawingPolygon = null;
+            }
+            else
+            {
+                polygon = new List<Vec2D>();
+            }
+            return polygon;
+        }
+
+
 
         private void DrawMove(Vec2D oldPosition, Vec2D newPosition)
         {

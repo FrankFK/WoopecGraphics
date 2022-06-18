@@ -19,13 +19,10 @@ namespace Woopec.Core.Internal
         private readonly IScreenObjectProducer _screenObjectProducer;
         private readonly IScreenResultConsumer _screenResultConsumer;
 
-        private readonly Dictionary<string, ShapeBase> _shapes;
-
         private LowLevelScreen(IScreenObjectProducer screenObjectProducer, IScreenResultConsumer screenResultConsumer)
         {
             _screenObjectProducer = screenObjectProducer ?? throw new ArgumentNullException("producer");
             _screenResultConsumer = screenResultConsumer ?? throw new ArgumentNullException(nameof(screenResultConsumer));
-            _shapes = new();
             LastIssuedAnimatonGroupID = ScreenObject.NoGroupId;
         }
 
@@ -58,27 +55,6 @@ namespace Woopec.Core.Internal
         {
             UpdateLastIssuedAnimationGroupID(figure);
             _screenObjectProducer.UpdateFigure(figure);
-        }
-
-        ///<inheritdoc/>
-        public void RegisterShape(string name, ShapeBase shape)
-        {
-            _shapes.Add(name, shape);
-        }
-
-        ///<inheritdoc/>
-        public void AddShape(string name, ShapeBase shape) => RegisterShape(name, shape);
-
-        public ShapeBase GetShape(string shapeName)
-        {
-            return _shapes.GetValueOrDefault(shapeName);
-        }
-
-
-        ///<inheritdoc/>
-        public List<string> GetShapes()
-        {
-            return _shapes.Select(s => s.Key).ToList();
         }
 
         ///<inheritdoc/>

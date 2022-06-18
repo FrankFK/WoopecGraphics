@@ -13,11 +13,30 @@ namespace Woopec.Core
     public class Screen
     {
         private readonly ILowLevelScreen _lowLevelScreen;
+        private static Screen _defaultScreen;
 
         internal Screen(ILowLevelScreen lowLevelScreen)
         {
             _lowLevelScreen = lowLevelScreen;
         }
+
+
+        /// <summary>
+        /// The default-Screen
+        /// </summary>
+        /// <returns></returns>
+        public static Screen Default
+        {
+            get
+            {
+                if (_defaultScreen == null)
+                {
+                    _defaultScreen = new Screen(LowLevelScreen.GetDefaultScreen());
+                }
+                return _defaultScreen;
+            }
+        }
+
 
         /// <summary>
         /// Pop up a dialog window for input of a string.
@@ -145,5 +164,6 @@ namespace Woopec.Core
             // There may be better ways to shut the window. But that`s enough for the start (KISS)
             System.Environment.Exit(0);
         }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Woopec.Core.Internal;
 
@@ -458,6 +459,15 @@ namespace Woopec.Core
         ///     turtle.Shape = shape;   <br/>
         /// </code>
         /// </example>
+        /// <br></br>
+        /// Register a shape and use it (later)
+        /// <example>
+        /// <code>
+        ///     Shapes.Add("square", new() { (-3, -3), (6, -3), (6, 6), (-3, 6) });  <br></br>
+        ///     // ...
+        ///     turtle.Shape = Shapes.Get("square");   <br/>
+        /// </code>
+        /// </example>
         /// </summary>
         public ShapeBase Shape { get { return _figure.Shape; } set { _figure.Shape = value; } }
 
@@ -521,6 +531,17 @@ namespace Woopec.Core
         /// Return fillstate (true if filling, false else)
         /// </summary>
         public bool Filling { get { return _pen.Filling; } }
+
+        /// <summary>
+        /// Start recording the vertices of a polygon. Current turtle position is first vertex of polygon.
+        /// </summary>
+        public void BeginPoly() => _pen.BeginPoly();
+
+        /// <summary>
+        /// Stop recording the vertices of a polygon. Current turtle position is last vertex of polygon. 
+        /// </summary>
+        /// <returns>The recorded polygon.</returns>
+        public List<Vec2D> EndPoly() => _pen.EndPoly();
 
         /// <summary>
         /// Return the screen on which this turtle is drawn

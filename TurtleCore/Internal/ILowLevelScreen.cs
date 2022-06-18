@@ -28,33 +28,6 @@ namespace Woopec.Core.Internal
         public void UpdateFigure(ScreenFigure figure);
 
         /// <summary>
-        /// Add a shape to the screen's shapelist. Only these shapes can be used by Turtle.Shape = name
-        /// </summary>
-        /// <param name="name">name of the shape</param>
-        /// <param name="shape">A Shape class or an ImageShape class</param>
-        public void RegisterShape(string name, ShapeBase shape);
-
-        /// <summary>
-        /// The same as RegisterShape
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="shape"></param>
-        public void AddShape(string name, ShapeBase shape);
-
-        /// <summary>
-        /// Get the shape of the given name
-        /// </summary>
-        /// <param name="shapeName"></param>
-        /// <returns></returns>
-        public ShapeBase GetShape(string shapeName);
-
-        /// <summary>
-        /// Return a list of all currently available turtle shapes
-        /// </summary>
-        /// <returns></returns>
-        public List<string> GetShapes();
-
-        /// <summary>
         /// Open a TextInput dialog on screen and return the text, that the user has entered
         /// </summary>
         /// <param name="title"></param>

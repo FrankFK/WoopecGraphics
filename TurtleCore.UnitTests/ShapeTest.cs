@@ -86,6 +86,5 @@ namespace Woopec.Core.UnitTests
 
             act.Should().Throw<NotImplementedException>();
         }
-
     }
 }

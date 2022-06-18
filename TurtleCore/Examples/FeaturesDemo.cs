@@ -190,13 +190,68 @@ namespace Woopec.Examples
             /////////////////////////////////////////////////////////////
             // 12.06.2022 NumInput() and DoubleInput()
 
-            var degreeAnswer = activeTurtle.Screen.NumInput("Turn around", "Enter degrees to turn (value between 0 and 360)", 90, 0, 360);
-            if (degreeAnswer != null)
+            int numberOfStarships = 0;
+            var countAnswer = activeTurtle.Screen.NumInput("User defined shape", "Please input the number of new shapes (between 1 and 10)", 5, 1, 10);
+            numberOfStarships = countAnswer.GetValueOrDefault();
+
+            /////////////////////////////////////////////////////////////
+            // 18.06.2022 BeginPoly EndPoly, Shapes.Add, Shapes.Get
+            if (numberOfStarships > 0)
             {
-                var degrees = degreeAnswer.GetValueOrDefault();
-                activeTurtle.Right(degrees);
+                var shapeName = "starship";
+                AddStarshipShape(shapeName);
+                var starships = new List<Turtle>();
+                for (int starshipId = 1; starshipId <= numberOfStarships; starshipId++)
+                {
+                    var color = new Color(255 - starshipId * 20, 0, 0);
+                    var starship = new Turtle() { IsDown = false, Shape = Shapes.Get(shapeName), Color = color, Heading = 5 * starshipId, Speed = Speeds.Slow };
+                    starships.Add(starship);
+                }
+                foreach (var starship in starships)
+                {
+                    starship.Forward(1000);
+                }
             }
 
+        }
+
+        private static void AddStarshipShape(string name)
+        {
+            var length = 10;
+
+            var turtle = new Turtle() { IsDown = false, Color = Colors.DarkRed, Shape = Shapes.Classic };
+
+            // Hexagon:
+            turtle.Position = (0, length);
+            turtle.Heading = -30;
+            turtle.BeginPoly();
+            for (int hexaEdge = 1; hexaEdge < 6; hexaEdge++)
+            {
+                turtle.Forward(length);
+                turtle.Right(60);
+            }
+            var hexagon = turtle.EndPoly();
+
+            // Triangles
+            turtle.Position = (0, -1.5 * length);
+            turtle.Heading = 30;
+            turtle.BeginPoly();
+            turtle.Forward(length); turtle.Right(120); turtle.Forward(length);
+            var triangle1 = turtle.EndPoly();
+
+            turtle.Position = (0, -1.5 * length);
+            turtle.Heading = 150;
+            turtle.BeginPoly();
+            turtle.Forward(length); turtle.Left(120); turtle.Forward(length);
+            var triangle2 = turtle.EndPoly();
+
+            var shape = new Shape();
+            shape.AddComponent(hexagon);
+            shape.AddComponent(triangle1);
+            shape.AddComponent(triangle2);
+            Shapes.Add(name, shape);
+
+            turtle.IsVisible = false;
 
         }
     }

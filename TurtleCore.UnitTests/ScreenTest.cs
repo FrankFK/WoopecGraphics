@@ -79,36 +79,10 @@ namespace Woopec.Core.UnitTests
         }
 
         [TestMethod]
-        public void Screen_ThereArePrefefinedShapes()
+        public void Test()
         {
-            Shapes.Turtle.Name.Should().NotBeNullOrWhiteSpace();
-            Shapes.Arrow.Name.Should().NotBeNullOrWhiteSpace();
-            Shapes.Circle.Name.Should().NotBeNullOrWhiteSpace();
-            Shapes.Square.Name.Should().NotBeNullOrWhiteSpace();
-            Shapes.Classic.Name.Should().NotBeNullOrWhiteSpace();
-            Shapes.Triangle.Name.Should().NotBeNullOrWhiteSpace();
-            Shapes.Bird.Name.Should().NotBeNullOrWhiteSpace();
+            // No tests for screen at the moment
         }
 
-        [TestMethod]
-        public void Screen_AddPolygonShape()
-        {
-            var screen = LowLevelScreen.GetDefaultScreen();
-            screen.AddShape("polygon", new Shape(new() { (-10, 0), (10, 0), (0, 10) }));
-            screen.GetShapes().Should().Contain("polygon");
-        }
-
-        [TestMethod]
-        public void Screen_AddCompoundShape()
-        {
-            var screen = LowLevelScreen.GetDefaultScreen();
-
-            var shape = new Shape();
-            shape.AddComponent(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }, Colors.Blue, Colors.Yellow);
-            shape.AddComponent(new() { (0, 0), (-10, 5), (0, -10), (10, 5) }, Colors.Yellow, Colors.Blue);
-
-            screen.AddShape("compound shape", shape);
-            screen.GetShapes().Should().Contain("compound shape");
-        }
     }
 }
