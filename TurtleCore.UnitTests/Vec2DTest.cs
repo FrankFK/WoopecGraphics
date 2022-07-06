@@ -127,6 +127,58 @@ namespace Woopec.Core.UnitTests
             (expected.YCor - result.YCor).Should().BeApproximately(0, 0.001);
         }
 
+        [TestMethod]
+        public void HeadingTo_East()
+        {
+            // Arrange
+            var vector = new Vec2D(3, 4);
+
+            // Act
+            var result = vector.HeadingTo((5, 4));
+
+            // Assert
+            result.Should().Be(0);
+        }
+
+        [TestMethod]
+        public void HeadingTo_North()
+        {
+            // Arrange
+            var vector = new Vec2D(3, 4);
+
+            // Act
+            var result = vector.HeadingTo((3, 6));
+
+            // Assert
+            result.Should().Be(90);
+        }
+
+        [TestMethod]
+        public void HeadingTo_West()
+        {
+            // Arrange
+            var vector = new Vec2D(3, 4);
+
+            // Act
+            var result = vector.HeadingTo((2, 4));
+
+            // Assert
+            result.Should().Be(180);
+        }
+
+        [TestMethod]
+        public void HeadingTo_South()
+        {
+            // Arrange
+            var vector = new Vec2D(3, 4);
+
+            // Act
+            var result = vector.HeadingTo((3, 2));
+
+            // Assert
+            result.Should().Be(270);
+        }
+
 
         [TestMethod]
         public void ApproximatelyEqualVectors_AreRecognized()

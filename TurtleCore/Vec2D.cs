@@ -45,6 +45,25 @@ namespace Woopec.Core
         }
 
         /// <summary>
+        /// Calculate the angle to the given position. This angle is given as heading.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns>Heading between 0 and 360. Heading 0 shows to East, 90 to North, and so on.</returns>
+        public double HeadingTo(Vec2D position)
+        {
+            var delta = position - this;
+            var x = delta.XCor;
+            var y = delta.YCor;
+
+            var angle = Math.Atan2(y, x);
+
+            var heading = 360 * angle / (2 * Math.PI);
+            if (heading < 0)
+                heading = 360 + heading;
+            return heading;
+        }
+
+        /// <summary>
         /// Return true if this is approximately equal to <paramref name="vector"/>
         /// </summary>
         /// <param name="vector"></param>

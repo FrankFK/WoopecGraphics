@@ -33,14 +33,29 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
-            Woopec.Examples.FeaturesDemo.Run();
+            //
+            var seymour = Turtle.Seymour();
+            seymour.PenUp();
+            seymour.Position = (-100, 0);
+            seymour.Speed = Speeds.Normal;
+            Woopec.Core.Examples.Spirograph.DrawStar(seymour, 8, 1, 100);
+            seymour.PenUp();
+            seymour.Forward(170);
+            seymour.PenDown();
+            //
+            Woopec.Core.Examples.Spirograph.DrawStar(seymour, 8, 3, 100);
+
+            seymour.HideTurtle();
+
+            // Woopec.Core.Examples.Spirograph.StarDemo();
+            // Woopec.Core.Examples.Spirograph.Article(5, 2, 200);
+            // Woopec.Core.Examples.Spirograph.Hypo(19, 13, 0.5, 200);
+            // Woopec.Examples.FeaturesDemo.Run();
 
             /*
-            var turtle = Turtle.Seymour();
 
 
             turtle.Right(45);
-            turtle.Forward(50);
             turtle.Left(90);
             turtle.Forward(100);
             turtle.Right(45);

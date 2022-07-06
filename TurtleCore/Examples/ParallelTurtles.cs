@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Woopec.Core;
 
-namespace Woopec.Examples
+namespace Woopec.Core.Examples
 {
     /// <summary>
     /// This example shows how turtles can be animated in parallel

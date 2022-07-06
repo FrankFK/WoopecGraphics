@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Core;
 
 namespace Woopec.Core.Examples
 {
     /// <summary>
-    /// This Example shows many features of the library (in the order they were implemented)
+    /// This example draws the name "Woopec" with Woopec.Core
     /// </summary>
     public static class DrawWoopecName
     {
         /// <summary>
-        /// This Example shows many features of the library (in the order they were implemented)
+        /// This Example draws the name "Woopec" with Woopec.Core
         /// </summary>
         public static void Run()
         {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Core;
 
-namespace Woopec.Examples
+namespace Woopec.Core.Examples
 {
     /// <summary>
     /// This Example shows many features of the library (in the order they were implemented)

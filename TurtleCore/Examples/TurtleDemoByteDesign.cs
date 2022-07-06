@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Woopec.Core;
 
-namespace Woopec.Examples
+namespace Woopec.Core.Examples
 {
     /// <summary>
     /// This is a port of https://github.com/python/cpython/blob/main/Lib/turtledemo/bytedesign.py
