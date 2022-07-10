@@ -33,12 +33,18 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
+            Woopec.Core.Examples.FeaturesDemo.Run();
+            return;
             //
             var seymour = Turtle.Seymour();
             seymour.PenUp();
             seymour.Position = (-100, 0);
-            seymour.Speed = Speeds.Normal;
-            Woopec.Core.Examples.Spirograph.DrawStar(seymour, 8, 1, 100);
+            seymour.Speed = Speeds.Fastest;
+            seymour.HideTurtle();
+            seymour.PenDown();
+            seymour.Forward(200);
+            Woopec.Core.Examples.Spirograph.Hypo(5, 3, 0.8, 200);
+            return;
             seymour.PenUp();
             seymour.Forward(170);
             seymour.PenDown();

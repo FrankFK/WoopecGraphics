@@ -90,6 +90,9 @@ namespace Woopec.Core.Examples
             return turtle.EndPoly();
         }
 
+        /// <summary>
+        /// Demon with some polygons and stars
+        /// </summary>
         public static void StarDemo()
         {
             var radius = 40;
@@ -222,51 +225,71 @@ namespace Woopec.Core.Examples
         /// </summary>
         public static void Hypo(int givenCorners, int givenDelta, double relativeDistance, double radius)
         {
+            var center = new Vec2D(-100, 0);
+
             var gcd = Fractions.GCD(givenCorners, givenDelta);
             var corners = givenCorners / gcd;
             var delta = givenDelta / gcd;
 
-            if (delta > corners / 2.0)
-                delta = corners - delta;
+            // R/r = corners/delta
+            // r   = R*delta/corners
 
-            // R/r = cornersNormalized/partNormalized
-            // r   = R*partNormalized/cornersNormalized
-
-            // radius = R - r + (relativeDistance * r)
-            // radius = R - r (1 - relativeDistance)
-            // radius = R - R*partNormalized/cornersNormalized * (1 - relativeDistance)
-            // radius = R * (1 - partNormalized/cornersNormalized * (1 - relativeDistance))
+            // radius = R - r * (1 - relativeDistance)
+            // radius = R - R*delta/corners * (1 - relativeDistance)
+            // radius = R * (1 - delta/corners * (1 - relativeDistance))
 
             var rLarge = radius / (1 - (double)delta / corners * (1 - relativeDistance));
+
+            var largeCircleTurtle = new Turtle() { IsVisible = false, IsDown = false, Speed = Speeds.Fastest, Color = Colors.LightGray, Position = center };
+            largeCircleTurtle.PenDown();
+            DrawStar(largeCircleTurtle, 100, 1, rLarge);
+
             var rSmall = (rLarge * delta) / corners;
+
+            var smallCirclePoly = StarPoly(100, 1, rSmall);
+            var dotCirclePoly = StarPoly(10, 1, 5).Select(p => p + (0, rSmall * relativeDistance)).ToList();
+
+            var shape = new Shape(dotCirclePoly);
+            shape.AddComponent(smallCirclePoly);
+
+
+            var innerWheel = new Turtle() { Shape = shape, Speed = Speeds.Slowest, IsVisible = true, IsDown = false, PenColor = Colors.LightSlateGray, FillColor = Colors.White.Transparent(0.5) };
+            innerWheel.Position = center + (rLarge - rSmall, 0);
+
             var distance = rSmall * relativeDistance;
 
             var maxT = 2 * Math.PI * corners;
 
-            var seymour = Turtle.Seymour();
-            seymour.Speed = Speeds.Fastest;
-            seymour.HideTurtle();
-            seymour.PenUp();
+            var speed = Speeds.Normal;
+
+            var pen = new Turtle() { IsVisible = true, Speed = speed, Color = Colors.DarkGreen};
+
+            pen.PenUp();
             // seymour.FillColor = Colors.Yellow;
 
             var firstPos = true;
+            var deltaT = 0.05;
+            var loopCount = maxT / deltaT;
+            var innerWheelRotAngle = (corners - delta) * 360.0 / loopCount;
 
-            for (var t = 0.0; t < maxT; t += 0.1)
+            innerWheel.Left(innerWheelRotAngle); // weil wir mit t = 0.0 anfangen.
+
+            for (var t = 0.0; t < maxT; t += deltaT)
             {
-                var pos = CalcPos(t, rLarge, rSmall, distance);
-                seymour.Position = pos;
+                var pos = CalcPenPos(t, rLarge, rSmall, distance);
+                pen.Position = center + pos;
+                innerWheel.Position = center + (Math.Cos(t * delta / corners) * (rLarge - rSmall), Math.Sin(t * delta / corners) * (rLarge - rSmall));
+                innerWheel.Right(innerWheelRotAngle);
                 if (firstPos)
                 {
-                    seymour.PenDown();
-                    // seymour.BeginFill();
+                    pen.PenDown();
                 }
             }
-            // seymour.EndFill();
         }
 
 
 
-        private static Vec2D CalcPos(double t, double rLarge, double rSmall, double distance)
+        private static Vec2D CalcPenPos(double t, double rLarge, double rSmall, double distance)
         {
             var sizeTerm = rLarge - rSmall;
             var ratio = rSmall / rLarge;

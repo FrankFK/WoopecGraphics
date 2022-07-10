@@ -182,9 +182,9 @@ namespace Woopec.Core.Examples
             /////////////////////////////////////////////////////////////
             // 06.06.2022 TextInput()
 
-            var answer = activeTurtle.Screen.TextInput("Color selection", "Please input the name of a color (e.g. red):");
-            if (answer != null)
-                activeTurtle.Color = answer;
+            var colorAnswer = activeTurtle.Screen.TextInput("Color selection", "Please input the name of a color (e.g. red):");
+            if (colorAnswer != null)
+                activeTurtle.Color = colorAnswer;
             activeTurtle.Forward(50);
 
             /////////////////////////////////////////////////////////////
@@ -196,10 +196,11 @@ namespace Woopec.Core.Examples
 
             /////////////////////////////////////////////////////////////
             // 18.06.2022 BeginPoly EndPoly, Shapes.Add, Shapes.Get
+            var shapeName = "starship";
+            AddStarshipShape(shapeName);
+
             if (numberOfStarships > 0)
             {
-                var shapeName = "starship";
-                AddStarshipShape(shapeName);
                 var starships = new List<Turtle>();
                 for (int starshipId = 1; starshipId <= numberOfStarships; starshipId++)
                 {
@@ -213,6 +214,14 @@ namespace Woopec.Core.Examples
                 }
             }
 
+            /////////////////////////////////////////////////////////////
+            // 10.07.2022 transparent colors
+            var transparentStarship = new Turtle() { IsDown = false, Shape = Shapes.Get(shapeName), Speed = Speeds.Slowest };
+            transparentStarship.PenColor = colorAnswer;
+            Color answerColor = colorAnswer;
+            transparentStarship.FillColor = answerColor.Transparent(0.8);
+            transparentStarship.Left(135);
+            transparentStarship.Forward(1000);
         }
 
         private static void AddStarshipShape(string name)

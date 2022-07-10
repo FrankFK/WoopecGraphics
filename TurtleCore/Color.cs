@@ -7,15 +7,44 @@ using System.Threading.Tasks;
 namespace Woopec.Core
 {
     /// <summary>
-    /// A color specified by the values for Red, Green and Blue.
+    /// A color specified by the values for Red, Green and Blue, Alpha.
     /// The range for all of these values is 0-255.
     /// </summary>
     /// <remarks>
     /// Often color-systems also support a fourth value: the alpha-channel.
     /// This value indicates the transperency of the color. This is not implemented here.
     /// </remarks>
-    public record Color(int R, int G, int B)
+    public record Color(int R, int G, int B, int Alpha)
     {
+        /// <summary>
+        /// Create a color by red, green and blue values
+        /// </summary>
+        /// <param name="R">red value (between 0 and 255)</param>
+        /// <param name="G">green value (between 0 and 255)</param>
+        /// <param name="B">blue value (between 0 and 255)</param>
+        public Color(int R, int G, int B) : this(R, G, B, 255)
+        {
+        }
+
+        /// <summary>
+        /// Black Color
+        /// </summary>
+        public Color() : this(0, 0, 0)
+        {
+
+        }
+
+        /// <summary>
+        /// Create a transparent version of this color
+        /// </summary>
+        /// <param name="transparent">Transparence: 0.0 = fully opaque, 1.0 = fully transparent</param>
+        /// <returns>The transparent color</returns>
+        public Color Transparent(double transparent)
+        {
+            var color = new Color(R, G, B, Convert.ToInt32(255 * (1.0 - transparent)));
+            return color;
+        }
+
         /// <summary>
         /// Create Color by string
         /// </summary>
