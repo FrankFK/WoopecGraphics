@@ -511,7 +511,7 @@ namespace Woopec.Core
 
             // The shape simply is created by creating a new figure:
 
-            var figure = new Figure(_lowLevelScreen, _id) { FillColor = FillColor, OutlineColor = PenColor, Shape = shape };
+            var figure = new Figure(_lowLevelScreen) { FillColor = FillColor, OutlineColor = PenColor, Shape = shape };
 
             // Imagine the created shape is an arrow like this
             //
@@ -542,6 +542,32 @@ namespace Woopec.Core
         /// </summary>
         /// <returns>The recorded polygon.</returns>
         public List<Vec2D> EndPoly() => _pen.EndPoly();
+
+        /// <summary>
+        /// Calling WaitForCompletedMovementOf(otherTurtle)` ensures that the subsequent movement of this turtle is not executed until the previous movement of the otherTurtle has finished.
+        /// <example>
+        /// <code>
+        /// var turtle1 = Turtle.Seymour(); <br/>
+        /// var turtle2 = Turtle.Seymour(); <br/>
+        /// turtle1.Left(90); <br/>
+        /// turtle1.Forward(100); <br/>
+        /// turtle2.Right(90); <br/>
+        /// turtle2.WaitForCompletedMovementOf(turtle1); <br/>
+        /// turtle2.Forward(100); <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <remarks>
+        /// If you call WaitForCompletedMovementOf(t) with different turtles `t` only the last one counts.
+        /// </remarks>
+        /// <param name="otherTurtle">Turtle to wait for</param>
+        public void WaitForCompletedMovementOf(Turtle otherTurtle)
+        {
+            var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = otherTurtle._id, WaitingFigure = _figure, WaitingPen = _pen };
+            _figure.WaitForCompletedMovementOf(waitingInfo);
+            _pen.WaitForCompletedMovementOf(waitingInfo);
+        }
+
 
         /// <summary>
         /// Return the screen on which this turtle is drawn

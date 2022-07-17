@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,10 +29,27 @@ namespace Woopec.Core.Internal
 
         }
 
-        internal class WaitingOtherGroup : WaitingObject
+        /// <summary>
+        /// When the state reaches this object, the blocker in another group-state can be released.
+        /// </summary>
+        internal class MarkerForAGroupThatWaitsForCompletion : WaitingObject
         {
-            public int OtherGroupId;
+            public BlockerUntilAnotherGroupsMovementsAreCompleted WaitingGroup;
         }
+
+        /// <summary>
+        /// A blocker that blocks all elements behind it. The blocker is released when specific movements of another group are completed.
+        /// </summary>
+        internal class BlockerUntilAnotherGroupsMovementsAreCompleted : WaitingObject
+        {
+            public int GroupIdThatWaits;
+            public int GroupIdToWaitFor;
+        }
+
+        /// <summary>
+        /// Objects that are waiting for the animation of this group. If AnimationIsRunning == false, the next object can be handled.
+        /// </summary>
+        private readonly List<WaitingObject> _waitingObjects;
 
         public int GroupID { get; init; }
 
@@ -49,13 +67,20 @@ namespace Woopec.Core.Internal
             _waitingObjects.Add(new WaitingScreenObject() { ScreenObject = screenObject });
         }
 
+        public BlockerUntilAnotherGroupsMovementsAreCompleted AddWaitingForAnotherGroup(int groupIdToWaitFor)
+        {
+            var waitingMarker = new BlockerUntilAnotherGroupsMovementsAreCompleted() { GroupIdToWaitFor = groupIdToWaitFor, GroupIdThatWaits = GroupID };
+            _waitingObjects.Add(waitingMarker);
+            return waitingMarker;
+        }
+
         /// <summary>
         /// Special case: Another group is waiting until the current objects of this group are finished
         /// </summary>
-        /// <param name="groupId"></param>
-        public void AddWaitingOtherGroup(int groupId)
+        /// <param name="waitingInOtherGroup">An object in the group state of the waiting group. This object is released if all actual objects of 'this' are finished</param>
+        public void AddWaitingOtherGroup(BlockerUntilAnotherGroupsMovementsAreCompleted waitingInOtherGroup)
         {
-            _waitingObjects.Add(new WaitingOtherGroup() { OtherGroupId = groupId });
+            _waitingObjects.Add(new MarkerForAGroupThatWaitsForCompletion() { WaitingGroup = waitingInOtherGroup });
         }
 
         public bool HasWaitingObjects()
@@ -69,20 +94,19 @@ namespace Woopec.Core.Internal
         }
 
 
-        public List<int> ExtractLeadingOtherGroupsReadyToRun()
+        public List<BlockerUntilAnotherGroupsMovementsAreCompleted> ExtractLeadingOtherGroupsReadyToRun()
         {
-            var otherGroups = new List<int>();
+            var blockersInOtherGroups = new List<BlockerUntilAnotherGroupsMovementsAreCompleted>();
             if (AnimationsRunning == 0)
             {
-                while (_waitingObjects.Count > 0 && _waitingObjects[0] is WaitingOtherGroup)
+                while (_waitingObjects.Count > 0 && _waitingObjects[0] is MarkerForAGroupThatWaitsForCompletion)
                 {
-                    otherGroups.Add((_waitingObjects[0] as WaitingOtherGroup).OtherGroupId);
+                    blockersInOtherGroups.Add((_waitingObjects[0] as MarkerForAGroupThatWaitsForCompletion).WaitingGroup);
                     _waitingObjects.RemoveAt(0);
                 }
             }
-            return otherGroups;
+            return blockersInOtherGroups;
         }
-
 
         public List<ScreenObject> ExtractLeadingScreenObjectsReadyToRun()
         {
@@ -106,6 +130,15 @@ namespace Woopec.Core.Internal
             return list;
         }
 
+        internal void ExtractBlocker(BlockerUntilAnotherGroupsMovementsAreCompleted blocker)
+        {
+            var blockerExtracted = _waitingObjects.Remove(blocker);
+            if (blockerExtracted)
+            {
+                Debug.WriteLine($"        Group {blocker.GroupIdThatWaits} is not longer waiting for completed animations of group {blocker.GroupIdToWaitFor}");
+            }
+        }
+
 
 
         public AnimationGroupState(int groupId)
@@ -115,9 +148,5 @@ namespace Woopec.Core.Internal
             GroupID = groupId;
         }
 
-        /// <summary>
-        /// Objects that are waiting for the animation of this group. If AnimationIsRunning == false, the next object can be handled.
-        /// </summary>
-        private readonly List<WaitingObject> _waitingObjects;
     }
 }

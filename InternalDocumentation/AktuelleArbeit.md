@@ -96,7 +96,8 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 05.06.2022: Screen class contains the externally usable methods, LowLevelScreen class handles internal stuff
 * 06.06.2022: Screen.TextInput() Method
 * 12.06.2022: Screen.NumInput(), Screen.DoubleInput() methods
-
+* 10.07.2022: Color.Transparent for transparent filling
+* 17.07.2022: Turtle.WaitForCompletedMovementOf(otherTurtle)
  
 
 

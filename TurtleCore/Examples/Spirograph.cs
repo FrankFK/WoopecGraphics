@@ -247,10 +247,13 @@ namespace Woopec.Core.Examples
             var rSmall = (rLarge * delta) / corners;
 
             var smallCirclePoly = StarPoly(100, 1, rSmall);
-            var dotCirclePoly = StarPoly(10, 1, 5).Select(p => p + (0, rSmall * relativeDistance)).ToList();
+            var dotCircleRadius = 5;
+            var dotCirclePoly = StarPoly(10, 1, dotCircleRadius).Select(p => p + (0, rSmall * relativeDistance)).ToList();
+            var lineToDotPoly = new List<Vec2D>() { (0, 0), (0, Math.Max(0, (rSmall * relativeDistance) - dotCircleRadius)), (0, 0) };
 
-            var shape = new Shape(dotCirclePoly);
-            shape.AddComponent(smallCirclePoly);
+            var shape = new Shape(smallCirclePoly);
+            shape.AddComponent(lineToDotPoly);
+            shape.AddComponent(dotCirclePoly);
 
 
             var innerWheel = new Turtle() { Shape = shape, Speed = Speeds.Slowest, IsVisible = true, IsDown = false, PenColor = Colors.LightSlateGray, FillColor = Colors.White.Transparent(0.5) };
@@ -262,7 +265,7 @@ namespace Woopec.Core.Examples
 
             var speed = Speeds.Normal;
 
-            var pen = new Turtle() { IsVisible = true, Speed = speed, Color = Colors.DarkGreen};
+            var pen = new Turtle() { IsVisible = false, Speed = speed, Color = Colors.DarkGreen };
 
             pen.PenUp();
             // seymour.FillColor = Colors.Yellow;
@@ -276,6 +279,7 @@ namespace Woopec.Core.Examples
 
             for (var t = 0.0; t < maxT; t += deltaT)
             {
+                pen.WaitForCompletedMovementOf(innerWheel);
                 var pos = CalcPenPos(t, rLarge, rSmall, distance);
                 pen.Position = center + pos;
                 innerWheel.Position = center + (Math.Cos(t * delta / corners) * (rLarge - rSmall), Math.Sin(t * delta / corners) * (rLarge - rSmall));

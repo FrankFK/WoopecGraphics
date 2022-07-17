@@ -26,8 +26,9 @@ namespace Woopec.Core.Internal
         }
         public void DrawLine(ScreenLine line)
         {
-            Debug.WriteLine($"Producer: Line {line.ID} send to channel");
-            _objectChannel.TryWrite(line);
+            var success = _objectChannel.TryWrite(line) ? "" : "FAILED";
+
+            Debug.WriteLine($"Producer: Line {line.ID} send to channel {line.AnimationInfoForDebugger()}. {success}");
         }
 
 
@@ -42,20 +43,21 @@ namespace Woopec.Core.Internal
 
         public void UpdateFigure(ScreenFigure figure)
         {
-            _objectChannel.TryWrite(figure);
-            Debug.WriteLine($"Producer: Update of figure {figure.ID} send to channel");
+            var success = _objectChannel.TryWrite(figure) ? "" : "FAILED"; ;
+            Debug.WriteLine($"Producer: Update of figure {figure.ID} send to channel {figure.AnimationInfoForDebugger()}. {success}");
         }
 
         public void ShowDialog(ScreenDialog dialog)
         {
-            _objectChannel.TryWrite(dialog);
-            Debug.WriteLine($"Producer: Dialog {dialog.Title} send to channel");
+            var success = _objectChannel.TryWrite(dialog) ? "" : "FAILED";
+            Debug.WriteLine($"Producer: Dialog {dialog.Title} send to channel. {success}");
         }
 
         public void ShowNumberDialog(ScreenNumberDialog dialog)
         {
-            _objectChannel.TryWrite(dialog);
-            Debug.WriteLine($"Producer: Number dialog {dialog.Title} send to channel");
+            var success = _objectChannel.TryWrite(dialog) ? "" : "FAILED";
+            Debug.WriteLine($"Producer: Number dialog {dialog.Title} send to channel. {success}");
         }
+
     }
 }

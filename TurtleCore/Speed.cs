@@ -27,7 +27,7 @@ namespace Woopec.Core
         public double Value { get; init; }
 
         /// <summary>
-        /// true, if the no animation takes place (fastest speed)
+        /// true, if no animation takes place (fastest speed)
         /// </summary>
         public bool NoAnimation { get { return Value == 0.0; } }
 

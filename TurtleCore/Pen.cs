@@ -18,9 +18,10 @@ namespace Woopec.Core
 
         private static int s_totalCounter;
 
-        private readonly int _id;
+        private readonly int _id; // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
 
         private bool _firstAnimationIsAdded; // true, if an animation of this pen (or the turtle it belongs to) is added
+        private WaitingForCompletedAnimationInfo _waitingForCompletedAnimationInfo;
 
         private bool _isShapeDrawing; // true, if pen is used to draw a shape
         private List<Vec2D> _shapeDrawingPolygon;
@@ -205,6 +206,24 @@ namespace Woopec.Core
             return polygon;
         }
 
+        public void WaitForCompletedMovementOf(Pen pen)
+        {
+            throw new NotImplementedException("Not tested yet");
+#pragma warning disable CS0162 // Unreachable code detected
+            var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = pen._id, WaitingFigure = null, WaitingPen = this };
+            WaitForCompletedMovementOf(waitingInfo);
+#pragma warning restore CS0162 // Unreachable code detected
+        }
+
+        internal void WaitForCompletedMovementOf(WaitingForCompletedAnimationInfo waitingInfo)
+        {
+            _waitingForCompletedAnimationInfo = waitingInfo;
+        }
+
+        internal void ResetWaitingInfo()
+        {
+            _waitingForCompletedAnimationInfo = null;
+        }
 
 
         private void DrawMove(Vec2D oldPosition, Vec2D newPosition)
@@ -220,18 +239,34 @@ namespace Woopec.Core
 
             if (_firstAnimationIsAdded)
             {
-                // Wait for previous animations of this pen
-                line.WaitForAnimationsOfGroupID = _id;
+                // Wait for previous animations of this pen (or if the pen belongs to a turtle: wait for previous animations of this pen or the figure)
+                line.WaitForCompletedAnimationsOfSameGroup = true;
             }
             else
             {
+                // _firstAnimationIsAdded == false
+                // This is the first movement of this!
                 if (_lowLevelScreen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
                 {
+                    // A little bit of Artificial Intelligence:
                     // If we do not wait for another animation this pen is drawn immediately. In most cases the programmer expects
                     // that all previously created animation are drawn before this pen is drawn.
                     // Therefore:
-                    line.WaitForAnimationsOfGroupID = _lowLevelScreen.LastIssuedAnimatonGroupID;
+                    line.WaitForCompletedAnimationsOfAnotherGroup = _lowLevelScreen.LastIssuedAnimatonGroupID;
                 }
+            }
+
+            if (_waitingForCompletedAnimationInfo != null)
+            {
+                // The programmer explicitly wanted to wait for another object
+                line.WaitForCompletedAnimationsOfAnotherGroup = _waitingForCompletedAnimationInfo.WaitForCompletedAnimationOf;
+
+                // If figure is waiting. It needs not longer to wait
+                if (_waitingForCompletedAnimationInfo.WaitingFigure != null)
+                    _waitingForCompletedAnimationInfo.WaitingFigure.ResetWaitingInfo();
+
+                // All subsequent drawings of this should not wait for the other object
+                _waitingForCompletedAnimationInfo = null;
             }
 
             if (!Speed.NoAnimation)

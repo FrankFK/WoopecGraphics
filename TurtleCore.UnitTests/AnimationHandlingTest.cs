@@ -125,13 +125,56 @@ namespace Woopec.Core.UnitTests
         }
 
         [TestMethod]
+        public void Case09_SecondGroupWaitsForFirstGroup()
+        {
+            var result = TestSequence(brokerCapacity: 10, animationSequence: "1,11:500 1,12:300 ?(1)2,21:500 2,22:300", stopWhenObjectIsFinished: 21);
+            result.Should().Be("[11>[12><12]<11][21>[22><22]<21]");
+        }
+
+        [TestMethod]
+        public void Case10_WaitForCompletedMovementOf_WorksAsExpected()
+        {
+            // Test-Sequence is similar to the code on the right.
+            // But I changed the sequence a little bit:
+            //      To make the results easier to interpret: incremented the ids of the object, such that the moves can be differentiated by the object number
+            //      To make the test more deterministic: different durations for the animation, such that the there is a clear order the finishing of parallely started animations
+            var testSequence = "";
+            testSequence += "1,0:0 ";           // var turtle1 = Turtle.Seymour();
+            testSequence += "?1,0:0 ";
+            testSequence += "?1,0:0 ";
+            testSequence += "?1,0:0 ";
+            testSequence += "2,1:0 ";           // var turtle2 = Turtle.Seymour();
+            testSequence += "?2,1:0 ";
+            testSequence += "?2,1:0 ";
+            testSequence += "?2,1:0 ";
+            testSequence += "?1,0:575 ";        // turtle1.Left(90);
+            testSequence += "?1,0:600 ";        // turtle1.Forward(100); pen    movement
+            testSequence += "1,3:700 ";         //                       figure movement
+            testSequence += "?2,4:500 ";        // turtle2.Right(90);
+                                                // turtle2.WaitForCompletedMovementOf(turtle1);
+            testSequence += "??(1)2,5:300 ";    // turtle2.Forward(100); pen    movement
+            testSequence += "2,6:250 ";         // turtle2.Forward(100); figure movement
+                                                // turtle1.WaitForCompletedMovementOf(turtle2); turtle1.Left(30);
+            testSequence += "??(2)1,7:100 ";    // turtle1.Left(30);     figure movement (figure waits for completed movement)
+            testSequence += "?1,8:400 ";        // turtle1.Forward(100); pen    movement 
+            testSequence += "1,9:300 ";         // turtle1.Forward(100); figure movement
+
+            testSequence += "??(1)10,10:1500";   // New group 10 as a sentinel at the end (waits for the last group (9) of the real testsequence). The test finished when this group is finished
+
+            var result = TestSequence(brokerCapacity: 100, animationSequence: testSequence, stopWhenObjectIsFinished: 10);
+            result.Should().Be("[0><0][0><0][0><0][0><0][1><1][1><1][1><1][1><1][0>[4><4]<0][0>[3><0]<3][5>[6><6]<5][7><7][8>[9><9]<8][10><10]");
+        }
+
+        [TestMethod]
         public void NoEndlessLoopIfProducerThreadHasAnException()
         {
             Action act = () => TestSequence(brokerCapacity: 10, animationSequence: "wrong syntax", stopWhenObjectIsFinished: 2);
 
             act.Should().Throw<Exception>()
-                .WithMessage("Timed out");
+                .WithMessage("Timed out*");
         }
+
+
 
         /// <summary>
         /// Create producer and consumer. Produce a few animations and return the result, that the consumer would produce on the screen
@@ -145,7 +188,7 @@ namespace Woopec.Core.UnitTests
             _finished = false;
             _stopWhenObjectIsFinished = stopWhenObjectIsFinished;
 
-            // generate a mockup-object, that simulation the draw-operations on the screen (in reality this would be a wpf-canvas)
+            // generate a mockup-object, that simulates the draw-operations on the screen (in reality this would be a wpf-canvas)
             _actualWriter = new ScreenWriterMockup();
             _actualWriter.OnAnimationIsFinished += WhenWriterIsFinished;
 
@@ -180,7 +223,7 @@ namespace Woopec.Core.UnitTests
 
             if (!_finished)
             {
-                throw new Exception("Timed out");
+                throw new Exception($"Timed out. Intermediate result ${_actualWriter.GetLongAnimationSequence()}");
             }
 
             // The writer gives us a string that describes the order in which he animated the objects.
@@ -205,7 +248,7 @@ namespace Woopec.Core.UnitTests
 
         private void WhenWriterIsFinished(int groupId, int objectId)
         {
-            Debug.WriteLine($"{objectId} is finished");
+            Debug.WriteLine($"AnimationHandlingTest: {objectId} is finished");
             if (objectId == _stopWhenObjectIsFinished || _finished)
             {
                 _finished = true;
@@ -236,16 +279,34 @@ namespace Woopec.Core.UnitTests
                     var toParse = animation.Trim();
 
                     var startWhenPredecessorHasFinished = false;
-                    var otherGroupId = 0;
-                    if (toParse.StartsWith('?'))
+                    var waitForCompletedMovementsOfAnotherGroup = 0;
+                    if (toParse.StartsWith("??"))
                     {
                         startWhenPredecessorHasFinished = true;
+                        toParse = toParse[2..];
+                        if (toParse.StartsWith('('))
+                        {
+                            var indexOfClosingPara = toParse.IndexOf(')');
+                            waitForCompletedMovementsOfAnotherGroup = int.Parse(toParse[1..indexOfClosingPara]);
+                            toParse = toParse[(indexOfClosingPara + 1)..];
+                        }
+                        else
+                        {
+                            throw new Exception("If animationAsString starts with ?? it must contain anothger group id");
+                        }
+                    }
+                    else if (toParse.StartsWith('?'))
+                    {
                         toParse = toParse[1..];
                         if (toParse.StartsWith('('))
                         {
                             var indexOfClosingPara = toParse.IndexOf(')');
-                            otherGroupId = int.Parse(toParse[1..indexOfClosingPara]);
+                            waitForCompletedMovementsOfAnotherGroup = int.Parse(toParse[1..indexOfClosingPara]);
                             toParse = toParse[(indexOfClosingPara + 1)..];
+                        }
+                        else
+                        {
+                            startWhenPredecessorHasFinished = true;
                         }
                     }
                     var indexOfComma = toParse.IndexOf(',');
@@ -256,7 +317,7 @@ namespace Woopec.Core.UnitTests
                     var objectId = int.Parse(toParse[..indexOfDoubleColon]);
                     var duration = int.Parse(toParse[(indexOfDoubleColon + 1)..]);
 
-                    AddAnimatedObject(groupId, objectId, duration, startWhenPredecessorHasFinished, otherGroupId);
+                    AddAnimatedObject(groupId, objectId, duration, startWhenPredecessorHasFinished, waitForCompletedMovementsOfAnotherGroup);
                 }
             }
             catch (Exception ex)
@@ -281,11 +342,11 @@ namespace Woopec.Core.UnitTests
 
             if (startWhenPredecessorHasFinished)
             {
-                if (otherGroupId != 0)
-                    line.WaitForAnimationsOfGroupID = otherGroupId;
-                else
-                    line.WaitForAnimationsOfGroupID = groupId;
+                line.WaitForCompletedAnimationsOfSameGroup = true;
             }
+
+            if (otherGroupId != 0)
+                line.WaitForCompletedAnimationsOfAnotherGroup = otherGroupId;
 
             if (duration > 0)
             {
@@ -300,7 +361,7 @@ namespace Woopec.Core.UnitTests
     }
 
 
-    internal record AnimationProtocolEntry(int ID, bool Finished);
+    internal record AnimationProtocolEntry(int ID, bool Finished, int Milliseconds);
 
     /// <summary>
     /// Mockup for the test
@@ -312,7 +373,7 @@ namespace Woopec.Core.UnitTests
         public void UpdateWithAnimation(ScreenObject screenObject)
         {
             // protocol the start of the animation
-            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
+            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false, (screenObject.Animation != null) ? screenObject.Animation.Milliseconds : 0));
 
             var animation = screenObject.Animation;
             var thread = new Thread(
@@ -322,7 +383,7 @@ namespace Woopec.Core.UnitTests
                     Thread.Sleep(animation.Milliseconds);
 
                     // animation is finished. protocol it
-                    _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
+                    _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true, animation.Milliseconds));
 
                     // Inform everyone who wants to know that the animation is finished
                     OnAnimationIsFinished(screenObject.GroupID, screenObject.ID);
@@ -339,8 +400,8 @@ namespace Woopec.Core.UnitTests
 
         public void Update(ScreenObject screenObject)
         {
-            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false));
-            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true));
+            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, false, (screenObject.Animation != null) ? screenObject.Animation.Milliseconds : 0));
+            _animationProtocol.Add(new AnimationProtocolEntry(screenObject.ID, true, (screenObject.Animation != null) ? screenObject.Animation.Milliseconds : 0));
         }
 
 
@@ -360,6 +421,23 @@ namespace Woopec.Core.UnitTests
                     sb.Append('[');
                     sb.Append(entry.ID);
                     sb.Append('>');
+                }
+            }
+            return sb.ToString();
+        }
+
+        public string GetLongAnimationSequence()
+        {
+            var sb = new StringBuilder();
+            foreach (var entry in _animationProtocol)
+            {
+                if (entry.Finished)
+                {
+                    sb.Append($"<{entry.ID}_{entry.Milliseconds}]");
+                }
+                else
+                {
+                    sb.Append($"[{entry.ID}_{entry.Milliseconds}>");
                 }
             }
             return sb.ToString();

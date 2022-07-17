@@ -214,6 +214,8 @@ namespace Woopec.Core.Examples
                 }
             }
 
+            var bullet = new Turtle() { Shape = Shapes.Circle, IsDown = false, Color = Colors.DarkGoldenrod, Speed = Speeds.Slow };
+
             /////////////////////////////////////////////////////////////
             // 10.07.2022 transparent colors
             var transparentStarship = new Turtle() { IsDown = false, Shape = Shapes.Get(shapeName), Speed = Speeds.Slowest };
@@ -222,6 +224,21 @@ namespace Woopec.Core.Examples
             transparentStarship.FillColor = answerColor.Transparent(0.8);
             transparentStarship.Left(135);
             transparentStarship.Forward(1000);
+
+            /////////////////////////////////////////////////////////////
+            // 17.07.2022 An object can wait for the completed movement of another object
+            bullet.Position = activeTurtle.Position;
+            activeTurtle.WaitForCompletedMovementOf(bullet);
+            activeTurtle.Speed = Speeds.Normal;
+            activeTurtle.Heading = 0;
+            activeTurtle.Forward(100);
+            bullet.WaitForCompletedMovementOf(activeTurtle);
+            bullet.Position = activeTurtle.Position;
+            activeTurtle.WaitForCompletedMovementOf(bullet);
+            activeTurtle.Speed = Speeds.Normal;
+            activeTurtle.Forward(100);
+            bullet.HideTurtle();
+
         }
 
         private static void AddStarshipShape(string name)

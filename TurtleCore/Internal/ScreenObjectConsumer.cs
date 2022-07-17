@@ -23,6 +23,9 @@ namespace Woopec.Core.Internal
             _animationGroupsState = new();
         }
 
+        private static int _debugCounter1 = 0;
+        private static int _debugCounter2 = 0;
+
         /// <summary>
         /// Return a task that waits for the next ScreenObject.
         /// This task can be "plugged" into the Main-Loop of the actual thread (UI thread of WPF for instance)
@@ -35,7 +38,9 @@ namespace Woopec.Core.Internal
                 ScreenObject screenObject = null;
                 try
                 {
+                    Debug.WriteLine($"Consumer: Read async started ({_debugCounter1})");
                     screenObject = await _objectChannel.ReadAsync();
+                    Debug.WriteLine($"Consumer: Read async finished. object from channel {screenObject.AnimationInfoForDebugger()} ({++_debugCounter1})");
                 }
                 catch (Exception ex)
                 {
@@ -48,15 +53,18 @@ namespace Woopec.Core.Internal
                     if (ObjectIsWritable(screenObject))
                     {
                         SendNextObjectToWriter(screenObject);
+                        Debug.WriteLine($"Consumer: returning  ({_debugCounter1})");
                         return;
                     }
                     else
                     {
                         AddObjectToWaitingState(screenObject);
+                        Debug.WriteLine($"Consumer: next loop  ({_debugCounter1})");
                     }
                 }
             }
         }
+
 
         /// <summary>
         /// Animation of an object is finished. Check if other objects are waiting for that and
@@ -68,7 +76,7 @@ namespace Woopec.Core.Internal
         {
             lock (s_lockObj)
             {
-                Debug.WriteLine($"Animation of group {groupId} is finished.");
+                Debug.WriteLine($"Consumer: Animation of group {groupId} is finished. ({++_debugCounter2})");
                 if (_animationGroupsState.TryGetGroupState(groupId, out var groupState))
                 {
                     groupState.AnimationsRunning--;
@@ -76,15 +84,20 @@ namespace Woopec.Core.Internal
                     {
                         // if an object is waiting for the finished animation, we have to handle it immediately here.
                         // We can not trust that GetNextObjectForWriterAsync() handles it, because GetNextObjectForWriterAsync() may get no further objects.
-                        Debug.WriteLine($"Animation of group {groupId} is finished. Handling waiting objects:");
+                        Debug.WriteLine($"Consumer: Animation of group {groupId} is finished. Handling waiting objects:");
 
                         SendAllObjectsThatAreReadyToRunToWriter(groupState);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Consumer: Animation of group {groupId} is finished. But it has no waiting objects!");
                     }
                 }
                 else
                 {
-                    Debug.WriteLine($"Animation of group {groupId} is finished. But no active animations for this group!");
+                    Debug.WriteLine($"Consumer: Animation of group {groupId} is finished. But no active animations for this group!");
                 }
+                Debug.WriteLine($"Consumer: Animation of group {groupId} is handled. ({_debugCounter2})");
             }
         }
 
@@ -100,12 +113,12 @@ namespace Woopec.Core.Internal
             while (changesFound)
             {
                 // At first: Inform other groups that are waiting for this group to be finished
-                var otherGroups = groupState.ExtractLeadingOtherGroupsReadyToRun();
-                if (otherGroups.Count > 0)
+                var blockersInOtherGroups = groupState.ExtractLeadingOtherGroupsReadyToRun();
+                if (blockersInOtherGroups.Count > 0)
                 {
-                    Debug.WriteLine($"    Group {groupState.GroupID}: Following waiting groups can start: {string.Join(", ", otherGroups)}.");
+                    Debug.WriteLine($"    Group {groupState.GroupID}: Unblocking {blockersInOtherGroups.Count} groups that are waiting for completed movements.");
                 }
-                _animationGroupsState.DecrementAnimationsRunning(otherGroups);
+                _animationGroupsState.RemoveBlockersInOtherGroups(blockersInOtherGroups);
 
                 // Then: Collect all non longer waiting Screen objects and start them
                 var noLongerWaitingScreenObjects = _animationGroupsState.ExtractLeadingScreenObjectsReadyToRun();
@@ -121,7 +134,7 @@ namespace Woopec.Core.Internal
                     }
                 }
 
-                changesFound = (otherGroups.Count != 0 || noLongerWaitingScreenObjects.Count != 0);
+                changesFound = (blockersInOtherGroups.Count != 0 || noLongerWaitingScreenObjects.Count != 0);
             }
         }
 
@@ -141,6 +154,7 @@ namespace Woopec.Core.Internal
             }
         }
 
+
         /// <summary>
         /// Return true if the given object is directly writable and has not to wait for others
         /// </summary>
@@ -148,7 +162,9 @@ namespace Woopec.Core.Internal
         /// <returns></returns>
         private bool ObjectIsWritable(ScreenObject screenObject)
         {
-            if (_animationGroupsState.AnimationsOfGroupAreWaiting(screenObject.GroupID))
+            var screenObjectGroup = screenObject.GroupID;
+            var anotherGroupToWaitFor = screenObject.WaitForCompletedAnimationsOfAnotherGroup;
+            if (_animationGroupsState.AnimationsOfGroupAreWaiting(screenObjectGroup))
             {
                 // There are other objects of this group waiting. We can not write the screenObject because we would change the order of the screenObjects
                 // of this group
@@ -162,14 +178,19 @@ namespace Woopec.Core.Internal
             else
             {
                 // We have to wait for another animation. Check that group
-                var groupToWaitFor = screenObject.WaitForAnimationsOfGroupID;
-                if (_animationGroupsState.AnimationsOfGroupAreWaiting(groupToWaitFor) || _animationGroupsState.AnAnimationOfGroupIsRunning(groupToWaitFor))
+                if (screenObject.WaitForCompletedAnimationsOfSameGroup
+                    && (_animationGroupsState.AnimationsOfGroupAreWaiting(screenObjectGroup) || _animationGroupsState.AnAnimationOfGroupIsRunning(screenObjectGroup)))
+                {
+                    return false;
+                }
+                else if (anotherGroupToWaitFor != ScreenObject.NoGroupId
+                         && (_animationGroupsState.AnimationsOfGroupAreWaiting(anotherGroupToWaitFor) || _animationGroupsState.AnAnimationOfGroupIsRunning(anotherGroupToWaitFor)))
                 {
                     return false;
                 }
                 else
                 {
-                    // there is no active animation of the this group.
+                    // All animations of screenObjectGroup and anotherGroupToWaitFor are done. Waiting for these groups make no sense.
                     // go for it
                     return true;
                 }
@@ -179,24 +200,26 @@ namespace Woopec.Core.Internal
 
         private void AddObjectToWaitingState(ScreenObject screenObject)
         {
-            _animationGroupsState.AddWaitingScreenObject(screenObject);
-
             if (screenObject.WaitsForAnimations)
             {
-                if (screenObject.WaitForAnimationsOfGroupID == screenObject.GroupID)
-                {
-                    // Easy case: When all previous animations of this group are finished this animation will be written
-                    Debug.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting for an animation its group");
-                }
-                else
+                if (screenObject.WaitForCompletedAnimationsOfAnotherGroup != ScreenObject.NoGroupId)
                 {
                     // Tricky case: This animation waits for a different group to finish all of its current animations
-                    _animationGroupsState.AddWaitingStateBetweenTwoGroups(screenObject.GroupID, screenObject.WaitForAnimationsOfGroupID);
+                    _animationGroupsState.AddWaitingStateBetweenTwoGroups(screenObject.GroupID, screenObject.WaitForCompletedAnimationsOfAnotherGroup);
                 }
+
+                if (screenObject.WaitForCompletedAnimationsOfSameGroup)
+                {
+                    // Easy case: When all previous animations of this group are finished this animation will be written
+                    Debug.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting for an animation of its group");
+                }
+
+                _animationGroupsState.AddWaitingScreenObject(screenObject);
             }
             else
             {
-                Debug.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting (but not for an animation)");
+                Debug.WriteLine($"Consumer: Object {screenObject.ID} of group {screenObject.GroupID} is waiting (because other objects of its group are waiting)");
+                _animationGroupsState.AddWaitingScreenObject(screenObject);
             }
         }
 

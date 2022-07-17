@@ -59,7 +59,6 @@ namespace Woopec.Wpf
             {
                 DialogResult = true;
             }
-            
         }
 
         private void Window_ContentRendered(object sender, EventArgs e)

@@ -41,20 +41,18 @@ namespace Woopec.Core.Internal
         {
             if (TryGetGroupState(groupIdToWaitFor, out var stateOfGroupToWaitFor))
             {
-                // We have to wait for the other group. To avoid that objects of this group are written. We set this group to
-                // AnimationIsRunning:
-                if (TryGetGroupState(groupIdThatWaits, out var stateOfGroupThatWaits))
-                {
-                    stateOfGroupThatWaits.AnimationsRunning++;
-                }
+                // We have to wait for the other group. To avoid that objects of this group are written, we add a specific
+                // wait-object to this group:
+                var stateOfGroupThatWaits = GetGroupState(groupIdThatWaits);
+                var waitObject = stateOfGroupThatWaits.AddWaitingForAnotherGroup(groupIdToWaitFor);
 
-                // The other group gets a waiting-object, that will set AnimationIsRunning to false, when the other group is finished.
-                stateOfGroupToWaitFor.AddWaitingOtherGroup(groupIdThatWaits);
+                // To the other group we add an object, that will inform the waitObject, when the other group is finished.
+                stateOfGroupToWaitFor.AddWaitingOtherGroup(waitObject);
                 Debug.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}.");
             }
             else
             {
-                Debug.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}. But this group has no active animation");
+                Debug.WriteLine($"Consumer: Group {groupIdThatWaits} is waiting for animation of group {groupIdToWaitFor}. But group {groupIdToWaitFor} has no active animation");
             }
         }
 
@@ -71,15 +69,23 @@ namespace Woopec.Core.Internal
                 return false;
             }
         }
-
-        public void DecrementAnimationsRunning(List<int> groupIDs)
+        public AnimationGroupState GetGroupState(int groupID)
         {
-            foreach (var groupID in groupIDs)
+            if (!_groupsWithActiveAnimations.ContainsKey(groupID))
             {
-                if (_groupsWithActiveAnimations.ContainsKey(groupID))
+                _groupsWithActiveAnimations.Add(groupID, new AnimationGroupState(groupID));
+            }
+            return _groupsWithActiveAnimations[groupID];
+        }
+
+
+        public void RemoveBlockersInOtherGroups(List<AnimationGroupState.BlockerUntilAnotherGroupsMovementsAreCompleted> blockers)
+        {
+            foreach (var blocker in blockers)
+            {
+                if (_groupsWithActiveAnimations.ContainsKey(blocker.GroupIdThatWaits))
                 {
-                    Debug.WriteLine($"    Group {groupID} is not longer waiting.");
-                    _groupsWithActiveAnimations[groupID].AnimationsRunning--;
+                    _groupsWithActiveAnimations[blocker.GroupIdThatWaits].ExtractBlocker(blocker);
                 }
             }
         }

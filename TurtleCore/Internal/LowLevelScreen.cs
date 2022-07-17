@@ -64,7 +64,7 @@ namespace Woopec.Core.Internal
             // If we do not wait for another animation this dialog is shown immediately. In most cases the programmer expects
             // that all previously created animation are drawn before the dialog is shown
             // Therefore:
-            dialog.WaitForAnimationsOfGroupID = LastIssuedAnimatonGroupID;
+            dialog.WaitForCompletedAnimationsOfAnotherGroup = LastIssuedAnimatonGroupID;
             _screenObjectProducer.ShowDialog(dialog);
             var answer = await _screenResultConsumer.ReadTextResultAsync();
             return answer;
@@ -73,7 +73,7 @@ namespace Woopec.Core.Internal
         ///<inheritdoc/>
         public async Task<double?> NumberInputAsync(ScreenNumberDialog dialog)
         {
-            dialog.WaitForAnimationsOfGroupID = LastIssuedAnimatonGroupID;
+            dialog.WaitForCompletedAnimationsOfAnotherGroup = LastIssuedAnimatonGroupID;
             _screenObjectProducer.ShowNumberDialog(dialog);
             var answer = await _screenResultConsumer.ReadNumberResultAsync();
             return answer;

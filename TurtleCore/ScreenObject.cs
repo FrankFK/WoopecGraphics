@@ -14,7 +14,6 @@ namespace Woopec.Core
     {
         internal const int NoGroupId = 0;
         private int _groupId;
-        private int _waitForAnimationsOfGroupId = NoGroupId;
 
         public int ID { get; set; }
 
@@ -30,8 +29,6 @@ namespace Woopec.Core
             }
             init
             {
-                // if (value == NoGroupId)
-                //    throw new ArgumentOutOfRangeException($"{NoGroupId} is not allowed for GroupID");
                 _groupId = value;
             }
 
@@ -43,32 +40,27 @@ namespace Woopec.Core
         public bool BelongsToAGroup { get { return _groupId != NoGroupId; } }
 
         /// <summary>
-        /// When set to a value of a GroupID: This object waits until all already produced animations of the given GroupId are finished.
-        /// This can be the same group as this.GroupID, it also can be another group.
+        /// If false: The drawing of this object starts after all older drawings of this group are started, but it does not wait until all other drawings of its group are finished (and WaitForCompletedAnimationOfGroup does not force it to wait longer)
+        /// If true:  The drawing of this object waits until all older drawings of its group are finished (and WaitForCompletedAnimationOfGroup does not force it to wait longer)
         /// </summary>
-        public int WaitForAnimationsOfGroupID
-        {
-            get
-            {
-                return _waitForAnimationsOfGroupId;
-            }
-            set
-            {
-                // if (value == NoGroupId)
-                //    throw new ArgumentOutOfRangeException($"{NoGroupId} is not allowed for GroupId");
-                _waitForAnimationsOfGroupId = value;
-            }
-        }
+        public bool WaitForCompletedAnimationsOfSameGroup { get; set; }
+
+        /// <summary>
+        /// If equal to NoGroupId: The drawing of this object is only controlled by WaitForAnimationsOfSameGroup
+        /// If different to NoGroupId: The drawing of this object waits until all older drawings of another group with the given GroupId are finished (and WaitForAnimationsOfSameGroup does not force it to wait longer)
+        /// </summary>
+        public int WaitForCompletedAnimationsOfAnotherGroup { get; set; }
+
+
 
         /// <summary>
         /// true, if this animation waits for other animations.
-        /// Set to false, if this animation should not wait for other animations.
         /// </summary>
         public bool WaitsForAnimations
         {
             get
             {
-                return (_waitForAnimationsOfGroupId != NoGroupId);
+                return (WaitForCompletedAnimationsOfSameGroup || WaitForCompletedAnimationsOfAnotherGroup != NoGroupId);
             }
         }
 
@@ -84,11 +76,43 @@ namespace Woopec.Core
         public ScreenObject()
         {
             Animation = null;
-            _waitForAnimationsOfGroupId = NoGroupId;
+            WaitForCompletedAnimationsOfAnotherGroup = NoGroupId;
+            WaitForCompletedAnimationsOfSameGroup = false;
             _groupId = NoGroupId;
         }
 
-        #region Specific Json Serialization, because this class had derived classes
+        public string AnimationInfoForDebugger()
+        {
+            var part1 = $"{GroupID},{ID}:{(Animation != null ? Animation.Milliseconds : 0)}";
+            if (WaitsForAnimations)
+            {
+                if (WaitForCompletedAnimationsOfAnotherGroup != ScreenObject.NoGroupId)
+                {
+                    if (WaitForCompletedAnimationsOfSameGroup)
+                    {
+                        // Waits for animations of same group and for animations of another group
+                        return $"??({WaitForCompletedAnimationsOfAnotherGroup}){part1}";
+                    }
+                    else
+                    {
+                        // Waits only for animations of another group
+                        return $"?({WaitForCompletedAnimationsOfAnotherGroup}){part1}";
+                    }
+                }
+                else
+                {
+                    // Waits only for animations of the same group
+                    return $"?{part1}";
+                }
+            }
+            else
+            {
+                return part1;
+            }
+        }
+
+
+        #region Specific Json Serialization, because this class has derived classes
         internal enum JsonTypeDiscriminator
         {
             ScreenObject = 0,

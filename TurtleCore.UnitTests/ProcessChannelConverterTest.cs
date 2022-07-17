@@ -73,7 +73,8 @@ namespace TurtleCore.UnitTests
             {
                 ID = 5,
                 GroupID = 17,
-                WaitForAnimationsOfGroupID = 15,
+                WaitForCompletedAnimationsOfSameGroup = true,
+                WaitForCompletedAnimationsOfAnotherGroup = 15,
                 Animation = new ScreenAnimation()
                 {
                     Effects = new List<ScreenAnimationEffect>()
@@ -93,7 +94,8 @@ namespace TurtleCore.UnitTests
             {
                 ID = 5,
                 GroupID = 17,
-                WaitForAnimationsOfGroupID = 15,
+                WaitForCompletedAnimationsOfSameGroup = true,
+                WaitForCompletedAnimationsOfAnotherGroup = 15,
                 Animation = new ScreenAnimation()
                 {
                     Effects = new List<ScreenAnimationEffect>()

@@ -15,10 +15,11 @@ namespace Woopec.Core
     internal class Figure
     {
         private static int s_totalCounter;
-        private readonly int _id;
+        private readonly int _id; // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
 
         private readonly ILowLevelScreen _lowLevelScreen;
         private bool _firstAnimationIsAdded;
+        private WaitingForCompletedAnimationInfo _waitingForCompletedAnimationInfo;
         private ShapeBase _shape;
         private bool _shapeIsChanged;
         private int _idOnScreen;
@@ -186,6 +187,7 @@ namespace Woopec.Core
             SetPosition(value, false);
         }
 
+
         internal void SetPosition(Vec2D value, bool togetherWithPreviousAnimation)
         {
             var oldPosition = _position;
@@ -194,13 +196,31 @@ namespace Woopec.Core
                 MoveOnScreen(oldPosition, togetherWithPreviousAnimation);
         }
 
+        public void WaitForCompletedMovementOf(Figure figure)
+        {
+            throw new NotImplementedException("Not tested yet");
+#pragma warning disable CS0162 // Unreachable code detected
+            var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = figure._id, WaitingFigure = this, WaitingPen = null };
+            WaitForCompletedMovementOf(waitingInfo);
+#pragma warning restore CS0162 // Unreachable code detected
+        }
+
+        internal void WaitForCompletedMovementOf(WaitingForCompletedAnimationInfo waitingInfo)
+        {
+            _waitingForCompletedAnimationInfo = waitingInfo;
+        }
+
+        internal void ResetWaitingInfo()
+        {
+            _waitingForCompletedAnimationInfo = null;
+        }
+
         private void UpdateScreen()
         {
             var figure = CreateScreenFigureUpdate(false);
 
             if (!Speed.NoAnimation)
             {
-                // To do: animation dazu
                 _firstAnimationIsAdded = true;
             }
 
@@ -273,18 +293,33 @@ namespace Woopec.Core
             {
                 if (_firstAnimationIsAdded)
                 {
-                    // Wait for previous animations of this pen
-                    figure.WaitForAnimationsOfGroupID = _id;
+                    // Wait for previous animations of this figure (or if the figure belongs to a turtle: wait for previous animations of this figure or the pen)
+                    figure.WaitForCompletedAnimationsOfSameGroup = true;
                 }
                 else
                 {
-                    if (!Speed.NoAnimation && _lowLevelScreen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
+                    // _firstAnimationIsAdded == false
+                    // This is the first movement of this!
+                    if (_lowLevelScreen.LastIssuedAnimatonGroupID != ScreenObject.NoGroupId)
                     {
-                        // If we do not wait for another animation this turtle is drawn immediately. In most cases the programmer expects
-                        // that all previously created animation are drawn before this pen is drawn.
+                        // A little bit of Artificial Intelligence:
+                        // If we do not wait for another animation, this object is drawn immediately. In most cases the programmer expects
+                        // that all previously created animations are drawn before this pen is drawn.
                         // Therefore:
-                        figure.WaitForAnimationsOfGroupID = _lowLevelScreen.LastIssuedAnimatonGroupID;
+                        figure.WaitForCompletedAnimationsOfAnotherGroup = _lowLevelScreen.LastIssuedAnimatonGroupID;
                     }
+                }
+                if (_waitingForCompletedAnimationInfo != null)
+                {
+                    // The programmer explicitly wanted to wait for another object
+                    figure.WaitForCompletedAnimationsOfAnotherGroup = _waitingForCompletedAnimationInfo.WaitForCompletedAnimationOf;
+
+                    // If pen is waiting. It needs not longer to wait
+                    if (_waitingForCompletedAnimationInfo.WaitingPen != null)
+                        _waitingForCompletedAnimationInfo.WaitingPen.ResetWaitingInfo();
+
+                    // All subsequent drawings of this should not wait for the other object
+                    _waitingForCompletedAnimationInfo = null;
                 }
             }
             return figure;
