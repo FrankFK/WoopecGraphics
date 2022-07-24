@@ -41,5 +41,19 @@ namespace Woopec.Core.UnitTests
             color.Should().Be(Colors.Black);
         }
 
+        [TestMethod]
+        public void Color_FromHSV_Red() { Color.FromHSV(0, 1.0, 1.0).Should().Be(Colors.Red); }
+
+        [TestMethod]
+        public void Color_FromHSV_Blue() { Color.FromHSV(240, 1.0, 1.0).Should().Be(Colors.Blue); }
+
+        [TestMethod]
+        public void Color_FromHSV_Violet() { Color.FromHSV(270, 1.0, 1.0).Should().Be(new Color(127, 0, 255)); }
+
+        [TestMethod]
+        public void Color_FromHSV_ValueNull() { Color.FromHSV(270, 0.8, 0.0).Should().Be(Colors.Black); }
+
+        [TestMethod]
+        public void Color_FromHSV_SaturationNull() { Color.FromHSV(111, 0.0, 0.5).Should().Be(new Color(127, 127, 127)); }
     }
 }

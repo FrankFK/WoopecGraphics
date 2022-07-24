@@ -51,6 +51,43 @@ namespace Woopec.Core
         /// <param name="colorName"></param>
         public static implicit operator Color(string colorName) => ConvertName(colorName);
 
+        /// <summary>
+        /// Create a color from hue, saturation and value
+        /// </summary>
+        /// <param name="hue">Angle on the color circle. 0 red, 120 green, 240 blue, between 240 and 360 position on purple line</param>
+        /// <param name="saturation">Saturation. 0.0 neutral gray, 0.5 little saturation, 1.0 pure color</param>
+        /// <param name="value">Value. 0.0 no brightness (black), 1.0 full brighntess</param>
+        /// <returns>The color</returns>
+        public static Color FromHSV(double hue, double saturation, double value)
+        {
+            if (hue > 360.0)
+                hue = hue % 360;
+
+            hue = Math.Max(hue, 0.0);
+            saturation = Math.Max(Math.Min(saturation, 1.0), 0.0);
+            value = Math.Max(Math.Min(value, 1.0), 0.0);
+
+            var hi = (int)Math.Truncate(hue / 60.0);
+            var f = (hue / 60.0 - hi);
+            var p = value * (1.0 - saturation);
+            var q = value * (1.0 - saturation * f);
+            var t = value * (1.0 - saturation * (1 - f));
+
+            var rgbTupel = hi switch
+            {
+                0 => (value, t, p),
+                6 => (value, t, p),
+                1 => (q, value, p),
+                2 => (p, value, t),
+                3 => (p, q, value),
+                4 => (t, p, value),
+                5 => (value, p, q),
+                _ => (0.0, 0.0, 0.0)
+            };
+
+            return new Color((int)(rgbTupel.Item1 * 255), (int)(rgbTupel.Item2 * 255), (int)(rgbTupel.Item3 * 255));
+        }
+
         private static Dictionary<string, Color> s_colorsByName = null;
         private static readonly object s_lockObj = new();
 

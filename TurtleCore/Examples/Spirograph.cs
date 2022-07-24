@@ -239,7 +239,7 @@ namespace Woopec.Core.Examples
             var forward = 0.0;
             for (var i = 0; i <= 2 * multiples * corners; i++)
             {
-                var color2 = ConvertHSBToRGB((float)(angle * i / 2.0), (float)1, (float)0.8);
+                var color2 = Color.FromHSV(angle * i / 2.0, 1, 0.8);
                 var s = new Turtle()
                 {
                     IsVisible = false,
@@ -289,50 +289,6 @@ namespace Woopec.Core.Examples
                 Thread.Sleep(1000);
             }
 
-        }
-
-        // Aus https://www.syncfusion.com/faq/windowsforms/colors/how-do-you-translate-a-hsb-color-to-rgb
-        // This does not seem to yield accurate results, but very close.
-        // More info: https://en.wikipedia.org/wiki/HSL_and_HSV
-        private static Color ConvertHSBToRGB(float h, float s, float v)
-        {
-            float r;
-            float g;
-            float b;
-            if (s == 0f)
-            {
-                // if s = 0 then h is undefined
-                r = v;
-                g = v;
-                b = v;
-            }
-            else
-            {
-                float hue = (float)h;
-                if (h == 360.0f)
-                {
-                    hue = 0.0f;
-                }
-                hue /= 60.0f;
-                int i = (int)Math.Floor((double)hue);
-                float f = hue - i;
-                float p = v * (1.0f - s);
-                float q = v * (1.0f - (s * f));
-                float t = v * (1.0f - (s * (1 - f)));
-
-                switch (i)
-                {
-                    case 0: r = v; g = t; b = p; break;
-                    case 1: r = q; g = v; b = p; break;
-                    case 2: r = p; g = v; b = t; break;
-                    case 3: r = p; g = q; b = v; break;
-                    case 4: r = t; g = p; b = v; break;
-                    case 5: r = v; g = p; b = q; break;
-
-                    default: r = 0.0f; g = 0.0f; b = 0.0f; break; /*Trace.Assert(false);*/ // hue out of range
-                }
-            }
-            return new Color((int)(255 * r), (int)(255 * g), (int)(255 * b));
         }
 
         private static Vec2D CalcPenPos(double t, double rLarge, double rSmall, double distance)
