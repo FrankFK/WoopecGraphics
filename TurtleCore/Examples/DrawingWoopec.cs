@@ -20,7 +20,7 @@ namespace Woopec.Core.Examples
             var seymour = Turtle.Seymour();
 
             int factor = 5;
-            var bottomRigth = DrawW(seymour, factor);
+            var bottomRight = DrawW(seymour, factor);
             seymour.Right(45);
             seymour.PenUp();
 
@@ -31,31 +31,31 @@ namespace Woopec.Core.Examples
             var woopec5 = new Turtle() { Color = Colors.OrangeRed, Shape = Shapes.Bird, IsVisible = false, IsDown = false, Speed = Speeds.Normal };
 
             int xPos = 0;
-            woopec1.Position = bottomRigth;
+            woopec1.Position = bottomRight;
             woopec1.ShowTurtle();
             woopec1.PenDown();
             DrawO(woopec1, factor / 2);
 
             xPos += 30;
-            woopec2.Position = bottomRigth + (xPos, 0);
+            woopec2.Position = bottomRight + (xPos, 0);
             woopec2.ShowTurtle();
             woopec2.PenDown();
             DrawO(woopec2, factor / 2);
 
             xPos += 25;
-            woopec3.Position = bottomRigth + (xPos, 0);
+            woopec3.Position = bottomRight + (xPos, 0);
             woopec3.ShowTurtle();
             woopec3.PenDown();
             DrawP(woopec3, factor / 2);
 
             xPos += 30;
-            woopec4.Position = bottomRigth + (xPos, 0);
+            woopec4.Position = bottomRight + (xPos, 0);
             woopec4.ShowTurtle();
             woopec4.PenDown();
             DrawE(woopec4, factor / 2);
 
             xPos += 35;
-            woopec5.Position = bottomRigth + (xPos, 0);
+            woopec5.Position = bottomRight + (xPos, 0);
             woopec5.ShowTurtle();
             woopec5.PenDown();
             DrawC(woopec5, factor / 2);
@@ -171,40 +171,39 @@ namespace Woopec.Core.Examples
             seymour.Right(90);
             seymour.Forward(15);
             seymour.Left(90);
+            seymour.Forward(10);
             seymour.Speed = Speeds.Normal;
-            seymour.PenDown();
-            var startPos = seymour.Position;
-            while (true)
-            {
-                seymour.Forward(50);
-                seymour.Left(170);
-                if ((startPos - seymour.Position).AbsoluteValue < 1)
-                    break;
-            }
+            Stars.DrawStar(seymour, 17, 8, 23);
 
-            seymour.PenUp();
-            seymour.Forward(70);
-            var startPos2 = seymour.Position;
-            seymour.Speed = Speeds.Fastest;
-            var originalPenColor = seymour.PenColor;
-            seymour.PenColor = Colors.DarkOrange;
-            seymour.PenDown();
-            while (true)
+            // Seymours position is at the first (rightmost) corner of the star
+            seymour.Heading = 0;
+            seymour.HideTurtle();
+
+            var spiroCenter = seymour.Position + (30, 0);
+
+            var spiroPoly = Spirograph.SpiroPoly(17, 8, 0.8, 25).Select(point => point + spiroCenter).ToList();
+            var penColorBackup = seymour.PenColor;
+            seymour.PenColor = Colors.DarkRed;
+
+            for (var pointIndex = 0; pointIndex < spiroPoly.Count; pointIndex++)
             {
-                seymour.Forward(40);
-                seymour.Left(170);
-                if ((startPos2 - seymour.Position).AbsoluteValue < 1)
-                    break;
+                seymour.Position = spiroPoly[pointIndex];
+                if (pointIndex == 0)
+                {
+                    seymour.PenDown();
+                    seymour.Speed = Speeds.Fastest;
+                }
             }
             seymour.PenUp();
-            seymour.PenColor = originalPenColor;
-            seymour.Forward(40);
+            seymour.PenColor = penColorBackup;
+            seymour.ShowTurtle();
+            seymour.Position = spiroPoly[^1];
 
             foreach (var w in woopecList) { w.Speed = (w != woopec5) ? Speeds.Normal : Speeds.Slowest; w.WaitForCompletedMovementOf(seymour); w.Forward(400); }
 
             seymour.Speed = Speeds.Normal;
             seymour.Right(90);
-            seymour.Forward(40);
+            seymour.Forward(20);
             seymour.Right(90);
             seymour.Forward(seymour.Position.XCor);
             seymour.Right(90);

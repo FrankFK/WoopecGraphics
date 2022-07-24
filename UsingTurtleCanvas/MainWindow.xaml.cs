@@ -1,21 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Woopec.Core;
-using Woopec.Wpf;
+using Colors = Woopec.Core.Colors;
+using Shape = Woopec.Core.Shape;
 
 namespace UsingTurtleCanvas
 {
@@ -33,8 +20,23 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
+            Woopec.Core.Examples.Spirograph.SpiroDemo2();
+            return;
+
+            /*
+            Woopec.Core.Examples.Spirograph.SpiroDemo();
+            return;
+            Woopec.Core.Examples.Spirograph.WithWheels(5, 3, 0.75, 90, (0, 0), Colors.DarkRed);
+            return;
             Woopec.Core.Examples.DrawWoopecName.Run();
             return;
+            Woopec.Core.Examples.Stars.StarDemo();
+            return;
+
+
+
+            */
+
 
 #pragma warning disable CS0162 // Unreachable code detected
             Woopec.Core.Examples.FeaturesDemo.Run();
@@ -44,7 +46,7 @@ namespace UsingTurtleCanvas
             Woopec.Core.Examples.TurtleDemoByteDesign.Run();
             return;
 
-            Woopec.Core.Examples.Spirograph.Hypo(5, 3, 0.8, 200);
+            Woopec.Core.Examples.DrawWoopecName.Run();
             return;
 
             var turtle1 = Turtle.Seymour();
@@ -98,3 +100,5 @@ namespace UsingTurtleCanvas
 
     }
 }
+
+
