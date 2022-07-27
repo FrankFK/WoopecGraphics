@@ -20,12 +20,15 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
-            Woopec.Core.Examples.Spirograph.SpiroDemo2();
+            Woopec.Core.Examples.ColorDemo.ColorAnimation();
             return;
 
             /*
             Woopec.Core.Examples.Spirograph.SpiroDemo();
             return;
+            Woopec.Core.Examples.Spirograph.SpiroDemo2();
+            return;
+
             Woopec.Core.Examples.Spirograph.WithWheels(5, 3, 0.75, 90, (0, 0), Colors.DarkRed);
             return;
             Woopec.Core.Examples.DrawWoopecName.Run();
