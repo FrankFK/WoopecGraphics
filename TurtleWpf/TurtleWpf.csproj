@@ -4,7 +4,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <PackageId>Woopec.Wpf</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>woopec</Authors>
     <Company>woopec</Company>
     <Product>Woopec.Wpf</Product>
@@ -21,6 +21,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <RepositoryUrl>https://github.com/FrankFK/simple-graphics-for-csharp-beginners</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageReadmeFile>NugetReadme.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
     <None Include="..\NuGetIcon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\NugetReadme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
