@@ -12,7 +12,7 @@ namespace Woopec.Core
     /// <summary>
     /// An instance of this class is a pen, which can draw lines on the screen
     /// </summary>
-    internal class Pen
+    public class Pen
     {
         private readonly ILowLevelScreen _lowLevelScreen;
 
@@ -31,6 +31,18 @@ namespace Woopec.Core
         private bool _isCreatingPoly; // true, if the pen is used to create a polygon
 
         /// <summary>
+        /// Create a pen that you can start learning to code with.
+        /// </summary>
+        /// <returns>A pen to start with</returns>
+        public static Pen CreateExample()
+        {
+            // See https://en.wikipedia.org/wiki/Turtle_graphics
+            //     Seymour Papert added support for turtle graphics to Logo in the late 1960s to support his version of the turtle robot
+            var pen = new Pen() { Speed = Speeds.Slowest, Color = Colors.DarkGreen };
+            return pen;
+        }
+
+        /// <summary>
         /// Constructs a Pen that is not used as part of a Turtle class and uses the default screen
         /// </summary>
         public Pen()
@@ -42,7 +54,7 @@ namespace Woopec.Core
         /// Constructs a Pen that is not used as part of a Turtle class
         /// </summary>
         /// <param name="screen">Pen is printed on this screen</param>
-        public Pen(ILowLevelScreen screen)
+        internal Pen(ILowLevelScreen screen)
             : this(screen, Interlocked.Increment(ref s_totalCounter))
         {
         }
