@@ -14,8 +14,6 @@ namespace Woopec.Core
     /// </remarks>
     public class Turtle
     {
-        private static int s_totalCounter;
-
         private readonly int _id;
         private readonly ILowLevelScreen _lowLevelScreen;
         private readonly Screen _screen;
@@ -38,7 +36,7 @@ namespace Woopec.Core
         /// <remarks>At the moment internal, because multi-screen support is not tested.</remarks>
         internal Turtle(ILowLevelScreen lowLevelScreen)
         {
-            _id = Interlocked.Increment(ref s_totalCounter);
+            _id = IdFactory.CreateNewId();
             _lowLevelScreen = lowLevelScreen;
             _screen = new Screen(_lowLevelScreen);
             _figure = new Figure(lowLevelScreen, _id);
@@ -507,25 +505,9 @@ namespace Woopec.Core
         /// </summary>
         public void EndFill()
         {
-            var shape = _pen.EndFill();
-
-            // The shape simply is created by creating a new figure:
-
-            var figure = new Figure(_lowLevelScreen) { FillColor = FillColor, OutlineColor = PenColor, Shape = shape };
-
-            // Imagine the created shape is an arrow like this
-            //
-            //                     /\
-            //                    /  \
-            // 
-            // Now compare it to the predefined shape Shapes.Arrow.
-            // Both shapes point to North
-            // But if we create a figure, its shape points to West.
-            // Therefore we have to rotate the figure from West to North, such that the shape is drawn in the right way.
-            figure.Rotate(90);
-
-            figure.IsVisible = true;
+            _pen.EndFill(FillColor);
         }
+
 
         /// <summary>
         /// Return fillstate (true if filling, false else)

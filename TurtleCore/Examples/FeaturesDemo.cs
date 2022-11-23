@@ -239,6 +239,12 @@ namespace Woopec.Core.Examples
             activeTurtle.Forward(100);
             bullet.HideTurtle();
 
+            /////////////////////////////////////////////////////////////
+            // 23.11.2022 A Pen can be used standalone (Pen class made visible and changed code of Pen.EndFilling
+            var pen = new Pen();
+            pen.Move(1);
+
+
         }
 
         private static void AddStarshipShape(string name)

@@ -16,9 +16,9 @@ namespace Woopec.Core
     {
         private readonly ILowLevelScreen _lowLevelScreen;
 
-        private static int s_totalCounter;
-
-        private readonly int _id; // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
+        // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
+        // If this is a standalone object: It has a unique ID that is different to the IDs of all other pens, figures und turtles.
+        private readonly int _id;
 
         private bool _firstAnimationIsAdded; // true, if an animation of this pen (or the turtle it belongs to) is added
         private WaitingForCompletedAnimationInfo _waitingForCompletedAnimationInfo;
@@ -43,10 +43,10 @@ namespace Woopec.Core
         }
 
         /// <summary>
-        /// Constructs a Pen that is not used as part of a Turtle class and uses the default screen
+        /// Constructs a Pen that uses the default screen
         /// </summary>
         public Pen()
-            : this(Interlocked.Increment(ref s_totalCounter))
+            : this(IdFactory.CreateNewId())
         {
         }
 
@@ -55,7 +55,7 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="screen">Pen is printed on this screen</param>
         internal Pen(ILowLevelScreen screen)
-            : this(screen, Interlocked.Increment(ref s_totalCounter))
+            : this(screen, IdFactory.CreateNewId())
         {
         }
 
@@ -70,7 +70,7 @@ namespace Woopec.Core
 
 
         /// <summary>
-        /// Constructs a Pen
+        /// Constructs a Pen that is used as a part of a Turtle class 
         /// </summary>
         /// <param name="screen">Pen is printed on this screen</param>
         /// <param name="id">The Id of the turtle</param>
@@ -166,7 +166,7 @@ namespace Woopec.Core
         /// The Shape resulting from the traversed points between BeginFilling and EndFilling is returned.
         /// </summary>
         /// <returns></returns>
-        public Shape EndFill()
+        public void EndFill(Color fillColor)
         {
             Shape shape;
             if (_isFilling)
@@ -180,7 +180,24 @@ namespace Woopec.Core
             {
                 shape = new Shape(new List<Vec2D>());
             }
-            return shape;
+
+            // The shape simply is created by creating a new figure:
+
+            var figure = new Figure(_lowLevelScreen) { FillColor = fillColor, OutlineColor = Color, Shape = shape };
+
+            // Imagine the created shape is an arrow like this
+            //
+            //                     /\
+            //                    /  \
+            // 
+            // Now compare it to the predefined shape Shapes.Arrow.
+            // Both shapes point to North
+            // But if we create a figure, its shape points to West.
+            // Therefore we have to rotate the figure from West to North, such that the shape is drawn in the right way.
+            figure.Rotate(90);
+
+            figure.IsVisible = true;
+
         }
 
         /// <summary>

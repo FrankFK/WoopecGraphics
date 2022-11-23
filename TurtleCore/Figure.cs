@@ -14,8 +14,9 @@ namespace Woopec.Core
     /// </summary>
     internal class Figure
     {
-        private static int s_totalCounter;
-        private readonly int _id; // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
+        // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
+        // If this is a standalone object: It has a unique ID that is different to the IDs of all other pens, figures und turtles.
+        private readonly int _id;
 
         private readonly ILowLevelScreen _lowLevelScreen;
         private bool _firstAnimationIsAdded;
@@ -29,19 +30,19 @@ namespace Woopec.Core
         private Color _outlineColor;
 
         /// <summary>
-        /// Constructs a Figure that is not used as part of a Turtle class and uses the default screen
+        /// Constructs a Figure that uses the default screen
         /// </summary>
         public Figure()
-            : this(Interlocked.Increment(ref s_totalCounter))
+            : this(IdFactory.CreateNewId())
         {
         }
 
         /// <summary>
-        /// Constructs a Figure that is not used as part of a Turtle class
+        /// Constructs a Figure that is printed on the given screen
         /// </summary>
         /// <param name="lowLevelScreen">Figure is printed on this screen</param>
         public Figure(ILowLevelScreen lowLevelScreen)
-            : this(lowLevelScreen, Interlocked.Increment(ref s_totalCounter))
+            : this(lowLevelScreen, IdFactory.CreateNewId())
         {
         }
 

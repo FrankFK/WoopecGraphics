@@ -40,7 +40,7 @@ namespace Woopec.Core.Internal
                 {
                     Debug.WriteLine($"Consumer: Read async started ({_debugCounter1})");
                     screenObject = await _objectChannel.ReadAsync();
-                    Debug.WriteLine($"Consumer: Read async finished. object from channel {screenObject.AnimationInfoForDebugger()} ({++_debugCounter1})");
+                    Debug.WriteLine($"Consumer: Read async finished. object from channel {screenObject.AnimationInfoForDebugger()} ({_debugCounter1++})");
                 }
                 catch (Exception ex)
                 {
