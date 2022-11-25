@@ -12,7 +12,7 @@ namespace Woopec.Core
     /// An instance of this class is a form (for instance the image of a turtle), which 
     /// can be moved on the screen
     /// </summary>
-    internal class Figure
+    public class Figure
     {
         // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
         // If this is a standalone object: It has a unique ID that is different to the IDs of all other pens, figures und turtles.
@@ -28,6 +28,7 @@ namespace Woopec.Core
         private bool _isVisible;
         private Color _fillColor;
         private Color _outlineColor;
+        private double _heading;
 
         /// <summary>
         /// Constructs a Figure that uses the default screen
@@ -41,7 +42,7 @@ namespace Woopec.Core
         /// Constructs a Figure that is printed on the given screen
         /// </summary>
         /// <param name="lowLevelScreen">Figure is printed on this screen</param>
-        public Figure(ILowLevelScreen lowLevelScreen)
+        internal Figure(ILowLevelScreen lowLevelScreen)
             : this(lowLevelScreen, IdFactory.CreateNewId())
         {
         }
@@ -50,7 +51,7 @@ namespace Woopec.Core
         /// Constructs a Figure that is used as a part of a Turtle class and uses the default screen
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
-        public Figure(int id)
+        internal Figure(int id)
             : this(LowLevelScreen.GetDefaultScreen(), id)
         {
         }
@@ -60,13 +61,13 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="lowLevelScreen">Figure is printed on this screen</param>
         /// <param name="id">The Id of the turtle</param>
-        public Figure(ILowLevelScreen lowLevelScreen, int id)
+        internal Figure(ILowLevelScreen lowLevelScreen, int id)
         {
             _id = id;
             _lowLevelScreen = lowLevelScreen;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
-            Heading = 0;
+            _heading = 0;
             _isVisible = false;
             Speed = Speeds.Normal;
             _fillColor = Colors.Black;
@@ -88,7 +89,15 @@ namespace Woopec.Core
 
         public Vec2D Orientation { get; private set; }
 
-        public double Heading { get; private set; }
+        public double Heading
+        {
+            get { return _heading; }
+            set
+            {
+                double rotation = value - _heading;
+                Rotate(rotation);
+            }
+        }
 
         public bool IsVisible
         {
@@ -154,8 +163,8 @@ namespace Woopec.Core
 
         public void Rotate(double angle)
         {
-            var oldHeading = Heading;
-            Heading = (Heading + angle);
+            var oldHeading = _heading;
+            _heading = (_heading + angle);
 
             var newOrientation = Orientation.Rotate(angle);
 
@@ -165,8 +174,8 @@ namespace Woopec.Core
                 RotateOnScreen(oldHeading);
 
             // Reset heading to range 0..360
-            Heading = Heading % 360;
-            if (Heading < 0) Heading += 360;
+            _heading = _heading % 360;
+            if (_heading < 0) _heading += 360;
         }
 
         public void Move(double distance)
@@ -174,6 +183,11 @@ namespace Woopec.Core
             Move(distance, false);
         }
 
+        /// <summary>
+        /// Only needed internally for a figure that is part of a turtle and does not have to wait for the animation of the turtle's pen.
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <param name="togetherWithPreviousAnimation"></param>
         internal void Move(double distance, bool togetherWithPreviousAnimation)
         {
             var oldPosition = _position;
@@ -189,6 +203,11 @@ namespace Woopec.Core
         }
 
 
+        /// <summary>
+        /// Only needed internally for a figure that is part of a turtle and does not have to wait for the animation of the turtle's pen.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="togetherWithPreviousAnimation"></param>
         internal void SetPosition(Vec2D value, bool togetherWithPreviousAnimation)
         {
             var oldPosition = _position;
@@ -197,13 +216,15 @@ namespace Woopec.Core
                 MoveOnScreen(oldPosition, togetherWithPreviousAnimation);
         }
 
+        /// <summary>
+        /// Not tested yet!!!
+        /// </summary>
+        /// <param name="figure"></param>
+        /// <exception cref="NotImplementedException"></exception>
         public void WaitForCompletedMovementOf(Figure figure)
         {
-            throw new NotImplementedException("Not tested yet");
-#pragma warning disable CS0162 // Unreachable code detected
             var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = figure._id, WaitingFigure = this, WaitingPen = null };
             WaitForCompletedMovementOf(waitingInfo);
-#pragma warning restore CS0162 // Unreachable code detected
         }
 
         internal void WaitForCompletedMovementOf(WaitingForCompletedAnimationInfo waitingInfo)
@@ -252,7 +273,7 @@ namespace Woopec.Core
 
             if (!Speed.NoAnimation)
             {
-                int speedDuration = Speed.MillisecondsForRotation(oldHeading, Heading);
+                int speedDuration = Speed.MillisecondsForRotation(oldHeading, _heading);
 
                 // Animation dazu:
                 figure.Animation = new ScreenAnimation();
@@ -281,7 +302,7 @@ namespace Woopec.Core
                 Position = Position,
                 FillColor = FillColor,
                 OutlineColor = OutlineColor,
-                Heading = Heading,
+                Heading = _heading,
                 GroupID = _id,
             };
             if (_shapeIsChanged)
