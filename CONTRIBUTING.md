@@ -55,5 +55,5 @@ Once you submit your PR, a team member will review your proposal. We may ask que
 
 Once your PR is merged, your contributions will be publicly visible in this project.
 
-Congratulations. Thank you for improving this proj 
+Congratulations. Thank you for improving this project.
 
