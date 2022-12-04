@@ -83,6 +83,10 @@ namespace Woopec.Core
             {
                 return _position;
             }
+            set
+            {
+                SetPosition(value);
+            }
         }
         private Vec2D _position;
 
@@ -113,6 +117,8 @@ namespace Woopec.Core
                     UpdateScreen();
             }
         }
+
+        public Color Color { set { FillColor = value; OutlineColor = value; } }
 
         public Color FillColor
         {
