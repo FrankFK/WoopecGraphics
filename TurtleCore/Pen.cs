@@ -83,7 +83,7 @@ namespace Woopec.Core
             Color = Colors.Black;
             Speed = Speeds.Normal;
             Heading = 0;
-            IsDown = true;
+            IsDown = false;
         }
 
         public Vec2D Position

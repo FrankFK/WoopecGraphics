@@ -240,9 +240,16 @@ namespace Woopec.Core.Examples
             bullet.HideTurtle();
 
             /////////////////////////////////////////////////////////////
-            // 23.11.2022 A Pen can be used standalone (Pen class made visible and changed code of Pen.EndFilling
+            // 23.11.2022 A Pen can be used standalone (Pen class made visible and changed code of Pen.EndFilling)
             var pen = new Pen();
             pen.Move(1);
+
+            /////////////////////////////////////////////////////////////
+            // 08.12.2022 A Figure can be used standalone (Figure class made)
+            var figure = new Figure() { Shape = Shapes.Bird };
+            figure.Position = (100, 100);
+            figure.IsVisible = true;
+            figure.Move(500);
 
 
         }

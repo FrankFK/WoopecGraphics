@@ -91,8 +91,12 @@ namespace Woopec.Core.UnitTests
         }
 
 
+        /// <summary>
+        /// When a figure is created, it is invisible for the time being.
+        /// The user should be able to decide when and where to see it first.
+        /// </summary>
         [TestMethod]
-        public void Figure_InitialValues()
+        public void Figure_StandardCreated_IsInvisible()
         {
             // Arrange
             var screenMockup = new ScreenMockup();
