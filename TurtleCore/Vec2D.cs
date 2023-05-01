@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,14 @@ namespace Woopec.Core
         /// The absolute value of the vector (the "length" of the vector)
         /// </summary>
         public double AbsoluteValue => Math.Sqrt(XCor * XCor + YCor * YCor);
+
+        /// <summary>
+        /// A string that represents the current object.
+        /// </summary>
+        public override string ToString()
+        {
+            return $"XCor = {XCor}, YCor = {YCor}";
+        }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public static Vec2D operator +(Vec2D vector1, Vec2D vector2) => new(vector1.XCor + vector2.XCor, vector1.YCor + vector2.YCor);

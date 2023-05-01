@@ -217,6 +217,15 @@ namespace Woopec.Core.UnitTests
         }
 
         [TestMethod]
+        public void Vector_ToString_CreatesEasyToReadString()
+        {
+            var vector = new Vec2D(3, 4);
+
+            // Only relevant values are serialized to a string, the property AbsoluteValue is omitted. This makes reading in debugger easier.
+            Assert.IsTrue(vector.ToString() == "XCor = 3, YCor = 4");
+        }
+
+        [TestMethod]
         public void Vector_RecordPerformanceIsFine()
         {
             const int Count = 100000;
@@ -265,6 +274,7 @@ namespace Woopec.Core.UnitTests
 
             result.Should().Be(1);
         }
+
 
         private static double AddComponent(List<Vec2D> list, string color1, string color2)
         {
