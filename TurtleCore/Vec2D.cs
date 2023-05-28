@@ -17,27 +17,27 @@ namespace Woopec.Core
     ///    var vector2 = vector with { YCor = 0 );
     /// </code>
     /// </remarks>
-    public record Vec2D(double XCor, double YCor)
+    public record Vec2D(double X, double Y)
     {
         /// <summary>
         /// The absolute value of the vector (the "length" of the vector)
         /// </summary>
-        public double AbsoluteValue => Math.Sqrt(XCor * XCor + YCor * YCor);
+        public double AbsoluteValue => Math.Sqrt(X * X + Y * Y);
 
         /// <summary>
         /// A string that represents the current object.
         /// </summary>
         public override string ToString()
         {
-            return $"XCor = {XCor}, YCor = {YCor}";
+            return $"X = {X}, Y = {Y}";
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public static Vec2D operator +(Vec2D vector1, Vec2D vector2) => new(vector1.XCor + vector2.XCor, vector1.YCor + vector2.YCor);
-        public static Vec2D operator -(Vec2D vector1, Vec2D vector2) => new(vector1.XCor - vector2.XCor, vector1.YCor - vector2.YCor);
-        public static Vec2D operator *(Vec2D vector1, Vec2D vector2) => new(vector1.XCor * vector2.XCor, vector1.YCor * vector2.YCor);
-        public static Vec2D operator *(double scalar, Vec2D vector) => new(scalar * vector.XCor, scalar * vector.YCor);
-        public static Vec2D operator -(Vec2D vector) => new(-vector.XCor, -vector.YCor);
+        public static Vec2D operator +(Vec2D vector1, Vec2D vector2) => new(vector1.X + vector2.X, vector1.Y + vector2.Y);
+        public static Vec2D operator -(Vec2D vector1, Vec2D vector2) => new(vector1.X - vector2.X, vector1.Y - vector2.Y);
+        public static Vec2D operator *(Vec2D vector1, Vec2D vector2) => new(vector1.X * vector2.X, vector1.Y * vector2.Y);
+        public static Vec2D operator *(double scalar, Vec2D vector) => new(scalar * vector.X, scalar * vector.Y);
+        public static Vec2D operator -(Vec2D vector) => new(-vector.X, -vector.Y);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Woopec.Core
             var radians = Math.PI * angle / 180;
             var cosine = Math.Cos(radians);
             var sine = Math.Sin(radians);
-            return new(XCor * cosine - YCor * sine, XCor * sine + YCor * cosine);
+            return new(X * cosine - Y * sine, X * sine + Y * cosine);
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Woopec.Core
         public double HeadingTo(Vec2D position)
         {
             var delta = position - this;
-            var x = delta.XCor;
-            var y = delta.YCor;
+            var x = delta.X;
+            var y = delta.Y;
 
             var angle = Math.Atan2(y, x);
 
@@ -80,7 +80,7 @@ namespace Woopec.Core
         /// <returns></returns>
         public bool IsApproximatelyEqualTo(Vec2D vector, double precision)
         {
-            return (Math.Abs(XCor - vector.XCor) <= precision && Math.Abs(YCor - vector.YCor) <= precision);
+            return (Math.Abs(X - vector.X) <= precision && Math.Abs(Y - vector.Y) <= precision);
         }
 
         /// <summary>

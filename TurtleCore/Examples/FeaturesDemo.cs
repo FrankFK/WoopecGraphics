@@ -89,7 +89,7 @@ namespace Woopec.Core.Examples
 
             /////////////////////////////////////////////////////////////
             // 10.05.2021 Position
-            activeTurtle.SetPosition((0, activeTurtle.Position.YCor));
+            activeTurtle.SetPosition((0, activeTurtle.Position.Y));
 
             /////////////////////////////////////////////////////////////
             // 15.05.2021 TurtleMovement

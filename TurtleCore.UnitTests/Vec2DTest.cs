@@ -123,8 +123,8 @@ namespace Woopec.Core.UnitTests
             // Assert
             var expected = new Vec2D(-4, 3);
             // There may be rounding differences between vector and expected. Therefore we check if the differences are nearly 0:
-            (expected.XCor - result.XCor).Should().BeApproximately(0, 0.001);
-            (expected.YCor - result.YCor).Should().BeApproximately(0, 0.001);
+            (expected.X - result.X).Should().BeApproximately(0, 0.001);
+            (expected.Y - result.Y).Should().BeApproximately(0, 0.001);
         }
 
         [TestMethod]
@@ -207,12 +207,12 @@ namespace Woopec.Core.UnitTests
             // vector.YCor = 0;
 
             // If I need a vector with a different value of a property, I can use a with statement:
-            var vectorCopy = vector with { YCor = 0 };
-            var xCorOfCopy = vectorCopy.XCor;
+            var vectorCopy = vector with { Y = 0 };
+            var xCorOfCopy = vectorCopy.X;
             xCorOfCopy.Should().Be(3.000);
 
             // The original vector is not changed:
-            var originalYCor = vector.YCor;
+            var originalYCor = vector.Y;
             originalYCor.Should().Be(4.000);
         }
 
@@ -222,7 +222,7 @@ namespace Woopec.Core.UnitTests
             var vector = new Vec2D(3, 4);
 
             // Only relevant values are serialized to a string, the property AbsoluteValue is omitted. This makes reading in debugger easier.
-            Assert.IsTrue(vector.ToString() == "XCor = 3, YCor = 4");
+            Assert.IsTrue(vector.ToString() == "X = 3, Y = 4");
         }
 
         [TestMethod]
@@ -248,8 +248,8 @@ namespace Woopec.Core.UnitTests
         {
             Vec2D test = (1, 4);
 
-            test.XCor.Should().Be(1);
-            test.YCor.Should().Be(4);
+            test.X.Should().Be(1);
+            test.Y.Should().Be(4);
         }
 
         [TestMethod]
@@ -257,8 +257,8 @@ namespace Woopec.Core.UnitTests
         {
             List<Vec2D> list = new() { (1, 2), (3, 5) };
 
-            list[0].XCor.Should().Be(1);
-            list[1].XCor.Should().Be(3);
+            list[0].X.Should().Be(1);
+            list[1].X.Should().Be(3);
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Woopec.Core.UnitTests
         private static double AddComponent(List<Vec2D> list, string color1, string color2)
         {
             if (color1 != color2 && list.Count > 0)
-                return list[0].XCor;
+                return list[0].X;
             else
                 return 42;
         }

@@ -108,9 +108,9 @@ namespace Woopec.Core.Examples
             seymour2.Right(90);
             seymour2.Forward(40);
             seymour2.Right(90);
-            seymour2.Forward(seymour2.Position.XCor);
+            seymour2.Forward(seymour2.Position.X);
             seymour2.Right(90);
-            seymour2.Forward(-seymour2.Position.YCor);
+            seymour2.Forward(-seymour2.Position.Y);
             seymour2.Right(90);
         }
 
@@ -205,9 +205,9 @@ namespace Woopec.Core.Examples
             seymour.Right(90);
             seymour.Forward(20);
             seymour.Right(90);
-            seymour.Forward(seymour.Position.XCor);
+            seymour.Forward(seymour.Position.X);
             seymour.Right(90);
-            seymour.Forward(-seymour.Position.YCor);
+            seymour.Forward(-seymour.Position.Y);
             seymour.Right(90);
         }
 
@@ -220,10 +220,10 @@ namespace Woopec.Core.Examples
             t.Forward(5 * factor);
             t.Right(90);
             t.Forward(5 * factor);
-            double bottom = t.Position.YCor;
+            double bottom = t.Position.Y;
             t.Left(90);
             t.Forward(10 * factor);
-            double right = t.Position.XCor;
+            double right = t.Position.X;
             return (right, bottom);
         }
 

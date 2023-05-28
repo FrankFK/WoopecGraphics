@@ -20,7 +20,7 @@ namespace Woopec.Wpf
         /// <returns></returns>
         public static Point ConvertToCanvasPoint(Vec2D turtleVector, double canvasWidth, double canvasHeigth)
         {
-            return new Point(canvasWidth / 2 + turtleVector.XCor, canvasHeigth / 2 - turtleVector.YCor);
+            return new Point(canvasWidth / 2 + turtleVector.X, canvasHeigth / 2 - turtleVector.Y);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Woopec.Wpf
         /// <returns></returns>
         public static Point ConvertToCanvasOrientation(Vec2D turtleVector)
         {
-            return new Point(turtleVector.XCor, -turtleVector.YCor);
+            return new Point(turtleVector.X, -turtleVector.Y);
         }
 
 

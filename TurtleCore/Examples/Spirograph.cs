@@ -96,7 +96,7 @@ namespace Woopec.Core.Examples
 
 
             var innerWheel = new Turtle() { IsVisible = false, IsDown = false, Shape = shape, Speed = Speeds.Fastest, PenColor = Colors.LightSlateGray, FillColor = Colors.White.Transparent(0.5) };
-            innerWheel.Position = (center.XCor, center.YCor + (rLarge + rSmall) * 1.25);
+            innerWheel.Position = (center.X, center.Y + (rLarge + rSmall) * 1.25);
             innerWheel.IsVisible = true;
             innerWheel.Speed = Speeds.Slowest;
             innerWheel.Position = center + (rLarge - rSmall, 0);
@@ -138,7 +138,7 @@ namespace Woopec.Core.Examples
 
             largeCircleTurtle.HideTurtle();
             innerWheel.Speed = Speeds.Slow;
-            innerWheel.Position = (center.XCor, center.YCor - (rLarge + rSmall) * 1.25);
+            innerWheel.Position = (center.X, center.Y - (rLarge + rSmall) * 1.25);
         }
 
         /// <summary>
