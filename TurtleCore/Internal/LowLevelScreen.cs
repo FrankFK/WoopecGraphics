@@ -19,6 +19,13 @@ namespace Woopec.Core.Internal
 
         public LowLevelScreen(IScreenObjectProducer screenObjectProducer, IScreenResultConsumer screenResultConsumer)
         {
+            if (screenObjectProducer == null || screenResultConsumer == null)
+            {
+                // This situation occurs if Figure, Pen or Turtle are used unit tests without any preperation for that.
+                var recommendedClass = nameof(Screen);
+                var recommendedMethod = nameof(Screen.SwitchToUnitTestDefaultScreen);
+                throw new ArgumentException($"Woopec: The arguments for LowLevelScreen are invalid. If you need a screen for unit tests, it is best to call method {recommendedMethod} of class {recommendedClass} at the beginning.");
+            }
             _screenObjectProducer = screenObjectProducer ?? throw new ArgumentNullException("producer");
             _screenResultConsumer = screenResultConsumer ?? throw new ArgumentNullException(nameof(screenResultConsumer));
             LastIssuedAnimatonGroupID = ScreenObject.NoGroupId;

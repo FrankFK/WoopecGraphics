@@ -83,10 +83,13 @@ namespace Woopec.Core.UnitTests
         [TestMethod]
         public void SwitchToUnitTestDefaultScreen_WithoutCallOfIt_WoopecObjectsCanNotBeUsedInUnitTests()
         {
-            // act:
-
-            // We are using the default screen which uses the _producerMockup and _resultConsumerMockup, which were registered in ClassInitialize
+            // arrange:
             // This is simulating a unit test context without the UnitTestDefaultScreen
+            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(null);
+            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(null);
+
+            // act:
+            // We are using the default screen which is not set up correctly in unit test scenarios
 
             // assert
             // In this case we expect an exception.
@@ -96,10 +99,19 @@ namespace Woopec.Core.UnitTests
                 var figure = new Figure() { IsVisible = true };
                 figure.Position = (10, 10);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 exception = true;
+                var expected = nameof(Screen.SwitchToUnitTestDefaultScreen);
+                ex.Message.Should().Contain(expected, "Woopec should create an exception text the direct the user to a solution.");
             }
+            finally
+            {
+                // Set everything back to normal mockups
+                TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
+                TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(_resultConsumerMockup);
+            }
+
             Assert.IsTrue(exception);
         }
 
