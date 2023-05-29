@@ -64,7 +64,7 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
         public Pen(int id)
-            : this(LowLevelScreen.GetDefaultScreen(), id)
+            : this(LowLevelDefaultScreen.Get(), id)
         {
         }
 

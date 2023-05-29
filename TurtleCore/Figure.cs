@@ -52,7 +52,7 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="id">The Id of the turtle</param>
         internal Figure(int id)
-            : this(LowLevelScreen.GetDefaultScreen(), id)
+            : this(LowLevelDefaultScreen.Get(), id)
         {
         }
 

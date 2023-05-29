@@ -14,12 +14,10 @@ namespace Woopec.Core.Internal
     /// </remarks>
     internal class LowLevelScreen : ILowLevelScreen
     {
-        private static LowLevelScreen _defaultScreen;
-
         private readonly IScreenObjectProducer _screenObjectProducer;
         private readonly IScreenResultConsumer _screenResultConsumer;
 
-        private LowLevelScreen(IScreenObjectProducer screenObjectProducer, IScreenResultConsumer screenResultConsumer)
+        public LowLevelScreen(IScreenObjectProducer screenObjectProducer, IScreenResultConsumer screenResultConsumer)
         {
             _screenObjectProducer = screenObjectProducer ?? throw new ArgumentNullException("producer");
             _screenResultConsumer = screenResultConsumer ?? throw new ArgumentNullException(nameof(screenResultConsumer));
@@ -27,7 +25,7 @@ namespace Woopec.Core.Internal
         }
 
 
-        #region Methods of IScreen
+        #region Methods of ILowLevelScreen
         ///<inheritdoc/>
         public int LastIssuedAnimatonGroupID { get; set; }
 
@@ -83,26 +81,6 @@ namespace Woopec.Core.Internal
 
         #endregion
 
-        /// <summary>
-        /// Create a LowLevelScreen-Instance which draws to a default-Screen
-        /// </summary>
-        /// <returns></returns>
-        internal static LowLevelScreen GetDefaultScreen()
-        {
-            if (_defaultScreen == null)
-            {
-                _defaultScreen = new LowLevelScreen(TurtleInputsAndOutputs.GetDefaultScreenObjectProducer(), TurtleInputsAndOutputs.GetDefaultScreenResultConsumer());
-            }
-            return _defaultScreen;
-        }
-
-        /// <summary>
-        /// Needed for tests
-        /// </summary>
-        internal static void ResetDefaultScreen()
-        {
-            _defaultScreen = null;
-        }
 
         private void UpdateLastIssuedAnimationGroupID(ScreenObject screenObject)
         {

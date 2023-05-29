@@ -24,7 +24,7 @@ namespace Woopec.Core
         /// Constructs a turtle that uses the default screen
         /// </summary>
         public Turtle()
-            : this(LowLevelScreen.GetDefaultScreen())
+            : this(LowLevelDefaultScreen.Get())
         {
 
         }

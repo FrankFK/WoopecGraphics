@@ -31,12 +31,30 @@ namespace Woopec.Core
             {
                 if (_defaultScreen == null)
                 {
-                    _defaultScreen = new Screen(LowLevelScreen.GetDefaultScreen());
+                    _defaultScreen = new Screen(LowLevelDefaultScreen.Get());
                 }
                 return _defaultScreen;
             }
         }
 
+
+        /// <summary>
+        /// Change the default screen so that Turtle, Figure and Line can be used in unit tests.
+        /// </summary>
+        public static void SwitchToUnitTestDefaultScreen()
+        {
+            LowLevelDefaultScreen.SetUnitTestScreen();
+            _defaultScreen = new Screen(LowLevelDefaultScreen.Get());
+        }
+
+        /// <summary>
+        /// After usage of SwitchToUnitTestDefaultScreen: Change the default screen back to its normal behaviour.
+        /// </summary>
+        public static void SwitchToNormalDefaultScreen()
+        {
+            LowLevelDefaultScreen.Reset();
+            _defaultScreen = new Screen(LowLevelDefaultScreen.Get());
+        }
 
         /// <summary>
         /// Pop up a dialog window for input of a string.

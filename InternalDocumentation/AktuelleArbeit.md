@@ -98,7 +98,10 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * 12.06.2022: Screen.NumInput(), Screen.DoubleInput() methods
 * 10.07.2022: Color.Transparent for transparent filling
 * 17.07.2022: Turtle.WaitForCompletedMovementOf(otherTurtle)
- 
+* nn.11.2023: Figure and Pen public
+* nn.05.2023: Vec2D improvements
+* 29.05.2023: Screen.SwitchToUnitTestDefaultScreen() for easier unit testing. 
+
 
 
 

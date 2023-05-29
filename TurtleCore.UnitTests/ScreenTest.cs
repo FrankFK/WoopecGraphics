@@ -15,15 +15,13 @@ namespace Woopec.Core.UnitTests
 
         private class TurtleScreenProducerMockup : IScreenObjectProducer
         {
-            public List<ScreenLine> DrawnLines = new();
-
             public int CreateLine()
             {
-                return 1;
+                throw new NotImplementedException();
             }
             public void DrawLine(ScreenLine line)
             {
-                DrawnLines.Add(line);
+                throw new NotImplementedException();
             }
 
             public int CreateFigure()
@@ -56,7 +54,7 @@ namespace Woopec.Core.UnitTests
 
             public Task<string> ReadTextResultAsync()
             {
-                return Task.FromResult("Don't care");
+                throw new NotImplementedException();
             }
         }
 
@@ -75,14 +73,90 @@ namespace Woopec.Core.UnitTests
         [TestCleanup]
         public void TestCleanup()
         {
-            LowLevelScreen.ResetDefaultScreen();
+            LowLevelDefaultScreen.Reset();
         }
 
+        /// <summary>
+        /// The method SwitchToUnitTestDefaultScreen makes it possible to easily use Turtle, Figure and Pen objects in Unit Tests.
+        /// This method shows what happens, if a Unit Test ist implemented without using SwitchToUnitTestDefaultScreen.
+        /// </summary>
         [TestMethod]
-        public void Test()
+        public void SwitchToUnitTestDefaultScreen_WithoutCallOfIt_WoopecObjectsCanNotBeUsedInUnitTests()
         {
-            // No tests for screen at the moment
+            // act:
+
+            // We are using the default screen which uses the _producerMockup and _resultConsumerMockup, which were registered in ClassInitialize
+            // This is simulating a unit test context without the UnitTestDefaultScreen
+
+            // assert
+            // In this case we expect an exception.
+            bool exception = false;
+            try
+            {
+                var figure = new Figure() { IsVisible = true };
+                figure.Position = (10, 10);
+            }
+            catch (Exception)
+            {
+                exception = true;
+            }
+            Assert.IsTrue(exception);
         }
 
+        /// <summary>
+        /// The method SwitchToUnitTestDefaultScreen makes it possible to easily use Turtle, Figure and Pen objects in Unit Tests.
+        /// This method shows that a Unit Test works without problems if SwitchToUnitTestDefaultScreen was called at start of the test.
+        /// </summary>
+        /// <remarks>
+        /// To restore the normal state, method SwitchToUnitTestDefaultScreen should be called after the unit test.
+        /// </remarks>
+        [TestMethod]
+        public void SwitchToUnitTestDefaultScreen_AfterCallOfIt_WoopecObjectsCanBeUsedInUnitTests()
+        {
+            // act:
+            Screen.SwitchToUnitTestDefaultScreen();
+
+            // assert: No exceptions when using woopec objects
+            var figure = new Figure() { IsVisible = true };
+            figure.Position = (10, 10);
+
+            var turtle = new Turtle();
+            turtle.Right(90);
+            turtle.Forward(100);
+
+            var pen = new Pen() { IsDown = true };
+            pen.SetPosition((10, 10));
+
+            // clean up
+            Screen.SwitchToNormalDefaultScreen();
+        }
+
+        /// <summary>
+        /// The method SwitchToNormalDefaultScreen resets the default screen back to its normal behaviour.
+        /// </summary>
+        [TestMethod]
+        public void SwitchToNormalDefaultScreen_AfterCallOfIt_WoopecObjectsCannotBeUsedInUnitTests()
+        {
+            // arrange:
+            Screen.SwitchToUnitTestDefaultScreen();
+
+            var figure = new Figure() { IsVisible = true };
+            figure.Position = (10, 10);
+
+            // act:
+            Screen.SwitchToNormalDefaultScreen();
+
+            // assert:
+            bool exception = false;
+            try
+            {
+                var newFigure = new Figure() { IsVisible = true };
+            }
+            catch (Exception)
+            {
+                exception = true;
+            }
+            Assert.IsTrue(exception);
+        }
     }
 }
