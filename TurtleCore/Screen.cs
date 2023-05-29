@@ -53,7 +53,7 @@ namespace Woopec.Core
         public static void SwitchToNormalDefaultScreen()
         {
             LowLevelDefaultScreen.Reset();
-            _defaultScreen = new Screen(LowLevelDefaultScreen.Get());
+            _defaultScreen = null; // do NOT directly try to create a new Screen, because this would try to generate a normal screen. And we are in a unit test scenario here, where we have no normal screen.
         }
 
         /// <summary>
