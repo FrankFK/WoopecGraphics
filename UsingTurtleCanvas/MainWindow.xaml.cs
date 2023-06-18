@@ -15,7 +15,7 @@ namespace UsingTurtleCanvas
 
         public MainWindow()
         {
-            InitializeComponent();
+            // InitializeComponent();
         }
 
         public static void WoopecMain()

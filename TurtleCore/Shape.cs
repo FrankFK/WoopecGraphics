@@ -251,7 +251,11 @@ namespace Woopec.Core
         public static void Add(string name, List<Vec2D> polygon)
         {
             if (!s_shapes.ContainsKey(name))
-                s_shapes.Add(name, new Shape(polygon));
+            {
+                var shape = new Shape(polygon);
+                shape.Name = name;
+                s_shapes.Add(name, shape);
+            }
         }
 
         /// <summary>
@@ -262,7 +266,9 @@ namespace Woopec.Core
         public static void Add(string name, Shape shape)
         {
             if (!s_shapes.ContainsKey(name))
+            {
                 s_shapes.Add(name, shape);
+            }
         }
 
         /// <summary>
