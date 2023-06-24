@@ -19,7 +19,7 @@ namespace Woopec.Core.Examples
         {
             /////////////////////////////////////////////////////////////
             // 08.03.2021: First turtle with WPF
-            var firstTurtle = new Turtle() { Speed = Speeds.Slow, IsVisible = false, };
+            var firstTurtle = new Turtle() { Speed = Speeds.Slow, IsVisible = false, IsDown = true };
 
             firstTurtle.Right(45);
             firstTurtle.Forward(50);
