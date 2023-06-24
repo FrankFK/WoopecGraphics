@@ -75,14 +75,19 @@ namespace Woopec.Core
         /// </summary>
         /// <param name="title">Title of the dialog window</param>
         /// <param name="prompt">A text mostly describing what information to input</param>
+        /// <param name="position">(optional). Approximate position of the lower left corner of the dialog window</param>
         /// <returns>The string input. If the dialog is canceled, return null</returns>
-        public string TextInput(string title, string prompt)
+        public string TextInput(string title, string prompt, Vec2D position)
         {
-            var task = _lowLevelScreen.TextInputAsync(title, prompt);
+            var task = _lowLevelScreen.TextInputAsync(title, prompt, position);
 
             // async/await is too complex for C# beginners. Therfore we wait for the input:
             return task.Result;
         }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        public string TextInput(string title, string prompt) => TextInput(title, prompt, null);
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Pop up a dialog window for input of an integer value. 

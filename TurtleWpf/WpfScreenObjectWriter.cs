@@ -105,7 +105,7 @@ namespace Woopec.Wpf
         {
             string answer = null;
 
-            var dialogWindow = new TextInputWindow(dialog.Title, dialog.Prompt);
+            var dialogWindow = new TextInputWindow(dialog.Title, dialog.Prompt, dialog.Position, _canvas);
             dialogWindow.Owner = Window.GetWindow(_canvas);
             if (dialogWindow.ShowDialog() == true)
             {

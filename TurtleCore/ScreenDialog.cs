@@ -15,6 +15,6 @@ namespace Woopec.Core
 
         public string Prompt { get; set; }
 
-        public string DefaultAnswer { get; set; }
+        public Vec2D Position { get; set; }
     }
 }

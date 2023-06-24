@@ -52,7 +52,7 @@ namespace Woopec.Core.Internal
         }
 
         ///<inheritdoc/>
-        public async Task<string> TextInputAsync(string title, string prompt)
+        public async Task<string> TextInputAsync(string title, string prompt, Vec2D position)
         {
             await Task.Delay(1);
             throw new NotImplementedException("With LowLevelScreenForUnitTests TextInput is not usable.");

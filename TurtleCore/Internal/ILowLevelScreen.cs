@@ -32,8 +32,9 @@ namespace Woopec.Core.Internal
         /// </summary>
         /// <param name="title"></param>
         /// <param name="prompt"></param>
+        /// <param name="position">(optional). Approximate position of the lower left corner of the dialog window</param>
         /// <returns></returns>
-        public Task<string> TextInputAsync(string title, string prompt);
+        public Task<string> TextInputAsync(string title, string prompt, Vec2D position);
 
         /// <summary>
         /// Open a NumberInput dialog on screen and return the number, that the user has entered

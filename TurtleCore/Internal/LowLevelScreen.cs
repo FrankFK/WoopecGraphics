@@ -63,9 +63,9 @@ namespace Woopec.Core.Internal
         }
 
         ///<inheritdoc/>
-        public async Task<string> TextInputAsync(string title, string prompt)
+        public async Task<string> TextInputAsync(string title, string prompt, Vec2D position)
         {
-            var dialog = new ScreenDialog() { Title = title, Prompt = prompt };
+            var dialog = new ScreenDialog() { Title = title, Prompt = prompt, Position = position };
             // If we do not wait for another animation this dialog is shown immediately. In most cases the programmer expects
             // that all previously created animation are drawn before the dialog is shown
             // Therefore:

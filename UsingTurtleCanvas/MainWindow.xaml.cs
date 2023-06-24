@@ -21,6 +21,8 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
+            // Woopec.Core.Examples.FeaturesDemo.Run();
+
             var turtle = new Turtle() { IsVisible = true };
             turtle.PenDown();
             // turtle.Left(90);
@@ -34,8 +36,11 @@ namespace UsingTurtleCanvas
             turtle.Left(90);
             turtle.Forward(800);
             turtle.Position = (0, 0);
-            var result = Screen.Default.TextInput("xxxxx", "MMMMMMMMMMMMMMMM");
-            Woopec.Core.Examples.FeaturesDemo.Run();
+
+            turtle.Heading = 180;
+            turtle.Position = (-100, -200);
+
+            var result = Screen.Default.TextInput("xxxxx", "MMMMMMMMMMMMMMMM", turtle.Position);
             return;
 
             /*

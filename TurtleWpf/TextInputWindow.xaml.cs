@@ -20,18 +20,23 @@ namespace Woopec.Wpf
     /// </summary>
     public partial class TextInputWindow : Window
     {
+        private readonly Vec2D _position;
+        private readonly Canvas _canvas;
+
         /// <summary>
         /// Show an input dialog
         /// </summary>
         /// <param name="title">Title</param>
         /// <param name="question">Question</param>
-        /// <param name="defaultAnswer">Default Answer</param>
-        public TextInputWindow(string title, string question, string defaultAnswer = "")
+        /// <param name="position">(optional).  Approximate position of the lower left corner of the dialog window</param>
+        /// <param name="canvas">canvas of the position</param>
+        public TextInputWindow(string title, string question, Vec2D position, Canvas canvas)
         {
             InitializeComponent();
             Title = title;
             lblQuestion.Content = question;
-            txtAnswer.Text = defaultAnswer;
+            _position = position;
+            _canvas = canvas;
         }
 
         /// <summary>
@@ -50,24 +55,33 @@ namespace Woopec.Wpf
             txtAnswer.Focus();
         }
 
-        /*
-        private void PositionWindow()
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            bool withReferencePoint = true;
-
-            if (withReferencePoint)
+            if (_position != null)
             {
+                // Place the window such that its lower left corner is at _position.
+                // The following code does not work place the window perfectly, but I do not know how to implement it better.
+
+                var positionInCanvasCoordinates = CanvasHelpers.ConvertToCanvasPoint(_position, _canvas);
+
                 var transform = _canvas.TransformToAncestor(Owner);
 
-                var topleftRelativeToOwner = transform.Transform(new Point(0, 0));
                 var centerRelativeToOwner = transform.Transform(new Point(_canvas.ActualWidth / 2, _canvas.ActualHeight / 2));
                 var centerOnSreen = Owner.PointToScreen(centerRelativeToOwner);
 
+                var positionRelativeToOwner = transform.Transform(positionInCanvasCoordinates);
+                var positionOnScreen = Owner.PointToScreen(positionRelativeToOwner);
+
+                // normally the upper left corner of the TextInputWindow is positioned, but we want to position the lower left corner.
+                // Therefore we have to move it up by its ActualHeight
+                var moveWindowToTop = ActualHeight;
+
+
                 WindowStartupLocation = WindowStartupLocation.Manual;
-                Left = centerOnSreen.X;
-                Top = centerOnSreen.Y;
+                Left = positionOnScreen.X;
+                Top = positionOnScreen.Y - moveWindowToTop;
             }
+
         }
-        */
     }
 }

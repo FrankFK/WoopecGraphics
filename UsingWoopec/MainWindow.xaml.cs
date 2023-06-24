@@ -12,10 +12,12 @@ namespace UsingWoopec
         {
             InitializeComponent();
         }
-        // Woopec.Examples.FeaturesDemo.Run();
 
         public static void TurtleMain()
         {
+            Woopec.Examples.FeaturesDemo.Run();
+
+
             var whoopec = new Turtle() { Shape = Shapes.Bird, FillColor = Colors.DarkBlue, PenColor = Colors.LightBlue, Speed = Speeds.Fastest, IsVisible = false };
 
             whoopec.BeginFill();
