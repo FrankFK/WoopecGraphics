@@ -64,10 +64,6 @@ namespace Woopec.Core.UnitTests
                 FigureUpdates.Add(figure);
             }
 
-            public string TextInput(string title, string prompt)
-            {
-                throw new NotImplementedException();
-            }
 
             public Task<string> TextInputAsync(string title, string prompt, Vec2D position)
             {
