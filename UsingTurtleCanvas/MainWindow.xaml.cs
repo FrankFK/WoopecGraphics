@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Windows;
 using Woopec.Core;
 using Colors = Woopec.Core.Colors;
@@ -20,6 +21,20 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
+            var turtle = new Turtle() { IsVisible = true };
+            turtle.PenDown();
+            // turtle.Left(90);
+            turtle.Forward(400);
+            turtle.Left(90);
+            turtle.Forward(400);
+            turtle.Left(90);
+            turtle.Forward(800);
+            turtle.Left(90);
+            turtle.Forward(800);
+            turtle.Left(90);
+            turtle.Forward(800);
+            turtle.Position = (0, 0);
+            var result = Screen.Default.TextInput("xxxxx", "MMMMMMMMMMMMMMMM");
             Woopec.Core.Examples.FeaturesDemo.Run();
             return;
 

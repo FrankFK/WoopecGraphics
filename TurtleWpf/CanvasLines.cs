@@ -14,15 +14,13 @@ namespace Woopec.Wpf
 {
     internal class CanvasLines
     {
-        private readonly double _canvasWidth;
-        private readonly double _canvasHeight;
+        private readonly Canvas _canvas;
 
         private readonly List<Line> _lines;
 
-        public CanvasLines(double canvasWidth, double canvasHeigth)
+        public CanvasLines(Canvas canvas)
         {
-            _canvasWidth = canvasWidth;
-            _canvasHeight = canvasHeigth;
+            _canvas = canvas;
             _lines = new();
         }
 
@@ -35,7 +33,7 @@ namespace Woopec.Wpf
             if (effect.AnimatedProperty != ScreenAnimationMovementProperty.Point2)
                 throw new NotImplementedException();
 
-            var canvasStartPoint = CanvasHelpers.ConvertToCanvasPoint(effect.StartValue, _canvasWidth, _canvasHeight);
+            var canvasStartPoint = CanvasHelpers.ConvertToCanvasPoint(effect.StartValue, _canvas);
             var lineXAnimation = new DoubleAnimation
             {
                 From = canvasStartPoint.X,
@@ -72,8 +70,8 @@ namespace Woopec.Wpf
             var line = _lines[screenLine.ID];
             line.Stroke = new SolidColorBrush(ColorConverter.Convert(screenLine.Color));
 
-            var canvasPoint1 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point1, _canvasWidth, _canvasHeight);
-            var canvasPoint2 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point2, _canvasWidth, _canvasHeight);
+            var canvasPoint1 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point1, _canvas);
+            var canvasPoint2 = CanvasHelpers.ConvertToCanvasPoint(screenLine.Point2, _canvas);
             line.X1 = canvasPoint1.X;
             line.Y1 = canvasPoint1.Y;
             line.X2 = canvasPoint2.X;

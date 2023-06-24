@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Woopec.Core;
 
 namespace Woopec.Wpf
 {
@@ -24,7 +25,7 @@ namespace Woopec.Wpf
         /// </summary>
         /// <param name="title">Title</param>
         /// <param name="question">Question</param>
-        /// <param name="defaultAnswer">Default Answert</param>
+        /// <param name="defaultAnswer">Default Answer</param>
         public TextInputWindow(string title, string question, string defaultAnswer = "")
         {
             InitializeComponent();
@@ -49,5 +50,24 @@ namespace Woopec.Wpf
             txtAnswer.Focus();
         }
 
+        /*
+        private void PositionWindow()
+        {
+            bool withReferencePoint = true;
+
+            if (withReferencePoint)
+            {
+                var transform = _canvas.TransformToAncestor(Owner);
+
+                var topleftRelativeToOwner = transform.Transform(new Point(0, 0));
+                var centerRelativeToOwner = transform.Transform(new Point(_canvas.ActualWidth / 2, _canvas.ActualHeight / 2));
+                var centerOnSreen = Owner.PointToScreen(centerRelativeToOwner);
+
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Left = centerOnSreen.X;
+                Top = centerOnSreen.Y;
+            }
+        }
+        */
     }
 }

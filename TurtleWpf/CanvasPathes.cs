@@ -14,15 +14,13 @@ namespace Woopec.Wpf
 {
     internal class CanvasPathes
     {
-        private readonly double _canvasWidth;
-        private readonly double _canvasHeight;
+        private readonly Canvas _canvas;
 
         private readonly Dictionary<int, Path> _pathes;
 
-        public CanvasPathes(double canvasWidth, double canvasHeigth)
+        public CanvasPathes(Canvas canvas)
         {
-            _canvasWidth = canvasWidth;
-            _canvasHeight = canvasHeigth;
+            _canvas = canvas;
             _pathes = new();
         }
 
@@ -68,7 +66,7 @@ namespace Woopec.Wpf
             if (screenFigure.OutlineColor != null)
                 path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
-            var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvasWidth, _canvasHeight);
+            var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvas);
 
             var transforms = new TransformGroup();
             path.RenderTransform = transforms;
@@ -91,14 +89,14 @@ namespace Woopec.Wpf
             if (screenFigure.OutlineColor != null)
                 path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
-            var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvasWidth, _canvasHeight);
+            var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvas);
 
             var transforms = new TransformGroup();
             path.RenderTransform = transforms;
 
             var move = screenFigure.Animation.Effects[0] as ScreenAnimationMovement;
 
-            var oldPositionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(move.StartValue, _canvasWidth, _canvasHeight);
+            var oldPositionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(move.StartValue, _canvas);
 
             // We change left and top in canvas, because this way is the way we do in case of a rotation:
             Canvas.SetLeft(path, oldPositionOnCanvas.X);
@@ -137,7 +135,7 @@ namespace Woopec.Wpf
             if (screenFigure.OutlineColor != null)
                 path.Stroke = new SolidColorBrush(ColorConverter.Convert(screenFigure.OutlineColor));
 
-            var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvasWidth, _canvasHeight);
+            var positionOnCanvas = CanvasHelpers.ConvertToCanvasPoint(screenFigure.Position, _canvas);
 
             var transforms = new TransformGroup();
             path.RenderTransform = transforms;

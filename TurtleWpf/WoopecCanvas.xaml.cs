@@ -39,7 +39,9 @@ namespace Woopec.Wpf
         public WoopecCanvas()
         {
             InitializeComponent();
-            _canvas = new Canvas() { Width = 400, Height = 400 };
+            _canvas = new Canvas();
+            // Frank 24.06.2023
+            // - The _canvas is created without values for Width and Heigth, because the _canvas should adapt to the size of the UserControl WoopecCanvas
             this.Content = _canvas;
 
             _screenObjectWriter = new WpfScreenObjectWriter(_canvas);
@@ -47,7 +49,14 @@ namespace Woopec.Wpf
 
             _communication = new Communication(_screenObjectWriter);
             _communication.StartProgram();
+        }
 
+        void OnLoad(object sender, RoutedEventArgs e)
+        {
+            // Frank 24.06.2023
+            // - This method is called when the UserControl is Loaded.
+            // - It is important that the NextTask loop does not start until everything is rendered. Only then are the values for _canvas.ActualWidth and _canvas.ActualHeight
+            //   are set. And this is important for the calculation in CanvasHelpers.ConvertToCanvasPoint()
             NextTask();
         }
 

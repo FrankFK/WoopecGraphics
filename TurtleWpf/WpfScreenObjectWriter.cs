@@ -25,8 +25,8 @@ namespace Woopec.Wpf
         public WpfScreenObjectWriter(Canvas canvas)
         {
             _canvas = canvas;
-            _canvasLines = new CanvasLines(canvas.Width, canvas.Height);
-            _canvasPathes = new CanvasPathes(canvas.Width, canvas.Height);
+            _canvasLines = new CanvasLines(_canvas);
+            _canvasPathes = new CanvasPathes(_canvas);
         }
 
         public void UpdateWithAnimation(ScreenObject screenObject)
