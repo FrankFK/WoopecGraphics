@@ -23,11 +23,13 @@ namespace Woopec.Wpf
     {
         private readonly ScreenNumberDialog _dialogInfo;
         private double? _answerAsDouble;
+        private readonly Canvas _canvas;
 
-        internal NumberInputWindow(ScreenNumberDialog dialogInfo)
+        internal NumberInputWindow(ScreenNumberDialog dialogInfo, Canvas canvas)
         {
             _dialogInfo = dialogInfo;
             _answerAsDouble = null;
+            _canvas = canvas;
             InitializeComponent();
             Title = dialogInfo.Title;
             lblQuestion.Content = dialogInfo.Prompt;
@@ -129,5 +131,12 @@ namespace Woopec.Wpf
             return true;
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_dialogInfo.Position != null)
+            {
+                CanvasHelpers.SetLowerLeftCornerOfWindowToCanvasPoint(_dialogInfo.Position, _canvas, this);
+            }
+        }
     }
 }

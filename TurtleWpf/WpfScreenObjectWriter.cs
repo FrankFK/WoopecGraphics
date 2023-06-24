@@ -119,7 +119,7 @@ namespace Woopec.Wpf
         {
             double? answer = null;
 
-            var dialogWindow = new NumberInputWindow(dialog);
+            var dialogWindow = new NumberInputWindow(dialog, _canvas);
             dialogWindow.Owner = Window.GetWindow(_canvas);
             if (dialogWindow.ShowDialog() == true)
             {

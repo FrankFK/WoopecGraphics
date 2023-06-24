@@ -59,29 +59,8 @@ namespace Woopec.Wpf
         {
             if (_position != null)
             {
-                // Place the window such that its lower left corner is at _position.
-                // The following code does not work place the window perfectly, but I do not know how to implement it better.
-
-                var positionInCanvasCoordinates = CanvasHelpers.ConvertToCanvasPoint(_position, _canvas);
-
-                var transform = _canvas.TransformToAncestor(Owner);
-
-                var centerRelativeToOwner = transform.Transform(new Point(_canvas.ActualWidth / 2, _canvas.ActualHeight / 2));
-                var centerOnSreen = Owner.PointToScreen(centerRelativeToOwner);
-
-                var positionRelativeToOwner = transform.Transform(positionInCanvasCoordinates);
-                var positionOnScreen = Owner.PointToScreen(positionRelativeToOwner);
-
-                // normally the upper left corner of the TextInputWindow is positioned, but we want to position the lower left corner.
-                // Therefore we have to move it up by its ActualHeight
-                var moveWindowToTop = ActualHeight;
-
-
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Left = positionOnScreen.X;
-                Top = positionOnScreen.Y - moveWindowToTop;
+                CanvasHelpers.SetLowerLeftCornerOfWindowToCanvasPoint(_position, _canvas, this);
             }
-
         }
     }
 }

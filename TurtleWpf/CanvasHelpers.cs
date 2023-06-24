@@ -44,5 +44,26 @@ namespace Woopec.Wpf
         {
             return 90 - turtleHeading;
         }
+
+        public static void SetLowerLeftCornerOfWindowToCanvasPoint(Vec2D position, Canvas canvas, Window window)
+        {
+            // Place the window such that its lower left corner is at _position.
+            // The following code does not work place the window perfectly, but I do not know how to implement it better.
+            var positionInCanvasCoordinates = ConvertToCanvasPoint(position, canvas);
+
+            var transform = canvas.TransformToAncestor(window.Owner);
+
+            var positionRelativeToOwner = transform.Transform(positionInCanvasCoordinates);
+            var positionOnScreen = window.Owner.PointToScreen(positionRelativeToOwner);
+
+            // normally the upper left corner of the TextInputWindow is positioned, but we want to position the lower left corner.
+            // Therefore we have to move it up by its ActualHeight
+            var moveWindowToTop = window.ActualHeight;
+
+
+            window.WindowStartupLocation = WindowStartupLocation.Manual;
+            window.Left = positionOnScreen.X;
+            window.Top = positionOnScreen.Y - moveWindowToTop;
+        }
     }
 }

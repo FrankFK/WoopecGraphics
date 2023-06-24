@@ -30,6 +30,8 @@ namespace Woopec.Core
         public double? MinValue { get; set; }
         public double? MaxValue { get; set; }
 
+        public Vec2D Position { get; set; }
+
         /// <summary>
         /// If ReturnType is Integer, the user-input is checked if it is an integer.
         /// If ReturnType is Double, the user-input is checked if it is an double.

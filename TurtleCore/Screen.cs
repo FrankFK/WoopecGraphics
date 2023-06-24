@@ -113,10 +113,11 @@ namespace Woopec.Core
         /// <param name="defaultValue">(optional). Default value</param>
         /// <param name="minValue">(optional). Minimal value</param>
         /// <param name="maxValue">(optional). Maximal value</param>
+        /// <param name="position">(optional). Approximate position of the lower left corner of the dialog window</param>
         /// <returns>Return the number input. If the dialog is canceled, return null.</returns>
-        public int? NumInput(string title, string prompt, int? defaultValue, int? minValue, int? maxValue)
+        public int? NumInput(string title, string prompt, int? defaultValue, int? minValue, int? maxValue, Vec2D position)
         {
-            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, ReturnType = ScreenNumberDialog.NumberType.Integer };
+            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, Position = position, ReturnType = ScreenNumberDialog.NumberType.Integer };
 
             var task = _lowLevelScreen.NumberInputAsync(dialog);
 
@@ -125,8 +126,8 @@ namespace Woopec.Core
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public int? NumInput(string title, string prompt) => NumInput(title, prompt, null, null, null);
-        public int? NumInput(string title, string prompt, int defaultValue) => NumInput(title, prompt, defaultValue, null, null);
+        public int? NumInput(string title, string prompt) => NumInput(title, prompt, null, null, null, null);
+        public int? NumInput(string title, string prompt, int defaultValue) => NumInput(title, prompt, defaultValue, null, null, null);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
@@ -153,10 +154,11 @@ namespace Woopec.Core
         /// <param name="defaultValue">(optional). Default value</param>
         /// <param name="minValue">(optional). Minimal value</param>
         /// <param name="maxValue">(optional). Maximal value</param>
+        /// <param name="position">(optional). Approximate position of the lower left corner of the dialog window</param>
         /// <returns>Return the number input. If the dialog is canceled, return null.</returns>
-        public double? DoubleInput(string title, string prompt, double? defaultValue, double? minValue, double? maxValue)
+        public double? DoubleInput(string title, string prompt, double? defaultValue, double? minValue, double? maxValue, Vec2D position)
         {
-            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, ReturnType = ScreenNumberDialog.NumberType.Double };
+            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, Position = position, ReturnType = ScreenNumberDialog.NumberType.Double };
 
             var task = _lowLevelScreen.NumberInputAsync(dialog);
 
@@ -165,8 +167,8 @@ namespace Woopec.Core
         }
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-        public double? DoubleInput(string title, string prompt) => DoubleInput(title, prompt, null, null, null);
-        public double? DoubleInput(string title, string prompt, double defaultValue) => DoubleInput(title, prompt, defaultValue, null, null);
+        public double? DoubleInput(string title, string prompt) => DoubleInput(title, prompt, null, null, null, null);
+        public double? DoubleInput(string title, string prompt, double defaultValue) => DoubleInput(title, prompt, defaultValue, null, null, null);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>

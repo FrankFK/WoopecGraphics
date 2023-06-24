@@ -40,7 +40,8 @@ namespace UsingTurtleCanvas
             turtle.Heading = 180;
             turtle.Position = (-100, -200);
 
-            var result = Screen.Default.TextInput("xxxxx", "MMMMMMMMMMMMMMMM", turtle.Position);
+            // var result = Screen.Default.TextInput("xxxxx", "MMMMMMMMMMMMMMMM", turtle.Position);
+            var result2 = Screen.Default.DoubleInput("Title", "Halli hallo ein Zahl bitte", 0.0, -5.0, 10.0, turtle.Position);
             return;
 
             /*

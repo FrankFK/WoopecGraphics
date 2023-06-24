@@ -191,7 +191,7 @@ namespace Woopec.Core.Examples
             // 12.06.2022 NumInput() and DoubleInput()
 
             int numberOfStarships = 0;
-            var countAnswer = activeTurtle.Screen.NumInput("User defined shape", "Please input the number of new shapes (between 1 and 10)", 5, 1, 10);
+            var countAnswer = activeTurtle.Screen.NumInput("User defined shape", "Please input the number of new shapes (between 1 and 10)", 5, 1, 10, null);
             numberOfStarships = countAnswer.GetValueOrDefault();
 
             /////////////////////////////////////////////////////////////
