@@ -76,5 +76,15 @@ namespace Woopec.Core.Internal
                 LastIssuedAnimatonGroupID = screenObject.GroupID;
             }
         }
+
+        public void ShowTextBlock(ScreenTextBlock textBlock)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

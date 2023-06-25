@@ -29,6 +29,18 @@ namespace Woopec.Wpf
         }
 
         /// <summary>
+        /// Convert a point on the canvas to a vector in turtle-coordinate-system
+        /// Canvas point (0, 0) is in the middle of the canvas
+        /// </summary>
+        /// <param name="canvasPoint"></param>
+        /// <param name="canvas"></param>
+        /// <returns></returns>
+        public static Vec2D ConvertToVec2DPoint(Point canvasPoint, Canvas canvas)
+        {
+            return new Vec2D(canvasPoint.X - canvas.ActualWidth / 2, canvas.ActualHeight / 2 - canvasPoint.Y);
+        }
+
+        /// <summary>
         /// Convert a vector (in turtle-coordinate-system) to a point on the canvas. 
         /// Point (0, 0) is not changed
         /// </summary>

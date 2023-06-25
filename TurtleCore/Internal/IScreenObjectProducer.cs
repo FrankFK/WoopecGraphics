@@ -21,5 +21,7 @@ namespace Woopec.Core
 
         public void ShowDialog(ScreenDialog dialog);
         public void ShowNumberDialog(ScreenNumberDialog dialog);
+
+        public void ShowTextBlock(ScreenTextBlock textBlock);
     }
 }

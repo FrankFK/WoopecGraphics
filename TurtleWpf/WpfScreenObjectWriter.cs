@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Woopec.Core;
 using Woopec.Core.Internal;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 
 namespace Woopec.Wpf
 {
@@ -60,6 +63,10 @@ namespace Woopec.Wpf
             else if (screenObject is ScreenNumberDialog numberDialog)
             {
                 ShowNumberDialogAndSendAnswer(numberDialog);
+            }
+            else if (screenObject is ScreenTextBlock textBlock)
+            {
+                ShowTextBlock(textBlock);
             }
             else
             {
@@ -128,5 +135,24 @@ namespace Woopec.Wpf
 
             _screenResultProducer.SendNumber(answer);
         }
+
+        private void ShowTextBlock(ScreenTextBlock textBlock)
+        {
+            var converter = new TextBlockConverter(textBlock);
+
+            var wpfTextBlock = converter.CreateWpfTextBlock();
+            var canvasPosition = converter.GetUpperLeftCornerOnCanvas(_canvas);
+
+            _canvas.Children.Add(wpfTextBlock);
+            Canvas.SetTop(wpfTextBlock, canvasPosition.Y);
+            Canvas.SetLeft(wpfTextBlock, canvasPosition.X);
+
+            if (textBlock.ReturnLowerRightCorner)
+            {
+                var lowerRightCorner = converter.GetLowerRightPointInWoopecCoordinates(_canvas);
+                _screenResultProducer.SendVec2D(lowerRightCorner);
+            }
+        }
+
     }
 }

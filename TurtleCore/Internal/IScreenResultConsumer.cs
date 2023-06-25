@@ -11,5 +11,7 @@ namespace Woopec.Core.Internal
     {
         public Task<string> ReadTextResultAsync();
         public Task<double?> ReadNumberResultAsync();
+
+        public Task<Vec2D> ReadVec2DResultAsync();
     }
 }

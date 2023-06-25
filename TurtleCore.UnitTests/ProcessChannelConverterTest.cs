@@ -108,8 +108,30 @@ namespace TurtleCore.UnitTests
                 Color = Colors.Red,
             };
 
+            var textBox = new ScreenTextBlock()
+            {
+                ID = 5,
+                GroupID = 17,
+                WaitForCompletedAnimationsOfSameGroup = true,
+                WaitForCompletedAnimationsOfAnotherGroup = 15,
+                Position = (1, 2),
+                Text = "Hallo?\nZweite Zeile",
+                TextStyle = new TextStyle()
+                {
+                    FontFamilyName = "Courier New",
+                    FontSize = 12,
+                    FontStyle = FontStyleType.Italic,
+                    FontWeight = FontWeightType.Bold,
+                    BackgroundColor = null,
+                    ForegroundColor = Colors.Blue
+                },
+                Alignment = TextAlignmentType.Left,
+                ReturnLowerRightCorner = true,
+            };
+
             objects.Add(figure);
             objects.Add(line);
+            objects.Add(textBox);
 
             var shapeBaseConverter = new ProcessChannelConverter<ShapeBase>(ShapeBase.JsonTypeDiscriminatorAsInt, ShapeBase.JsonWrite, ShapeBase.JsonRead);
             var effectConverter = new ProcessChannelConverter<ScreenAnimationEffect>(ScreenAnimationEffect.JsonTypeDiscriminatorAsInt, ScreenAnimationEffect.JsonWrite, ScreenAnimationEffect.JsonRead);
@@ -133,6 +155,9 @@ namespace TurtleCore.UnitTests
 
             roundTrip[1].Should().BeOfType<ScreenLine>();
             (roundTrip[1] as ScreenLine).Should().BeEquivalentTo(line);
+
+            roundTrip[2].Should().BeOfType<ScreenTextBlock>();
+            (roundTrip[2] as ScreenTextBlock).Should().BeEquivalentTo(textBox);
         }
 
 

@@ -251,6 +251,27 @@ namespace Woopec.Core.Examples
             figure.IsVisible = true;
             figure.Move(500);
 
+            /////////////////////////////////////////////////////////////
+            // 25.06.2023 Drawing text on screen
+            var textStyle = new TextStyle()
+            {
+                FontFamilyName = "Verdana",
+                FontSize = 20,
+                FontStyle = FontStyleType.Normal,
+                FontWeight = FontWeightType.Normal,
+                BackgroundColor = null,
+                ForegroundColor = Colors.Blue
+            };
+            activeTurtle.Position = (150, 250);
+            var figureYPosition = activeTurtle.Position.Y;
+            activeTurtle.Speed = Speeds.Slowest;
+            var newPosition = Screen.Default.WriteText("Hello", activeTurtle.Position, textStyle, TextAlignmentType.Left, true);
+            activeTurtle.Position = newPosition;
+            activeTurtle.Position = (activeTurtle.Position.X + 10, figureYPosition);
+            textStyle.FontStyle = FontStyleType.Italic;
+            newPosition = Screen.Default.WriteText("World", activeTurtle.Position, textStyle, TextAlignmentType.Left, true);
+            activeTurtle.Position = newPosition;
+            activeTurtle.Forward(50);
 
         }
 

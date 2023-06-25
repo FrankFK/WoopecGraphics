@@ -141,6 +141,12 @@ namespace Woopec.Core.UnitTests
             {
                 throw new NotImplementedException();
             }
+
+            public void ShowTextBlock(ScreenTextBlock textBlock)
+            {
+                throw new NotImplementedException();
+            }
+
         }
 
         private class TurtleScreenResultConsumerMockup : IScreenResultConsumer
@@ -154,6 +160,12 @@ namespace Woopec.Core.UnitTests
             {
                 throw new NotImplementedException();
             }
+
+            public Task<Vec2D> ReadVec2DResultAsync()
+            {
+                throw new NotImplementedException();
+            }
+
         }
 
         private static TurtleScreenProducerMockup _producerMockup;

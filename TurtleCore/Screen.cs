@@ -172,6 +172,32 @@ namespace Woopec.Core
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
+        /// Write text at the given position (which sets the upper left corner of the text) according to alignment and with the given text style.
+        /// If returnLowerRightCorner is true, the coordinate of the lower right corner of the text is returned
+        /// By default, returnUpperRightCorner  is False.
+        /// </summary>
+        /// <param name="text">Text. Multiple lines can be separated by \n </param>
+        /// <param name="position">upper left corner </param>
+        /// <param name="textStyle">Definition of the text style</param>
+        /// <param name="alignment">Horizontal alignment of the text (relevant if text has multiple lines)</param>
+        /// <param name="returnLowerRightCorner">Upper right corner of the text</param>
+        /// <returns></returns>
+        public Vec2D WriteText(string text, Vec2D position, TextStyle textStyle, TextAlignmentType alignment, bool returnLowerRightCorner)
+        {
+            var textBlock = new ScreenTextBlock() { Text = text, Position = position, TextStyle = textStyle, Alignment = alignment, ReturnLowerRightCorner = returnLowerRightCorner };
+
+            if (returnLowerRightCorner)
+            {
+                var task = _lowLevelScreen.ShowTextBlockWithReturnCoordinateAsync(textBlock);
+                return task.Result;
+            }
+            else
+            {
+                _lowLevelScreen.ShowTextBlock(textBlock);
+                return null;
+            }
+        }
+        /// <summary>
         /// Shut the turtlegraphics window
         /// <example>
         /// <code>

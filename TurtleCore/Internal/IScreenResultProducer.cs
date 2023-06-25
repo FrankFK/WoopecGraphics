@@ -13,5 +13,7 @@ namespace Woopec.Core.Internal
     {
         public void SendText(string text);
         public void SendNumber(double? number);
+
+        public void SendVec2D(Vec2D value);
     }
 }

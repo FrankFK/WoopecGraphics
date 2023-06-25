@@ -47,5 +47,22 @@ namespace Woopec.Core.Internal
             }
             return screenResultNumber.Value;
         }
+
+        public async Task<Vec2D> ReadVec2DResultAsync()
+        {
+            ScreenResultVec2D screenResultVec2D = null;
+            try
+            {
+                var screenResult = await _screenResultChannel.ReadAsync();
+                screenResultVec2D = screenResult as ScreenResultVec2D;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ScreenResultConsumer ReadVec2DResultAsync: Exception " + ex.Message);
+                throw;
+            }
+            return screenResultVec2D.Value;
+        }
+
     }
 }

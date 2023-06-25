@@ -25,78 +25,78 @@ These decesions make it easier for me to set the state for functions to "ok".
 
 | function                            | priority | state                                                |
 |-------------------------------------|----------|------------------------------------------------------|
-| **Move & Draw**
+| **Move & Draw**|||
 | forward()                           | 1       | ok |
 | backward()                          | 1       | ok |
 | right()                             | 1       | ok |
 | left()                              | 1       | ok |
 | goto()                              |         | ok |
-| setx()
-| sety()
+| setx()|||
+| sety()|||
 | setheading()                        | 1       | ok |
-| home()
-| circle()
-| dot()
-| stamp()
-| clearstamp()
-| clearstamps()
-| undo()
+| home()|||
+| circle()|||
+| dot()|||
+| stamp()|||
+| clearstamp()|||
+| clearstamps()|||
+| undo()|||
 | speed()                             | 1       | ok |
-| **Tell Turtle’s state**
+| **Tell Turtle’s state**|||
 | position()                          |         | ok |
-| towards()
-| xcor()
-| ycor()
+| towards()|||
+| xcor()|||
+| ycor()|||
 | heading()                           |         | ok |
-| distance()
-| **Setting and measurement**
-| degrees()                           | not planned |
-| radians()                           | not planned |
-| **Drawing state**
+| distance()|||
+| **Setting and measurement**|||
+| degrees()                           | not planned ||
+| radians()                           | not planned ||
+| **Drawing state**|||
 | pendown()                            | 1      | ok |
 | penup()                              | 1      | ok |
-| pensize() 
-| pen()
+| pensize() |||
+| pen()|||
 | isdown()                             |        | ok |
-| **Color Control**
+| **Color Control**|||
 | color()                              | 1      | ok |
 | pencolor()                           | 1      | ok |
 | fillcolor()                          | 1      | ok |
-| **Filling**
+| **Filling**|||
 | filling()                            |   | ok |
 | begin_fill()                         | 1 | ok |
 | end_fill()                           | 1 |  ok |
-| **More drawing control**
-| reset()
-| clear()
-| write()
-| **Visibility**
+| **More drawing control**|||
+| reset()|||
+| clear()|||
+| write()||ok ( method `WriteText` of `Screen` class can be used for this)|
+| **Visibility**|||
 | showturtle()                         | 1 | ok  |
 | hideturtle()                         | 1 | ok  |
 | isvisible()                          |   | ok  |
-| **Appearance**
+| **Appearance**|||
 | shape()                              | 2 | ok |
-| resizemode()                        
-| shapesize() 
-| shearfactor()
-| settiltangle()
-| tiltangle()
-| tilt()
-| shapetransform()
-| get_shapepoly()
-| **Using events**
-| onclick()
-| onrelease()
-| ondrag()
-| **Special Turtle methods**
+| resizemode()                        |||
+| shapesize() |||
+| shearfactor()|||
+| settiltangle()|||
+| tiltangle()|||
+| tilt()|||
+| shapetransform()|||
+| get_shapepoly()|||
+| **Using events**|||
+| onclick()|||
+| onrelease()|||
+| ondrag()|||
+| **Special Turtle methods**|||
 | begin_poly()                          |  | BeginPoly() |
 | end_poly()                            |  | EndPoly() |
-| get_poly()                            |  | not needed, EndPoly() returns the polygon | 
-| clone()
-| getturtle() 
-| getscreen()
-| setundobuffer()
-| undobufferentries()
+| get_poly()                            |  | not needed, EndPoly() returns the polygon |
+| clone()|||
+| getturtle() |||
+| getscreen()|||
+| setundobuffer()|||
+| undobufferentries()|||
 
 
 ### Methods of TurtleScreen/Screen
@@ -185,5 +185,4 @@ Auf anderem Rechner kann es installiert und genutzt werden (ohne Doku)
     Es sieht für mich so aus, als ob Nuget das aber erkennt. Weil es beim Herunterladen des Woopec.Wpf Pakets
     behauptet, dass dieses Woopec.Core verwendet (magic?)
 * Nutzung von Nuget woopec.wpf ausprobieren
-
 

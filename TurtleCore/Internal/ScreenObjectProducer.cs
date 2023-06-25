@@ -28,7 +28,7 @@ namespace Woopec.Core.Internal
         {
             var success = _objectChannel.TryWrite(line) ? "" : "FAILED";
 
-            Debug.WriteLine($"Producer: Line {line.ID} send to channel {line.AnimationInfoForDebugger()}. {success}");
+            Debug.WriteLine($"Producer: Line {line.ID} is sent to channel {line.AnimationInfoForDebugger()}. {success}");
         }
 
 
@@ -44,20 +44,25 @@ namespace Woopec.Core.Internal
         public void UpdateFigure(ScreenFigure figure)
         {
             var success = _objectChannel.TryWrite(figure) ? "" : "FAILED"; ;
-            Debug.WriteLine($"Producer: Update of figure {figure.ID} send to channel {figure.AnimationInfoForDebugger()}. {success}");
+            Debug.WriteLine($"Producer: Update of figure {figure.ID} is sent to channel {figure.AnimationInfoForDebugger()}. {success}");
         }
 
         public void ShowDialog(ScreenDialog dialog)
         {
             var success = _objectChannel.TryWrite(dialog) ? "" : "FAILED";
-            Debug.WriteLine($"Producer: Dialog {dialog.Title} send to channel. {success}");
+            Debug.WriteLine($"Producer: Dialog {dialog.Title} is sent to channel. {success}");
         }
 
         public void ShowNumberDialog(ScreenNumberDialog dialog)
         {
             var success = _objectChannel.TryWrite(dialog) ? "" : "FAILED";
-            Debug.WriteLine($"Producer: Number dialog {dialog.Title} send to channel. {success}");
+            Debug.WriteLine($"Producer: Number dialog {dialog.Title} is sent to channel. {success}");
         }
 
+        public void ShowTextBlock(ScreenTextBlock textBlock)
+        {
+            var success = _objectChannel.TryWrite(textBlock) ? "" : "FAILED";
+            Debug.WriteLine($"Producer: Text block {textBlock.Text.Substring(0, Math.Min(10, textBlock.Text.Length))} is sent to channel. {success}");
+        }
     }
 }

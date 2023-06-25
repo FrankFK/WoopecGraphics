@@ -84,6 +84,20 @@ namespace Woopec.Core.Internal
             return answer;
         }
 
+        public void ShowTextBlock(ScreenTextBlock textBlock)
+        {
+            textBlock.WaitForCompletedAnimationsOfAnotherGroup = LastIssuedAnimatonGroupID;
+            _screenObjectProducer.ShowTextBlock(textBlock);
+        }
+
+        public async Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
+        {
+            textBlock.WaitForCompletedAnimationsOfAnotherGroup = LastIssuedAnimatonGroupID;
+            _screenObjectProducer.ShowTextBlock(textBlock);
+            var result = await _screenResultConsumer.ReadVec2DResultAsync();
+            return result;
+        }
+
 
 
         #endregion

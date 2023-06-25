@@ -42,5 +42,19 @@ namespace Woopec.Core.Internal
         /// <param name="dialog">Informations about the dialog and the expected value</param>
         /// <returns></returns>
         public Task<double?> NumberInputAsync(ScreenNumberDialog dialog);
+
+        /// <summary>
+        /// Show a text on screen
+        /// </summary>
+        /// <param name="textBlock">All information about the text</param>
+        public void ShowTextBlock(ScreenTextBlock textBlock);
+
+        /// <summary>
+        /// Show a text on screen and return the upper right coordinate of the text
+        /// </summary>
+        /// <param name="textBlock"></param>
+        /// <returns></returns>
+        public Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock);
+
     }
 }

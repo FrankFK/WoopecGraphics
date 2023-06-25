@@ -101,6 +101,7 @@ Simple Graphics for C# Beginners (starting with Turtle-Graphics)
 * nn.11.2023: Figure and Pen public
 * nn.05.2023: Vec2D improvements
 * 29.05.2023: Screen.SwitchToUnitTestDefaultScreen() for easier unit testing. 
+* 25.06.2023: Screen.WriteText for writing text 
 
 
 
