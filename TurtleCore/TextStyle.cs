@@ -11,8 +11,19 @@ namespace Woopec.Core
     /// </summary>
     public enum TextAlignmentType
     {
+        /// <summary>
+        /// Left aligned text
+        /// </summary>
         Left,
+
+        /// <summary>
+        /// Right aligned text
+        /// </summary>
         Right,
+
+        /// <summary>
+        /// Centered text 
+        /// </summary>
         Center
     }
 
@@ -21,7 +32,14 @@ namespace Woopec.Core
     /// </summary>
     public enum FontStyleType
     {
+        /// <summary>
+        /// Normal font
+        /// </summary>
         Normal,
+
+        /// <summary>
+        /// Italic font
+        /// </summary>
         Italic
     }
 
@@ -32,13 +50,31 @@ namespace Woopec.Core
     {
         // There are more in https://learn.microsoft.com/en-us/dotnet/api/system.windows.fontweights?view=windowsdesktop-7.0
         // I've only selected a few of them
+
+        /// <summary>
+        /// Thin weight (100)
+        /// </summary>
         Thin = 100,
+
+        /// <summary>
+        /// Light weight (300)
+        /// </summary>
         Light = 300,
+
+        /// <summary>
+        /// Normal weight (400)
+        /// </summary>
         Normal = 400,
+
+        /// <summary>
+        /// Bold weight (700);
+        /// </summary>
         Bold = 700
     }
 
-    // An instance of this class describes properties of a text
+    /// <summary>
+    /// An instance of this class describes properties of a text 
+    /// </summary>
     public class TextStyle
     {
         /// <summary>

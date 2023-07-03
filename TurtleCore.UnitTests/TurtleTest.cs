@@ -114,6 +114,23 @@ namespace Woopec.Core.UnitTests
             turtle.Figure.IsVisible.Should().BeTrue();
         }
 
+        /// <summary>
+        /// When a turtle is created, it's pen is down.
+        /// This is the default behaviour in python and therefore it is the default behaviour in Woopec, too.
+        /// </summary>
+        [TestMethod]
+        public void Turtle_InitiallyPenIsDown()
+        {
+            var screenMockup = new ScreenMockup();
+
+            // Arrange and act:
+            var turtle = CreateSut(screenMockup);
+
+            // Assert
+            turtle.IsDown.Should().BeTrue();
+        }
+
+
 
         [TestMethod]
         public void Turtle_Forward_Works()

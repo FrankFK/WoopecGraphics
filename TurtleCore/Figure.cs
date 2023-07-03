@@ -42,6 +42,7 @@ namespace Woopec.Core
         /// Constructs a Figure that is printed on the given screen
         /// </summary>
         /// <param name="lowLevelScreen">Figure is printed on this screen</param>
+        /// <remarks>At the moment internal, because multi-screen support is not tested.</remarks>
         internal Figure(ILowLevelScreen lowLevelScreen)
             : this(lowLevelScreen, IdFactory.CreateNewId())
         {
@@ -57,7 +58,7 @@ namespace Woopec.Core
         }
 
         /// <summary>
-        /// Constructs a Figure
+        /// Constructs a Figure that is used as a part of a Turtle class and uses the a given screen
         /// </summary>
         /// <param name="lowLevelScreen">Figure is printed on this screen</param>
         /// <param name="id">The Id of the turtle</param>
@@ -77,6 +78,12 @@ namespace Woopec.Core
             _figureIsCreated = false; // the figure is only created when it is necessary
         }
 
+        /// <summary>
+        /// The figures's current position (as a Vec2D vector). Does not change the figure's heading.
+        /// </summary>
+        /// <value>The new position of the figure.<br/>
+        /// Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+        /// </value>
         public Vec2D Position
         {
             get
@@ -91,8 +98,15 @@ namespace Woopec.Core
         private Vec2D _position;
 
 
-        public Vec2D Orientation { get; private set; }
+        private Vec2D Orientation { get; set; }
 
+        /// <summary>
+        /// Orientation of the figure. The heading is measured in degrees. Some common directions:<br></br>
+        ///    0 - east <br></br>
+        ///   90 - north<br></br>
+        ///  180 - west <br></br>
+        ///  270 - south<br></br>
+        /// </summary>
         public double Heading
         {
             get { return _heading; }
@@ -103,6 +117,9 @@ namespace Woopec.Core
             }
         }
 
+        /// <summary>
+        /// True if figure is shown, false if it is hidden.
+        /// </summary>
         public bool IsVisible
         {
             get
@@ -118,8 +135,38 @@ namespace Woopec.Core
             }
         }
 
+        /// <summary>
+        /// Set fill color and outline color
+        /// Three ways to set the color are allowed.<br></br>
+        /// Set a predefined Color:
+        /// <example>
+        /// <code>
+        ///     figure.Color = Colors.Green;
+        /// </code>
+        /// </example>
+        /// <br></br>
+        /// Set a predefined Color by its name:
+        /// <example>
+        /// <code>
+        ///     figure.Color = "green";
+        /// </code>
+        /// </example>
+        /// <br></br>
+        /// Set RGB color represented by three values for red, green and blue. Each of these values must be in the range 0..255:
+        /// <example>
+        /// <code>
+        ///     figure.Color = new Color(255, 165, 0); // orange
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <remarks>
+        /// This property has no getter. Use OutlineColor and FillColor.
+        /// </remarks>
         public Color Color { set { FillColor = value; OutlineColor = value; } }
 
+        /// <summary>
+        /// Fill color
+        /// </summary>
         public Color FillColor
         {
             get
@@ -134,6 +181,9 @@ namespace Woopec.Core
             }
         }
 
+        /// <summary>
+        /// Outline color
+        /// </summary>
         public Color OutlineColor
         {
             get
@@ -148,6 +198,39 @@ namespace Woopec.Core
             }
         }
 
+        /// <summary>
+        /// The figures shape.<br></br>
+        /// Two types of shapes are possible:<br></br>
+        /// <br></br>
+        /// Set a predefined shape:
+        /// <example>
+        /// <code>
+        ///     figure.Shape = Shapes.Turtle;   <br/>
+        ///     figure.Shape = Shapes.Arrow;<br/>
+        ///     figure.Shape = Shapes.Circle;<br/>
+        ///     figure.Shape = Shapes.Classic;<br/>
+        ///     figure.Shape = Shapes.Triangle;<br/>
+        ///     figure.Shape = Shapes.Bird;<br/>
+        /// </code>
+        /// </example>
+        /// <br></br>
+        /// Set a user defined shape:
+        /// <example>
+        /// <code>
+        ///     var shape = new Shape(new() { (0, 0), (-5, -9), (0, -7), (5, -9) }); // same shape as Shapes.Classic <br></br>
+        ///     figure.Shape = shape;   <br/>
+        /// </code>
+        /// </example>
+        /// <br></br>
+        /// Register a shape and use it (later)
+        /// <example>
+        /// <code>
+        ///     Shapes.Add("square", new() { (-3, -3), (6, -3), (6, 6), (-3, 6) });  <br></br>
+        ///     // ...
+        ///     figure.Shape = Shapes.Get("square");   <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
         public ShapeBase Shape
         {
             get
@@ -164,9 +247,49 @@ namespace Woopec.Core
         }
 
 
+        /// <summary>
+        /// Speed of the figure.
+        /// Speed from Speeds.Slowest to Speeds.Fast enforce increasingly faster animation of
+        /// line drawing and figure turning.<br></br>
+        /// Attention: With Speeds.Fastest *no* animation takes place.<br></br>
+        /// <br></br>
+        /// <para>
+        /// Examples for setting the speed:
+        /// <example>
+        /// <code>
+        /// figure.Speed = Speeds.Slowest; // figure moves very slow <br/>
+        /// figure.Speed = Speeds.Fast;    // figure moves very fast<br/>
+        /// figure.Speed = Speeds.Fastest; // No animation takes place<br/>
+        /// </code>
+        /// </example>
+        /// </para>
+        /// <br></br>
+        /// <para>
+        /// Examples for getting and checking the speed:
+        /// <example>
+        /// <code>
+        /// var currentSpeed = figure.Speed; <br/>
+        /// if (currentSpeed == Speeds.Slow) ...<br/>
+        /// if (currentSpeed.NoAnimation) ...<br></br>
+        /// </code>
+        /// </example>
+        /// </para>
+        /// </summary>
         public Speed Speed { get; set; }
 
 
+        /// <summary>
+        /// Rotate the figure by <paramref name="angle"/> units. 
+        /// <example>
+        /// <code>
+        /// var figure = new Figure(); <br/>
+        /// // figure.Heading is 0 and figure looks to the east <br/>
+        /// figure.Rotate(90); <br/>
+        /// // figure.Heading is 90 and figure looks north <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="angle">Rotation-value specified in degrees (value of 360 is a full rotation). Positive values turn left, negative values turn right.</param>
         public void Rotate(double angle)
         {
             var oldHeading = _heading;
@@ -184,6 +307,18 @@ namespace Woopec.Core
             if (_heading < 0) _heading += 360;
         }
 
+        /// <summary>
+        /// Move the figure by the specified distance, in the direction the figure is headed. 
+        /// <example>
+        /// <code>
+        /// var figure = new Figure(); <br/>
+        /// // figure position is (0, 0) <br/>
+        /// figure.Move(100); <br/>
+        /// // figure position is (100, 0) <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="distance">Distance to move. Positive values move forward, negative values move backward.</param>
         public void Move(double distance)
         {
             Move(distance, false);
@@ -203,6 +338,22 @@ namespace Woopec.Core
                 MoveOnScreen(oldPosition, togetherWithPreviousAnimation);
         }
 
+        /// <summary>
+        /// Move the figure to the given position. Do not change the figure's heading.
+        /// <example>
+        /// <code>
+        /// var figure = new Figure(); <br/>
+        /// // figure position is (0, 0) <br/>
+        /// figure.SetPosition((100, 100)); <br/>
+        /// // figure position is (100, 100) <br/>
+        /// figure.SetPosition(new Vec2D(150, 120)); <br/>
+        /// // figure position is (150, 120) <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="value">The new position of the figure.<br/>
+        /// Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+        /// </param>
         public void SetPosition(Vec2D value)
         {
             SetPosition(value, false);
@@ -223,13 +374,26 @@ namespace Woopec.Core
         }
 
         /// <summary>
-        /// Not tested yet!!!
+        /// Calling WaitForCompletedMovementOf(otherFigure)` ensures that the subsequent movement of this figure is not executed until the previous movement of the otherFigure has finished.
+        /// <example>
+        /// <code>
+        /// var figure1 = new Figure() { IsVisible = true} ; <br/>
+        /// var figure2 = new Figure() { IsVisible = true} ; <br/>
+        /// figure1.Rotate(90); <br/>
+        /// figure1.Move(100); <br/>
+        /// figure2.Rotate(-90); <br/>
+        /// figure2.WaitForCompletedMovementOf(figure1); <br/>
+        /// figure2.Move(100); <br/>
+        /// </code>
+        /// </example>
         /// </summary>
-        /// <param name="figure"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        public void WaitForCompletedMovementOf(Figure figure)
+        /// <remarks>
+        /// If you call WaitForCompletedMovementOf(f) with different figures `f` only the last one counts.
+        /// </remarks>
+        /// <param name="otherFigure">Figure to wait for</param>
+        public void WaitForCompletedMovementOf(Figure otherFigure)
         {
-            var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = figure._id, WaitingFigure = this, WaitingPen = null };
+            var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = otherFigure._id, WaitingFigure = this, WaitingPen = null };
             WaitForCompletedMovementOf(waitingInfo);
         }
 

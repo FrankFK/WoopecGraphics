@@ -44,6 +44,10 @@ namespace Woopec.Core
 
             // The Turtle should be visible immediately:
             _figure.IsVisible = true;
+
+            // In python the pen is down initially, therefore we do the same here:
+            _pen.IsDown = true;
+
             // The pen must know that it is not the first screen-operation of the turtle:
             _pen.TurtleObjectSentToScreen();
         }

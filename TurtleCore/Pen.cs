@@ -36,8 +36,6 @@ namespace Woopec.Core
         /// <returns>A pen to start with</returns>
         public static Pen CreateExample()
         {
-            // See https://en.wikipedia.org/wiki/Turtle_graphics
-            //     Seymour Papert added support for turtle graphics to Logo in the late 1960s to support his version of the turtle robot
             var pen = new Pen() { Speed = Speeds.Slowest, Color = Colors.DarkGreen };
             return pen;
         }
@@ -86,6 +84,12 @@ namespace Woopec.Core
             IsDown = false;
         }
 
+        /// <summary>
+        /// The pen's current position (as a Vec2D vector). 
+        /// </summary>
+        /// <value>The new position of the pen.<br/>
+        /// Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+        /// </value>
         public Vec2D Position
         {
             get
@@ -96,6 +100,12 @@ namespace Woopec.Core
         private Vec2D _position;
 
 
+        /// <summary>
+        /// Move the pen to the given position.
+        /// </summary>
+        /// <param name="value">The new position of the pen.<br/>
+        /// Can be specified as tuple: (50, 30) or as vector: new Vec2D(50, 30)
+        /// </param>
         public void SetPosition(Vec2D value)
         {
             if (IsDown)
@@ -109,12 +119,49 @@ namespace Woopec.Core
             _position = value;
         }
 
+        /// <summary>
+        /// Set pen color
+        /// Three ways to set the color are allowed.<br></br>
+        /// Set a predefined Color:
+        /// <example>
+        /// <code>
+        ///     pen.Color = Colors.Green;
+        /// </code>
+        /// </example>
+        /// <br></br>
+        /// Set a predefined Color by its name:
+        /// <example>
+        /// <code>
+        ///     pen.Color = "green";
+        /// </code>
+        /// </example>
+        /// <br></br>
+        /// Set RGB color represented by three values for red, green and blue. Each of these values must be in the range 0..255:
+        /// <example>
+        /// <code>
+        ///     pen.Color = new Color(255, 165, 0); // orange
+        /// </code>
+        /// </example>
+        /// </summary>
         public Color Color { get; set; }
 
+        /// <summary>
+        /// Speed of the pen.
+        /// Speed from Speeds.Slowest to Speeds.Fast enforce increasingly faster animation of
+        /// line drawing and pen turning.<br></br>
+        /// Attention: With Speeds.Fastest *no* animation takes place.<br></br>
+        /// </summary>
         public Speed Speed { get; set; }
 
-        public Vec2D Orientation { get; private set; }
+        private Vec2D Orientation { get; set; }
 
+        /// <summary>
+        /// Drawing direction of the pen. The heading is measured in degrees. Some common directions:<br></br>
+        ///    0 - east <br></br>
+        ///   90 - north<br></br>
+        ///  180 - west <br></br>
+        ///  270 - south<br></br>
+        /// </summary>
         public double Heading { get; private set; }
 
         /// <summary>
@@ -123,6 +170,10 @@ namespace Woopec.Core
         public bool IsDown { get; set; }
 
 
+        /// <summary>
+        /// Change the heading (drawing direction) of the pen by <paramref name="angle"/> units. 
+        /// </summary>
+        /// <param name="angle">Rotation-value specified in degrees (value of 360 is a full rotation). Positive values turn left, negative values turn right.</param>
         public void Rotate(double angle)
         {
             var newHeading = (Heading + angle) % 360;
@@ -134,6 +185,18 @@ namespace Woopec.Core
             Heading = newHeading;
         }
 
+        /// <summary>
+        /// Move the pen by the specified distance, in the direction the pen is headed. 
+        /// <example>
+        /// <code>
+        /// var pen = new Pen() { IsDown = true }; <br/>
+        /// // pen position is (0, 0) <br/>
+        /// pen.Move(100); <br/>
+        /// // Pen position is (100, 0) <br/>
+        /// </code>
+        /// </example>
+        /// </summary>
+        /// <param name="distance">Distance to move. Positive values move forward, negative values move backward.</param>
         public void Move(double distance)
         {
             var newPosition = Position + distance * Orientation;
@@ -149,8 +212,14 @@ namespace Woopec.Core
             _position = newPosition;
         }
 
+        /// <summary>
+        /// Return fillstate (true if filling, false else)
+        /// </summary>
         public bool Filling { get { return _isFilling; } }
 
+        /// <summary>
+        /// To be called just before drawing a shape to be filled. See EndFill() for an example.
+        /// </summary>
         public void BeginFill()
         {
             if (!_isFilling)
@@ -201,7 +270,7 @@ namespace Woopec.Core
         }
 
         /// <summary>
-        /// Start recording the vertices of a polygon. Current turtle position is first vertex of polygon.
+        /// Start recording the vertices of a polygon. Current pen  position is first vertex of polygon.
         /// </summary>
         public void BeginPoly()
         {
@@ -215,7 +284,7 @@ namespace Woopec.Core
         }
 
         /// <summary>
-        /// Stop recording the vertices of a polygon. Current turtle position is last vertex of polygon. 
+        /// Stop recording the vertices of a polygon. Current pen position is last vertex of polygon. 
         /// </summary>
         /// <returns>The recorded polygon.</returns>
         public List<Vec2D> EndPoly()
@@ -235,9 +304,9 @@ namespace Woopec.Core
             return polygon;
         }
 
-        public void WaitForCompletedMovementOf(Pen pen)
+        internal void WaitForCompletedMovementOf(Pen pen)
         {
-            throw new NotImplementedException("Not tested yet");
+            throw new NotImplementedException("Not implemented yet (and perhaps not needed?)");
 #pragma warning disable CS0162 // Unreachable code detected
             var waitingInfo = new WaitingForCompletedAnimationInfo() { WaitForCompletedAnimationOf = pen._id, WaitingFigure = null, WaitingPen = this };
             WaitForCompletedMovementOf(waitingInfo);
