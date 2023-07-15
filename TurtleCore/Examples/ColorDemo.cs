@@ -10,8 +10,7 @@ using Woopec.Core;
 namespace Woopec.Core.Examples
 {
     /// <summary>
-    /// This example draws hypotrochoids (also known from the Spirograph game).
-    /// See https://en.wikipedia.org/wiki/Hypotrochoid for details.
+    /// These examples draw colors
     /// </summary>
     public static class ColorDemo
     {
