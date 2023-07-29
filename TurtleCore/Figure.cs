@@ -9,7 +9,7 @@ using Woopec.Core.Internal;
 namespace Woopec.Core
 {
     /// <summary>
-    /// An instance of this class is a form (for instance the image of a turtle), which 
+    /// An instance of this class is a figure (for instance the image of a turtle), which 
     /// can be moved on the screen
     /// </summary>
     public class Figure
@@ -19,6 +19,7 @@ namespace Woopec.Core
         private readonly int _id;
 
         private readonly ILowLevelScreen _lowLevelScreen;
+        private readonly Screen _screen;
         private bool _firstAnimationIsAdded;
         private WaitingForCompletedAnimationInfo _waitingForCompletedAnimationInfo;
         private ShapeBase _shape;
@@ -66,6 +67,7 @@ namespace Woopec.Core
         {
             _id = id;
             _lowLevelScreen = lowLevelScreen;
+            _screen = new Screen(_lowLevelScreen);
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
             _heading = 0;
@@ -359,6 +361,13 @@ namespace Woopec.Core
             SetPosition(value, false);
         }
 
+        /// <summary>
+        /// Move the figure to the given position.
+        /// </summary>
+        /// <param name="x">The new x coordinate of the pen.</param>
+        /// <param name="y">The new y coordinate of the pen.</param>
+        public void SetPosition(double x, double y) => SetPosition((x, y));
+
 
         /// <summary>
         /// Only needed internally for a figure that is part of a turtle and does not have to wait for the animation of the turtle's pen.
@@ -372,6 +381,11 @@ namespace Woopec.Core
             if (IsVisible)
                 MoveOnScreen(oldPosition, togetherWithPreviousAnimation);
         }
+
+        /// <summary>
+        /// Return the screen on which this figure is drawn
+        /// </summary>
+        public Screen Screen { get { return _screen; } }
 
         /// <summary>
         /// Calling WaitForCompletedMovementOf(otherFigure)` ensures that the subsequent movement of this figure is not executed until the previous movement of the otherFigure has finished.

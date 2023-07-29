@@ -331,7 +331,7 @@ namespace Woopec.Core
         }
 
         /// <summary>
-        /// Return the screen on which this figure is drawn
+        /// Return the screen on which this pen is drawing
         /// </summary>
         public Screen Screen { get { return _screen; } }
 
