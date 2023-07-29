@@ -96,6 +96,10 @@ namespace Woopec.Core
             {
                 return _position;
             }
+            set
+            {
+                SetPosition(value);
+            }
         }
         private Vec2D _position;
 
@@ -118,6 +122,13 @@ namespace Woopec.Core
 
             _position = value;
         }
+
+        /// <summary>
+        /// Move the pen to the given position.
+        /// </summary>
+        /// <param name="x">The new x coordinate of the pen.</param>
+        /// <param name="y">The new y coordinate of the pen.</param>
+        public void SetPosition(double x, double y) => SetPosition((x, y));
 
         /// <summary>
         /// Set pen color
@@ -162,7 +173,20 @@ namespace Woopec.Core
         ///  180 - west <br></br>
         ///  270 - south<br></br>
         /// </summary>
-        public double Heading { get; private set; }
+        public double Heading
+        {
+            get
+            {
+                return _heading;
+            }
+
+            set
+            {
+                double rotation = value - _heading;
+                Rotate(rotation);
+            }
+        }
+        private double _heading;
 
         /// <summary>
         /// True if pen is down, False if it’s up.
@@ -182,7 +206,7 @@ namespace Woopec.Core
             var newOrientation = Orientation.Rotate(angle);
 
             Orientation = newOrientation;
-            Heading = newHeading;
+            _heading = newHeading;
         }
 
         /// <summary>

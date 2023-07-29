@@ -46,6 +46,20 @@ namespace Woopec.Core
         }
 
         /// <summary>
+        /// Change the hue of the color by <paramref name="angle"/> units and return the resulting color
+        /// </summary>
+        /// <param name="angle">Rotation-value specified in degrees (value of 360 is a full rotation). Positive values turn red - green - blue , negative values turn blue - green - red.</param>
+        public Color RotateHue(double angle)
+        {
+            var (hue, saturation, value) = ToHSV();
+
+            var newHue = (hue + angle) % 360;
+            if (newHue < 0) newHue += 360;
+
+            return FromHSV(newHue, saturation, value);
+        }
+
+        /// <summary>
         /// Create Color by string
         /// </summary>
         /// <param name="colorName"></param>
@@ -86,6 +100,39 @@ namespace Woopec.Core
             };
 
             return new Color((int)(rgbTupel.Item1 * 255), (int)(rgbTupel.Item2 * 255), (int)(rgbTupel.Item3 * 255));
+        }
+
+        /// <summary>
+        /// Calculate the HSV values for a given Color
+        /// </summary>
+        /// <returns>A 3-tupel with hue, saturation and value. See method FromHSV() for the meaning of these values.</returns>
+        public (double Hue, double Saturation, double Value) ToHSV()
+        {
+            // Calculation according to https://de.wikipedia.org/wiki/HSV-Farbraum
+            double red = R / 255.0;
+            double green = G / 255.0;
+            double blue = B / 255.0;
+
+            double min = Math.Min(Math.Min(red, green), blue);
+            double max = Math.Max(Math.Max(red, green), blue);
+
+            double hue = 0;
+            if (max == min)
+                hue = 0;
+            else if (max == red)
+                hue = 60.0 * (0 + (green - blue) / (max - min));
+            else if (max == green)
+                hue = 60.0 * (2 + (blue - red) / (max - min));
+            else // max == blue
+                hue = 60.0 * (4 + (red - green) / (max - min));
+            if (hue < 0)
+                hue += 360.0;
+
+            double saturation = (max == min) ? 0 : (max - min) / max;
+
+            double value = max;
+
+            return (hue, saturation, value);
         }
 
         private static Dictionary<string, Color> s_colorsByName = null;

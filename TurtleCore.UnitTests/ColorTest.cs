@@ -55,5 +55,49 @@ namespace Woopec.Core.UnitTests
 
         [TestMethod]
         public void Color_FromHSV_SaturationNull() { Color.FromHSV(111, 0.0, 0.5).Should().Be(new Color(127, 127, 127)); }
+
+        [TestMethod]
+        public void ToHSV_FromRed_ShouldWork() { Colors.Red.ToHSV().Should().Be((0, 1.0, 1.0)); }
+
+        [TestMethod]
+        public void ToHSV_FromBlue_ShouldWork() { Colors.Blue.ToHSV().Should().Be((240, 1.0, 1.0)); }
+
+        [TestMethod]
+        public void ToHSV_FromViolet_ShouldWork()
+        {
+            var violet = new Color(127, 0, 255);
+            var (h, s, v) = violet.ToHSV();
+            h.Should().BeApproximately(270, 0.5);
+            s.Should().BeApproximately(1.0, 0.01);
+            v.Should().BeApproximately(1.0, 0.01);
+        }
+
+        [TestMethod]
+        public void ToHSV_FromBlack_ShouldBeNull()
+        {
+            Colors.Black.ToHSV().Should().Be((0.0, 0.0, 0.0));
+        }
+
+        [TestMethod]
+        public void ToHSV_FromGray_ShouldWork()
+        {
+            var gray = new Color(127, 127, 127);
+            var (h, s, v) = gray.ToHSV();
+            h.Should().Be(0.0);
+            s.Should().Be(0.0);
+            v.Should().BeApproximately(0.5, 0.01);
+        }
+
+        [TestMethod]
+        public void RotateHSV_FromRedToGreen_ShouldWork()
+        {
+            var red = Colors.Red;
+
+            // act:
+            var rotated = red.RotateHue(120);
+
+            // assert:
+            rotated.Should().Be(new Color(0, 255, 0));
+        }
     }
 }
