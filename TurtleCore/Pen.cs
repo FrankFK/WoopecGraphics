@@ -15,6 +15,7 @@ namespace Woopec.Core
     public class Pen
     {
         private readonly ILowLevelScreen _lowLevelScreen;
+        private readonly Screen _screen;
 
         // If this is part of a turtle: The turtle, the pen of the turtle and the figure of the turtle have the same _id.
         // If this is a standalone object: It has a unique ID that is different to the IDs of all other pens, figures und turtles.
@@ -75,6 +76,7 @@ namespace Woopec.Core
         internal Pen(ILowLevelScreen screen, int id)
         {
             _lowLevelScreen = screen;
+            _screen = new Screen(_lowLevelScreen);
             _id = id;
             _position = new Vec2D(0, 0);
             Orientation = new Vec2D(1, 0);
@@ -327,6 +329,11 @@ namespace Woopec.Core
             }
             return polygon;
         }
+
+        /// <summary>
+        /// Return the screen on which this figure is drawn
+        /// </summary>
+        public Screen Screen { get { return _screen; } }
 
         internal void WaitForCompletedMovementOf(Pen pen)
         {
