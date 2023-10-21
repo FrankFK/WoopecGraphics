@@ -95,7 +95,7 @@ namespace Woopec.Core
         /// <example>
         /// <code>
         /// var turtle = new Turtle(); <br/>
-        /// var answer = turtle.Screen.NumInput("Poker", "Your stakes:", 1000, 10, 10000; <br/>
+        /// var answer = turtle.Screen.NumInput("Poker", "Your stakes:", 1000, 10, 10000); <br/>
         /// if (answer != null)  <br/>
         /// {  <br/>
         ///     int stakes = answer.GetValueOrDefault();  <br/>
