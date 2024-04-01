@@ -128,6 +128,7 @@ namespace Woopec.Core
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         public int? NumInput(string title, string prompt) => NumInput(title, prompt, null, null, null, null);
         public int? NumInput(string title, string prompt, int defaultValue) => NumInput(title, prompt, defaultValue, null, null, null);
+        public int? NumInput(string title, string prompt, int defaultValue, int minValue, int maxValue) => NumInput(title, prompt, defaultValue, minValue, maxValue, null);
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
