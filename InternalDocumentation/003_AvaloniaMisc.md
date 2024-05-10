@@ -27,11 +27,67 @@ Erst mal reinkommen:
 
 Nächste Ziele:
 
+* Animation
+
+  * Linien-Endpoint kann man mit Keyframe Animation animieren:
+  * ```xml
+            <Line StartPoint="0,0" EndPoint="30,115" Stroke="Red" StrokeThickness="1">
+                <Line.Styles>
+                    <Style Selector="Line">
+                        <Style.Animations>
+                            <Animation Duration="0:0:3">
+                                <KeyFrame Cue="0%">
+                                    <Setter Property="EndPoint" Value="0,0"></Setter>
+                                </KeyFrame>
+                                <KeyFrame Cue="100%">
+                                    <Setter Property="EndPoint" Value="30,115"></Setter>
+                                </KeyFrame>
+                            </Animation>
+                        </Style.Animations>
+                    </Style>
+                </Line.Styles>
+            </Line>
+    ```
+  * Einen Path verschieben oder rotieren mit einer Animation
+  * Ich muss wissen, wann die Animation beendet ist
+
+    * In Wpf mache ich das mit `Completed` Eventhandler. In Avalonia habe ich so etwas nicht gefunden.
+    * Man kann aber wohl die Property `IsAnimated` abfragen, um zu erfahren ob die Animation beendet ist.
+    * Das wird knifflig. Hintergrund: Zum Beispiel macht die Turtle hintereinander forward 100, left 90, backward100. Dann wird zuerst das forward 100 gemacht, währenddessen stehen left 90 und backward 100 in einer Warteschlange. Ich brauche einen Trigger, der mir anzeigt, dass das forward fertig ist. Ich kann das auch per idle waiting mit IsAnimated prüfen und dann selber triggern, aber schön ist das nicht. Wie häufig prüfe ich dann? Zwei Ideen:
+
+      * Ich hoffe, dass Avalonia die Animation wie gewünscht abspielt, setze mir einen Timer und lasse den Timer das Event verschicken.
+      * Ich ändere den Ansatz komplett und schicke die wartenden Animationen auch schon an Avalonia mit dem passenden Delay wann sie starten sollen. Dieser Ansatz wäre vermutlich näher an svg animationen
+      * Ich programmiere eine eigene Ease Klasse, setze die als Animation.Easing und hoffe, dass die Klasse am Ende immer mit 1.0 aufgerufen wird. Das könnte funktionieren, weil Avalonia beim letzten Aufruf wegen Math.Min vermutlich eine 1 übergibt, siehe Avalonia Code: Avalonia.Base\Rendering\Composition\Animations\KeyFrameAnimationInstance.cs:
+      * ```csharp
+        var keyProgress = Math.Max(0, Math.Min(1, (iterationProgress - left.Key) / (right.Key - left.Key)));
+        var easedKeyProgress = (float)right.EasingFunction.Ease(keyProgress);
+        ```
+
+  * Animationen per Code erzeugen
+
+    * Beispiele eventuell von hier: [Avalonia/tests/Avalonia.Base.UnitTests/Animation at master · AvaloniaUI/Avalonia (github.com)](https://github.com/AvaloniaUI/Avalonia/tree/master/tests/Avalonia.Base.UnitTests/Animation)
+
+    * Es hat mich ein zwei Stunden gekostet, festzustellen, dass man einen Setter unbedingt so erzeugen muss
+      ```csharp
+      var setter = new Setter(TranslateTransform.XProperty, 0d)
+      ```
+
+      und nicht so:
+
+      ```csharp
+      var setter = new Setter();
+      setter.Property = TranslateTransform.XProperty;
+      setter.Value = 0d;
+      ```
+
+      In dieser Variante geht massiv etwas schief. Das Rechteck wird gar nicht angezeigt und erst recht nicht animiert.
+
 * Animierte Linie (entspricht turle.forward) zeichnen, analog zu C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\TurtleWpf\CanvasLines.cs
+
   * Darin: Koordinaten-Handling und -Umrechnung, Farb-Umrechnung
 * Dann den schwierigen Teil: Kommunikation zwischen Core und Avalonia 
   * Die magic aus C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\TurtleWpf\WoopecCanvas.xaml.cs übersetzen nach Avalonia
-  * Eventuell geht das aber auch einfacher, ich habe doch schon mal irgendwo ein Avalonia Programm gesehen, was aus der Konsole etwas öffnet und Daten anzeigt. Weiß nur nicht mehr wo.
+  * Eventuell geht das aber auch einfacher, ich habe doch schon mal irgendwo ein Avalonia Programm gesehen, was aus der Konsole etwas öffnet und Daten anzeigt. Weiß nur nicht mehr wo. Ich glaube hier: [Switch to AvaloniaUI; Use same .exe file for UI and Controller · johannesegger/GetIt@3359a10 (github.com)](https://github.com/johannesegger/GetIt/commit/3359a1070ca1846789272425856089ca91638ddf)
   * Darin: Event-Handling bei beendeten Animations
 
 
