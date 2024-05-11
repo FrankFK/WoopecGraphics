@@ -24,6 +24,7 @@ Erst mal reinkommen:
   * [How To Use Transitions | Avalonia Docs (avaloniaui.net)](https://docs.avaloniaui.net/docs/guides/graphics-and-animation/transitions)
     * Transitions in Avalonia are also heavily inspired by CSS Animations. They listen to any changes in target property's value and subsequently animates the change according to its parameters
     * Transitions kann man nicht mit den WPF-artigen Transforms kombinieren (keine Ahnung, ob das für mich relevant ist): "Avalonia also supports WPF-style render transforms such as `RotateTransform`, `ScaleTransform`, etc. These transforms cannot be transitioned: always use the CSS-like format if you want to apply a transition to a render transform."
+* Ziemlich ausführliche Übersicht: [Multiplatform UI Coding with AvaloniaUI in Easy Samples. Part 1 - AvaloniaUI Building Blocks - CodeProject](https://www.codeproject.com/Articles/5308645/Multiplatform-UI-Coding-with-AvaloniaUI-in-Easy-Sa)
 
 Nächste Ziele:
 

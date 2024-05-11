@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Animation.Easings;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Shapes;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
 using Avalonia.Media;
 using Avalonia.Styling;
 using Avalonia.Threading;
+using Avalonia.VisualTree;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace AvaloniaTestConsole.Views;
@@ -52,6 +55,7 @@ public partial class MainView : UserControl
         DispatchNextTask();
 
         var width = MainCanvas.Width;
+        Debug.WriteLine($"Width: {width}");
     }
 
 
@@ -69,27 +73,63 @@ public partial class MainView : UserControl
             if (t.IsFaulted)
             {
                 // Exception werfen hilft nicht. Hier müsste eine Meldung auf dem Bildschirm angezeigt werden. Allerdings hat Avalonia aktuell keine MessageBox, dann wär's einfach
-                throw new Exception($"Error while handling screen object: {t.Exception?.InnerException?.Message}");
+                // throw new Exception($"Error while handling screen object: {t.Exception?.InnerException?.Message}");
+                var message = t.Exception?.InnerException?.Message;
+                Dispatcher.UIThread.Post(() => { ShowErrorMessage(message); });
+                return;
             }
             DispatchNextTask();
         }
         );
     }
 
+    private void ShowErrorMessage(string? message)
+    {
+
+        // Create the window object
+        // To do: Da muss noch eine TextBox rein....
+        Window sampleWindow =
+            new Window
+            {
+                Title = message,
+                Width = 200,
+                Height = 200
+            };
+
+
+        // open the modal (dialog) window
+        //
+        // unklar, wo man das Window herbekommt, vielleicht so:
+        // var x = Avalonia.Application.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
+        // sampleWindow.ShowDialog(x.MainWindow);
+        // var window = this.GetVisualRoot();
+        if (Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            if (desktop.MainWindow != null)
+                sampleWindow.ShowDialog(desktop.MainWindow);
+        }
+
+    }
+
+
 
     private int _actionId = 0;
     private async Task HandleNextScreenObjectAsync()
     {
-        await Task.Delay(1000);
+        // await Task.Delay(1000);
         // Thread.Sleep(5000);
 
         _actionId++;
         if (_actionId == 1)
-            AddLine(MainCanvas);
+            AddRotatedPolygon(MainCanvas);
         else if (_actionId == 2)
             AddTransformedRectangle(MainCanvas);
         else if (_actionId == 3)
             AddRotatedRectangle(MainCanvas);
+        else if (_actionId == 4)
+            AddLine(MainCanvas);
+        else if (_actionId == 5)
+            throw new NotImplementedException("An Error happened");
         else
             await Task.Delay(10000);
 
@@ -101,6 +141,7 @@ public partial class MainView : UserControl
     {
         Debug.WriteLine($"Clicked");
     }
+
 
     public void AddLine(Canvas canvas)
     {
@@ -277,4 +318,54 @@ public partial class MainView : UserControl
         Canvas.SetTop(rectangle, 200);
     }
 
+    public void AddRotatedPolygon(Canvas canvas)
+    {
+        var keyframe1 = new KeyFrame()
+        {
+            Setters = { new Setter(RotateTransform.AngleProperty, 0d) },
+            Cue = new Cue(0.0),
+        };
+
+        var keyframe2 = new KeyFrame()
+        {
+            Setters = { new Setter(RotateTransform.AngleProperty, 90d) },
+            Cue = new Cue(1.0)
+        };
+
+        var animation = new Animation()
+        {
+            Duration = TimeSpan.FromSeconds(3),
+            FillMode = FillMode.Forward,
+            Children = { keyframe1, keyframe2 },
+            Easing = new MyEasing("polygon"),
+        };
+
+        var style = new Style()
+        {
+            Animations = { animation },
+        };
+
+        // <Polygon Points="75,0 120,120 0,45 150,45 30,120" Stroke="DarkBlue" StrokeThickness="1" Fill="Violet" Canvas.Left="150" Canvas.Top="31"/>
+        var polygon = new Polygon()
+        {
+            Points =
+            {
+                new Point(50, 0),
+                new Point(-30, 20),
+                new Point(-50, 0),
+                new Point(10, -40),
+                new Point(10, -40),
+                new Point(10, 40),
+                new Point(-30, -20)
+            },
+            Fill = new SolidColorBrush(Colors.Orange),
+            Stroke = new SolidColorBrush(Colors.Blue),
+            StrokeThickness = 1,
+            Styles = { style },
+        };
+
+        canvas.Children.Add(polygon);
+        Canvas.SetLeft(polygon, 120);
+        Canvas.SetTop(polygon, 250);
+    }
 }
