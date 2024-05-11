@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "UsingTurtleCanvas": {
-      "commandName": "Project",
-      // "commandLineArgs": "--read_from_pipe"
-    }
-  }
-}
