@@ -57,7 +57,7 @@ Nächste Ziele:
 
       * Ich hoffe, dass Avalonia die Animation wie gewünscht abspielt, setze mir einen Timer und lasse den Timer das Event verschicken.
       * Ich ändere den Ansatz komplett und schicke die wartenden Animationen auch schon an Avalonia mit dem passenden Delay wann sie starten sollen. Dieser Ansatz wäre vermutlich näher an svg animationen
-      * Ich programmiere eine eigene Ease Klasse, setze die als Animation.Easing und hoffe, dass die Klasse am Ende immer mit 1.0 aufgerufen wird. Das könnte funktionieren, weil Avalonia beim letzten Aufruf wegen Math.Min vermutlich eine 1 übergibt, siehe Avalonia Code: Avalonia.Base\Rendering\Composition\Animations\KeyFrameAnimationInstance.cs:
+      * **Mein aktueller Favorit**: Ich programmiere eine eigene Ease Klasse, setze die als Animation.Easing und hoffe, dass die Klasse am Ende immer mit 1.0 aufgerufen wird. Das könnte funktionieren, weil Avalonia beim letzten Aufruf wegen Math.Min vermutlich eine 1 übergibt, siehe Avalonia Code: Avalonia.Base\Rendering\Composition\Animations\KeyFrameAnimationInstance.cs:
       * ```csharp
         var keyProgress = Math.Max(0, Math.Min(1, (iterationProgress - left.Key) / (right.Key - left.Key)));
         var easedKeyProgress = (float)right.EasingFunction.Ease(keyProgress);
@@ -81,26 +81,36 @@ Nächste Ziele:
       ```
 
       In dieser Variante geht massiv etwas schief. Das Rechteck wird gar nicht angezeigt und erst recht nicht animiert.
+    
+    * **Status** Es funktioniert jetzt, geholfen haben mir dabei auch die UnitTests aus dem Avalonia Projekt.
 
 * Animierte Linie (entspricht turle.forward) zeichnen, analog zu C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\TurtleWpf\CanvasLines.cs
 
+  * **Status** Animierte Linie und animiertes Rechteck funktioniert im Test-Programm
   * Darin: Koordinaten-Handling und -Umrechnung, Farb-Umrechnung
 * Dann den schwierigen Teil: Kommunikation zwischen Core und Avalonia 
-  * Die magic aus C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\TurtleWpf\WoopecCanvas.xaml.cs übersetzen nach Avalonia
-  * Eventuell geht das aber auch einfacher, ich habe doch schon mal irgendwo ein Avalonia Programm gesehen, was aus der Konsole etwas öffnet und Daten anzeigt. Weiß nur nicht mehr wo. Ich glaube hier: [Switch to AvaloniaUI; Use same .exe file for UI and Controller · johannesegger/GetIt@3359a10 (github.com)](https://github.com/johannesegger/GetIt/commit/3359a1070ca1846789272425856089ca91638ddf)
-  * Darin: Event-Handling bei beendeten Animations
-
-
+  * **Status: ** 
+    * Am Ende ähnlich wie in Wpf. Der Dispatcher von Avalonia heißt nur etwas anders und hat andere Methoden
+    * Die Magic aus TurtleWpf\WoopecCanvas.xaml.cs kann man ähnlich übertragen (man braucht aber Hirnakrobatik um es zu verstehen)
+    * Noch nicht gekümmert: Handling bei Exceptions. Das funktioniert allerdings bei WPF aktuell auch noch nicht.
 
 Avalonia ohne Gedöns nutzen
 
-* HIer [Add a basic, standalone xaml-free Hello World example to the docs · AvaloniaUI/Avalonia · Discussion #9006 (github.com)](https://github.com/AvaloniaUI/Avalonia/discussions/9006) hat jemand das auch versucht. Doku dazu hat er nicht gefunden. Aber anscheinend hat er es so geschafft:
-  ```csharp
-  Application app = Application.Current ?? AppBuilder.Configure<Application>().UsePlatformDetect().SetupWithoutStarting().Instance;
-  app.Styles.Add(new DefaultTheme());
-  app.Run(new Window() { Title = "Avalonia Basic Example", Content = "Hello Avalonia!" });
-  ```
-
+* **Status**:
+  
+  * In C:\Users\frank\source\repos\Avalonia.Samples\ gibt es sehr viele Beispiel-Projekte. Analog dazu konnte ich ein Projekt erstellen vom Template Consolen-Programm, dann mehre Avalonia-Packages hinzufügen. Dann die Quellen der beiden Projekte aus dem Avalonia-Template in dieses Console-Programm, noch beim Asset/Icon in den Properties angeben, dass es eine AvaloniaResource ist. Danach lief es.
+  * Ob das noch einfacher geht, so wie hier? 
+  
+      * HIer [Add a basic, standalone xaml-free Hello World example to the docs · AvaloniaUI/Avalonia · Discussion #9006 (github.com)](https://github.com/AvaloniaUI/Avalonia/discussions/9006) hat jemand das auch versucht. Doku dazu hat er nicht gefunden. Aber anscheinend hat er es so geschafft:
+        ```csharp
+        Application app = Application.Current ?? AppBuilder.Configure<Application>().UsePlatformDetect().SetupWithoutStarting().Instance;
+        app.Styles.Add(new DefaultTheme());
+        app.Run(new Window() { Title = "Avalonia Basic Example", Content = "Hello Avalonia!" });
+        ```
+  * Als nächstes müsste ich versuchen, aus dem Ganzen - so wie in Wpf - ein Projekt (Library?) mit einem UserControl zu machen, so dass man das dann später mal zu einem Package machen kann.
+  
+      
+  
   
 
 

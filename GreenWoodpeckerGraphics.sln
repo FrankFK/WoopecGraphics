@@ -48,6 +48,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingTurtleCoreExperimental
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsingTurtleCore", "UsingTurtleCore\UsingTurtleCore.csproj", "{BDF76B83-BF65-4045-BCE5-432A2CA74343}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaTestConsole", "AvaloniaTestConsole\AvaloniaTestConsole.csproj", "{22CE8971-0B23-44FC-BE81-4EE60626C8D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDF76B83-BF65-4045-BCE5-432A2CA74343}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22CE8971-0B23-44FC-BE81-4EE60626C8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22CE8971-0B23-44FC-BE81-4EE60626C8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22CE8971-0B23-44FC-BE81-4EE60626C8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22CE8971-0B23-44FC-BE81-4EE60626C8D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
