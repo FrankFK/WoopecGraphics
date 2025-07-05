@@ -13,4 +13,5 @@ using System.Threading.Tasks;
 // 
 [assembly: InternalsVisibleTo("Woopec.Wpf")]
 [assembly: InternalsVisibleTo("TurtleCore.UnitTests")]
+[assembly: InternalsVisibleTo("AvaloniaTestConsole")]
 

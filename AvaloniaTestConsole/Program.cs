@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.ReactiveUI;
+using Woopec.Core;
 
 namespace AvaloniaTestConsole
 {
@@ -26,5 +27,13 @@ namespace AvaloniaTestConsole
                 .LogToTrace()
                 .UseReactiveUI();
 
+        public static void WoopecMain()
+        {
+            var firstTurtle = new Turtle() { Speed = Speeds.Slowest, IsVisible = false, IsDown = true };
+
+            firstTurtle.Forward(200);
+            firstTurtle.Left(90);
+            firstTurtle.Forward(200);
+        }
     }
 }

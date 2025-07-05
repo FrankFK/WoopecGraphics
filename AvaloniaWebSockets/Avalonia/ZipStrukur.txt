@@ -1,0 +1,13 @@
+WoopecWebSocketStarter/
+├── README.md
+├── protocol.md
+├── AvaloniaClient/
+│   ├── AvaloniaClient.csproj
+│   ├── App.axaml.cs
+│   ├── MainWindow.axaml
+│   ├── MainWindow.axaml.cs
+│   ├── Program.cs
+│   └── ...
+├── WebSocketServer/
+│   ├── WebSocketServer.csproj
+│   └── Program.cs

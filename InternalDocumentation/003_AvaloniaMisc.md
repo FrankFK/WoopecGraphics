@@ -89,7 +89,31 @@ Nächste Ziele:
 
   * **Status** Animierte Linie und animiertes Rechteck funktioniert im Test-Programm
   * Darin: Koordinaten-Handling und -Umrechnung, Farb-Umrechnung
+* Debuggen ist etwas nervig, weil die Anwendung normalerweise im "Turtle" Mode läuft und dann für das UI ein eigener Prozess gestartet wird. Das stört hier. Es wäre hilfreich, wenn man es dafür eine **Konfiguration** gäbe:
+
+  * Gut wäre es, wenn man diese Konfiguration auch für andere Dinge nutzen könnte (analog zur [turtle — Turtle graphics — Python 3.12.4 documentation](https://docs.python.org/3/library/turtle.html#how-to-configure-screen-and-turtles)). 
+  * Lösungsoptionen:
+    * Ich mache ein statisches Objekt, das man auch aus den Anwender-Turtle-Programmen aus verwenden kann, um Konfigurationseinstellungen zu ändern.
+      * Für die Debug-Option ist das schwierig, weil ich die sehr früh benötige. Zu diesem Zeitpunkt ist WoopecMain mit dem Anwender-Code noch gar nicht aufgerufen worden. Insofern hätte ein Anwender dann gar keine Möglichkeit das Debug-Verhalten zu konfigurieren.
+      * Weiterhin passt das nicht zu heutigem Code-Design.
+
+    * Ich lese eine Konfigurationsdatei
+      * Das müsste auch für Anwender reichen. In python wird das beispielsweise auch so gemacht.
+      * Das passt auch besser zu heutigem Code-Design
+      * Wie realisiere ich das?
+        * Mit Dependency Injection
+          * In Avalonia kann ich die Microsoft DI so einbinden: [How To Implement Dependency Injection | Avalonia Docs (avaloniaui.net)](https://docs.avaloniaui.net/docs/guides/implementation-guides/how-to-implement-dependency-injection)
+
+        * Configuration über .NET Core Funktionen einlesen
+          * So wie in der Antwort zu dieser Frage: [How to load and save settings in Avalonia like WPF Settings.Default? - Stack Overflow](https://stackoverflow.com/questions/77740317/how-to-load-and-save-settings-in-avalonia-like-wpf-settings-default)
+
+      * Generelle Infos zu .NET Core Configuration hier, es wäre gut, wenn ich das Options-Pattern verwende: [Configuration in ASP.NET Core | Microsoft Learn](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-8.0#bind-hierarchical-configuration-data-using-the-options-pattern)
+
+  * Das ist alles schön und gut, aber aktuell nicht mein Hauptfokus
+  * **Status**: Lasse ich erst mal noch offen. Stattdessen gebe ich der Communication-Klasse einen Parameter mit und rufe die Klasse in meinem Avalonia Test-Programm passend auf. Erst mal noch gänzlich unkonfigurierbar.
+
 * Dann den schwierigen Teil: Kommunikation zwischen Core und Avalonia 
+
   * **Status: ** 
     * Am Ende ähnlich wie in Wpf. Der Dispatcher von Avalonia heißt nur etwas anders und hat andere Methoden
     * Die Magic aus TurtleWpf\WoopecCanvas.xaml.cs kann man ähnlich übertragen (man braucht aber Hirnakrobatik um es zu verstehen)

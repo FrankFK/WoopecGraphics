@@ -15,12 +15,21 @@ using Avalonia.Threading;
 using Avalonia.VisualTree;
 using static System.Net.Mime.MediaTypeNames;
 
+using Woopec.Core.Internal;
+using Woopec.Core;
+using SkiaSharp;
+
 namespace AvaloniaTestConsole.Views;
+
+using AvaloniaTestConsole.WoopecCoreConnection;
+using Color = Avalonia.Media.Color;
+using Colors = Avalonia.Media.Colors;
 
 public class MyEasing : Easing
 {
     private readonly string _name;
     private bool _ended;
+
     public MyEasing(string name)
     {
         _name = name;
@@ -40,10 +49,21 @@ public class MyEasing : Easing
 
 public partial class MainView : UserControl
 {
+    private readonly Communication _woopecCoreCommunication;
+    private readonly AvaloniaScreenObjectWriter _screenObjectWriter;
+
+
     public MainView()
     {
         AttachedToVisualTree += OnLoad;
         InitializeComponent();
+
+        _screenObjectWriter = new AvaloniaScreenObjectWriter(MainCanvas);
+        _screenObjectWriter.OnAnimationIsFinished += WhenWriterIsFinished;
+
+        _woopecCoreCommunication = new Communication(_screenObjectWriter);
+        _woopecCoreCommunication.StartProgram(inDebugModeStartRendererProcess: false);
+
     }
 
     private void OnLoad(object? sender, System.EventArgs e)
@@ -67,7 +87,9 @@ public partial class MainView : UserControl
 
     private void DoNextTaskAndDispatchOvernextTask()
     {
-        var task = HandleNextScreenObjectAsync();
+        // var task = HandleNextScreenObjectAsync();
+        var task = _woopecCoreCommunication.ConsumeNextScreenObjectAsync();
+
         task.ContinueWith((t) =>
         {
             if (t.IsFaulted)
@@ -82,6 +104,12 @@ public partial class MainView : UserControl
         }
         );
     }
+
+    private void WhenWriterIsFinished(int groupId, int objectId)
+    {
+        Debug.WriteLine($"{objectId} is finished");
+    }
+
 
     private void ShowErrorMessage(string? message)
     {
@@ -110,6 +138,7 @@ public partial class MainView : UserControl
         }
 
     }
+
 
 
 

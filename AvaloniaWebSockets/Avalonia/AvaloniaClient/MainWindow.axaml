@@ -1,0 +1,8 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AvaloniaClient.MainWindow"
+        Title="Woopec WebSocket Turtle"
+        Width="500" Height="500"
+        KeyDown="Window_KeyDown">
+    <Canvas x:Name="DrawCanvas" Background="White"/>
+</Window>
