@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.Internal;
 
-namespace Woopec.Graphics
+namespace Woopec.Graphics.Internal
 {
     /// <summary>
     /// At the moment this class only contains the default canvas, which should be used if
