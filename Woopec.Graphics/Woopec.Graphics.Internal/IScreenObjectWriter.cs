@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalObjects;
 
-namespace Woopec.Graphics
+namespace Woopec.Graphics.Internal
 {
     internal delegate void AnimationIsFinished(int groupId, int objectId);
 

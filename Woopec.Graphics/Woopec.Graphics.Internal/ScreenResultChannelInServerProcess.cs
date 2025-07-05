@@ -8,6 +8,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalObjects;
 
 namespace Woopec.Graphics.Internal
 {

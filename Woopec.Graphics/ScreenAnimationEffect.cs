@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics
+namespace Woopec.Graphics.InternalObjects
 {
     /// <summary>
     /// Base class for ScreenAnimationMovement and so on.

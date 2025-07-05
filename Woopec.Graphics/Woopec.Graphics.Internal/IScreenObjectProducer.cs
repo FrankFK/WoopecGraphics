@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalObjects;
 
-namespace Woopec.Graphics
+namespace Woopec.Graphics.Internal
 {
     /// <summary>
     /// Generate screen objects and hand them over to a consumer

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics
+namespace Woopec.Graphics.InternalObjects
 {
     /// <summary>
     /// An instance of this class is a dialog that should be shown on the screen. This dialog is used for number-input

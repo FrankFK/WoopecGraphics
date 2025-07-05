@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalObjects;
 
 namespace Woopec.Graphics.UnitTests
 {

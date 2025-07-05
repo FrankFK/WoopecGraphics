@@ -13,6 +13,7 @@ using Woopec.Graphics;
 using Woopec.Graphics.Internal;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
+using Woopec.Graphics.InternalObjects;
 
 namespace Woopec.Wpf
 {
