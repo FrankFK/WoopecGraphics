@@ -20,12 +20,18 @@ namespace Woopec.Core.Internal
             _actualScreenObjectWriter = writer;
         }
 
+        public void StartProgram()
+        {
+            StartProgram(true);
+        }
+
         /// <summary>
         /// - Create a producer and start the turtle/woopec program in it.
         /// - Create a consumer which reads the generated objects and renders it
         /// - Create a communication channel between producer and consumer
         /// </summary>
-        public void StartProgram()
+        /// <param name="inDebugModeStartRendererProcess">If a debugger ist attached and this value is true, the renderer is started in a second process (that makes debugging much easier for programming beginners)</param>
+        public void StartProgram(bool inDebugModeStartRendererProcess)
         {
             var usePipesOption = "--use_pipes";
             string[] arguments = Environment.GetCommandLineArgs();
@@ -45,7 +51,7 @@ namespace Woopec.Core.Internal
             }
             else
             {
-                if (Debugger.IsAttached)
+                if (Debugger.IsAttached && inDebugModeStartRendererProcess)
                 {
                     // Debugging is easier, if this process only produces the woopec-objects and another process draws them
                     RunWithDrawingInSecondProcess(usePipesOption);
@@ -103,7 +109,7 @@ namespace Woopec.Core.Internal
             // the one and only consumer
             _actualScreenObjectConsumer = communicationBroker.ScreenObjectConsumer;
 
-            // It is possible to have multiple screen object producers. In this case we ony have one.
+            // It is possible to have multiple screen object producers. In this case we only have one.
             // This producer runs in another thread.
             _actualScreenObjectProducer = new ScreenObjectProducer(communicationBroker.ScreenObjectChannel);
             TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
