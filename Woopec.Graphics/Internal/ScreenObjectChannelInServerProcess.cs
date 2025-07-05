@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Woopec.Core.Internal
+namespace Woopec.Graphics.Internal
 {
     internal class ScreenObjectChannelInServerProcess : IScreenObjectChannel
     {

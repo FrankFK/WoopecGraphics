@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
-namespace Woopec.Core.Internal
+namespace Woopec.Graphics.Internal
 {
     internal class ScreenObjectConsumer : IScreenObjectConsumer
     {

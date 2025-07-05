@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using Woopec.Core;
+using Woopec.Graphics;
 
-namespace Woopec.Core.Examples
+namespace Woopec.Graphics.Examples
 {
     /// <summary>
     /// This is a port of https://github.com/python/cpython/blob/main/Lib/turtledemo/bytedesign.py

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Core
+namespace Woopec.Graphics
 {
     /// <summary>
     /// Specifies the turtle's speed as a value in the range 0 .. 10.

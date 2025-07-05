@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Woopec.Core.Examples;
+using Woopec.Graphics.Examples;
 
 namespace TurtleCore.UnitTests
 {

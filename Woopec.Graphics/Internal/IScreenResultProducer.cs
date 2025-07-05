@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Core.Internal
+namespace Woopec.Graphics.Internal
 {
     /// <summary>
     /// Hand screen results (e.g. the answer in a text input dialog windos) over to the code that is waiting for it.

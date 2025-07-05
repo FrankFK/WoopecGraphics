@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Core;
+using Woopec.Graphics;
 
-namespace Woopec.Core.Examples
+namespace Woopec.Graphics.Examples
 {
     /// <summary>
     /// This example draws hypotrochoids (also known from the Spirograph game).
@@ -231,7 +231,7 @@ namespace Woopec.Core.Examples
 
             // Woopec.Core.Examples.Spirograph.WithWheels(corners, delta, distance, radius, (0, 0), color);
 
-            var spiroShape = new Woopec.Core.Shape(Woopec.Core.Examples.Spirograph.SpiroPoly(corners, delta, distance, radius));
+            var spiroShape = new Woopec.Graphics.Shape(Woopec.Graphics.Examples.Spirograph.SpiroPoly(corners, delta, distance, radius));
 
             var list = new List<Turtle>();
             var multiples = 15;

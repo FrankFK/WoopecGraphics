@@ -9,8 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Woopec.Core;
-using Woopec.Core.Internal;
+using Woopec.Graphics;
+using Woopec.Graphics.Internal;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 

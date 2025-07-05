@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Woopec.Core.UnitTests
+namespace Woopec.Graphics.UnitTests
 {
     [TestClass]
     public class CoordinateTest

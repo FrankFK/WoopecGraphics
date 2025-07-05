@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Core
+namespace Woopec.Graphics
 {
     /// <summary>
     /// I have made a few attempts using this record for coordinates.

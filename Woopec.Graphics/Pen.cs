@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Core.Internal;
+using Woopec.Graphics.Internal;
 
-namespace Woopec.Core
+namespace Woopec.Graphics
 {
 
     /// <summary>

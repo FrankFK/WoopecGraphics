@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Numerics;
 using System.Windows;
-using Woopec.Core;
-using Colors = Woopec.Core.Colors;
-using Shape = Woopec.Core.Shape;
+using Woopec.Graphics;
+using Colors = Woopec.Graphics.Colors;
+using Shape = Woopec.Graphics.Shape;
 
 namespace UsingTurtleCanvas
 {
@@ -21,7 +21,7 @@ namespace UsingTurtleCanvas
 
         public static void WoopecMain()
         {
-            Woopec.Core.Examples.FeaturesDemo.Run();
+            Woopec.Graphics.Examples.FeaturesDemo.Run();
 
             return;
         }

@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Woopec.Core
+namespace Woopec.Graphics
 {
     /// <summary>
     /// For future use: Different shape types

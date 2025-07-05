@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Woopec.Core.Internal
+namespace Woopec.Graphics.Internal
 {
     /// <summary>
     /// An instance of this class serializes and deserializes objects of type T such that they can be transferred through the <c>ServerProcessChannel</c> and

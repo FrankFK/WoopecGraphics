@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Woopec.Core.Internal;
+using Woopec.Graphics.Internal;
 
-namespace Woopec.Core.UnitTests
+namespace Woopec.Graphics.UnitTests
 {
 
     [TestClass]

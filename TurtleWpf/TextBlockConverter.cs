@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
-using Woopec.Core;
+using Woopec.Graphics;
 using System.Windows.Navigation;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
@@ -108,7 +108,7 @@ namespace Woopec.Wpf
             return result;
         }
 
-        private static Brush BrushOf(Woopec.Core.Color color)
+        private static Brush BrushOf(Woopec.Graphics.Color color)
         {
             if (color == null)
                 return null;

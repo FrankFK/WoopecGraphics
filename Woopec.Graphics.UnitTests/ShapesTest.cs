@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Core;
+using Woopec.Graphics;
 
-namespace Woopec.Core.UnitTests
+namespace Woopec.Graphics.UnitTests
 {
     [TestClass]
     public class ShapesTest

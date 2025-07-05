@@ -20,7 +20,7 @@ namespace Woopec.Wpf
         /// <remarks>
         /// At the moment Turtle-Color does not contain a value for alpha-channel (transparency)
         /// </remarks>
-        public static System.Windows.Media.Color Convert(Woopec.Core.Color color)
+        public static System.Windows.Media.Color Convert(Woopec.Graphics.Color color)
         {
             return System.Windows.Media.Color.FromArgb((byte)color.Alpha, (byte)color.R, (byte)color.G, (byte)color.B);
         }

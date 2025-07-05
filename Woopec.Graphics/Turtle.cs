@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Woopec.Core.Internal;
+using Woopec.Graphics.Internal;
 
-namespace Woopec.Core
+namespace Woopec.Graphics
 {
     /// <summary>
     /// An instance of this class represents a turtle.

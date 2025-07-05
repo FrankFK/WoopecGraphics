@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using Woopec.Core.Internal;
+using Woopec.Graphics.Internal;
 
-namespace Woopec.Core.UnitTests
+namespace Woopec.Graphics.UnitTests
 {
     /// <summary>
     /// Test the handling of animations.

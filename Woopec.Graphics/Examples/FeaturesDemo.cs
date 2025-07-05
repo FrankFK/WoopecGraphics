@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Core;
+using Woopec.Graphics;
 
-namespace Woopec.Core.Examples
+namespace Woopec.Graphics.Examples
 {
     /// <summary>
     /// This Example shows many features of the library (in the order they were implemented)

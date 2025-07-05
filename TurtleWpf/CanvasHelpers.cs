@@ -4,7 +4,7 @@ using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Core;
+using Woopec.Graphics;
 using System.Windows.Controls;
 
 namespace Woopec.Wpf

@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
-using Woopec.Core;
-using Woopec.Core.Internal;
+using Woopec.Graphics;
+using Woopec.Graphics.Internal;
 
 namespace TurtleCore.UnitTests
 {
