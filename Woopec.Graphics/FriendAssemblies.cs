@@ -12,5 +12,5 @@ using System.Threading.Tasks;
 // visible to TurtleWpf
 // 
 [assembly: InternalsVisibleTo("Woopec.Wpf")]
-[assembly: InternalsVisibleTo("TurtleCore.UnitTests")]
+[assembly: InternalsVisibleTo("Woopec.Graphics.UnitTests")]
 
