@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Woopec.Graphics.Factories;
 using Woopec.Graphics.Helpers;
-using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.LowLevelScreen;
 
 namespace Woopec.Graphics
 {

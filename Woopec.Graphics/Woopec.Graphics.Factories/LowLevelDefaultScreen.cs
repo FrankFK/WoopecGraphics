@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.LowLevelScreen;
 using Woopec.Graphics.Internal;
 
 namespace Woopec.Graphics.Factories
@@ -20,7 +20,7 @@ namespace Woopec.Graphics.Factories
         {
             if (_defaultScreen == null)
             {
-                _defaultScreen = new LowLevelScreen(TurtleInputsAndOutputs.GetDefaultScreenObjectProducer(), TurtleInputsAndOutputs.GetDefaultScreenResultConsumer());
+                _defaultScreen = new Internal.LowLevelScreen(TurtleInputsAndOutputs.GetDefaultScreenObjectProducer(), TurtleInputsAndOutputs.GetDefaultScreenResultConsumer());
             }
             return _defaultScreen;
         }

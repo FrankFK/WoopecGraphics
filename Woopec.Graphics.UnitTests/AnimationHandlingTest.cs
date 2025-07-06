@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System;
 using Woopec.Graphics.Internal;
-using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.LowLevelScreen;
 
 namespace Woopec.Graphics.UnitTests
 {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.LowLevelScreen;
 
 namespace Woopec.Graphics.Internal
 {

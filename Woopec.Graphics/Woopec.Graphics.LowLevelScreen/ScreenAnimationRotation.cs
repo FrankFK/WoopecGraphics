@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.InternalObjects
+namespace Woopec.Graphics.LowLevelScreen
 {
 
     internal enum ScreenAnimationRotationProperty
