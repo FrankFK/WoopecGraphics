@@ -13,4 +13,5 @@ using System.Threading.Tasks;
 // 
 [assembly: InternalsVisibleTo("Woopec.Wpf")]
 [assembly: InternalsVisibleTo("Woopec.Graphics.UnitTests")]
+[assembly: InternalsVisibleTo("Woopec.Graphics.ArchTests")]
 

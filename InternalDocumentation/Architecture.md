@@ -64,6 +64,7 @@ Erläuterungen:
 | Woopec.Graphics | Diese Library enthält die Klassen (z.B. `Turtle`) und Methoden (z.B. `Left`), die der User in seinem Code verwendet. Die Library erzeugt dementsprechend Änderungsbefehle für das UI, die über einen Channel an Woopec.WPF weitergegeben werden. Informationen vom UI (z.B. im UI eingegebene Texte) werden aus einem zweiten Rückkanal gelesen |
 | Woopec.WPF      | Diese Library liest die Änderungsbefehle aus dem Channel und zeigt die Änderungen in einem WPF UserControl `WoopecCanvas` an. Im UI erfasste Informationen (z.B. im UI eingegebene Texte) werden in einen Rückkanal geschrieben. |
 | C# code of user | Der C# code des Users nutzt in seinem Main Window ein UI-Control vom Typ `WoopecCanvas`, in dem die Woopec-Objekte angezeigt werden. Der Code des Benutzers muss eine Methode mit Namen `WoopecMain` enthalten. In dieser Methode (und von ihr aufgerufenen Methoden) benutzt der Anwender die Klassen (z.B. `Turtle`) und Methoden (z.B. `Left`) von Woopec.Core, um die gewünschten Grafiken zu zeichnen. |
+| Channels        | Channels zum Austausch der Daten zwischen Woopec.Graphics Library und dem Frontend |
 
 ### 5.2 Level 2
 
@@ -73,11 +74,13 @@ Erläuterungen:
 
 Erläuterungen der Namespaces:
 
-| Block                           | Erläuterung                                                  |
-| ------------------------------- | ------------------------------------------------------------ |
-| Woopec.Graphics                 | Dieser Namespace enthält die Klassen, die von Usern verwendet werden können (Turtle, Figure, Pen, etc.). Diese Klassen sind in der öffentlichen [Woopec Dokumentation](https://frank.woopec.net/woopec-docs-index.html) beschrieben |
-| Woopec.Graphics.InternalObjects | Wie in Abschnitt 5.1 erläutert, tauscht Woopec.Graphics über Channels Informationen mit dem UI aus. Dazu werden Objekte hin und her geschickt. Dieser Namespace enthält diese Objekte. Die Objekte sind einfach zu verstehen und selbsterklärend. |
-| Woopec.Graphics.Internal        | Der technische interne Unterbau für Woopec.Graphics. Der wird weiter unten auf Level 3 genauer beschrieben. |
+| Block                          | Erläuterung                                                  |
+| ------------------------------ | ------------------------------------------------------------ |
+| Woopec.Graphics                | Dieser Namespace enthält die Klassen, die von Usern verwendet werden können (Turtle, Figure, Pen, etc.). Diese Klassen sind in der öffentlichen [Woopec Dokumentation](https://frank.woopec.net/woopec-docs-index.html) beschrieben |
+| Woopec.Graphics.Helper         | Einfache interne Hilfs-Objekte, die von Woopec.Graphics benutzt werden, kein Teil der des LowLevelScreens |
+| Woopec.Graphics.LowLevelScreen | Woopec.Graphics tauscht Daten mit dem ILowLevelScreen. Dazu werden (teilweise asynchrone) Methode von ILowLevelScreen aufgerufen. Die Parameter enthalten die auszutauschenden Daten. Die Implementierung des LowLevelScreens ist in Woopec.Graphics.Internal realisiert. |
+| Woopec.Graphics.Internal       | Wie in Abschnitt 5.1 erläutert, tauscht Woopec.Graphics über Channels Informationen mit dem UI aus. Der technische interne Unterbau für Woopec.Graphics.LowLevelScreen. Der wird weiter unten auf Level 3 genauer beschrieben. |
+| Woopec.Graphics.Factories      | Factories um die passende Implementierung für ein Interface zu generieren. Aktuell wird in der Solution keine Dependency Injection benutzt. Das könnte man vielleicht mal umstellen. |
 
 
 
