@@ -18,8 +18,8 @@ namespace Woopec.Graphics.UnitTests
         public static void ClassInitialize(TestContext _)
         {
             // This is simulating a unit test context without the UnitTestDefaultScreen
-            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(null);
-            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(null);
+            DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(null);
+            DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(null);
         }
 
 
@@ -178,8 +178,8 @@ namespace Woopec.Graphics.UnitTests
         {
             _producerMockup = new TurtleScreenProducerMockup();
             _resultConsumerMockup = new TurtleScreenResultConsumerMockup();
-            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_producerMockup);
-            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(_resultConsumerMockup);
+            DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_producerMockup);
+            DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(_resultConsumerMockup);
         }
 
         [TestCleanup]

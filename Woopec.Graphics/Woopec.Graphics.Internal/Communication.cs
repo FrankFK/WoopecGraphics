@@ -87,10 +87,10 @@ namespace Woopec.Graphics.Internal
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
             _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannel);
-            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
+            DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
             var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannel);
-            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(resultConsumer);
+            DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
         }
 
@@ -112,11 +112,11 @@ namespace Woopec.Graphics.Internal
             // It is possible to have multiple screen object producers. In this case we only have one.
             // This producer runs in another thread.
             _actualScreenObjectProducer = new ScreenObjectProducer(communicationBroker.ScreenObjectChannel);
-            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
+            DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
             // the screen result broker transports screen results (e.g. answer in a text input dialog windos) from the screen thread to the screen object producing thread
             var resultConsumer = new ScreenResultConsumer(communicationBroker.ScreenResultChannel);
-            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(resultConsumer);
+            DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
 
             var screenObjectProducingThread = new Thread(
@@ -149,10 +149,10 @@ namespace Woopec.Graphics.Internal
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
             _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannel);
-            TurtleInputsAndOutputs.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
+            DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
             var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannel);
-            TurtleInputsAndOutputs.InitializeDefaultScreenResultConsumer(resultConsumer);
+            DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
             var producerThread = new Thread(
                         new ThreadStart(() =>

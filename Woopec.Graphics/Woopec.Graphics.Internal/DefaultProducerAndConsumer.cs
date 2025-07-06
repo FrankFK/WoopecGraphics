@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 namespace Woopec.Graphics.Internal
 {
     /// <summary>
-    /// At the moment this class only contains the default canvas, which should be used if
-    /// the contructor of Turtle() is called without arguments
+    /// In certain unit test scenarios, you want to mock producers and consumers. This is made possible by this class.
     /// </summary>
-    internal class TurtleInputsAndOutputs
+    internal class DefaultProducerAndConsumer
     {
         private static IScreenObjectProducer s_defaultScreenObjectProducer;
         private static IScreenResultConsumer s_defaultScreenResultConsumer;

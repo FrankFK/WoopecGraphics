@@ -20,7 +20,7 @@ namespace Woopec.Graphics.Factories
         {
             if (_defaultScreen == null)
             {
-                _defaultScreen = new Internal.LowLevelScreen(TurtleInputsAndOutputs.GetDefaultScreenObjectProducer(), TurtleInputsAndOutputs.GetDefaultScreenResultConsumer());
+                _defaultScreen = new Internal.LowLevelScreen(DefaultProducerAndConsumer.GetDefaultScreenObjectProducer(), DefaultProducerAndConsumer.GetDefaultScreenResultConsumer());
             }
             return _defaultScreen;
         }
