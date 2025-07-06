@@ -24,7 +24,7 @@ Eigentlich wäre es schön, wenn es geringe Systemvoraussetzungen für den Rechn
 
 Der User programmiert ein C# Programm. In diesem C# Programm nutzt sie die Objekte der Woopec Library. Das Programm wird auf dem Bildschirm ausgeführt. Währenddessen kann der User sich das Programm ansehen und es auch gleichzeitig debuggen.
 
-![image-20241109152507812](Context (Klein.png)
+![image-20241109152507812](Context (Klein).png)
 
 
 
