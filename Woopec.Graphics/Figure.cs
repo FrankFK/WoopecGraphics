@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Woopec.Graphics.Factories;
 using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.Helpers;
 
 namespace Woopec.Graphics
 {

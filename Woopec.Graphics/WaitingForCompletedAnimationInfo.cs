@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics
+namespace Woopec.Graphics.Helpers
 {
     /// <summary>
     /// Handling data, when Turtle.WaitForCompletedMovementOf is used

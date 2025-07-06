@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Woopec.Graphics.InternalObjects;
 using Woopec.Graphics.Factories;
+using Woopec.Graphics.Helpers;
 
 namespace Woopec.Graphics
 {
