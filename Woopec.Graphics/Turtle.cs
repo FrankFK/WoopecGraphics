@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.Factories;
 
 namespace Woopec.Graphics
 {
@@ -69,10 +70,11 @@ namespace Woopec.Graphics
         /// </summary>
         public static void ExperimentalInit()
         {
-            _communicationForConsole = new Communication(null);
-            _communicationForConsole.InitForConsoleProgram();
+            throw new NotImplementedException();
+            // _communicationForConsole = new Communication(null);
+            // _communicationForConsole.InitForConsoleProgram();
         }
-        private static Communication _communicationForConsole;
+        // private static Communication _communicationForConsole;
 
         /// <summary>
         /// Move the turtle forward by the specified distance, in the direction the turtle is headed. 

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalObjects;
+using Woopec.Graphics.Internal;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.Factories
 {
     internal class LowLevelDefaultScreen
     {
