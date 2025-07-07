@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.CommunicatedObjects
+namespace Woopec.Graphics.InternalCommunicatedObjects
 {
     /// <summary>
     /// Some kind of information which is received from the Screen

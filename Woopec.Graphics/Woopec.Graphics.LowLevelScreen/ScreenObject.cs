@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.CommunicatedObjects
+namespace Woopec.Graphics.InternalCommunicatedObjects
 {
     /// <summary>
     /// An Object (ScreenLine, ScreenFigure, ScreenDialog) to be rendered on the screen.

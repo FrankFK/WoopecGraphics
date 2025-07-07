@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.CommunicatedObjects
+namespace Woopec.Graphics.InternalCommunicatedObjects
 {
     internal class ScreenResultText : ScreenResult
     {

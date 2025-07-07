@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.Helpers;
-using Woopec.Graphics.CommunicatedObjects;
+using Woopec.Graphics.InternalCommunicatedObjects;
 
 namespace Woopec.Graphics.InternalBackend
 {

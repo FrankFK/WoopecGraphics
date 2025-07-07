@@ -10,7 +10,7 @@ using Woopec.Graphics;
 using System.Windows.Navigation;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
-using Woopec.Graphics.CommunicatedObjects;
+using Woopec.Graphics.InternalCommunicatedObjects;
 
 namespace Woopec.Wpf
 {

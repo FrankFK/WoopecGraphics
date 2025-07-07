@@ -7,7 +7,7 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;
-using Woopec.Graphics.CommunicatedObjects;
+using Woopec.Graphics.InternalCommunicatedObjects;
 
 namespace Woopec.Graphics.InternalCommunication
 {
