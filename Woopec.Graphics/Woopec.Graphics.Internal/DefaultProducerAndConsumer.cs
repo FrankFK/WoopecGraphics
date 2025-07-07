@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     /// <summary>
     /// In certain unit test scenarios, you want to mock producers and consumers. This is made possible by this class.

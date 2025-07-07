@@ -8,11 +8,13 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalBackend;
+using Woopec.Graphics.InternalFrontend;
 using Woopec.Graphics.LowLevelScreen;
 
 namespace Woopec.Graphics.Internal
 {
-    internal class ScreenObjectChannelInClientProcess : IScreenObjectChannel
+    internal class ScreenObjectChannelInClientProcess : IScreenObjectChannelForWriter, IScreenObjectChannelForReader
     {
         private static readonly JsonSerializerOptions _options = ScreenObjectChannelInServerProcess.SerializerOptions();
         private readonly AnonymousPipeClientStream _clientStream;

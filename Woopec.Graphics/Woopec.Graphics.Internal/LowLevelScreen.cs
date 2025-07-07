@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalFrontend
 {
     /// <summary>
     /// An instance of this class describes the actually known state of an animation group.

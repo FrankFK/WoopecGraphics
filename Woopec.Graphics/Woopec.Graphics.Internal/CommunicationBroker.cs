@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalBackend;
+using Woopec.Graphics.InternalFrontend;
 
 namespace Woopec.Graphics.Internal
 {
@@ -13,8 +15,11 @@ namespace Woopec.Graphics.Internal
     /// </summary>
     internal class CommunicationBroker
     {
-        public IScreenObjectChannel ScreenObjectChannel { get; init; }
-        public IScreenResultChannel ScreenResultChannel { get; init; }
+        public IScreenObjectChannelForWriter ScreenObjectChannelForWriter { get; init; }
+        public IScreenObjectChannelForReader ScreenObjectChannelForReader { get; init; }
+
+        public IScreenResultChannelForWriter ScreenResultChannelForWriter { get; init; }
+        public IScreenResultChannelForReader ScreenResultChannelForReader{ get; init; }
 
         public IScreenObjectConsumer ScreenObjectConsumer { get; init; }
 
@@ -27,15 +32,20 @@ namespace Woopec.Graphics.Internal
         public CommunicationBroker(IScreenObjectWriter writer, int capacity)
         {
             var channelOptions = new BoundedChannelOptions(capacity) { SingleReader = true, SingleWriter = false };
-            ScreenObjectChannel = new ScreenObjectChannelWithinProcess(channelOptions);
-            var screenObjectConsumer = new ScreenObjectConsumer(writer, ScreenObjectChannel);
+            var screenObjectChannel = new ScreenObjectChannelWithinProcess(channelOptions);
+            ScreenObjectChannelForWriter = screenObjectChannel;
+            ScreenObjectChannelForReader = screenObjectChannel;
+            var screenObjectConsumer = new ScreenObjectConsumer(writer, ScreenObjectChannelForReader);
             ScreenObjectConsumer = screenObjectConsumer;
             writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOfGroupIsFinished;
 
             var resultChannelOptions = new BoundedChannelOptions(capacity) { SingleReader = true, SingleWriter = true };
-            ScreenResultChannel = new ScreenResultChannelWithinProcess(resultChannelOptions);
+            var screenResultChannel = new ScreenResultChannelWithinProcess(resultChannelOptions);
 
-            var resultProducer = new ScreenResultProducer(ScreenResultChannel);
+            ScreenResultChannelForReader = screenResultChannel;
+            ScreenResultChannelForWriter = screenResultChannel;
+
+            var resultProducer = new ScreenResultProducer(ScreenResultChannelForWriter);
             writer.SetScreenResultProducer(resultProducer);
         }
 
@@ -56,8 +66,11 @@ namespace Woopec.Graphics.Internal
             serverProcessChannelForScreenObjects.DisposeHandle();
             serverProcessChannelForScreenResults.DisposeHandle();
 
-            ScreenObjectChannel = serverProcessChannelForScreenObjects;
-            ScreenResultChannel = serverProcessChannelForScreenResults;
+            ScreenObjectChannelForWriter = serverProcessChannelForScreenObjects;
+            ScreenObjectChannelForReader = serverProcessChannelForScreenObjects;
+
+            ScreenResultChannelForReader = serverProcessChannelForScreenResults;
+            ScreenResultChannelForWriter = serverProcessChannelForScreenResults;
 
             // The consumer is in the other process
             ScreenObjectConsumer = null;
@@ -71,14 +84,19 @@ namespace Woopec.Graphics.Internal
         /// <param name="writer"></param>
         public CommunicationBroker(string screenObjectPipeHandle, string screenResultPipeHandle, IScreenObjectWriter writer)
         {
-            ScreenObjectChannel = new ScreenObjectChannelInClientProcess(screenObjectPipeHandle);
+            var screenObjectChannel = new ScreenObjectChannelInClientProcess(screenObjectPipeHandle);
+            ScreenObjectChannelForReader = screenObjectChannel;
+            ScreenObjectChannelForWriter = screenObjectChannel;
 
-            var screenObjectConsumer = new ScreenObjectConsumer(writer, ScreenObjectChannel);
+            var screenObjectConsumer = new ScreenObjectConsumer(writer, ScreenObjectChannelForReader);
             ScreenObjectConsumer = screenObjectConsumer;
             writer.OnAnimationIsFinished += screenObjectConsumer.AnimationOfGroupIsFinished;
 
             var screenResultChannel = new ScreenResultChannelInClientProcess(screenResultPipeHandle);
-            var resultProducer = new ScreenResultProducer(screenResultChannel);
+
+            ScreenResultChannelForWriter = screenResultChannel;
+            ScreenResultChannelForReader = screenResultChannel;
+            var resultProducer = new ScreenResultProducer(ScreenResultChannelForWriter);
             writer.SetScreenResultProducer(resultProducer);
 
         }

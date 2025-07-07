@@ -6,12 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     /// <summary>
-    /// Communication between ScreenObjectProducer and ScreenObjectConsumer
+    /// Communication channel for ScreenObjectProducer
     /// </summary>
-    internal interface IScreenObjectChannel
+    internal interface IScreenObjectChannelForWriter
     {
         /// <summary>
         /// See same method in System.Threading.Channels.ChannelWriter
@@ -20,6 +20,17 @@ namespace Woopec.Graphics.Internal
         /// <returns></returns>
         public bool TryWrite(ScreenObject screenObject);
 
+    }
+
+}
+
+namespace Woopec.Graphics.InternalFrontend
+{
+    /// <summary>
+    /// Communication channel for ScreenObjectConsumer
+    /// </summary>
+    internal interface IScreenObjectChannelForReader
+    {
         /// <summary>
         /// See same method in System.Threading.Channels.ChannelReader
         /// </summary>

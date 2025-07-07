@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     internal interface IScreenResultConsumer
     {

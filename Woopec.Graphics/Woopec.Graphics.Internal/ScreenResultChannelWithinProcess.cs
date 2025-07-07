@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalBackend;
+using Woopec.Graphics.InternalFrontend;
 using Woopec.Graphics.LowLevelScreen;
 
 namespace Woopec.Graphics.Internal
 {
-    internal class ScreenResultChannelWithinProcess : IScreenResultChannel
+    internal class ScreenResultChannelWithinProcess : IScreenResultChannelForWriter, IScreenResultChannelForReader
     {
         private readonly Channel<ScreenResult> _channel;
 

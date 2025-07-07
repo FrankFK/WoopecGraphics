@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Woopec.Graphics.Internal;
 using Woopec.Graphics.Factories;
 using Woopec.Graphics.LowLevelScreen;
+using Woopec.Graphics.InternalBackend;
 
 namespace Woopec.Graphics.UnitTests
 {

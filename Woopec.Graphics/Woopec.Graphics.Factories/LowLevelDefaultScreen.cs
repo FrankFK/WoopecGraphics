@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
-using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalBackend;
 
 namespace Woopec.Graphics.Factories
 {
@@ -20,7 +20,7 @@ namespace Woopec.Graphics.Factories
         {
             if (_defaultScreen == null)
             {
-                _defaultScreen = new Internal.LowLevelScreen(DefaultProducerAndConsumer.GetDefaultScreenObjectProducer(), DefaultProducerAndConsumer.GetDefaultScreenResultConsumer());
+                _defaultScreen = new InternalBackend.LowLevelScreen(DefaultProducerAndConsumer.GetDefaultScreenObjectProducer(), DefaultProducerAndConsumer.GetDefaultScreenResultConsumer());
             }
             return _defaultScreen;
         }

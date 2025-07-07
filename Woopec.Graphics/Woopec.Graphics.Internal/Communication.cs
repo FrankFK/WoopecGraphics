@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalBackend;
+using Woopec.Graphics.InternalFrontend;
 
 namespace Woopec.Graphics.Internal
 {
@@ -86,10 +88,10 @@ namespace Woopec.Graphics.Internal
 
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
-            _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannel);
+            _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannelForWriter);
             DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
-            var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannel);
+            var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
         }
@@ -111,11 +113,11 @@ namespace Woopec.Graphics.Internal
 
             // It is possible to have multiple screen object producers. In this case we only have one.
             // This producer runs in another thread.
-            _actualScreenObjectProducer = new ScreenObjectProducer(communicationBroker.ScreenObjectChannel);
+            _actualScreenObjectProducer = new ScreenObjectProducer(communicationBroker.ScreenObjectChannelForWriter);
             DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
             // the screen result broker transports screen results (e.g. answer in a text input dialog windos) from the screen thread to the screen object producing thread
-            var resultConsumer = new ScreenResultConsumer(communicationBroker.ScreenResultChannel);
+            var resultConsumer = new ScreenResultConsumer(communicationBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
 
@@ -148,10 +150,10 @@ namespace Woopec.Graphics.Internal
 
             // It is possible to have multiple producers. In this case we ony have one.
             // This producer runs in another thread.
-            _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannel);
+            _actualScreenObjectProducer = new ScreenObjectProducer(_actualBroker.ScreenObjectChannelForWriter);
             DefaultProducerAndConsumer.InitializeDefaultScreenObjectProducer(_actualScreenObjectProducer);
 
-            var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannel);
+            var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
             var producerThread = new Thread(

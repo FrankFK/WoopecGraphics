@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     /// <summary>
     /// Generate screen objects and hand them over to a consumer

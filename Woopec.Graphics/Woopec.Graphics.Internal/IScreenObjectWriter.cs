@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalFrontend
 {
     internal delegate void AnimationIsFinished(int groupId, int objectId);
 

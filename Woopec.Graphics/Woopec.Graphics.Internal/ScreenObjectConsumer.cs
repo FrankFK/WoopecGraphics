@@ -7,17 +7,17 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalFrontend
 {
     internal class ScreenObjectConsumer : IScreenObjectConsumer
     {
         private readonly IScreenObjectWriter _writer;
-        private readonly IScreenObjectChannel _objectChannel;
+        private readonly IScreenObjectChannelForReader _objectChannel;
         private readonly AnimationGroupsState _animationGroupsState;
         private static readonly object s_lockObj = new();
 
 
-        public ScreenObjectConsumer(IScreenObjectWriter writer, IScreenObjectChannel channel)
+        public ScreenObjectConsumer(IScreenObjectWriter writer, IScreenObjectChannelForReader channel)
         {
             _writer = writer;
             _objectChannel = channel;

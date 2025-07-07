@@ -7,15 +7,15 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     internal class ScreenObjectProducer : IScreenObjectProducer
     {
         private int _lineCounter;
         private int _figureCounter;
-        private readonly IScreenObjectChannel _objectChannel;
+        private readonly IScreenObjectChannelForWriter _objectChannel;
 
-        public ScreenObjectProducer(IScreenObjectChannel channel)
+        public ScreenObjectProducer(IScreenObjectChannelForWriter channel)
         {
             _objectChannel = channel;
         }

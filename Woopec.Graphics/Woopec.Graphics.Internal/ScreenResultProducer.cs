@@ -7,13 +7,13 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalFrontend
 {
     internal class ScreenResultProducer : IScreenResultProducer
     {
-        private readonly IScreenResultChannel _resultChannel;
+        private readonly IScreenResultChannelForWriter _resultChannel;
 
-        public ScreenResultProducer(IScreenResultChannel channel)
+        public ScreenResultProducer(IScreenResultChannelForWriter channel)
         {
             _resultChannel = channel;
         }

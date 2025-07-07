@@ -6,13 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalBackend
 {
     internal class ScreenResultConsumer : IScreenResultConsumer
     {
-        private readonly IScreenResultChannel _screenResultChannel;
+        private readonly IScreenResultChannelForReader _screenResultChannel;
 
-        public ScreenResultConsumer(IScreenResultChannel screenResultChannel)
+        public ScreenResultConsumer(IScreenResultChannelForReader screenResultChannel)
         {
             _screenResultChannel = screenResultChannel;
         }

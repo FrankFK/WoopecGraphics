@@ -40,13 +40,30 @@ namespace Woopec.Graphics.ArchTests
             .As("WoopecGraphics low level screen interface");
 
         /// <summary>
-        /// The internal implementation for LowLevelScreen
-        /// This layer contains the objects that WoopecGraphicPublic needs to know.
+        /// The "backend" part of the internals of Woopec.Graphics
+        /// This layer implements an ILowLevelScreen and communicates with the channels
         /// </summary>
-        private readonly IObjectProvider<IType> WoopecGraphicsLowLevelScreenImplementation = Types()
+        private readonly IObjectProvider<IType> WoopecGraphicsInternalBackend = Types()
+            .That()
+            .ResideInNamespace("Woopec.Graphics.InternalBackend")
+            .As("WoopecGraphics low level screen implementation");
+
+        /// <summary>
+        /// The "frontend" part of the internals of Woopec.Graphics
+        /// This layer implements the communication between the channels and the frontend
+        /// </summary>
+        private readonly IObjectProvider<IType> WoopecGraphicsInternalFrontend = Types()
+            .That()
+            .ResideInNamespace("Woopec.Graphics.InternalFrontend")
+            .As("WoopecGraphics low level screen implementation");
+
+        /// <summary>
+        /// Noch nicht aufgeräumt. Dieser Layer muss noch weg.
+        /// </summary>
+        private readonly IObjectProvider<IType> WoopecGraphicsInternal = Types()
             .That()
             .ResideInNamespace("Woopec.Graphics.Internal")
-            .As("WoopecGraphics low level screen implementation");
+            .As("Woopec.Graphics.Internal soll obsolet werden");
 
         /// <summary>
         /// Factories to generate the appropriate implementation for an interface. Currently, no dependency injection is used in the solution. 
@@ -77,27 +94,40 @@ namespace Woopec.Graphics.ArchTests
             Types().That().Are(WoopecGraphicsExamples).Should().Exist().Check(Architecture);
             Types().That().Are(WoopecGraphicsFactories).Should().Exist().Check(Architecture);
             Types().That().Are(WoopecGraphicsLowLevelScreenInterface).Should().Exist().Check(Architecture);
-            Types().That().Are(WoopecGraphicsLowLevelScreenImplementation).Should().Exist().Check(Architecture);
+            Types().That().Are(WoopecGraphicsInternalFrontend).Should().Exist().Check(Architecture);
+            Types().That().Are(WoopecGraphicsInternalBackend).Should().Exist().Check(Architecture);
         }
 
         [Fact]
-        public void PublicObjectsShouldNotUseLowLevelScreenImplementation()
+        public void NameSpaceInternalShouldBeEmpty()
         {
-            IArchRule doNotAcessLowLevelImplementation = Types()
+            Types().That().Are(WoopecGraphicsInternal).Should().NotExist().Check(Architecture);
+        }
+
+        [Fact]
+        public void PublicObjectsShouldOnlyUseHelpers()
+        {
+            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsInternalFrontend, WoopecGraphicsInternalBackend, WoopecGraphicsFactories,
+                WoopecGraphicsLowLevelScreenInterface};
+
+            foreach (var layer in forbiddenLayers)
+            {
+                IArchRule doNotAcessLowLevelImplementation = Types()
                 .That()
                 .Are(WoopecGraphicsPublic)
                 .Should()
-                .NotDependOnAny(WoopecGraphicsLowLevelScreenImplementation)
+                .NotDependOnAny(layer)
                 .Because("Public objects should only use LowLevelScreenInterface, but not it's implementation in LowLevelScreenImplementation");
-            doNotAcessLowLevelImplementation.Check(Architecture);
 
+                doNotAcessLowLevelImplementation.Check(Architecture);
+            }
         }
 
         [Fact]
         public void ExamplesShouldOnlyUsePublicObjects()
         {
-            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsLowLevelScreenImplementation, WoopecGraphicsHelpers, WoopecGraphicsFactories,
-                WoopecGraphicsLowLevelScreenInterface, WoopecGraphicsLowLevelScreenImplementation};
+            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsInternalFrontend, WoopecGraphicsInternalBackend, WoopecGraphicsHelpers, WoopecGraphicsFactories,
+                WoopecGraphicsLowLevelScreenInterface};
 
             foreach (var layer in forbiddenLayers)
             {
@@ -114,8 +144,8 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void HelpersShouldNotUseOtherLayers()
         {
-            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsLowLevelScreenImplementation, WoopecGraphicsFactories,
-                WoopecGraphicsLowLevelScreenInterface, WoopecGraphicsLowLevelScreenImplementation};
+            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsInternalBackend, WoopecGraphicsInternalFrontend, WoopecGraphicsFactories,
+                WoopecGraphicsLowLevelScreenInterface};
 
             foreach (var layer in forbiddenLayers)
             {

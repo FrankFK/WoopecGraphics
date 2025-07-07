@@ -9,6 +9,8 @@ using System.Threading;
 using System;
 using Woopec.Graphics.Internal;
 using Woopec.Graphics.LowLevelScreen;
+using Woopec.Graphics.InternalBackend;
+using Woopec.Graphics.InternalFrontend;
 
 namespace Woopec.Graphics.UnitTests
 {
@@ -200,7 +202,7 @@ namespace Woopec.Graphics.UnitTests
 
             // It is possible to have multiple producers. In this test we only have one
             // This producer runs in a another thread.
-            _actualProducer = new ScreenObjectProducer(objectBroker.ScreenObjectChannel);
+            _actualProducer = new ScreenObjectProducer(objectBroker.ScreenObjectChannelForWriter);
             var producerThread = new Thread(
                         new ThreadStart(() =>
                         {
