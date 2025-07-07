@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Woopec.Graphics;
-using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalCommunication;
 using Colors = Woopec.Graphics.Colors;
 using System.Reflection;
 

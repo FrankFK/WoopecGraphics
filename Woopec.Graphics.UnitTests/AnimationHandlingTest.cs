@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System;
-using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalCommunication;
 using Woopec.Graphics.LowLevelScreen;
 using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;

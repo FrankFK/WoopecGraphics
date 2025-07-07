@@ -9,7 +9,7 @@ using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalCommunication
 {
     internal class ScreenResultChannelWithinProcess : IScreenResultChannelForWriter, IScreenResultChannelForReader
     {

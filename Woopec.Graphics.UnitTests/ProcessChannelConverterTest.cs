@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using Woopec.Graphics;
-using Woopec.Graphics.Internal;
+using Woopec.Graphics.InternalCommunication;
 using Woopec.Graphics.LowLevelScreen;
 
 namespace TurtleCore.UnitTests

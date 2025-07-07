@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalCommunication
 {
     internal class Communication
     {

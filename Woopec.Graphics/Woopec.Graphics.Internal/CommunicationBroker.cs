@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;
 
-namespace Woopec.Graphics.Internal
+namespace Woopec.Graphics.InternalCommunication
 {
     /// <summary>
     /// An instance of this class transports data (ScreenObjects and ScreenResults) between the woopec-core-code and the woopec-drawing-code
