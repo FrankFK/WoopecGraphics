@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Graphics.LowLevelScreen;
+using Woopec.Graphics.Helpers;
 
 namespace Woopec.Graphics.InternalBackend
 {
+    internal class LowLevelScreenFactory : ILowLevelScreenFactory
+    {
+        public ILowLevelScreen CreateLowLevelScreen()
+        {
+            return new LowLevelScreen(DefaultProducerAndConsumer.GetDefaultScreenObjectProducer(), DefaultProducerAndConsumer.GetDefaultScreenResultConsumer());
+        }
+    }
+
     /// <summary>
     /// In certain unit test scenarios, you want to mock producers and consumers. This is made possible by this class.
     /// </summary>

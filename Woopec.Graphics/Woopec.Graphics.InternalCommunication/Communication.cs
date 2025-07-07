@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Woopec.Graphics.Helpers;
 using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;
 
@@ -94,6 +95,9 @@ namespace Woopec.Graphics.InternalCommunication
             var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
+            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in InternalBackend
+            LowLevelDefaultScreen.Init(new LowLevelScreenFactory());
+
         }
 
 
@@ -119,6 +123,9 @@ namespace Woopec.Graphics.InternalCommunication
             // the screen result broker transports screen results (e.g. answer in a text input dialog windos) from the screen thread to the screen object producing thread
             var resultConsumer = new ScreenResultConsumer(communicationBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
+
+            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in InternalBackend
+            LowLevelDefaultScreen.Init(new LowLevelScreenFactory());
 
 
             var screenObjectProducingThread = new Thread(
@@ -155,6 +162,9 @@ namespace Woopec.Graphics.InternalCommunication
 
             var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
+
+            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in InternalBackend
+            LowLevelDefaultScreen.Init(new LowLevelScreenFactory());
 
             var producerThread = new Thread(
                         new ThreadStart(() =>

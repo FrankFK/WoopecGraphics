@@ -4,13 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
-using Woopec.Graphics.InternalBackend;
 
-namespace Woopec.Graphics.Factories
+namespace Woopec.Graphics.Helpers
 {
     internal class LowLevelDefaultScreen
     {
         private static ILowLevelScreen _defaultScreen;
+        private static ILowLevelScreenFactory _factory;
+
+        internal static void Init(ILowLevelScreenFactory factory)
+        {
+            _factory = factory;
+        }
 
         /// <summary>
         /// Create a LowLevelScreen-Instance which draws to a default-Screen
@@ -20,7 +25,14 @@ namespace Woopec.Graphics.Factories
         {
             if (_defaultScreen == null)
             {
-                _defaultScreen = new InternalBackend.LowLevelScreen(DefaultProducerAndConsumer.GetDefaultScreenObjectProducer(), DefaultProducerAndConsumer.GetDefaultScreenResultConsumer());
+                if (_factory == null)
+                {
+                    // This situation occurs if Figure, Pen or Turtle are used in unit tests without any preperation for that.
+                    var recommendedClass = nameof(Screen);
+                    var recommendedMethod = nameof(Screen.SwitchToUnitTestDefaultScreen);
+                    throw new ArgumentException($"Woopec: The arguments for LowLevelScreen are invalid. If you need a screen for unit tests, it is best to call method {recommendedMethod} of class {recommendedClass} at the beginning.");
+                }
+                _defaultScreen = _factory.CreateLowLevelScreen();
             }
             return _defaultScreen;
         }
@@ -32,6 +44,7 @@ namespace Woopec.Graphics.Factories
         {
             _defaultScreen = new LowLevelScreenForUnitTests();
         }
+
 
         /// <summary>
         /// Needed for tests

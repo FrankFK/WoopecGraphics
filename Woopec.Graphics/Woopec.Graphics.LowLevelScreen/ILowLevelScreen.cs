@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.LowLevelScreen
+namespace Woopec.Graphics.Helpers
 {
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn

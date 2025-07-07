@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Graphics.Factories;
 using Woopec.Graphics.Helpers;
 using Woopec.Graphics.LowLevelScreen;
 

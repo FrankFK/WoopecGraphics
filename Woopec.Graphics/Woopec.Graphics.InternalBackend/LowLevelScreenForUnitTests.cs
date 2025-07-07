@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.LowLevelScreen;
 
-namespace Woopec.Graphics.InternalBackend
+namespace Woopec.Graphics.Helpers
 {
     /// <summary>
     /// An instance of this class represents a screen which can be used for unit tests
