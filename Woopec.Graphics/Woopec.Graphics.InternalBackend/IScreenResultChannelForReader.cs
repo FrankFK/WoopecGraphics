@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Graphics.LowLevelScreen;
+using Woopec.Graphics.CommunicatedObjects;
 
 namespace Woopec.Graphics.InternalBackend
 {

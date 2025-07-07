@@ -9,7 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Woopec.Graphics.InternalFrontend;
-using Woopec.Graphics.LowLevelScreen;
+using Woopec.Graphics.CommunicatedObjects;
 
 namespace Woopec.Wpf
 {

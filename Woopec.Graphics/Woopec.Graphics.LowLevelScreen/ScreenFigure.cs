@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.LowLevelScreen
+namespace Woopec.Graphics.CommunicatedObjects
 {
     /// <summary>
     /// An instance of this class describes a figure (position, heading, colors, visibility, shape) on the screen.

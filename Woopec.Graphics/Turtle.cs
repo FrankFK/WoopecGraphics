@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Woopec.Graphics.LowLevelScreen;
+using Woopec.Graphics.CommunicatedObjects;
 using Woopec.Graphics.Helpers;
 
 namespace Woopec.Graphics
