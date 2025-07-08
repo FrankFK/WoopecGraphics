@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalCommunicatedObjects;
 
 namespace Woopec.Graphics.InternalBackend
 {
@@ -12,6 +13,6 @@ namespace Woopec.Graphics.InternalBackend
         public Task<string> ReadTextResultAsync();
         public Task<double?> ReadNumberResultAsync();
 
-        public Task<Vec2D> ReadVec2DResultAsync();
+        public Task<Vec2DValue> ReadVec2DResultAsync();
     }
 }

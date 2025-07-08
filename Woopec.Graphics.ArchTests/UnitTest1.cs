@@ -23,56 +23,46 @@ namespace Woopec.Graphics.ArchTests
             .As("WoopecGraphics public objects");
 
         /// <summary>
-        /// Small helper objectes
+        /// Helper objectes and interfaces used by WoopecGraphicsPublic
         /// </summary>
         private readonly IObjectProvider<IType> WoopecGraphicsHelpers = Types()
             .That()
             .ResideInNamespace("Woopec.Graphics.Helpers")
-            .As("WoopecGraphics small helper objects");
+            .As("WoopecGraphics helper objects and interfaces for the public objects");
 
         /// <summary>
-        /// Woopec.Graphics exchanges data with the ILowLevelScreen. For this purpose, (partially asynchronous) methods of ILowLevelScreen are called. 
-        /// This layer contains the objects that WoopecGraphicPublic needs to know.
-        /// </summary>
-        private readonly IObjectProvider<IType> WoopecGraphicsLowLevelScreenInterface = Types()
-            .That()
-            .ResideInNamespace("Woopec.Graphics.LowLevelScreen")
-            .As("WoopecGraphics low level screen interface");
-
-        /// <summary>
-        /// The "backend" part of the internals of Woopec.Graphics
-        /// This layer implements an ILowLevelScreen and communicates with the channels
+        /// Infrastructure code for the internal backend part of the graphics. This part interacts with the frontend via
+        /// interfaces to channels, that connect backend and frontend
         /// </summary>
         private readonly IObjectProvider<IType> WoopecGraphicsInternalBackend = Types()
             .That()
             .ResideInNamespace("Woopec.Graphics.InternalBackend")
-            .As("WoopecGraphics low level screen implementation");
+            .As("WoopecGraphics internal backend part");
 
         /// <summary>
-        /// The "frontend" part of the internals of Woopec.Graphics
-        /// This layer implements the communication between the channels and the frontend
+        /// Infrastructure code for the internal frontend part of the graphics. This part interacts with the backend via
+        /// interfaces to channels, that connect backend and frontend
         /// </summary>
         private readonly IObjectProvider<IType> WoopecGraphicsInternalFrontend = Types()
             .That()
             .ResideInNamespace("Woopec.Graphics.InternalFrontend")
-            .As("WoopecGraphics low level screen implementation");
+            .As("WoopecGraphics internal frontend part");
 
         /// <summary>
-        /// Noch nicht aufgeräumt. Dieser Layer muss noch weg.
+        /// This layer connects backend and frontend and initializes everything
         /// </summary>
-        private readonly IObjectProvider<IType> WoopecGraphicsInternal = Types()
+        private readonly IObjectProvider<IType> WoopecGraphicsInternalCommunication = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.Internal")
-            .As("Woopec.Graphics.Internal soll obsolet werden");
+            .ResideInNamespace("Woopec.Graphics.InternalCommunication")
+            .As("WoopecGraphics communication between backend and frontend");
 
         /// <summary>
-        /// Factories to generate the appropriate implementation for an interface. Currently, no dependency injection is used in the solution. 
-        /// This could perhaps be changed later.
+        /// Objects which travel between backend and frontend
         /// </summary>
-        private readonly IObjectProvider<IType> WoopecGraphicsFactories = Types()
+        private readonly IObjectProvider<IType> WoopecGraphicsCommunicatedObjects = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.Factories")
-            .As("WoopecGraphics low level screen implementation");
+            .ResideInNamespace("Woopec.Graphics.InternalCommunicatedObjects")
+            .As("WoopecGraphics communicated objects");
 
         /// <summary>
         /// WoopecGraphics examples
@@ -84,41 +74,59 @@ namespace Woopec.Graphics.ArchTests
 
 
 
-        [Fact]
-        public void AllNameSpacesShouldBeReferencedCorrectly()
+        private List<IObjectProvider<IType>> AllLayers()
         {
-            IArchRule checkGraphicsPublic = Types().That().Are(WoopecGraphicsPublic).Should().Exist();
-            checkGraphicsPublic.Check(Architecture);
-
-            Types().That().Are(WoopecGraphicsHelpers).Should().Exist().Check(Architecture);
-            Types().That().Are(WoopecGraphicsExamples).Should().Exist().Check(Architecture);
-            Types().That().Are(WoopecGraphicsFactories).Should().Exist().Check(Architecture);
-            Types().That().Are(WoopecGraphicsLowLevelScreenInterface).Should().Exist().Check(Architecture);
-            Types().That().Are(WoopecGraphicsInternalFrontend).Should().Exist().Check(Architecture);
-            Types().That().Are(WoopecGraphicsInternalBackend).Should().Exist().Check(Architecture);
+            return new List<IObjectProvider<IType>>() {WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend,
+            WoopecGraphicsInternalCommunication, WoopecGraphicsInternalFrontend, WoopecGraphicsCommunicatedObjects, WoopecGraphicsExamples};
         }
 
-        [Fact]
-        public void NameSpaceInternalShouldBeEmpty()
+        private List<IObjectProvider<IType>> AllLayersExcept(List<IObjectProvider<IType>> except)
         {
-            Types().That().Are(WoopecGraphicsInternal).Should().NotExist().Check(Architecture);
-        }
-
-        [Fact]
-        public void PublicObjectsShouldOnlyUseHelpers()
-        {
-            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsInternalFrontend, WoopecGraphicsInternalBackend, WoopecGraphicsFactories,
-                WoopecGraphicsLowLevelScreenInterface};
-
-            foreach (var layer in forbiddenLayers)
+            List<IObjectProvider<IType>> allExcept = AllLayers();
+            foreach (IObjectProvider<IType> layer in except)
             {
+                allExcept.Remove(layer);
+            }
+            return allExcept;
+        }
+
+        [Fact]
+        public void AllLayersShouldHaveContent()
+        {
+            foreach (var layer in AllLayers())
+            {
+                Types().That().Are(layer).Should().Exist().Check(Architecture);
+            }
+        }
+
+        [Fact]
+        public void PublicObjectsShouldOnlyUseHelpersAndCommunicatedObjects()
+        {
+            foreach (var layer in AllLayersExcept([WoopecGraphicsHelpers, WoopecGraphicsCommunicatedObjects, WoopecGraphicsPublic]))
+            {
+                // Check this other ones
                 IArchRule doNotAcessLowLevelImplementation = Types()
                 .That()
                 .Are(WoopecGraphicsPublic)
                 .Should()
                 .NotDependOnAny(layer)
-                .Because("Public objects should only use LowLevelScreenInterface, but not it's implementation in LowLevelScreenImplementation");
+                .Because("Public objects should only use a few layers");
 
+                doNotAcessLowLevelImplementation.Check(Architecture);
+            }
+        }
+
+        [Fact]
+        public void HelpersShouldShouldOnlyUsePublicAndCommunicatedObjects()
+        {
+            foreach (var layer in AllLayersExcept([WoopecGraphicsPublic, WoopecGraphicsCommunicatedObjects, WoopecGraphicsHelpers]))
+            {
+                IArchRule doNotAcessLowLevelImplementation = Types()
+                    .That()
+                    .Are(WoopecGraphicsHelpers)
+                    .Should()
+                    .NotDependOnAny(layer)
+                    .Because("Helpers should be simple helpers");
                 doNotAcessLowLevelImplementation.Check(Architecture);
             }
         }
@@ -126,10 +134,7 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void ExamplesShouldOnlyUsePublicObjects()
         {
-            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsInternalFrontend, WoopecGraphicsInternalBackend, WoopecGraphicsHelpers, WoopecGraphicsFactories,
-                WoopecGraphicsLowLevelScreenInterface};
-
-            foreach (var layer in forbiddenLayers)
+            foreach (var layer in AllLayersExcept([WoopecGraphicsPublic, WoopecGraphicsExamples]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -142,22 +147,51 @@ namespace Woopec.Graphics.ArchTests
         }
 
         [Fact]
-        public void HelpersShouldNotUseOtherLayers()
+        public void InternalBackendShouldUseOnlyCommunicatedObjectsAndPublicAndHelpers()
         {
-            var forbiddenLayers = new List<IObjectProvider<IType>> { WoopecGraphicsInternalBackend, WoopecGraphicsInternalFrontend, WoopecGraphicsFactories,
-                WoopecGraphicsLowLevelScreenInterface};
-
-            foreach (var layer in forbiddenLayers)
+            foreach (var layer in AllLayersExcept([WoopecGraphicsCommunicatedObjects, WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
-                    .Are(WoopecGraphicsHelpers)
+                    .Are(WoopecGraphicsInternalBackend)
                     .Should()
                     .NotDependOnAny(layer)
-                    .Because("Helpers should be simple helpers");
+                    .Because("Internal backend should only use ...");
                 doNotAcessLowLevelImplementation.Check(Architecture);
             }
         }
+
+        [Fact]
+        public void InternalFrontendShouldOnlyUseCommunicatedObjects()
+        {
+            foreach (var layer in AllLayersExcept([WoopecGraphicsCommunicatedObjects, WoopecGraphicsInternalFrontend]))
+            {
+                IArchRule doNotAcessLowLevelImplementation = Types()
+                    .That()
+                    .Are(WoopecGraphicsInternalFrontend)
+                    .Should()
+                    .NotDependOnAny(layer)
+                    .Because("Internal backend should only use ...");
+                doNotAcessLowLevelImplementation.Check(Architecture);
+            }
+        }
+
+        [Fact]
+        public void CommunicatedObjectsShouldOnlyUse()
+        {
+            foreach (var layer in AllLayersExcept([WoopecGraphicsCommunicatedObjects]))
+            {
+                IArchRule doNotAcessLowLevelImplementation = Types()
+                    .That()
+                    .Are(WoopecGraphicsCommunicatedObjects)
+                    .Should()
+                    .NotDependOnAny(layer)
+                    .Because("Internal backend should only use ...");
+                doNotAcessLowLevelImplementation.Check(Architecture);
+            }
+        }
+
+
     }
 }
 

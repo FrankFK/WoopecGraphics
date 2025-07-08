@@ -8,6 +8,6 @@ namespace Woopec.Graphics.InternalCommunicatedObjects
 {
     internal class ScreenResultVec2D : ScreenResult
     {
-        public Vec2D Value { get; set; }
+        public Vec2DValue Value { get; set; }
     }
 }

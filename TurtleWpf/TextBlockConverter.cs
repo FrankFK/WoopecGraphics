@@ -44,7 +44,7 @@ namespace Woopec.Wpf
             return CanvasHelpers.ConvertToCanvasPoint(_woopecTextBlock.Position, canvas);
         }
 
-        public Vec2D GetLowerRightPointInWoopecCoordinates(Canvas canvas)
+        public Vec2DValue GetLowerRightPointInWoopecCoordinates(Canvas canvas)
         {
             var tempWpfTextBlock = CreateWpfTextBlock();
 

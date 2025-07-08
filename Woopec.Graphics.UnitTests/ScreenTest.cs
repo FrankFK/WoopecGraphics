@@ -163,7 +163,7 @@ namespace Woopec.Graphics.UnitTests
                 throw new NotImplementedException();
             }
 
-            public Task<Vec2D> ReadVec2DResultAsync()
+            public Task<Vec2DValue> ReadVec2DResultAsync()
             {
                 throw new NotImplementedException();
             }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Woopec.Graphics.InternalCommunicatedObjects;
 
 namespace Woopec.Graphics.InternalFrontend
 {
@@ -14,6 +15,6 @@ namespace Woopec.Graphics.InternalFrontend
         public void SendText(string text);
         public void SendNumber(double? number);
 
-        public void SendVec2D(Vec2D value);
+        public void SendVec2D(Vec2DValue value);
     }
 }

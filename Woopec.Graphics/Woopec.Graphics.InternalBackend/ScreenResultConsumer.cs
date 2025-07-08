@@ -49,7 +49,7 @@ namespace Woopec.Graphics.InternalBackend
             return screenResultNumber.Value;
         }
 
-        public async Task<Vec2D> ReadVec2DResultAsync()
+        public async Task<Vec2DValue> ReadVec2DResultAsync()
         {
             ScreenResultVec2D screenResultVec2D = null;
             try

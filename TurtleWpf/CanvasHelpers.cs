@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics;
 using System.Windows.Controls;
+using Woopec.Graphics.InternalCommunicatedObjects;
 
 namespace Woopec.Wpf
 {
@@ -35,9 +36,9 @@ namespace Woopec.Wpf
         /// <param name="canvasPoint"></param>
         /// <param name="canvas"></param>
         /// <returns></returns>
-        public static Vec2D ConvertToVec2DPoint(Point canvasPoint, Canvas canvas)
+        public static Vec2DValue ConvertToVec2DPoint(Point canvasPoint, Canvas canvas)
         {
-            return new Vec2D(canvasPoint.X - canvas.ActualWidth / 2, canvas.ActualHeight / 2 - canvasPoint.Y);
+            return new Vec2DValue(canvasPoint.X - canvas.ActualWidth / 2, canvas.ActualHeight / 2 - canvasPoint.Y);
         }
 
         /// <summary>
