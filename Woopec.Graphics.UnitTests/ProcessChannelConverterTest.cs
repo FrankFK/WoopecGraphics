@@ -20,12 +20,12 @@ namespace TurtleCore.UnitTests
         public void ShapeSerialization_Works()
         {
             // Create a list with all derived classes of ShapeBase
-            var shape = new Shape(new() { (0, 0), (10, -5), (0, 10), (-10, -5) });
-            var imageShape = new ImageShape("");
+            DtoShape shape = DtoMapper.Map( new Shape(new() { (0, 0), (10, -5), (0, 10), (-10, -5) }));
+            DtoImageShape imageShape = DtoMapper.Map(new ImageShape(""));
 
-            var objects = new List<ShapeBase> { shape, imageShape };
+            var objects = new List<DtoShapeBase> { shape, imageShape };
 
-            var shapeBaseConverter = new ProcessChannelConverter<ShapeBase>(ShapeBase.JsonTypeDiscriminatorAsInt, ShapeBase.JsonWrite, ShapeBase.JsonRead);
+            var shapeBaseConverter = new ProcessChannelConverter<DtoShapeBase>(DtoShapeBase.JsonTypeDiscriminatorAsInt, DtoShapeBase.JsonWrite, DtoShapeBase.JsonRead);
 
             // Using: System.Text.Json
             var options = new JsonSerializerOptions
@@ -36,7 +36,7 @@ namespace TurtleCore.UnitTests
 
             string jsonString = JsonSerializer.Serialize(objects, options);
 
-            var roundTrip = JsonSerializer.Deserialize<List<ShapeBase>>(jsonString, options);
+            var roundTrip = JsonSerializer.Deserialize<List<DtoShapeBase>>(jsonString, options);
             roundTrip.Should().BeEquivalentTo(objects);
         }
 
@@ -88,9 +88,16 @@ namespace TurtleCore.UnitTests
                 Heading = 20,
                 FillColor = DtoMapper.Map(Colors.Red),
                 OutlineColor = DtoMapper.Map(Colors.Blue),
-                IsVisible = true,
-                Shape = new Shape(new() { (0, 0), (10, -5), (0, 10), (-10, -5) })
+                IsVisible = true
             };
+
+            var components = new List<DtoShapeComponent>();
+            var component = new DtoShapeComponent();
+            component.Polygon = new List<Vec2DValue>() { new Vec2DValue(0, 0), new Vec2DValue(10, -5), new Vec2DValue(0, 10), new Vec2DValue(-10, -5) };
+            component.FillColor = DtoMapper.Map(Colors.Red);
+            component.OutlineColor = DtoMapper.Map(Colors.Blue);
+
+            figure.Shape = new DtoShape("some name", DtoShapeType.Polygon, components);
 
             var line = new ScreenLine()
             {
@@ -135,7 +142,7 @@ namespace TurtleCore.UnitTests
             objects.Add(line);
             objects.Add(textBox);
 
-            var shapeBaseConverter = new ProcessChannelConverter<ShapeBase>(ShapeBase.JsonTypeDiscriminatorAsInt, ShapeBase.JsonWrite, ShapeBase.JsonRead);
+            var shapeBaseConverter = new ProcessChannelConverter<DtoShapeBase>(DtoShapeBase.JsonTypeDiscriminatorAsInt, DtoShapeBase.JsonWrite, DtoShapeBase.JsonRead);
             var effectConverter = new ProcessChannelConverter<ScreenAnimationEffect>(ScreenAnimationEffect.JsonTypeDiscriminatorAsInt, ScreenAnimationEffect.JsonWrite, ScreenAnimationEffect.JsonRead);
             var screenObjetctConverter = new ProcessChannelConverter<ScreenObject>(ScreenObject.JsonTypeDiscriminatorAsInt, ScreenObject.JsonWrite, ScreenObject.JsonRead);
 

@@ -4,7 +4,6 @@ using System.Windows;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics;
 using System.Windows.Controls;
 using Woopec.Graphics.InternalDtos;
 
@@ -47,7 +46,7 @@ namespace Woopec.Wpf
         /// </summary>
         /// <param name="turtleVector"></param>
         /// <returns></returns>
-        public static Point ConvertToCanvasOrientation(Vec2D turtleVector)
+        public static Point ConvertToCanvasOrientation(Vec2DValue turtleVector)
         {
             return new Point(turtleVector.X, -turtleVector.Y);
         }

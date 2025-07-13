@@ -43,40 +43,6 @@ namespace Woopec.Graphics
         /// </summary>
         public ShapeType Type { get; protected set; }
 
-        #region Specific Json Serialization, because this class had derived classes
-        internal enum JsonTypeDiscriminator
-        {
-            ShapeBase = 0,
-            Shape = 1,
-            ImageShape = 2
-        }
-
-        internal static ShapeBase JsonRead(ref Utf8JsonReader reader, int typeDiscriminatorAsInt, JsonSerializerOptions options)
-        {
-            return (JsonTypeDiscriminator)typeDiscriminatorAsInt switch
-            {
-                JsonTypeDiscriminator.Shape => (Shape)JsonSerializer.Deserialize(ref reader, typeof(Shape), options),
-                JsonTypeDiscriminator.ImageShape => (ImageShape)JsonSerializer.Deserialize(ref reader, typeof(ImageShape), options),
-                _ => throw new NotSupportedException(),
-            };
-        }
-
-        internal static int JsonTypeDiscriminatorAsInt(ShapeBase obj)
-        {
-            if (obj is Shape) return (int)JsonTypeDiscriminator.Shape;
-            else if (obj is ImageShape) return (int)JsonTypeDiscriminator.ImageShape;
-            else throw new NotSupportedException();
-        }
-
-        internal static void JsonWrite(Utf8JsonWriter writer, ShapeBase obj, JsonSerializerOptions options)
-        {
-            if (obj is Shape shape) JsonSerializer.Serialize(writer, shape, options);
-            else if (obj is ImageShape imageShape) JsonSerializer.Serialize(writer, imageShape, options);
-            else throw new NotSupportedException();
-        }
-        #endregion
-
-
     }
 
     /// <summary>

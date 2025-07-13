@@ -65,7 +65,7 @@ namespace Woopec.Graphics.InternalCommunication
         {
             // See ADR 003 for informations
 
-            var shapeBaseConverter = new ProcessChannelConverter<ShapeBase>(ShapeBase.JsonTypeDiscriminatorAsInt, ShapeBase.JsonWrite, ShapeBase.JsonRead);
+            var shapeBaseConverter = new ProcessChannelConverter<DtoShapeBase>(DtoShapeBase.JsonTypeDiscriminatorAsInt, DtoShapeBase.JsonWrite, DtoShapeBase.JsonRead);
             var effectConverter = new ProcessChannelConverter<ScreenAnimationEffect>(ScreenAnimationEffect.JsonTypeDiscriminatorAsInt, ScreenAnimationEffect.JsonWrite, ScreenAnimationEffect.JsonRead);
             var screenObjetctConverter = new ProcessChannelConverter<ScreenObject>(ScreenObject.JsonTypeDiscriminatorAsInt, ScreenObject.JsonWrite, ScreenObject.JsonRead);
 

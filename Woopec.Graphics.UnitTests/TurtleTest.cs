@@ -328,8 +328,8 @@ namespace Woopec.Graphics.UnitTests
             turtle.Filling.Should().BeFalse();
             var lastUpdate = screenMockup.FigureUpdates.Last();
             lastUpdate.Shape.Should().NotBeNull();
-            lastUpdate.Shape.Type.Should().Be(ShapeType.Polygon);
-            var shape = lastUpdate.Shape as Shape;
+            lastUpdate.Shape.Type.Should().Be(DtoShapeType.Polygon);
+            var shape = lastUpdate.Shape as DtoShape;
             var polygon = shape.Components[0].Polygon;
             polygon.Count.Should().Be(5);
         }

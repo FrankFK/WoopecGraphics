@@ -15,9 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Woopec.Graphics;
 using Woopec.Graphics.InternalCommunication;
-using Colors = Woopec.Graphics.Colors;
 using System.Reflection;
 
 namespace Woopec.Wpf

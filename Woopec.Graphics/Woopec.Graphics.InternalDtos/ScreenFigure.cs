@@ -26,7 +26,7 @@ namespace Woopec.Graphics.InternalDtos
         /// <summary>
         /// If this value is null, the current shape of the figure is retained.
         /// </summary>
-        public ShapeBase Shape { get; set; }
+        public DtoShapeBase Shape { get; set; }
 
         /// <summary>
         /// Constructor

@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Woopec.Graphics;
 using Woopec.Graphics.InternalFrontend;
 using Woopec.Graphics.InternalDtos;
 
@@ -165,12 +164,12 @@ namespace Woopec.Wpf
             rotateTransform.BeginAnimation(RotateTransform.AngleProperty, rotateAnimation); // We do not use HandoffBehavior.Compose, therefore we hopefully do not have to reset the animation to null (as described in https://docs.microsoft.com/de-de/dotnet/desktop/wpf/graphics-multimedia/animation-tips-and-tricks?view=netframeworkdesktop-4.8)
         }
 
-        private void UpdatePathWithShape(Path path, ShapeBase screenFigureShape)
+        private void UpdatePathWithShape(Path path, DtoShapeBase screenFigureShape)
         {
-            if (!(screenFigureShape is Woopec.Graphics.Shape))
+            if (!(screenFigureShape is Woopec.Graphics.InternalDtos.DtoShape))
                 throw new NotImplementedException($"Shapes of type {screenFigureShape.Type} are not implemented yet.");
 
-            var shape = screenFigureShape as Woopec.Graphics.Shape;
+            var shape = screenFigureShape as Woopec.Graphics.InternalDtos.DtoShape;
 
             // Set or change the pahtGeometry
             var pathGeometry = new PathGeometry

@@ -493,7 +493,7 @@ namespace Woopec.Graphics
             if (_shapeIsChanged)
             {
                 // To reduce overhead we only set the shape if it was changed:
-                figure.Shape = Shape;
+                figure.Shape = DtoMapper.Map(Shape);
                 _shapeIsChanged = false;
             }
             if (!togetherWithPreviousAnimation)
