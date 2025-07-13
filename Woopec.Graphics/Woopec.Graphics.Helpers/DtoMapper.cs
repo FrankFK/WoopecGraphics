@@ -10,14 +10,14 @@ namespace Woopec.Graphics.Helpers
     /// </summary>
     internal static class DtoMapper
     {
-        public static Vec2DValue Map(Vec2D woopecValue) => (woopecValue is null) ? null : new Vec2DValue(woopecValue.X, woopecValue.Y);
-        public static Vec2D Map(Vec2DValue dtoValue) => (dtoValue is null) ? null : new Vec2D(dtoValue.X, dtoValue.Y);
+        public static DtoVec2D Map(Vec2D woopecValue) => (woopecValue is null) ? null : new DtoVec2D(woopecValue.X, woopecValue.Y);
+        public static Vec2D Map(DtoVec2D dtoValue) => (dtoValue is null) ? null : new Vec2D(dtoValue.X, dtoValue.Y);
 
-        public static List<Vec2DValue> Map(List<Vec2D> woopecValues)
+        public static List<DtoVec2D> Map(List<Vec2D> woopecValues)
         {
             if (woopecValues is null) return null;
 
-            var result = new List<Vec2DValue>();
+            var result = new List<DtoVec2D>();
             foreach (var v in woopecValues)
             {
                 result.Add(Map(v));
@@ -25,8 +25,8 @@ namespace Woopec.Graphics.Helpers
             return result;
         }
 
-        public static ColorValue Map(Color woopecColor) => (woopecColor is null) ? null : new ColorValue(woopecColor.R, woopecColor.G, woopecColor.B, woopecColor.Alpha);
-        public static Color Map(ColorValue dtoColor) => (dtoColor is null) ? null : new Color(dtoColor.R, dtoColor.G, dtoColor.B, dtoColor.Alpha);
+        public static DtoColor Map(Color woopecColor) => (woopecColor is null) ? null : new DtoColor(woopecColor.R, woopecColor.G, woopecColor.B, woopecColor.Alpha);
+        public static Color Map(DtoColor dtoColor) => (dtoColor is null) ? null : new Color(dtoColor.R, dtoColor.G, dtoColor.B, dtoColor.Alpha);
 
         public static DtoTextAlignmentType Map(TextAlignmentType woopecValue)
         {

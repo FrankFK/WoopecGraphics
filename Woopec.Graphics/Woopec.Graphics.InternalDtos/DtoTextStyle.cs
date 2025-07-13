@@ -100,11 +100,11 @@ namespace Woopec.Graphics.InternalDtos
         /// <summary>
         /// The color of the text background (default is null whichs means that the background is not colored)
         /// </summary>
-        public ColorValue BackgroundColor { get; set; }
+        public DtoColor BackgroundColor { get; set; }
 
         /// <summary>
         /// The color of the text (default is black)
         /// </summary>
-        public ColorValue ForegroundColor { get; set; }
+        public DtoColor ForegroundColor { get; set; }
     }
 }

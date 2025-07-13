@@ -31,7 +31,7 @@ namespace Woopec.Graphics.InternalFrontend
             _resultChannel.TryWrite(result);
             Debug.WriteLine($"ScreenResult: Number {result.Value} is sent to channel");
         }
-        public void SendVec2D(Vec2DValue value)
+        public void SendVec2D(DtoVec2D value)
         {
             var result = new ScreenResultVec2D() { Value = value};
             _resultChannel.TryWrite(result);

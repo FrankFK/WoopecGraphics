@@ -120,17 +120,17 @@ namespace Woopec.Graphics.InternalDtos
         /// <summary>
         /// Coordinates of the polygon. For example: new() { (0,0),(10,-5),(0,10),(-10,-5) } 
         /// </summary>
-        public List<Vec2DValue> Polygon { get; set; }
+        public List<DtoVec2D> Polygon { get; set; }
 
         /// <summary>
         /// Color the polygon will be filled with
         /// </summary>
-        public ColorValue FillColor { get; set; }
+        public DtoColor FillColor { get; set; }
 
         /// <summary>
         /// Color for the polygons outline
         /// </summary>
-        public ColorValue OutlineColor { get; set; }
+        public DtoColor OutlineColor { get; set; }
     }
 
 

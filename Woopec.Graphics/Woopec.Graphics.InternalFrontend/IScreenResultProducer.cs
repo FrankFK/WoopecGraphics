@@ -15,6 +15,6 @@ namespace Woopec.Graphics.InternalFrontend
         public void SendText(string text);
         public void SendNumber(double? number);
 
-        public void SendVec2D(Vec2DValue value);
+        public void SendVec2D(DtoVec2D value);
     }
 }

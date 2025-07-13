@@ -33,7 +33,7 @@ namespace Woopec.Graphics.InternalDtos
         /// At the beginning of the animation the animated property has this value
         /// At the end of the animation the animated property has the value, that is specified in the ScreenObject
         /// </summary>
-        public Vec2DValue StartValue { get; set; }
+        public DtoVec2D StartValue { get; set; }
 
     }
 }

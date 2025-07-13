@@ -13,13 +13,13 @@ namespace Woopec.Graphics.InternalDtos
     /// </summary>
     internal class ScreenFigure : ScreenObject
     {
-        public Vec2DValue Position { get; set; }
+        public DtoVec2D Position { get; set; }
 
         public double Heading { get; set; }
 
-        public ColorValue FillColor { get; set; }
+        public DtoColor FillColor { get; set; }
 
-        public ColorValue OutlineColor { get; set; }
+        public DtoColor OutlineColor { get; set; }
 
         public bool IsVisible { get; set; }
 

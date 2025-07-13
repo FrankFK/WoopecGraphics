@@ -13,6 +13,6 @@ namespace Woopec.Graphics.InternalBackend
         public Task<string> ReadTextResultAsync();
         public Task<double?> ReadNumberResultAsync();
 
-        public Task<Vec2DValue> ReadVec2DResultAsync();
+        public Task<DtoVec2D> ReadVec2DResultAsync();
     }
 }

@@ -47,7 +47,7 @@ namespace TurtleCore.UnitTests
             var objects = new List<ScreenAnimationEffect>();
 
             objects.Add(new ScreenAnimationEffect() { Milliseconds = 100 });
-            objects.Add(new ScreenAnimationMovement() { Milliseconds = 200, StartValue = new Vec2DValue(1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2 });
+            objects.Add(new ScreenAnimationMovement() { Milliseconds = 200, StartValue = new DtoVec2D(1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2 });
             objects.Add(new ScreenAnimationRotation() { Milliseconds = 300, StartValue = 20, AnimatedProperty = ScreenAnimationRotationProperty.Heading });
 
             var effectConverter = new ProcessChannelConverter<ScreenAnimationEffect>(ScreenAnimationEffect.JsonTypeDiscriminatorAsInt, ScreenAnimationEffect.JsonWrite, ScreenAnimationEffect.JsonRead);
@@ -84,7 +84,7 @@ namespace TurtleCore.UnitTests
                         new ScreenAnimationRotation() { Milliseconds = 300, StartValue = 20, AnimatedProperty = ScreenAnimationRotationProperty.Heading  }
                     }
                 },
-                Position = new Vec2DValue(1, 2),
+                Position = new DtoVec2D(1, 2),
                 Heading = 20,
                 FillColor = DtoMapper.Map(Colors.Red),
                 OutlineColor = DtoMapper.Map(Colors.Blue),
@@ -93,7 +93,7 @@ namespace TurtleCore.UnitTests
 
             var components = new List<DtoShapeComponent>();
             var component = new DtoShapeComponent();
-            component.Polygon = new List<Vec2DValue>() { new Vec2DValue(0, 0), new Vec2DValue(10, -5), new Vec2DValue(0, 10), new Vec2DValue(-10, -5) };
+            component.Polygon = new List<DtoVec2D>() { new DtoVec2D(0, 0), new DtoVec2D(10, -5), new DtoVec2D(0, 10), new DtoVec2D(-10, -5) };
             component.FillColor = DtoMapper.Map(Colors.Red);
             component.OutlineColor = DtoMapper.Map(Colors.Blue);
 
@@ -109,11 +109,11 @@ namespace TurtleCore.UnitTests
                 {
                     Effects = new List<ScreenAnimationEffect>()
                     {
-                        new ScreenAnimationMovement() { Milliseconds = 300, StartValue = new Vec2DValue(1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2  }
+                        new ScreenAnimationMovement() { Milliseconds = 300, StartValue = new DtoVec2D(1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2  }
                     }
                 },
-                Point1 = new Vec2DValue(1, 2),
-                Point2 = new Vec2DValue(100, 2),
+                Point1 = new DtoVec2D(1, 2),
+                Point2 = new DtoVec2D(100, 2),
                 Color = DtoMapper.Map(Colors.Red),
             };
 
@@ -123,7 +123,7 @@ namespace TurtleCore.UnitTests
                 GroupID = 17,
                 WaitForCompletedAnimationsOfSameGroup = true,
                 WaitForCompletedAnimationsOfAnotherGroup = 15,
-                Position = new Vec2DValue(1, 2),
+                Position = new DtoVec2D(1, 2),
                 Text = "Hallo?\nZweite Zeile",
                 TextStyle = new DtoTextStyle()
                 {

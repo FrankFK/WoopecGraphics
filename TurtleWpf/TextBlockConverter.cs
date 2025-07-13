@@ -43,7 +43,7 @@ namespace Woopec.Wpf
             return CanvasHelpers.ConvertToCanvasPoint(_woopecTextBlock.Position, canvas);
         }
 
-        public Vec2DValue GetLowerRightPointInWoopecCoordinates(Canvas canvas)
+        public DtoVec2D GetLowerRightPointInWoopecCoordinates(Canvas canvas)
         {
             var tempWpfTextBlock = CreateWpfTextBlock();
 
@@ -108,7 +108,7 @@ namespace Woopec.Wpf
             return result;
         }
 
-        private static Brush BrushOf(ColorValue color)
+        private static Brush BrushOf(DtoColor color)
         {
             if (color == null)
                 return null;

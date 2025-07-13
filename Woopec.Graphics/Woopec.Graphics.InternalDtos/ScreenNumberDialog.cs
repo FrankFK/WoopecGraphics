@@ -30,7 +30,7 @@ namespace Woopec.Graphics.InternalDtos
         public double? MinValue { get; set; }
         public double? MaxValue { get; set; }
 
-        public Vec2DValue Position { get; set; }
+        public DtoVec2D Position { get; set; }
 
         /// <summary>
         /// If ReturnType is Integer, the user-input is checked if it is an integer.

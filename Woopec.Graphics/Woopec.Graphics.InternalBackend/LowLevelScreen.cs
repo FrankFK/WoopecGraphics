@@ -96,7 +96,7 @@ namespace Woopec.Graphics.InternalBackend
         {
             textBlock.WaitForCompletedAnimationsOfAnotherGroup = LastIssuedAnimatonGroupID;
             _screenObjectProducer.ShowTextBlock(textBlock);
-            Vec2DValue result = await _screenResultConsumer.ReadVec2DResultAsync();
+            DtoVec2D result = await _screenResultConsumer.ReadVec2DResultAsync();
             return new Vec2D(result.X, result.Y);
         }
 

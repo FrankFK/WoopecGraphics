@@ -15,6 +15,6 @@ namespace Woopec.Graphics.InternalDtos
 
         public string Prompt { get; set; }
 
-        public Vec2DValue Position { get; set; }
+        public DtoVec2D Position { get; set; }
     }
 }

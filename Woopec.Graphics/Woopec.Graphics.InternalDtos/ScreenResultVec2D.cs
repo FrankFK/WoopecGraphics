@@ -8,6 +8,6 @@ namespace Woopec.Graphics.InternalDtos
 {
     internal class ScreenResultVec2D : ScreenResult
     {
-        public Vec2DValue Value { get; set; }
+        public DtoVec2D Value { get; set; }
     }
 }
