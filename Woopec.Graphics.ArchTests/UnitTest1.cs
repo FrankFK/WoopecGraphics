@@ -59,10 +59,10 @@ namespace Woopec.Graphics.ArchTests
         /// <summary>
         /// Objects which travel between backend and frontend
         /// </summary>
-        private readonly IObjectProvider<IType> WoopecGraphicsCommunicatedObjects = Types()
+        private readonly IObjectProvider<IType> WoopecGraphicsInternalDtos = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.InternalCommunicatedObjects")
-            .As("WoopecGraphics communicated objects");
+            .ResideInNamespace("Woopec.Graphics.InternalDtos")
+            .As("WoopecGraphics internal data transfer objects");
 
         /// <summary>
         /// WoopecGraphics examples
@@ -77,7 +77,7 @@ namespace Woopec.Graphics.ArchTests
         private List<IObjectProvider<IType>> AllLayers()
         {
             return new List<IObjectProvider<IType>>() {WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend,
-            WoopecGraphicsInternalCommunication, WoopecGraphicsInternalFrontend, WoopecGraphicsCommunicatedObjects, WoopecGraphicsExamples};
+            WoopecGraphicsInternalCommunication, WoopecGraphicsInternalFrontend, WoopecGraphicsInternalDtos, WoopecGraphicsExamples};
         }
 
         private List<IObjectProvider<IType>> AllLayersExcept(List<IObjectProvider<IType>> except)
@@ -102,7 +102,7 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void PublicObjectsShouldOnlyUseHelpersAndCommunicatedObjects()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsHelpers, WoopecGraphicsCommunicatedObjects, WoopecGraphicsPublic]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsHelpers, WoopecGraphicsInternalDtos, WoopecGraphicsPublic]))
             {
                 // Check this other ones
                 IArchRule doNotAcessLowLevelImplementation = Types()
@@ -119,7 +119,7 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void HelpersShouldShouldOnlyUsePublicAndCommunicatedObjects()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsPublic, WoopecGraphicsCommunicatedObjects, WoopecGraphicsHelpers]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsPublic, WoopecGraphicsInternalDtos, WoopecGraphicsHelpers]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -149,7 +149,7 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void InternalBackendShouldUseOnlyCommunicatedObjectsAndPublicAndHelpers()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsCommunicatedObjects, WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalDtos, WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -164,7 +164,7 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void InternalFrontendShouldOnlyUseCommunicatedObjects()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsCommunicatedObjects, WoopecGraphicsInternalFrontend]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalDtos, WoopecGraphicsInternalFrontend]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -179,11 +179,11 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void CommunicatedObjectsShouldOnlyUse()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsCommunicatedObjects]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalDtos]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
-                    .Are(WoopecGraphicsCommunicatedObjects)
+                    .Are(WoopecGraphicsInternalDtos)
                     .Should()
                     .NotDependOnAny(layer)
                     .Because("Internal backend should only use ...");
