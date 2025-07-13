@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Woopec.Graphics;
+using Woopec.Graphics.InternalDtos;
 
 namespace Woopec.Wpf
 {
@@ -20,7 +21,7 @@ namespace Woopec.Wpf
     /// </summary>
     public partial class TextInputWindow : Window
     {
-        private readonly Vec2D _position;
+        private readonly Vec2DValue _position;
         private readonly Canvas _canvas;
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Woopec.Wpf
         /// <param name="question">Question</param>
         /// <param name="position">(optional).  Approximate position of the lower left corner of the dialog window</param>
         /// <param name="canvas">canvas of the position</param>
-        public TextInputWindow(string title, string question, Vec2D position, Canvas canvas)
+        public TextInputWindow(string title, string question, Vec2DValue position, Canvas canvas)
         {
             InitializeComponent();
             Title = title;

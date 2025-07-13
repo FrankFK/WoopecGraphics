@@ -13,7 +13,7 @@ namespace Woopec.Graphics.InternalDtos
     /// </summary>
     internal class ScreenFigure : ScreenObject
     {
-        public Vec2D Position { get; set; }
+        public Vec2DValue Position { get; set; }
 
         public double Heading { get; set; }
 

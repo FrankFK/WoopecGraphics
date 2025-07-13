@@ -445,7 +445,7 @@ namespace Woopec.Graphics
 
                 // Animation dazu:
                 figure.Animation = new ScreenAnimation();
-                figure.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Position, StartValue = oldPosition, Milliseconds = speedDuration });
+                figure.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Position, StartValue = DtoMapper.Map(oldPosition), Milliseconds = speedDuration });
                 _firstAnimationIsAdded = true;
             }
 
@@ -484,7 +484,7 @@ namespace Woopec.Graphics
             var figure = new ScreenFigure(_idOnScreen)
             {
                 IsVisible = IsVisible,
-                Position = Position,
+                Position = DtoMapper.Map(Position),
                 FillColor = FillColor,
                 OutlineColor = OutlineColor,
                 Heading = _heading,

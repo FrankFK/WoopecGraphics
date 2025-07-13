@@ -118,7 +118,7 @@ namespace Woopec.Graphics
         /// <returns>Return the number input. If the dialog is canceled, return null.</returns>
         public int? NumInput(string title, string prompt, int? defaultValue, int? minValue, int? maxValue, Vec2D position)
         {
-            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, Position = position, ReturnType = ScreenNumberDialog.NumberType.Integer };
+            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, Position = DtoMapper.Map(position), ReturnType = ScreenNumberDialog.NumberType.Integer };
 
             var task = _lowLevelScreen.NumberInputAsync(dialog);
 
@@ -160,7 +160,7 @@ namespace Woopec.Graphics
         /// <returns>Return the number input. If the dialog is canceled, return null.</returns>
         public double? DoubleInput(string title, string prompt, double? defaultValue, double? minValue, double? maxValue, Vec2D position)
         {
-            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, Position = position, ReturnType = ScreenNumberDialog.NumberType.Double };
+            var dialog = new ScreenNumberDialog() { Title = title, Prompt = prompt, DefaultValue = defaultValue, MinValue = minValue, MaxValue = maxValue, Position = DtoMapper.Map(position), ReturnType = ScreenNumberDialog.NumberType.Double };
 
             var task = _lowLevelScreen.NumberInputAsync(dialog);
 
@@ -186,7 +186,7 @@ namespace Woopec.Graphics
         /// <returns></returns>
         public Vec2D WriteText(string text, Vec2D position, TextStyle textStyle, TextAlignmentType alignment, bool returnLowerRightCorner)
         {
-            var textBlock = new ScreenTextBlock() { Text = text, Position = position, TextStyle = textStyle, Alignment = alignment, ReturnLowerRightCorner = returnLowerRightCorner };
+            var textBlock = new ScreenTextBlock() { Text = text, Position = DtoMapper.Map(position), TextStyle = textStyle, Alignment = alignment, ReturnLowerRightCorner = returnLowerRightCorner };
 
             if (returnLowerRightCorner)
             {

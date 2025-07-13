@@ -46,7 +46,7 @@ namespace TurtleCore.UnitTests
             var objects = new List<ScreenAnimationEffect>();
 
             objects.Add(new ScreenAnimationEffect() { Milliseconds = 100 });
-            objects.Add(new ScreenAnimationMovement() { Milliseconds = 200, StartValue = (1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2 });
+            objects.Add(new ScreenAnimationMovement() { Milliseconds = 200, StartValue = new Vec2DValue(1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2 });
             objects.Add(new ScreenAnimationRotation() { Milliseconds = 300, StartValue = 20, AnimatedProperty = ScreenAnimationRotationProperty.Heading });
 
             var effectConverter = new ProcessChannelConverter<ScreenAnimationEffect>(ScreenAnimationEffect.JsonTypeDiscriminatorAsInt, ScreenAnimationEffect.JsonWrite, ScreenAnimationEffect.JsonRead);
@@ -83,7 +83,7 @@ namespace TurtleCore.UnitTests
                         new ScreenAnimationRotation() { Milliseconds = 300, StartValue = 20, AnimatedProperty = ScreenAnimationRotationProperty.Heading  }
                     }
                 },
-                Position = (1, 2),
+                Position = new Vec2DValue(1, 2),
                 Heading = 20,
                 FillColor = Colors.Red,
                 OutlineColor = Colors.Blue,
@@ -101,11 +101,11 @@ namespace TurtleCore.UnitTests
                 {
                     Effects = new List<ScreenAnimationEffect>()
                     {
-                        new ScreenAnimationMovement() { Milliseconds = 300, StartValue = (1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2  }
+                        new ScreenAnimationMovement() { Milliseconds = 300, StartValue = new Vec2DValue(1, 2), AnimatedProperty = ScreenAnimationMovementProperty.Point2  }
                     }
                 },
-                Point1 = (1, 2),
-                Point2 = (100, 2),
+                Point1 = new Vec2DValue(1, 2),
+                Point2 = new Vec2DValue(100, 2),
                 Color = Colors.Red,
             };
 
@@ -115,7 +115,7 @@ namespace TurtleCore.UnitTests
                 GroupID = 17,
                 WaitForCompletedAnimationsOfSameGroup = true,
                 WaitForCompletedAnimationsOfAnotherGroup = 15,
-                Position = (1, 2),
+                Position = new Vec2DValue(1, 2),
                 Text = "Hallo?\nZweite Zeile",
                 TextStyle = new TextStyle()
                 {

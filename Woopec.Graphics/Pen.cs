@@ -362,8 +362,8 @@ namespace Woopec.Graphics
             {
                 ID = _lowLevelScreen.CreateLine(),
                 Color = Color,
-                Point1 = oldPosition,
-                Point2 = newPosition,
+                Point1 = DtoMapper.Map(oldPosition),
+                Point2 = DtoMapper.Map(newPosition),
                 GroupID = _id,
             };
 
@@ -405,7 +405,7 @@ namespace Woopec.Graphics
 
                 // Animation dazu:
                 line.Animation = new ScreenAnimation();
-                line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = oldPosition, Milliseconds = speedDuration });
+                line.Animation.Effects.Add(new ScreenAnimationMovement() { AnimatedProperty = ScreenAnimationMovementProperty.Point2, StartValue = DtoMapper.Map(oldPosition), Milliseconds = speedDuration });
                 _firstAnimationIsAdded = true;
             }
 

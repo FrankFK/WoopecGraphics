@@ -12,9 +12,9 @@ namespace Woopec.Graphics.InternalDtos
     /// </summary>
     internal class ScreenLine : ScreenObject
     {
-        public Vec2D Point1 { get; set; }
+        public Vec2DValue Point1 { get; set; }
 
-        public Vec2D Point2 { get; set; }
+        public Vec2DValue Point2 { get; set; }
 
         public Color Color { get; set; }
 

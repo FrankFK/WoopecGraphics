@@ -19,7 +19,7 @@ namespace Woopec.Wpf
         /// <param name="turtleVector"></param>
         /// <param name="canvas"></param>
         /// <returns></returns>
-        public static Point ConvertToCanvasPoint(Vec2D turtleVector, Canvas canvas)
+        public static Point ConvertToCanvasPoint(Vec2DValue turtleVector, Canvas canvas)
         {
             // Frank 24.06.2023
             // - I'm using ActualWidth instead of Width, because it may be that Width is not set.
@@ -58,7 +58,7 @@ namespace Woopec.Wpf
             return 90 - turtleHeading;
         }
 
-        public static void SetLowerLeftCornerOfWindowToCanvasPoint(Vec2D position, Canvas canvas, Window window)
+        public static void SetLowerLeftCornerOfWindowToCanvasPoint(Vec2DValue position, Canvas canvas, Window window)
         {
             // Place the window such that its lower left corner is at _position.
             // The following code does not work place the window perfectly, but I do not know how to implement it better.
