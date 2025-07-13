@@ -186,7 +186,7 @@ namespace Woopec.Graphics
         /// <returns></returns>
         public Vec2D WriteText(string text, Vec2D position, TextStyle textStyle, TextAlignmentType alignment, bool returnLowerRightCorner)
         {
-            var textBlock = new ScreenTextBlock() { Text = text, Position = DtoMapper.Map(position), TextStyle = textStyle, Alignment = alignment, ReturnLowerRightCorner = returnLowerRightCorner };
+            var textBlock = new ScreenTextBlock() { Text = text, Position = DtoMapper.Map(position), TextStyle = DtoMapper.Map(textStyle), Alignment = DtoMapper.Map(alignment), ReturnLowerRightCorner = returnLowerRightCorner };
 
             if (returnLowerRightCorner)
             {

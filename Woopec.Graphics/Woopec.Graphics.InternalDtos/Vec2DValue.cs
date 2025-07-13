@@ -11,5 +11,5 @@ namespace Woopec.Graphics.InternalDtos
     /// </summary>
     /// <param name="X"></param>
     /// <param name="Y"></param>
-    public record Vec2DValue(double X, double Y);
+    internal record Vec2DValue(double X, double Y);
 }

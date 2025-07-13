@@ -16,9 +16,9 @@ namespace Woopec.Graphics.InternalDtos
 
         public string Text { get; set; }
 
-        public TextStyle TextStyle { get; set; }
+        public DtoTextStyle TextStyle { get; set; }
 
-        public TextAlignmentType Alignment { get; set; }
+        public DtoTextAlignmentType Alignment { get; set; }
 
         public bool ReturnLowerRightCorner { get; set; }
     }

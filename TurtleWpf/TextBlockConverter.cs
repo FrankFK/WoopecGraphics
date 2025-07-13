@@ -67,13 +67,13 @@ namespace Woopec.Wpf
 
         }
 
-        private static HorizontalAlignment HorizontalAlignmentOf(TextAlignmentType woopecAlignment)
+        private static HorizontalAlignment HorizontalAlignmentOf(DtoTextAlignmentType woopecAlignment)
         {
             HorizontalAlignment result = woopecAlignment switch
             {
-                TextAlignmentType.Right => HorizontalAlignment.Right,
-                TextAlignmentType.Left => HorizontalAlignment.Left,
-                TextAlignmentType.Center => HorizontalAlignment.Center,
+                DtoTextAlignmentType.Right => HorizontalAlignment.Right,
+                DtoTextAlignmentType.Left => HorizontalAlignment.Left,
+                DtoTextAlignmentType.Center => HorizontalAlignment.Center,
                 _ => throw new NotImplementedException("Unexpected TextAlignmentType")
             };
             return result;
@@ -83,33 +83,33 @@ namespace Woopec.Wpf
             return new FontFamily(fontFamilyName);
         }
 
-        private static FontStyle FontStyleOf(FontStyleType woopecFontStyle)
+        private static FontStyle FontStyleOf(DtoFontStyleType woopecFontStyle)
         {
             FontStyle result = woopecFontStyle switch
             {
-                FontStyleType.Normal => FontStyles.Normal,
-                FontStyleType.Italic => FontStyles.Italic,
+                DtoFontStyleType.Normal => FontStyles.Normal,
+                DtoFontStyleType.Italic => FontStyles.Italic,
                 _ => throw new NotImplementedException("Unexpected FontStyleType")
             };
 
             return result;
         }
 
-        private static FontWeight FontWeightOf(FontWeightType woopecFontWeight)
+        private static FontWeight FontWeightOf(DtoFontWeightType woopecFontWeight)
         {
             FontWeight result = woopecFontWeight switch
             {
-                FontWeightType.Thin => FontWeights.Thin,
-                FontWeightType.Light => FontWeights.Light,
-                FontWeightType.Normal => FontWeights.Normal,
-                FontWeightType.Bold => FontWeights.Bold,
+                DtoFontWeightType.Thin => FontWeights.Thin,
+                DtoFontWeightType.Light => FontWeights.Light,
+                DtoFontWeightType.Normal => FontWeights.Normal,
+                DtoFontWeightType.Bold => FontWeights.Bold,
                 _ => throw new NotImplementedException("Unexpected FontWeightType")
             };
 
             return result;
         }
 
-        private static Brush BrushOf(Woopec.Graphics.Color color)
+        private static Brush BrushOf(ColorValue color)
         {
             if (color == null)
                 return null;

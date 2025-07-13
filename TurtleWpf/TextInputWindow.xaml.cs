@@ -31,7 +31,7 @@ namespace Woopec.Wpf
         /// <param name="question">Question</param>
         /// <param name="position">(optional).  Approximate position of the lower left corner of the dialog window</param>
         /// <param name="canvas">canvas of the position</param>
-        public TextInputWindow(string title, string question, Vec2DValue position, Canvas canvas)
+        internal TextInputWindow(string title, string question, Vec2DValue position, Canvas canvas)
         {
             InitializeComponent();
             Title = title;

@@ -17,9 +17,9 @@ namespace Woopec.Graphics.InternalDtos
 
         public double Heading { get; set; }
 
-        public Color FillColor { get; set; }
+        public ColorValue FillColor { get; set; }
 
-        public Color OutlineColor { get; set; }
+        public ColorValue OutlineColor { get; set; }
 
         public bool IsVisible { get; set; }
 

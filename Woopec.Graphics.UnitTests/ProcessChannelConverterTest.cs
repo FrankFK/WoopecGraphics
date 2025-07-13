@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using Woopec.Graphics;
+using Woopec.Graphics.Helpers;
 using Woopec.Graphics.InternalCommunication;
 using Woopec.Graphics.InternalDtos;
 
@@ -85,8 +86,8 @@ namespace TurtleCore.UnitTests
                 },
                 Position = new Vec2DValue(1, 2),
                 Heading = 20,
-                FillColor = Colors.Red,
-                OutlineColor = Colors.Blue,
+                FillColor = DtoMapper.Map(Colors.Red),
+                OutlineColor = DtoMapper.Map(Colors.Blue),
                 IsVisible = true,
                 Shape = new Shape(new() { (0, 0), (10, -5), (0, 10), (-10, -5) })
             };
@@ -106,7 +107,7 @@ namespace TurtleCore.UnitTests
                 },
                 Point1 = new Vec2DValue(1, 2),
                 Point2 = new Vec2DValue(100, 2),
-                Color = Colors.Red,
+                Color = DtoMapper.Map(Colors.Red),
             };
 
             var textBox = new ScreenTextBlock()
@@ -117,16 +118,16 @@ namespace TurtleCore.UnitTests
                 WaitForCompletedAnimationsOfAnotherGroup = 15,
                 Position = new Vec2DValue(1, 2),
                 Text = "Hallo?\nZweite Zeile",
-                TextStyle = new TextStyle()
+                TextStyle = new DtoTextStyle()
                 {
                     FontFamilyName = "Courier New",
                     FontSize = 12,
-                    FontStyle = FontStyleType.Italic,
-                    FontWeight = FontWeightType.Bold,
+                    FontStyle = DtoFontStyleType.Italic,
+                    FontWeight = DtoFontWeightType.Bold,
                     BackgroundColor = null,
-                    ForegroundColor = Colors.Blue
+                    ForegroundColor = DtoMapper.Map(Colors.Blue)
                 },
-                Alignment = TextAlignmentType.Left,
+                Alignment = DtoTextAlignmentType.Left,
                 ReturnLowerRightCorner = true,
             };
 

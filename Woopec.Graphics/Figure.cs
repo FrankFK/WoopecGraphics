@@ -485,8 +485,8 @@ namespace Woopec.Graphics
             {
                 IsVisible = IsVisible,
                 Position = DtoMapper.Map(Position),
-                FillColor = FillColor,
-                OutlineColor = OutlineColor,
+                FillColor = DtoMapper.Map(FillColor),
+                OutlineColor = DtoMapper.Map(OutlineColor),
                 Heading = _heading,
                 GroupID = _id,
             };

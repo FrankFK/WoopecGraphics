@@ -361,7 +361,7 @@ namespace Woopec.Graphics
             var line = new ScreenLine()
             {
                 ID = _lowLevelScreen.CreateLine(),
-                Color = Color,
+                Color = DtoMapper.Map(Color),
                 Point1 = DtoMapper.Map(oldPosition),
                 Point2 = DtoMapper.Map(newPosition),
                 GroupID = _id,

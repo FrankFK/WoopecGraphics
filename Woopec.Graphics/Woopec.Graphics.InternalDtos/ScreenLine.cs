@@ -16,7 +16,7 @@ namespace Woopec.Graphics.InternalDtos
 
         public Vec2DValue Point2 { get; set; }
 
-        public Color Color { get; set; }
+        public ColorValue Color { get; set; }
 
         public void AnimatePoint2(int milliseconds)
         {

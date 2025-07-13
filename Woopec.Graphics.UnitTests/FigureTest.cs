@@ -160,8 +160,8 @@ namespace Woopec.Graphics.UnitTests
             // Assert
             figure.FillColor.Should().Be(Colors.Red);
             screenMockup.FigureUpdates.Count.Should().Be(2);
-            screenMockup.FigureUpdates[0].FillColor.Should().Be(initialColor);  // figure is set to visible. Fill color must be initial value
-            screenMockup.FigureUpdates[1].FillColor.Should().Be(Colors.Red);    // Color changed
+            screenMockup.FigureUpdates[0].FillColor.Should().Be(DtoMapper.Map(initialColor));  // figure is set to visible. Fill color must be initial value
+            screenMockup.FigureUpdates[1].FillColor.Should().Be(DtoMapper.Map(Colors.Red));    // Color changed
         }
 
 
@@ -194,8 +194,8 @@ namespace Woopec.Graphics.UnitTests
             // Assert
             figure.OutlineColor.Should().Be(Colors.Red);
             screenMockup.FigureUpdates.Count.Should().Be(2);
-            screenMockup.FigureUpdates[0].OutlineColor.Should().Be(initialColor);  // figure is set to visible. Fill color must be initial value
-            screenMockup.FigureUpdates[1].OutlineColor.Should().Be(Colors.Red);    // Color changed
+            screenMockup.FigureUpdates[0].OutlineColor.Should().Be(DtoMapper.Map(initialColor));  // figure is set to visible. Fill color must be initial value
+            screenMockup.FigureUpdates[1].OutlineColor.Should().Be(DtoMapper.Map(Colors.Red));    // Color changed
         }
 
         [TestMethod]
