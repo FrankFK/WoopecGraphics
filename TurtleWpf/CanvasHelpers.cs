@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics;
 using System.Windows.Controls;
-using Woopec.Graphics.InternalCommunicatedObjects;
+using Woopec.Graphics.InternalDtos;
 
 namespace Woopec.Wpf
 {

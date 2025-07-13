@@ -7,7 +7,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woopec.Graphics.Helpers;
 using Woopec.Graphics.InternalCommunication;
-using Woopec.Graphics.InternalCommunicatedObjects;
+using Woopec.Graphics.InternalDtos;
 
 namespace Woopec.Graphics.UnitTests
 {

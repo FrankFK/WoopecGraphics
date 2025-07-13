@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.InternalCommunicatedObjects
+namespace Woopec.Graphics.InternalDtos
 {
     internal class ScreenResultVec2D : ScreenResult
     {

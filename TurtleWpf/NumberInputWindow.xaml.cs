@@ -13,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Woopec.Graphics;
-using Woopec.Graphics.InternalCommunicatedObjects;
+using Woopec.Graphics.InternalDtos;
 
 namespace Woopec.Wpf
 {

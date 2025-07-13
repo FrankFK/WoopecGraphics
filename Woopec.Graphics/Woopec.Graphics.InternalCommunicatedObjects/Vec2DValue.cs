@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.InternalCommunicatedObjects
+namespace Woopec.Graphics.InternalDtos
 {
     /// <summary>
     /// We do not want to have any dependencies on the Woopec.Graphics objects. Therefore we use a separate type instead of Vec2D.

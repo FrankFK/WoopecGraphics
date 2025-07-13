@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System;
 using Woopec.Graphics.InternalCommunication;
-using Woopec.Graphics.InternalCommunicatedObjects;
+using Woopec.Graphics.InternalDtos;
 using Woopec.Graphics.InternalBackend;
 using Woopec.Graphics.InternalFrontend;
 
