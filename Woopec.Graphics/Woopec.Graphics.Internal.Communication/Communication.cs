@@ -11,7 +11,7 @@ using Woopec.Graphics.Interface.Dtos;
 using Woopec.Graphics.Internal.Frontend;
 using Woopec.Graphics.Interface.Screen;
 
-namespace Woopec.Graphics.InternalCommunication
+namespace Woopec.Graphics.Internal.Communication
 {
     internal class Communication
     {

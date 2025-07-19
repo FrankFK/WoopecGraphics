@@ -53,7 +53,7 @@ namespace Woopec.Graphics.ArchTests
         /// </summary>
         private readonly IObjectProvider<IType> WoopecGraphicsInternalCommunication = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.InternalCommunication")
+            .ResideInNamespace("Woopec.Graphics.Internal.Communication")
             .As("WoopecGraphics communication between backend and frontend");
 
         /// <summary>

@@ -12,7 +12,7 @@ using Woopec.Graphics.Internal.Backend;
 using Woopec.Graphics.Internal.Frontend;
 using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalCommunication
+namespace Woopec.Graphics.Internal.Communication
 {
     internal class ScreenResultChannelInServerProcess : IScreenResultChannelForWriter, IScreenResultChannelForReader
     {

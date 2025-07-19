@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woopec.Graphics.Helpers;
-using Woopec.Graphics.InternalCommunication;
+using Woopec.Graphics.Internal.Communication;
 using Woopec.Graphics.Interface.Dtos;
 using Woopec.Graphics.Interface.Screen;
 
