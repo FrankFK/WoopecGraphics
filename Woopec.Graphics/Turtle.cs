@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 using Woopec.Graphics.Helpers;
+using Woopec.Graphics.Interface.Screen;
 
 namespace Woopec.Graphics
 {

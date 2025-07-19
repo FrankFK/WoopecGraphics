@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
 namespace Woopec.Graphics.Helpers
 {
@@ -26,7 +26,6 @@ namespace Woopec.Graphics.Helpers
         }
 
         public static DtoColor Map(Color woopecColor) => (woopecColor is null) ? null : new DtoColor(woopecColor.R, woopecColor.G, woopecColor.B, woopecColor.Alpha);
-        public static Color Map(DtoColor dtoColor) => (dtoColor is null) ? null : new Color(dtoColor.R, dtoColor.G, dtoColor.B, dtoColor.Alpha);
 
         public static DtoTextAlignmentType Map(TextAlignmentType woopecValue)
         {

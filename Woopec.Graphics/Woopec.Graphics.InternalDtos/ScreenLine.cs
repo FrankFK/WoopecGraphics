@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.InternalDtos
+namespace Woopec.Graphics.Interface.Dtos
 {
     /// <summary>
     /// An instance of this class is a line that can be printed and animated on the screen.

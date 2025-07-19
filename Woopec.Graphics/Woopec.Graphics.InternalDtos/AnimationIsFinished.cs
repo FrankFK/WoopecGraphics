@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace Woopec.Graphics.Interface.Dtos
 {
-    internal class ScreenResultVec2D : ScreenResult
-    {
-        public DtoVec2D Value { get; set; }
-    }
+    internal delegate void AnimationIsFinished(int groupId, int objectId);
 }

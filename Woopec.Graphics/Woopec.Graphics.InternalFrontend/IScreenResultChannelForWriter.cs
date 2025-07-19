@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalFrontend
+namespace Woopec.Graphics.Internal.Frontend
 {
     /// <summary>
     /// A channel for exchange of ScreenResults, from the writer's side

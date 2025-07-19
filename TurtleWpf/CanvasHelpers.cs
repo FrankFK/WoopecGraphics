@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
 namespace Woopec.Wpf
 {

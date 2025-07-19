@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalFrontend
+namespace Woopec.Graphics.Internal.Frontend
 {
     /// <summary>
     /// An instance of this class describes the actually known state of all an animation groups.

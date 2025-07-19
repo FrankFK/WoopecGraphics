@@ -36,7 +36,7 @@ namespace Woopec.Graphics.ArchTests
         /// </summary>
         private readonly IObjectProvider<IType> WoopecGraphicsInternalBackend = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.InternalBackend")
+            .ResideInNamespace("Woopec.Graphics.Internal.Backend")
             .As("WoopecGraphics internal backend part");
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Woopec.Graphics.ArchTests
         /// </summary>
         private readonly IObjectProvider<IType> WoopecGraphicsInternalFrontend = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.InternalFrontend")
+            .ResideInNamespace("Woopec.Graphics.Internal.Frontend")
             .As("WoopecGraphics internal frontend part");
 
         /// <summary>
@@ -59,10 +59,18 @@ namespace Woopec.Graphics.ArchTests
         /// <summary>
         /// Objects which travel between backend and frontend
         /// </summary>
-        private readonly IObjectProvider<IType> WoopecGraphicsInternalDtos = Types()
+        private readonly IObjectProvider<IType> WoopecGraphicsInterfaceDtos = Types()
             .That()
-            .ResideInNamespace("Woopec.Graphics.InternalDtos")
+            .ResideInNamespace("Woopec.Graphics.Interface.Dtos")
             .As("WoopecGraphics internal data transfer objects");
+
+        /// <summary>
+        /// The public part exchanges data with a port to a screen
+        /// </summary>
+        private readonly IObjectProvider<IType> WoopecGraphicsInterfaceSreen = Types()
+            .That()
+            .ResideInNamespace("Woopec.Graphics.Interface.Screen")
+            .As("WoopecGraphics internal interface to a screen");
 
         /// <summary>
         /// WoopecGraphics examples
@@ -77,7 +85,7 @@ namespace Woopec.Graphics.ArchTests
         private List<IObjectProvider<IType>> AllLayers()
         {
             return new List<IObjectProvider<IType>>() {WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend,
-            WoopecGraphicsInternalCommunication, WoopecGraphicsInternalFrontend, WoopecGraphicsInternalDtos, WoopecGraphicsExamples};
+            WoopecGraphicsInternalCommunication, WoopecGraphicsInternalFrontend, WoopecGraphicsInterfaceDtos, WoopecGraphicsInterfaceSreen, WoopecGraphicsExamples};
         }
 
         private List<IObjectProvider<IType>> AllLayersExcept(List<IObjectProvider<IType>> except)
@@ -100,9 +108,9 @@ namespace Woopec.Graphics.ArchTests
         }
 
         [Fact]
-        public void PublicObjectsShouldOnlyUseHelpersAndCommunicatedObjects()
+        public void PublicObjectsShouldOnlyUseHelpersAndInterfaceNamespaces()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsHelpers, WoopecGraphicsInternalDtos, WoopecGraphicsPublic]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsHelpers, WoopecGraphicsInterfaceSreen, WoopecGraphicsInterfaceDtos, WoopecGraphicsPublic]))
             {
                 // Check this other ones
                 IArchRule doNotAcessLowLevelImplementation = Types()
@@ -117,9 +125,9 @@ namespace Woopec.Graphics.ArchTests
         }
 
         [Fact]
-        public void HelpersShouldShouldOnlyUsePublicAndCommunicatedObjects()
+        public void HelpersShouldShouldOnlyUsePublicAndDtos()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsPublic, WoopecGraphicsInternalDtos, WoopecGraphicsHelpers]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsPublic, WoopecGraphicsInterfaceDtos, WoopecGraphicsHelpers]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -147,9 +155,9 @@ namespace Woopec.Graphics.ArchTests
         }
 
         [Fact]
-        public void InternalBackendShouldUseOnlyCommunicatedObjectsAndPublicAndHelpers()
+        public void InternalBackendShouldUseOnlyInterfaceScreenAndDtos()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalDtos, WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInterfaceDtos, WoopecGraphicsInterfaceSreen, WoopecGraphicsInternalBackend]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -162,9 +170,9 @@ namespace Woopec.Graphics.ArchTests
         }
 
         [Fact]
-        public void InternalFrontendShouldOnlyUseCommunicatedObjects()
+        public void InternalFrontendShouldOnlyUseInterfaceDtos()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalDtos, WoopecGraphicsInternalFrontend]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInterfaceDtos, WoopecGraphicsInternalFrontend]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
@@ -177,21 +185,50 @@ namespace Woopec.Graphics.ArchTests
         }
 
         [Fact]
-        public void CommunicatedObjectsShouldOnlyUse()
+        public void InterfaceDtosShouldUseNothingElse()
         {
-            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalDtos]))
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInterfaceDtos]))
             {
                 IArchRule doNotAcessLowLevelImplementation = Types()
                     .That()
-                    .Are(WoopecGraphicsInternalDtos)
+                    .Are(WoopecGraphicsInterfaceDtos)
                     .Should()
                     .NotDependOnAny(layer)
-                    .Because("Internal backend should only use ...");
+                    .Because("Interface dtos should only use ...");
                 doNotAcessLowLevelImplementation.Check(Architecture);
             }
         }
 
+        [Fact]
+        public void InternalCommunicationShouldOnlyUseInternalParts()
+        {
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInternalBackend, WoopecGraphicsInternalFrontend,
+                WoopecGraphicsInterfaceDtos, WoopecGraphicsInterfaceSreen, WoopecGraphicsInternalCommunication]))
+            {
+                IArchRule doNotAcessLowLevelImplementation = Types()
+                    .That()
+                    .Are(WoopecGraphicsInternalCommunication)
+                    .Should()
+                    .NotDependOnAny(layer)
+                    .Because("Internal.Communication should not use public wooepec parts...");
+                doNotAcessLowLevelImplementation.Check(Architecture);
+            }
+        }
 
+        [Fact]
+        public void InterfaceScreenShouldOnlyUseInterfaceDtos()
+        {
+            foreach (var layer in AllLayersExcept([WoopecGraphicsInterfaceDtos, WoopecGraphicsInterfaceSreen]))
+            {
+                IArchRule doNotAcessLowLevelImplementation = Types()
+                    .That()
+                    .Are(WoopecGraphicsInterfaceSreen)
+                    .Should()
+                    .NotDependOnAny(layer)
+                    .Because("Interface screen should only use interface dtos...");
+                doNotAcessLowLevelImplementation.Check(Architecture);
+            }
+        }
     }
 }
 

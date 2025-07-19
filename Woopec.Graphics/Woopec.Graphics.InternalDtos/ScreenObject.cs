@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.InternalDtos
+namespace Woopec.Graphics.Interface.Dtos
 {
     /// <summary>
     /// An Object (ScreenLine, ScreenFigure, ScreenDialog) to be rendered on the screen.

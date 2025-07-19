@@ -8,8 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using Woopec.Graphics.InternalFrontend;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
 namespace Woopec.Wpf
 {
@@ -166,10 +165,10 @@ namespace Woopec.Wpf
 
         private void UpdatePathWithShape(Path path, DtoShapeBase screenFigureShape)
         {
-            if (!(screenFigureShape is Woopec.Graphics.InternalDtos.DtoShape))
+            if (!(screenFigureShape is Woopec.Graphics.Interface.Dtos.DtoShape))
                 throw new NotImplementedException($"Shapes of type {screenFigureShape.Type} are not implemented yet.");
 
-            var shape = screenFigureShape as Woopec.Graphics.InternalDtos.DtoShape;
+            var shape = screenFigureShape as Woopec.Graphics.Interface.Dtos.DtoShape;
 
             // Set or change the pahtGeometry
             var pathGeometry = new PathGeometry

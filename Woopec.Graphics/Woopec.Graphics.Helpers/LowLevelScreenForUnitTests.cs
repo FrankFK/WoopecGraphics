@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.Helpers
+namespace Woopec.Graphics.Interface.Screen
 {
     /// <summary>
     /// An instance of this class represents a screen which can be used for unit tests
@@ -53,7 +53,7 @@ namespace Woopec.Graphics.Helpers
         }
 
         ///<inheritdoc/>
-        public async Task<string> TextInputAsync(string title, string prompt, Vec2D position)
+        public async Task<string> TextInputAsync(string title, string prompt, DtoVec2D position)
         {
             await Task.Delay(1);
             throw new NotImplementedException("With LowLevelScreenForUnitTests TextInput is not usable.");
@@ -83,7 +83,7 @@ namespace Woopec.Graphics.Helpers
             throw new NotImplementedException();
         }
 
-        public Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
+        public Task<DtoVec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
         {
             throw new NotImplementedException();
         }

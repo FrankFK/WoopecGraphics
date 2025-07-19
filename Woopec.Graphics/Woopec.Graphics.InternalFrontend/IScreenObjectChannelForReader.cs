@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalFrontend
+namespace Woopec.Graphics.Internal.Frontend
 {
     /// <summary>
     /// Communication channel for ScreenObjectConsumer

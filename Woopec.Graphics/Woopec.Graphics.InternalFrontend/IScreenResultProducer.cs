@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalFrontend
+namespace Woopec.Graphics.Internal.Frontend
 {
     /// <summary>
     /// Hand screen results (e.g. the answer in a text input dialog windos) over to the code that is waiting for it.

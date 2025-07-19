@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Woopec.Graphics.Helpers;
-using Woopec.Graphics.InternalBackend;
-using Woopec.Graphics.InternalFrontend;
+using Woopec.Graphics.Internal.Backend;
+using Woopec.Graphics.Interface.Dtos;
+using Woopec.Graphics.Internal.Frontend;
+using Woopec.Graphics.Interface.Screen;
 
 namespace Woopec.Graphics.InternalCommunication
 {
@@ -95,7 +97,7 @@ namespace Woopec.Graphics.InternalCommunication
             var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
-            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in InternalBackend
+            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in Internal.Backend
             LowLevelDefaultScreen.Init(new LowLevelScreenFactory());
 
         }
@@ -124,7 +126,7 @@ namespace Woopec.Graphics.InternalCommunication
             var resultConsumer = new ScreenResultConsumer(communicationBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
-            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in InternalBackend
+            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in Internal.Backend
             LowLevelDefaultScreen.Init(new LowLevelScreenFactory());
 
 
@@ -163,7 +165,7 @@ namespace Woopec.Graphics.InternalCommunication
             var resultConsumer = new ScreenResultConsumer(_actualBroker.ScreenResultChannelForReader);
             DefaultProducerAndConsumer.InitializeDefaultScreenResultConsumer(resultConsumer);
 
-            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in InternalBackend
+            // Some kind of dependency injection (to decouple regular woopec objects (Turtle, Figure, ...) from classes in Internal.Backend
             LowLevelDefaultScreen.Init(new LowLevelScreenFactory());
 
             var producerThread = new Thread(
@@ -202,7 +204,9 @@ namespace Woopec.Graphics.InternalCommunication
             }
             else
             {
-                var firstTurtle = new Turtle() { Speed = Speeds.Slowest, Shape = Shapes.Turtle, Color = Colors.DarkRed };
+                // This code would create a dependency on Woopec.Graphics. I do not want that.
+                // The code was only necessary to display a turtle in the center of the MainWindow.xaml in the Wpf-Designer. Nice, but not necessary.
+                // var firstTurtle = new Turtle() { Speed = Speeds.Slowest, Shape = Shapes.Turtle, Color = Colors.Green };
             }
 
             return;

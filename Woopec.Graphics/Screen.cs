@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.Helpers;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
+using Woopec.Graphics.Interface.Screen;
 
 namespace Woopec.Graphics
 {
@@ -80,7 +81,7 @@ namespace Woopec.Graphics
         /// <returns>The string input. If the dialog is canceled, return null</returns>
         public string TextInput(string title, string prompt, Vec2D position)
         {
-            var task = _lowLevelScreen.TextInputAsync(title, prompt, position);
+            var task = _lowLevelScreen.TextInputAsync(title, prompt, DtoMapper.Map(position));
 
             // async/await is too complex for C# beginners. Therfore we wait for the input:
             return task.Result;
@@ -191,7 +192,8 @@ namespace Woopec.Graphics
             if (returnLowerRightCorner)
             {
                 var task = _lowLevelScreen.ShowTextBlockWithReturnCoordinateAsync(textBlock);
-                return task.Result;
+                DtoVec2D result = task.Result;
+                return new Vec2D(result.X, result.Y);
             }
             else
             {

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 using Woopec.Graphics.Helpers;
+using Woopec.Graphics.Interface.Screen;
 
 namespace Woopec.Graphics
 {

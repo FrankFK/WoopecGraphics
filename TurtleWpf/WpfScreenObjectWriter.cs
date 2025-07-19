@@ -11,8 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
-using Woopec.Graphics.InternalDtos;
-using Woopec.Graphics.InternalFrontend;
+using Woopec.Graphics.Interface.Dtos;
+using Woopec.Graphics.Internal.Frontend;
 
 namespace Woopec.Wpf
 {

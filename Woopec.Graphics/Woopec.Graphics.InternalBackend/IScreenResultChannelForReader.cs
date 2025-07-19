@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalBackend
+namespace Woopec.Graphics.Internal.Backend
 {
     /// <summary>
     /// A channel for exchange of ScreenResults, from the reader's side

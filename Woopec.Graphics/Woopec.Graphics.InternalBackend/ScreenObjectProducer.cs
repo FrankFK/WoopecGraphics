@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalBackend
+namespace Woopec.Graphics.Internal.Backend
 {
     internal class ScreenObjectProducer : IScreenObjectProducer
     {

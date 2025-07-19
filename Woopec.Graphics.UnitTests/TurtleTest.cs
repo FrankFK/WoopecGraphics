@@ -7,7 +7,8 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Woopec.Graphics.Helpers;
 using Woopec.Graphics.InternalCommunication;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
+using Woopec.Graphics.Interface.Screen;
 
 namespace Woopec.Graphics.UnitTests
 {
@@ -75,7 +76,7 @@ namespace Woopec.Graphics.UnitTests
                 FigureUpdates.Add(figure);
             }
 
-            public Task<string> TextInputAsync(string title, string prompt, Vec2D position)
+            public Task<string> TextInputAsync(string title, string prompt, DtoVec2D position)
             {
                 throw new NotImplementedException();
             }
@@ -90,7 +91,7 @@ namespace Woopec.Graphics.UnitTests
                 throw new NotImplementedException();
             }
 
-            public Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
+            public Task<DtoVec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
             {
                 throw new NotImplementedException();
             }

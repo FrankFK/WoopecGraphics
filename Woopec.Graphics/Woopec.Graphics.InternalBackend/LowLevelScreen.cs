@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Woopec.Graphics.Helpers;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
+using Woopec.Graphics.Interface.Screen;
 
-namespace Woopec.Graphics.InternalBackend
+namespace Woopec.Graphics.Internal.Backend
 {
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
@@ -65,9 +66,9 @@ namespace Woopec.Graphics.InternalBackend
         }
 
         ///<inheritdoc/>
-        public async Task<string> TextInputAsync(string title, string prompt, Vec2D position)
+        public async Task<string> TextInputAsync(string title, string prompt, DtoVec2D position)
         {
-            var dialog = new ScreenDialog() { Title = title, Prompt = prompt, Position = DtoMapper.Map(position) };
+            var dialog = new ScreenDialog() { Title = title, Prompt = prompt, Position = position };
             // If we do not wait for another animation this dialog is shown immediately. In most cases the programmer expects
             // that all previously created animation are drawn before the dialog is shown
             // Therefore:
@@ -92,12 +93,12 @@ namespace Woopec.Graphics.InternalBackend
             _screenObjectProducer.ShowTextBlock(textBlock);
         }
 
-        public async Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
+        public async Task<DtoVec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock)
         {
             textBlock.WaitForCompletedAnimationsOfAnotherGroup = LastIssuedAnimatonGroupID;
             _screenObjectProducer.ShowTextBlock(textBlock);
             DtoVec2D result = await _screenResultConsumer.ReadVec2DResultAsync();
-            return new Vec2D(result.X, result.Y);
+            return result;
         }
 
 

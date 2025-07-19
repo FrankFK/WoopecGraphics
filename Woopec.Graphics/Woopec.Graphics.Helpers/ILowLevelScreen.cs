@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.Helpers
+namespace Woopec.Graphics.Interface.Screen
 {
     /// <summary>
     /// An instance of this class represents the screen to which screen objects (lines, shapes, ...) are drawn
@@ -35,7 +35,7 @@ namespace Woopec.Graphics.Helpers
         /// <param name="prompt"></param>
         /// <param name="position">(optional). Approximate position of the lower left corner of the dialog window</param>
         /// <returns></returns>
-        public Task<string> TextInputAsync(string title, string prompt, Vec2D position);
+        public Task<string> TextInputAsync(string title, string prompt, DtoVec2D position);
 
         /// <summary>
         /// Open a NumberInput dialog on screen and return the number, that the user has entered
@@ -55,7 +55,7 @@ namespace Woopec.Graphics.Helpers
         /// </summary>
         /// <param name="textBlock"></param>
         /// <returns></returns>
-        public Task<Vec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock);
+        public Task<DtoVec2D> ShowTextBlockWithReturnCoordinateAsync(ScreenTextBlock textBlock);
 
     }
 }

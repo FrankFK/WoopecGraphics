@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Navigation;
 using System.Windows.Documents;
 using System.Windows.Media.Media3D;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
 namespace Woopec.Wpf
 {

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalFrontend
+namespace Woopec.Graphics.Internal.Frontend
 {
-    internal delegate void AnimationIsFinished(int groupId, int objectId);
-
     /// <summary>
     /// Interface
     /// Write turtle-graphics objects to a real "screen" (for instance a canvas in WPF).

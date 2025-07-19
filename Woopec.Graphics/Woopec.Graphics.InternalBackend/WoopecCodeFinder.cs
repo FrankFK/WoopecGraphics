@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Woopec.Graphics.InternalBackend
+namespace Woopec.Graphics.Internal.Backend
 {
     /// <summary>
     /// To make it easier for coding programmers, this class searches for the turtle code

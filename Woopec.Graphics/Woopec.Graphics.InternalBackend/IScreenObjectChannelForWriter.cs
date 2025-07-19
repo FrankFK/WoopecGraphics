@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Woopec.Graphics.InternalDtos;
+using Woopec.Graphics.Interface.Dtos;
 
-namespace Woopec.Graphics.InternalBackend
+namespace Woopec.Graphics.Internal.Backend
 {
     /// <summary>
     /// Communication channel for ScreenObjectProducer

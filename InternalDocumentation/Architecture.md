@@ -68,21 +68,197 @@ Erläuterungen:
 
 ### 5.2 Level 2
 
-**!!! Schaubild fehlt noch !!!**
+Der Code besteht aus vier Blöcken:
 
-
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+  direction LR
+  class Woopec.Graphics
+  class Woopec.Graphics.Interface
+  class Woopec.Graphics.Internal
+  class Woopec.Wpf
+  Woopec.Graphics --> Woopec.Graphics.Interface
+  Woopec.Graphics.Internal --> Woopec.Graphics.Interface
+  Woopec.Wpf --> Woopec.Graphics.Interface
+  Woopec.Wpf --> Woopec.Graphics.Internal
+```
 
 Erläuterungen der Namespaces:
 
-| Block                          | Erläuterung                                                  |
-| ------------------------------ | ------------------------------------------------------------ |
-| Woopec.Graphics                | Dieser Namespace enthält die Klassen, die von Usern verwendet werden können (Turtle, Figure, Pen, etc.). Diese Klassen sind in der öffentlichen [Woopec Dokumentation](https://frank.woopec.net/woopec-docs-index.html) beschrieben |
-| Woopec.Graphics.Helper         | Einfache interne Hilfs-Objekte, die von Woopec.Graphics benutzt werden, kein Teil der des LowLevelScreens |
-| Woopec.Graphics.LowLevelScreen | Woopec.Graphics tauscht Daten mit dem ILowLevelScreen. Dazu werden (teilweise asynchrone) Methode von ILowLevelScreen aufgerufen. Die Parameter enthalten die auszutauschenden Daten. Die Implementierung des LowLevelScreens ist in Woopec.Graphics.Internal realisiert. |
-| Woopec.Graphics.Internal       | Wie in Abschnitt 5.1 erläutert, tauscht Woopec.Graphics über Channels Informationen mit dem UI aus. Der technische interne Unterbau für Woopec.Graphics.LowLevelScreen. Der wird weiter unten auf Level 3 genauer beschrieben. |
-| Woopec.Graphics.Factories      | Factories um die passende Implementierung für ein Interface zu generieren. Aktuell wird in der Solution keine Dependency Injection benutzt. Das könnte man vielleicht mal umstellen. |
+| Block                     | Erläuterung                                                  |
+| ------------------------- | ------------------------------------------------------------ |
+| Woopec.Graphics           | Dieser Namespace enthält die Klassen, die von Usern verwendet werden können (Turtle, Figure, Pen, etc.). Diese Klassen sind in der öffentlichen [Woopec Dokumentation](https://frank.woopec.net/woopec-docs-index.html) beschrieben |
+| Woopec.Graphics.Interface | Enthält Data Transfer Objects (DTOs), die zwischen Woopec.Graphics und dem UI ausgetauscht werden, und ein Interface zu einem logischen Screen (LowLevelScreen) an den Woopec.Graphics diese DTOs schickt bzw. von dort empfängt.<br />Woopec.Graphics nutzt nur dieses Interface und ist so vom Rest entkoppelt |
+| Woopec.Graphics.Internal  | Wie in Abschnitt 5.1 erläutert, tauscht Woopec.Graphics über Channels Informationen mit dem UI aus. Diese Logik ist hier implementiert. Hier werden auch alle Enden miteinander verknüpft. |
+| Woopec.Wpf                | Der Code, der das echte UI implementiert (mit Windows WPF).  |
 
 
+
+### 5.2 Level 3
+
+#### 5.2.1 Woopec.Graphics
+
+Das Projekt Woopec.Graphics enthält die Klassen, die ein externer User benutzt, und ein bisschen Hilfs-Code.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+  direction LR
+  namespace Woopec.Graphics {
+  class Graphics
+  class Graphics.Examples
+  class Graphics.Helpers
+  }
+  namespace Woopec.Graphics.Interface {
+  class Graphics.Interface.Dtos
+  class Graphics.Interface.Screen
+  }
+  Graphics.Examples --> Graphics
+  Graphics --> Graphics.Helpers
+  Graphics --> Graphics.Interface.Dtos
+  Graphics --> Graphics.Interface.Screen
+  Graphics.Helpers --> Graphics.Interface.Dtos
+  Graphics.Helpers --> Graphics
+
+```
+
+Diese Namespaces gehören zum Projekt Woopec.Graphics:
+
+| Namespace                | Erläuterung                                                  |
+| ------------------------ | ------------------------------------------------------------ |
+| Woopec.Graphics          | Dieser Namespace enthält die Klassen, die von Usern verwendet werden können (Turtle, Figure, Pen, etc.). Diese Klassen sind in der öffentlichen [Woopec Dokumentation](https://frank.woopec.net/woopec-docs-index.html) beschrieben |
+| Woopec.Graphics.Examples | Beispielprogramme mit Woopec.Graphics                        |
+| Woopec.Graphics.Helper   | Einfache interne Hilfs-Objekte, die von Woopec.Graphics benutzt werden (alle `internal`) |
+
+Die obigen drei Namespaces nutzen ausschließlich Code aus Woopec.Graphics.Interface und sind auf diese Weise vom Rest entkoppelt.
+
+#### 5.2.2 Woopec.Graphics.Interface
+
+Der Namespace Woopec.Graphics.Interface entkoppelt Woopec.Graphics vom Rest des Codes.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+  direction LR
+  namespace Woopec.Graphics.Interface {
+  class Graphics.Interface.Dtos
+  class Graphics.Interface.Screen
+  }
+  Graphics.Interface.Screen --> Graphics.Interface.Dtos
+```
+Es gibt zwei Unter-Namespaces:
+
+| Namespace                        | Erläuterung                                                  |
+| -------------------------------- | ------------------------------------------------------------ |
+| Woopec.Graphics.Interface.Dtos   | Data Transfer Objects, die im wesentlichen in Woopec.Graphics erzeugt werden und von dort an einen logischen Screen geschickt werden, dessen Interface in Graphics.Interface.Screen definiert ist. |
+| Woopec.Graphics.Interface.Screen | Enthält das Interface zu einem logischen Screen, an den Woopec.Graphics Daten schickt, von dem Woopec.Graphics aber auch Daten empfängt (User-Input). |
+
+Dieser Namenspace wird von allen anderen Namespaces genutzt. Alle anderen Namespaces nutzen die DTOs. Im Namespace Woopec.Graphics.Internal befinden sich Implementierungen der Interfaces aus Graphics.Interface.Screen.
+
+#### 5.2.3 Woopec.Graphics.Internal
+
+Der Namespace Woopec.Graphics.Internal bildet den Kern der Funktionalität ab.
+
+Hier findet die Entkopplung von Backend und Frontend statt.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+  direction LR
+  namespace Woopec.Graphics.Interface {
+  class Graphics.Interface.Dtos
+  class Graphics.Interface.Screen
+  }
+  namespace Woopec.Graphics.Internal {
+  class Graphics.Internal.Frontend
+  class Graphics.Internal.Communication
+  class Graphics.Internal.Backend
+  }
+  Graphics.Internal.Frontend  --> Graphics.Interface.Dtos
+  Graphics.Internal.Communication--> Graphics.Interface.Screen
+  Graphics.Internal.Communication--> Graphics.Internal.Backend
+  Graphics.Internal.Communication--> Graphics.Internal.Frontend
+  Graphics.Internal.Communication--> Graphics.Interface.Dtos
+  Graphics.Internal.Backend --> Graphics.Interface.Dtos
+  Graphics.Internal.Backend --> Graphics.Interface.Screen
+
+```
+
+
+| Block                             | Erläuterung                                                  |
+| --------------------------------- | ------------------------------------------------------------ |
+| Woopec.Graphics.Internal.Backend  | Dies ist das Backend, das  Woopec.Graphics Befehle (wie Turtle.Forward) aufnimmt und Ergebnisse (z.B. Tastatur-Input) an Woopec.Graphics zurück gibt. Für die Kommunikation mit dem Frontend werden Interfaces für Channels benutzt, die in Graphics.Internal.Communication realisiert sind. |
+| Woopec.Graphics.Internal.Frontend | Dies ist der abstrakte Teil des Frontends. Hier werden DTOs aus dem Channel gelesen und an ein Interface (`IScreenObjectWriter`) weitergegeben, das in Wpf implementiert ist. Analog wird für Wpf ein Interface bereitgestellt (`IScreenResultProducer`) bereitgestellt, an das Wpf User-Input übergeben kann. |
+| Woopec.Graphics.Communication     | Hier werden Frontend und Backend miteinander verknüpft.      |
+
+
+#### 5.2.4. Woopec.Wpf
+
+Woopec.Wpf realisiert das UI mit Windows WPF. Im folgenden Schaubild sind nur die wesentlichen Zusammenhänge visualisiert.
+
+```mermaid
+---
+  config:
+    class:
+      hideEmptyMembersBox: true
+---
+classDiagram
+  direction LR
+  namespace Woopec.Wpf {
+  class WoopecCanvas.xaml.cs
+  class WpfScreenObjectWriter {
+    delegate OnAnimationFinished
+    Update()
+    UpdateWithAnimation()
+  }
+  class CanvasLines
+  }
+  namespace Woopec.Graphics.Internal {
+  class Graphics.Internal.Frontend.ScreenObjectConsumer {
+    HandleNextScreenObjectAsync()
+    AnimationOfGroupIsFinished()
+  }
+  class Graphics.Internal.Frontend.IScreenObjectWriter
+  class Graphics.Internal.Frontend.IScreenResultProducer
+  class Graphics.Internal.Communication
+  }
+  WoopecCanvas.xaml.cs --> Graphics.Internal.Communication : uses
+  WoopecCanvas.xaml.cs --> WpfScreenObjectWriter : uses
+  WoopecCanvas.xaml.cs --> Graphics.Internal.Frontend.ScreenObjectConsumer : Call HandleNextScreenObjectAsync to care about next object
+  WpfScreenObjectWriter --|> Graphics.Internal.Frontend.IScreenObjectWriter : implements
+  WpfScreenObjectWriter --> Graphics.Internal.Frontend.IScreenResultProducer : sends user input to
+  WpfScreenObjectWriter -- Graphics.Internal.Frontend.ScreenObjectConsumer : OnAnimationFinished is set to AnimationOfGroupIsFinished
+  CanvasLines --> WpfScreenObjectWriter : calls OnAnimationFinished when line is completed
+  WoopecCanvas.xaml.cs --> CanvasLines : contains
+```
+
+
+Erläuterungen der obigen Objekte:
+
+| Block                 | Erläuterung                                                  |
+| --------------------- | ------------------------------------------------------------ |
+| WoopecCanvas.xaml.cs  | WPF Canvas, der die Grafiken anzeigt. Zu Beginn wird Code aus Graphics.Internal.Communication aufgerufen, um alles richtig zu initiieren. Der Code hinter diesem Canvas triggert über Aufruf von HandleNextScreenObjectAsync() das Lesen weiterer Objekte aus dem Channel. |
+| WpfScreenObjektWriter | Sorgt dafür, dass die Objekte im Canvas gezeichnet werden. Implementiert einen IScreenObjectWriter, der von einem ScreenObjectConsumer mit neuen Objekten versorgt wird (über Aufruf von `Update()` oder `UpdateWithAnimation()`, oben nicht eingezeichnet) |
+| CanvasLines           | Eine Linie, die ggf. animiert im Canvas gezeichnet wird. Diese Linien werden (nicht eingezeichnet) vom WpfScreenObjectWriter erzeugt. Eine Linie kann animiert sein, d.h. sie wird auf dem Bildschirm animiert. Wenn die Animation beendet ist, wird diese Information an das Delegate `OnAnimationFinished` des WpfScreenObjectWriters weitergegeben. Dieses Delegate ist auf die Methode `AnimationOfGroupIsFinished()` des ScreenObjectConsumers gesetzt. Auf diesem Weg erhält der Consumer, dass eine Animation beendet wurde. Er kann dann prüfen, ob es Objekte gibt, die auf die Beendigung dieser Animation gewartet haben. Diese Objekte können dann gezeichnet werden. |
+|                       |                                                              |
+|                       |                                                              |
 
 ## 6 Runtime View
 
