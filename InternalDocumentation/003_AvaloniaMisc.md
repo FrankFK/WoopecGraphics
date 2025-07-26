@@ -95,13 +95,32 @@ Nächste Ziele:
     * Die Magic aus TurtleWpf\WoopecCanvas.xaml.cs kann man ähnlich übertragen (man braucht aber Hirnakrobatik um es zu verstehen)
     * Noch nicht gekümmert: Handling bei Exceptions. Das funktioniert allerdings bei WPF aktuell auch noch nicht.
 
-Avalonia ohne Gedöns nutzen
 
-* **Status**:
+
+
+
+### Avalonia ohne Gedöns nutzen
+
+* **Status 26.07.2025** Es gibt jetzt das Projekt Woopec.Graphics.Avalonia
   
+  * Ich habe https://github.com/AvaloniaUI/Avalonia.Markup.Declarative gefunden. Das kommt schon mal ganz ohne Xaml aus und wird aktiv entwickelt.
+  * Das favorisierte Pattern in Markup.Declarative ist [Model View Update (MVU)](https://www.mauricepeters.dev/2023/10/model-view-update-mvu-pattern-using-asp.html). Mein Woopec-Ansatz passt nicht so 100% dazu, aber es lässt sich so kombinieren, dass es zu funktionieren scheint.
+  * Um es richtig hinzubekommen, habe ich zuerst das ganze Repo [AvaloniaUI/Avalonia.Markup.Declarative: Provides helpers for declarative ui in C#](https://github.com/AvaloniaUI/Avalonia.Markup.Declarative#) geklont. Darin gibt es ein Beispiel Projekt: [Avalonia.Markup.Declarative/src/Samples/MvuTemplate at master · AvaloniaUI/Avalonia.Markup.Declarative](https://github.com/AvaloniaUI/Avalonia.Markup.Declarative/tree/master/src/Samples/MvuTemplate). Das referenziert Markup.Declarative aber direkt als Projekt. Darum habe ich ein Standalone-Konsolenprojekt erstellt, das die gleichen Klassen enthält, und sukzessive alle Nuget-Packages hinzugefügt, bis es funktioniert. Achtung: **Ich nutze die aktuelleste beta Version von Markup.Declarative.
+  * Danach funktionierte das Beispiel schon mal.
+  * Dann habe ich die SimpleComponent.cs so angepasst, dass das Grobprinzip von Woopec funktionieren müsste:
+    * Im OnLoaded habe ich den Dispatch-Kram gestartet, der dafür sorgt, dass im Hintergrund immer neue Woopec-Dtos aus dem Channel gelesen werden. 
+    * Diese aus dem Channel gelesenen Objekte müssen dann direkt im UI ausgegeben werden.
+      * Den State-Mechanismus (`StateHasChanged()`) kann ich nicht nutzen. Wenn ich das mache, ändert sich nichts.
+      * Aber ich kann direkt Objekte ändern (ich habe den Inhalt einer zweiten TextBox geändert) und das wird direkt im UI angezeigt.
+  
+  * **Noch unklar**, ob es ausreicht mich an das OnLoaded zu hängen. In einem älteren Versuch hatte ich dann noch keine korrekte Breite vom MainCanvas. Darum hatte ich es dort so gemacht, dass ich eine eigene Methode `OnLoad` (ohne ed) hatte, und diese zum AttachedToVisualTree addiert habe (siehe C:\Users\frank\source\repos\simple-graphics-for-csharp-beginners\AvaloniaTestConsole\Views\MainView.axaml.cs)
+  * **Auch noch unklar**: Im Beispiel Projekt  [Avalonia.Markup.Declarative/src/Samples/MvuTemplate at master · AvaloniaUI/Avalonia.Markup.Declarative](https://github.com/AvaloniaUI/Avalonia.Markup.Declarative/tree/master/src/Samples/MvuTemplate) stehen in der csproj Datei noch Kommentare wie: `-Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration`. Diese Dinge habe ich erst mal noch weggelassen.
+  
+* **Status alt**:
+
   * In C:\Users\frank\source\repos\Avalonia.Samples\ gibt es sehr viele Beispiel-Projekte. Analog dazu konnte ich ein Projekt erstellen vom Template Consolen-Programm, dann mehre Avalonia-Packages hinzufügen. Dann die Quellen der beiden Projekte aus dem Avalonia-Template in dieses Console-Programm, noch beim Asset/Icon in den Properties angeben, dass es eine AvaloniaResource ist. Danach lief es.
   * Ob das noch einfacher geht, so wie hier? 
-  
+
       * HIer [Add a basic, standalone xaml-free Hello World example to the docs · AvaloniaUI/Avalonia · Discussion #9006 (github.com)](https://github.com/AvaloniaUI/Avalonia/discussions/9006) hat jemand das auch versucht. Doku dazu hat er nicht gefunden. Aber anscheinend hat er es so geschafft:
         ```csharp
         Application app = Application.Current ?? AppBuilder.Configure<Application>().UsePlatformDetect().SetupWithoutStarting().Instance;
@@ -109,9 +128,9 @@ Avalonia ohne Gedöns nutzen
         app.Run(new Window() { Title = "Avalonia Basic Example", Content = "Hello Avalonia!" });
         ```
   * Als nächstes müsste ich versuchen, aus dem Ganzen - so wie in Wpf - ein Projekt (Library?) mit einem UserControl zu machen, so dass man das dann später mal zu einem Package machen kann.
-  
+
       
-  
+
   
 
 

@@ -52,6 +52,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaTestConsole", "Aval
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woopec.Graphics.ArchTests", "Woopec.Graphics.ArchTests\Woopec.Graphics.ArchTests.csproj", "{AD41C416-43AE-4E02-8926-E11A89B1552B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woopec.Graphics.Avalonia", "Woopec.Graphics.Avalonia\Woopec.Graphics.Avalonia.csproj", "{B371DA16-7452-C34B-B556-50992A1B3D49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{AD41C416-43AE-4E02-8926-E11A89B1552B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD41C416-43AE-4E02-8926-E11A89B1552B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD41C416-43AE-4E02-8926-E11A89B1552B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B371DA16-7452-C34B-B556-50992A1B3D49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B371DA16-7452-C34B-B556-50992A1B3D49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B371DA16-7452-C34B-B556-50992A1B3D49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B371DA16-7452-C34B-B556-50992A1B3D49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
