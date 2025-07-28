@@ -2,6 +2,9 @@
 using ArchUnitNET.Fluent;
 using ArchUnitNET.Loader;
 using ArchUnitNET.xUnit;
+using Woopec.Graphics.Interface.Screen;
+using Woopec.Graphics.Internal.Backend;
+using Woopec.Graphics.Internal.Communication;
 using Xunit;
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 
@@ -12,6 +15,8 @@ namespace Woopec.Graphics.ArchTests
         // TIP: load your architecture once at the start to maximize performance of your tests
         private static readonly Architecture Architecture = new ArchLoader()
             .LoadAssemblies(typeof(Turtle).Assembly)
+            .LoadAssemblies(typeof(ILowLevelScreen).Assembly)
+            .LoadAssemblies(typeof(CommunicationBroker).Assembly)
             .Build();
 
         /// <summary>
@@ -84,6 +89,8 @@ namespace Woopec.Graphics.ArchTests
 
         private List<IObjectProvider<IType>> AllLayers()
         {
+            var found = WoopecCodeFinder.Find();
+
             return new List<IObjectProvider<IType>>() {WoopecGraphicsPublic, WoopecGraphicsHelpers, WoopecGraphicsInternalBackend,
             WoopecGraphicsInternalCommunication, WoopecGraphicsInternalFrontend, WoopecGraphicsInterfaceDtos, WoopecGraphicsInterfaceSreen, WoopecGraphicsExamples};
         }
@@ -101,6 +108,7 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void AllLayersShouldHaveContent()
         {
+            Woopec.Graphics.Internal.Backend.TestTestTest.Method();
             foreach (var layer in AllLayers())
             {
                 Types().That().Are(layer).Should().Exist().Check(Architecture);
