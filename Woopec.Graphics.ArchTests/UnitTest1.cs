@@ -108,7 +108,6 @@ namespace Woopec.Graphics.ArchTests
         [Fact]
         public void AllLayersShouldHaveContent()
         {
-            Woopec.Graphics.Internal.Backend.TestTestTest.Method();
             foreach (var layer in AllLayers())
             {
                 Types().That().Are(layer).Should().Exist().Check(Architecture);
