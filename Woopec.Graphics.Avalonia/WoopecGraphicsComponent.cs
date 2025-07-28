@@ -19,6 +19,7 @@ namespace Woopec.Graphics.Avalonia
         //Styles
         protected override StyleGroup? BuildStyles() =>
         [
+            /*
             new Style<Button>(x => x.Class(":pointerover").Descendant())
             .Background(Brushes.LightBlue),
 
@@ -35,52 +36,19 @@ namespace Woopec.Graphics.Avalonia
             new Style<StackPanel>(s => s.Name("SideBar"))
                 .IsVisible(false)
         }
+            */
         ];
 
         //Markup
         protected override object Build()
         {
-            var markup = new Grid().Cols("200, *")
-                .BindClass(() => Bounds.Width < 400, "narrow")
+            var markup = new Grid().Cols("*")
                 .Children(
-                    new StackPanel()
-                        .Name("SideBar")
-                        .Background(Brushes.CadetBlue)
+                    new Grid().Col(0).Rows("*")
                         .Children(
-                            new TextBlock().Ref(out _textBlock2)
-                                .Name("title")
-                                .Margin(top: 16, left: 16) //partial margin defined with named arguments
-                                .Text("Sidebar")
-                        ),
-                    new Grid().Col(1).Rows("20, *")
-                        .Children(
-                            new TextBlock().Col(1).Row(0).Text("Hallo")),
-                            new Canvas().Ref(out _canvas).Col(1).Row(1).Background(new SolidColorBrush(Colors.SandyBrown))
-                /*
-                new StackPanel().Col(1)
-                    .VerticalAlignment(VerticalAlignment.Stretch)
-                    .HorizontalAlignment(HorizontalAlignment.Stretch)
-                    .Children(
-                        new TextBlock().Ref(out _textBlock1)
-                            .Text("Hello world"),
-                        new TextBlock()
-                            .Text(() => $"Counter: {(Counter == 0 ? "zero" : Counter)}"), //expression binding with dynamic string result
-                        new NumericUpDown()
-                            .Value(() => Counter, onChanged: v => Counter = v), //two-way binding sample
-                        new Button()
-                            .HorizontalAlignment(HorizontalAlignment.Center)
-                            .Content("Click me")
-                            .OnClick(OnButtonClick), //direct event callback
-                        new Canvas().Ref(out _canvas)
-                            .Background(new SolidColorBrush(Colors.Yellow))
-                            // .Width(400)
-                            // .Height(300)
-                            .VerticalAlignment(VerticalAlignment.Stretch)
-                            .HorizontalAlignment(HorizontalAlignment.Stretch),
-                        new TextBlock().Ref(out _textBlock2)
-                            .Text("TextBlock2")
-                    )
-                */
+                            // new TextBlock().Col(1).Row(0).Text("Hallo")),
+                            new Canvas().Ref(out _canvas).Col(0).Row(0).Background(new SolidColorBrush(Colors.SandyBrown))
+                        )
                 );
             _canvas.LayoutUpdated += OnCanvasLayoutUpdatedHandler;
             return markup;
@@ -89,19 +57,7 @@ namespace Woopec.Graphics.Avalonia
         private bool _dispatcherIsStarted = false;
 
         //Code
-        private TextBlock _textBlock1 = null!;
-
-        private TextBlock _textBlock2 = null!;
-
         private Canvas _canvas = null;
-
-        private decimal? Counter { get; set; } = 0;
-
-        private void OnButtonClick(RoutedEventArgs e)
-        {
-            _textBlock1.Text = dataService?.GetData() ?? "Data service is `null`";
-            StateHasChanged();
-        }
 
         private void OnCanvasLayoutUpdatedHandler(object? sender, System.EventArgs e)
         {
@@ -150,9 +106,7 @@ namespace Woopec.Graphics.Avalonia
             {
                 Debug.WriteLine($"Consumer: Read async started ");
                 await Task.Delay(2000);
-                dataService.SetData(DateTime.Now.ToString() + "w:" + _canvas.Bounds.Width.ToString());
-                StateHasChanged(); // <-- Das ändert nichts
-                _textBlock2.Text = DateTime.Now.ToString() + "w:" + _canvas.Bounds.Width.ToString(); // <-- Das ändert etwas!
+                // _textBlock2.Text = DateTime.Now.ToString() + "w:" + _canvas.Bounds.Width.ToString(); // <-- Das ändert etwas!
                 Debug.WriteLine($"Consumer: returned");
                 return;
             }
