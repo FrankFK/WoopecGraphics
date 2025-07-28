@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Woopec.Graphics.Interface</AssemblyName>
+    <RootNamespace>Woopec.Graphics.Interface</RootNamespace>
+  </PropertyGroup>
+
+
+</Project>

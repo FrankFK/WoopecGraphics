@@ -1,9 +1,12 @@
 ﻿
 using Avalonia.Markup.Declarative;
 
-public class MainView : ComponentBase
+namespace Woopec.Graphics.Avalonia
 {
-    protected override object Build()
-        => New<SimpleComponent>() // creates Child SimpleComponent and injects it's dependencies into constructor
-            .Name("MainView"); //set component name
+    public class MainView : ComponentBase
+    {
+        protected override object Build()
+            => New<WoopecGraphicsComponent>() // creates Child SimpleComponent and injects it's dependencies into constructor
+                .Name(nameof(MainView)); //set component name
+    }
 }

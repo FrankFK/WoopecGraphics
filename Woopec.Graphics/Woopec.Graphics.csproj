@@ -10,8 +10,8 @@
     <Company />
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>C# 2D Graphics Turtle Beginners</PackageTags>
-    <AssemblyName>Woopec.Core</AssemblyName>
-    <RootNamespace>Woopec.Core</RootNamespace>
+    <AssemblyName>Woopec.Graphics</AssemblyName>
+    <RootNamespace>Woopec.Graphics</RootNamespace>
     <PackageIcon>NuGetIcon.png</PackageIcon>
     <PackageProjectUrl>https://frank.woopec.net/woopec-docs-index.html</PackageProjectUrl>
   </PropertyGroup>
@@ -32,6 +32,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Woopec.Graphics.Interface\Woopec.Graphics.Interface.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,6 +25,10 @@
   </ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Woopec.Graphics.Internal\Woopec.Graphics.Internal.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Include="System" />
 		<Using Include="Avalonia" />
 		<Using Include="Avalonia.Controls" />

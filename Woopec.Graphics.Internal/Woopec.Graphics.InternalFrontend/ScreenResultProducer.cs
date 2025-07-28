@@ -9,6 +9,7 @@ using Woopec.Graphics.Interface.Dtos;
 
 namespace Woopec.Graphics.Internal.Frontend
 {
+
     internal class ScreenResultProducer : IScreenResultProducer
     {
         private readonly IScreenResultChannelForWriter _resultChannel;

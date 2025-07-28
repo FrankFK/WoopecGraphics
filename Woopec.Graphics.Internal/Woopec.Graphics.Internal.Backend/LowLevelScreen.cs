@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Woopec.Graphics.Helpers;
 using Woopec.Graphics.Interface.Dtos;
 using Woopec.Graphics.Interface.Screen;
 
@@ -25,8 +24,8 @@ namespace Woopec.Graphics.Internal.Backend
             if (screenObjectProducer == null || screenResultConsumer == null)
             {
                 // This situation occurs if Figure, Pen or Turtle are used in unit tests without any preperation for that.
-                var recommendedClass = nameof(Screen);
-                var recommendedMethod = nameof(Screen.SwitchToUnitTestDefaultScreen);
+                var recommendedClass = "Screen";
+                var recommendedMethod = "SwitchToUnitTestDefaultScreen";
                 throw new ArgumentException($"Woopec: The arguments for LowLevelScreen are invalid. If you need a screen for unit tests, it is best to call method {recommendedMethod} of class {recommendedClass} at the beginning.");
             }
             _screenObjectProducer = screenObjectProducer ?? throw new ArgumentNullException("producer");

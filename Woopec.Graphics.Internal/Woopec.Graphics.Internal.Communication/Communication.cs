@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Woopec.Graphics.Helpers;
 using Woopec.Graphics.Internal.Backend;
 using Woopec.Graphics.Interface.Dtos;
 using Woopec.Graphics.Internal.Frontend;

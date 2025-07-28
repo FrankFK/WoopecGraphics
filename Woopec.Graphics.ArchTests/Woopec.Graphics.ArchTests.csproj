@@ -18,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Woopec.Graphics.Interface\Woopec.Graphics.Interface.csproj" />
+    <ProjectReference Include="..\Woopec.Graphics.Internal\Woopec.Graphics.Internal.csproj" />
     <ProjectReference Include="..\Woopec.Graphics\Woopec.Graphics.csproj" />
   </ItemGroup>
 
