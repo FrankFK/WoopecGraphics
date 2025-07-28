@@ -1,11 +1,12 @@
-﻿using Avalonia;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Declarative;
 using Avalonia.Media;
+using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using Avalonia.Threading;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Woopec.Graphics.Avalonia
 {
@@ -54,9 +55,8 @@ namespace Woopec.Graphics.Avalonia
             return markup;
         }
 
-        private bool _dispatcherIsStarted = false;
-
         //Code
+        private bool _dispatcherIsStarted = false;
         private Canvas _canvas = null;
 
         private void OnCanvasLayoutUpdatedHandler(object? sender, System.EventArgs e)
@@ -107,6 +107,7 @@ namespace Woopec.Graphics.Avalonia
                 Debug.WriteLine($"Consumer: Read async started ");
                 await Task.Delay(2000);
                 // _textBlock2.Text = DateTime.Now.ToString() + "w:" + _canvas.Bounds.Width.ToString(); // <-- Das ändert etwas!
+                throw new NotImplementedException("Hallo");
                 Debug.WriteLine($"Consumer: returned");
                 return;
             }
@@ -114,28 +115,11 @@ namespace Woopec.Graphics.Avalonia
 
         private void ShowErrorMessage(string? message)
         {
-
-            // Create the window object
-            // To do: Da muss noch eine TextBox rein....
-            Window sampleWindow =
-                new Window
-                {
-                    Title = message,
-                    Width = 200,
-                    Height = 200
-                };
-
-
-            // open the modal (dialog) window
-            //
-            // unklar, wo man das Window herbekommt, vielleicht so:
-            // var x = Avalonia.Application.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime;
-            // sampleWindow.ShowDialog(x.MainWindow);
-            // var window = this.GetVisualRoot();
+            var errorWindow = new ErrorWindow(message);
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 if (desktop.MainWindow != null)
-                    sampleWindow.ShowDialog(desktop.MainWindow);
+                    errorWindow.ShowDialog(desktop.MainWindow);
             }
 
         }
