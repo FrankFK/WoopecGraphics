@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woopec.Graphics.Internal", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woopec.Graphics.Interface", "Woopec.Graphics.Interface\Woopec.Graphics.Interface.csproj", "{A5450FDC-17DF-70CE-385D-B114DB6CC1EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UsingAvaloniaProject", "UsingAvaloniaProject\UsingAvaloniaProject.csproj", "{0EB14C64-6606-4BC7-BB2C-18F63B7C47F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Woopec.Graphics.Avalonia.UnitTests", "Woopec.Graphics.Avalonia.UnitTests\Woopec.Graphics.Avalonia.UnitTests.csproj", "{F85FA677-7096-4D83-BA77-931E7AFDB95A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +124,14 @@ Global
 		{A5450FDC-17DF-70CE-385D-B114DB6CC1EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5450FDC-17DF-70CE-385D-B114DB6CC1EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5450FDC-17DF-70CE-385D-B114DB6CC1EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EB14C64-6606-4BC7-BB2C-18F63B7C47F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EB14C64-6606-4BC7-BB2C-18F63B7C47F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EB14C64-6606-4BC7-BB2C-18F63B7C47F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EB14C64-6606-4BC7-BB2C-18F63B7C47F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F85FA677-7096-4D83-BA77-931E7AFDB95A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F85FA677-7096-4D83-BA77-931E7AFDB95A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F85FA677-7096-4D83-BA77-931E7AFDB95A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F85FA677-7096-4D83-BA77-931E7AFDB95A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +145,7 @@ Global
 		{C07F696C-7045-4ADD-B2FE-80CE130B948A} = {5645D8C2-659B-4862-82AB-1EDD4ADE7649}
 		{8F7D11CA-6C2F-4E77-92BF-5D1551E1DE96} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 		{BDF76B83-BF65-4045-BCE5-432A2CA74343} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
+		{0EB14C64-6606-4BC7-BB2C-18F63B7C47F5} = {B04C91C6-31FF-41CC-9A29-D15C6C6038D5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DB2EE8BA-3BF3-4875-94B3-A75674C5AA1F}
