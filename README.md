@@ -33,66 +33,70 @@
   <p align="center">
     Simple graphics for C# beginners (starting with turtle graphics)
     <br />
-    <a href="https://frank.woopec.net/woopec-docs-index.html"><strong>Explore the docs</strong></a>
+    <a href="https://frank.woopec.net/csharp-turtle-graphics/"><strong>Try it now</strong></a>
   </p>
+
 </p>
 
 
+## What is Woopec?
 
-<!-- TABLE OF CONTENTS 
+Programming is fun. Programming with graphics is even more fun. C# is a great programming language. For beginners there should be an easy start to graphic programming with C#. 
 
-<details open="open">
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgements">Acknowledgements</a></li>
-  </ol>
-</details>
--->
+Woopec is a C# library that makes it easy to learn programming through graphics.
 
+Instead of starting with console applications, you can immediately **draw shapes, animations, and moving objects**.
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
+Perfect for:
+- Beginners learning C#  
+- Teaching programming visually  
+- Anyone who wants a fun introduction to graphics  
 
-Programming is fun. Programming with graphics is even more fun. C# is a great programming language. For beginners there should be an easy start to graphic programming with C#. Woopec tries to help, it's free.
-
-The first version contains turtle graphics. There is a [great implementation](https://docs.python.org/3/library/turtle.html#module-turtle) of turtle graphics in python.
-I tried to bring the first parts of it into the C# world.
-
+## Demo
 View this example for an overview of the Woopec''s current abilities:
 
 ![Woopec animated example](ExternalDocumentation/WoopecAnimation.gif)
 
 
+## Quick start (for users)
+
+* Install templates
+  ```
+      dotnet new --install Woopec.Templates
+  ```
+* Create a project using the template 
+* Write first program:
+  ```csharp
+  public static void TurtleMain()
+  {
+    var turtle = Turtle.Seymour();
+  
+    turtle.Forward(100);
+    turtle.Right(90);
+    turtle.Forward(100);
+  }
+  ```
+
+
+## Why use Woopec?
+
+* Learn programming visually
+* No complex setup
+* Immediate feedback on screen
+* Simple API (similar to Python turtle)
+* Supports multiple turtles and animations
+* Path to more advanced graphics
+* Woopec is not the only turtle graphics library for C#. Read the comparison: [Woopec vs Nakov Turtle Graphics](https://frank.woopec.net/woopec_docs/WoopecVsNakov.html)
+
+## Getting Started (for developers)
+
 ### Built With
 
 * [C# and .NET 6](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6)
 
-<!-- GETTING STARTED -->
-
-## Getting Started
-
-To debug and run this project locally...
-
 ### Prerequisites
 
-* Visual Studio 2022
+* Visual Studio 2022 or higher
 * Windows Computer
 
 ### Installation
@@ -104,20 +108,6 @@ To debug and run this project locally...
 * Call Debug - Start without Debugging
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-There is a [nuget-package](https://www.nuget.org/packages/Woopec.Wpf) for usage of Woopec in 
-WPF-applications. 
-
-_For more examples, please refer to the [Documentation](https://frank.woopec.net/woopec-docs-index.html)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-This is a first version. The code has not yet been cleaned up properly. I'm working on it...
 
 
 
