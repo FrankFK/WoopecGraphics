@@ -8,12 +8,14 @@
     <Authors>woopec</Authors>
     <Company>woopec</Company>
     <Product>Woopec.Wpf</Product>
-    <Description>Simple graphics for C# beginners (starting with turtle-graphics)</Description>
+    <Description>A C# turtle graphics library for beginners to learn programming visually.
+
+Draw shapes, animations and multiple objects with just a few lines of code.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>C# 2D Graphics Turtle Beginners WPF</PackageTags>
+    <PackageTags>turtle-graphics;csharp;learn-csharp;graphics;beginner;animation;education</PackageTags>
     <AssemblyName>Woopec.Wpf</AssemblyName>
     <RootNamespace>Woopec.Wpf</RootNamespace>
-    <PackageProjectUrl>https://frank.woopec.net/woopec-docs-index.html</PackageProjectUrl>
+    <PackageProjectUrl>https://frank.woopec.net/csharp-turtle-graphics</PackageProjectUrl>
     <PackageIcon>NuGetIcon.png</PackageIcon>
   </PropertyGroup>
 
@@ -22,6 +24,7 @@
     <RepositoryUrl>https://github.com/FrankFK/simple-graphics-for-csharp-beginners</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>NugetReadme.md</PackageReadmeFile>
+    <Title>Woopec – Turtle Graphics for C# Beginners</Title>
   </PropertyGroup>
 
   <ItemGroup>
