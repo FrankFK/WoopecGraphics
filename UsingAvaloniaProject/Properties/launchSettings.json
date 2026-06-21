@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "UsingAvaloniaProject": {
+      "commandName": "Project",
+      "commandLineArgs": "--one_process"
+    }
+  }
+}

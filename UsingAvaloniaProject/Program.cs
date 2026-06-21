@@ -12,12 +12,15 @@ namespace UsingAvaloniaProject
 
         public static void WoopecMain()
         {
+            Console.WriteLine("Konsolenausgabe geht jetzt auch, weil Konsolenprogramm");
             var pen = new Pen();
             pen.Color = Colors.Black;
             pen.Speed = Speeds.Fastest;
             pen.IsDown = true;
             pen.Move(100);
             pen.Color = Colors.Red;
+            pen.Rotate(90);
+            pen.Move(100);
             pen.Rotate(90);
             pen.Move(100);
         }

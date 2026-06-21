@@ -26,7 +26,23 @@ namespace Woopec.Graphics.Internal.Communication
 
         public void StartProgram()
         {
-            StartProgram(true);
+            // If the command line contains --one_process, run in one process (pass false).
+            // Otherwise run with the default behaviour (pass true so renderer may start in a second process).
+            StartProgram(!IsOneProcessArgumentPresent());
+        }
+
+        private static bool IsOneProcessArgumentPresent()
+        {
+            var args = Environment.GetCommandLineArgs();
+            if (args == null || args.Length == 0) return false;
+            foreach (var a in args)
+            {
+                if (string.IsNullOrEmpty(a)) continue;
+                // treat any argument that starts with --one_process as presence (covers --one_process and --one_process=true)
+                if (a.StartsWith("--one_process", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
